@@ -1,1 +1,1 @@
-**PKGBUILDs for Arch User Repository[Arch User Repository](https://aur.archlinux.org/) **
+**PKGBUILDs for [Arch User Repository](https://aur.archlinux.org/)**
