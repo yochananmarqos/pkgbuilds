@@ -13,6 +13,9 @@
 # subfolders, e.g. source or built package trees, vcs
 #*/**/
 
+# allow
+
+
 # backup files
 *~
 *.bak
