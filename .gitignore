@@ -3,6 +3,9 @@
 *.tgz
 *.zip
 
+# scripts
+*.sh
+
 # signed sources
 *.asc
 *.sig
