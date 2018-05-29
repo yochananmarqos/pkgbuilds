@@ -1,18 +1,16 @@
 # Maintainer: Mark Wagie <yochanan.marqos@gmail.com>
-pkgname=aptik-gtk-git
-_pkgname=aptik-gtk
+pkgname=aptik-gtk
 pkgver=18.5.2
 pkgrel=1
 pkgdesc="GTK Frontend for Aptik System Migration Utility"
-arch=('x86_64')
+arch=('i686' 'x86_64')
 url="https://github.com/teejee2008/aptik-gtk"
 license=('GPL3')
-depends=('glib2' 'gtk3' 'libgee' 'vala' 'vte3')
-makedepends=('git' 'vala')
-provides=(aptik)
-conflicts=(aptik)
-source=("git+https://github.com/teejee2008/aptik-gtk.git")
-md5sums=('SKIP')
+depends=('glib2' 'gtk3' 'libgee')
+makedepends=('git' 'vala' 'vte3')
+provides=(aptik-gtk)
+source=("${pkgname}_v${pkgver}.tgz::https://github.com/teejee2008/${pkgname}/archive/v${pkgver}.tar.gz")
+sha256sums=('1796003daaf30902dd33bb0b9e3cb5174452fe2802a1bf4f3b8f4b2eaf6982a3')
 
 build() {
 	cd "$srcdir/${_pkgname}"

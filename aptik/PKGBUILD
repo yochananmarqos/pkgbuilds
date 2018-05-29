@@ -1,18 +1,16 @@
 # Maintainer: Mark Wagie <yochanan.marqos@gmail.com>
-pkgname=aptik-git
-_pkgname=aptik
+pkgname=aptik
 pkgver=18.5.2
 pkgrel=1
 pkgdesc="Command-line tool for migrating system settings and data for distributions based on Debian, Arch and Fedora. Can backup and restore software repositories, packages, icons, themes, fonts, users, groups, home data, dconf settings, fstab/crypttab entries, and cron tasks."
-arch=('x86_64')
+arch=('i686' 'x86_64')
 url="https://github.com/teejee2008/aptik"
 license=('GPL3')
 depends=('glib2' 'libgee')
 makedepends=('git' 'vala')
 provides=(aptik)
-conflicts=(aptik)
-source=("git+https://github.com/teejee2008/aptik.git")
-md5sums=('SKIP')
+source=("${pkgname}_v${pkgver}.tgz::https://github.com/teejee2008/${pkgname}/archive/v${pkgver}.tar.gz")
+sha256sums=('f354e073a1bd62a886ea54d874007ae651fd2d13a2d32a1b96513ac12a5b43f3')
 
 build() {
 	cd "$srcdir/${_pkgname}"
