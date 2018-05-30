@@ -13,11 +13,11 @@ source=("${pkgname}_v${pkgver}.tgz::https://github.com/teejee2008/${pkgname}/arc
 sha256sums=('f354e073a1bd62a886ea54d874007ae651fd2d13a2d32a1b96513ac12a5b43f3')
 
 build() {
-	cd "$srcdir/${_pkgname}"
+	cd "${pkgname}-${pkgver}"
 	make all
 }
 
 package() {
-	cd "$srcdir/${_pkgname}"
+	cd "${pkgname}-${pkgver}"
 	make DESTDIR="$pkgdir/" install
 }
