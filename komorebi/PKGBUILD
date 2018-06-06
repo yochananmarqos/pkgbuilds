@@ -1,0 +1,26 @@
+pkgname=komorebi
+pkgver=2.0
+pkgrel=1
+pkgdesc="A beautiful and customizable desktop manager for Linux"
+arch=('x86_64')
+url="https://github.com/iabem97/komorebi"
+license=('GPL3')
+depends=('clutter' 'clutter-gst' 'clutter-gtk' 'glib2' 'gtk3' 'libgee' 'libgtop' 'libwnck3')
+makedepends=('vala')
+source=("$url/archive/v$pkgver.tar.gz")
+md5sums=('0c72498a4c0c10b00c50fad1ef2f6195')
+
+prepare() {
+	cd "$pkgname-$pkgver"
+	mkdir build
+}
+
+build() {
+	cd "$pkgname-$pkgver/build"
+	cmake ..
+}
+
+package() {
+	cd "$pkgname-$pkgver/build"
+	make DESTDIR="$pkgdir/" install
+}
