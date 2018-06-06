@@ -1,4 +1,5 @@
-pkgname=cheat
+pkgname=python2-cheat
+_pkgname=cheat
 pkgver=2.2.3
 pkgrel=1
 pkgdesc="Cheat allows you to create and view interactive cheatsheets on the command-line"
@@ -14,7 +15,7 @@ source=("$url/archive/$pkgver.tar.gz")
 md5sums=('85cab86af1f3de7e913eb769ee1c9890')
 
 package() {
-    cd "$pkgname-$pkgver"
+    cd "$_pkgname-$pkgver"
     python2 setup.py install --root=$pkgdir
 }
 
