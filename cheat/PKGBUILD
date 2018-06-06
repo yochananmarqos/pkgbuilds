@@ -9,7 +9,7 @@ depends=('python2' 'python2-docopt')
 makedepends=('git')
 optdepends=('bash-completion' 'python2-pygments')
 provides=(cheat)
-conflicts=(cheat-git)
+conflicts=(cheat-git cheat-bash-git)
 source=("$url/archive/$pkgver.tar.gz")
 md5sums=('85cab86af1f3de7e913eb769ee1c9890')
 
