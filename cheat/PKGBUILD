@@ -1,0 +1,27 @@
+pkgname=cheat
+pkgver=2.2.3
+pkgrel=1
+pkgdesc="Cheat allows you to create and view interactive cheatsheets on the command-line"
+arch=('any')
+license=('GPL3')
+url="https://github.com/chrisallenlane/cheat"
+depends=('python2' 'python2-docopt')
+makedepends=('git')
+optdepends=('bash-completion' 'python2-pygments')
+provides=(cheat)
+conflicts=(cheat-git)
+source=("$url/archive/$pkgver.tar.gz")
+md5sums=('85cab86af1f3de7e913eb769ee1c9890')
+
+package() {
+    cd "$pkgname-$pkgver"
+    python2 setup.py install --root=$pkgdir
+}
+
+# Enable syntax highlighting. Requires 'python2-pygments'.
+#    export CHEATCOLORS=true
+# Enable bash completion. Requires 'bash-completion'.
+#    wget $url/raw/master/cheat/autocompletion/cheat.bash
+#    mv cheat.bash cheat
+#    mv cheat /usr/share/bash-completion/completions
+
