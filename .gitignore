@@ -17,7 +17,7 @@
 #*/**/
 
 # allow
-
+/paper-maia-icon-theme-git/*.sh
 
 # backup files
 *~
