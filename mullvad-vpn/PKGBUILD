@@ -21,7 +21,7 @@ sha256sums=('015e1d5276ef8fd1922cfc2f40ab5c00a92f41f451089e0dcb68c0e56bdb4f87'
 package() {
 
     #install systemd service
-    install -Dm644 mullvad-daemon.service "$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
+    install -Dm644 mullvad-daemon.service "${pkgdir}/usr/lib/systemd/system/mullvad-daemon.service"
 
     # Install the main files.
     install -d "${pkgdir}/opt/${pkgname}"
@@ -33,8 +33,9 @@ package() {
     sed -i 's%opt/Mullvad VPN%usr/bin%g' ${pkgdir}/usr/share/applications/${pkgname}.desktop
 
     # CLI binary
-    install -d "{pkgdir}/usr/bin"
-    install -dm755 "${srcdir}/usr/bin/mullvad" "${pkgdir}/usr/bin"
+    install -d "${pkgdir}/usr/bin"
+    cp "${srcdir}/usr/bin/mullvad" "${pkgdir}/usr/bin"
+    chmod 755 "${pkgdir}/usr/bin/mullvad"
 
     # Main binary
     chmod 755 "${pkgdir}/opt/${pkgname}/${pkgname}"
