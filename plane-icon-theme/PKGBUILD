@@ -1,0 +1,30 @@
+# Maintainer: Stefano Capitani <stefanoatmanjarodotorg>
+
+pkgname=plane-icon-theme
+pkgver=1.1
+pkgrel=1
+pkgdesc='A simple iconset, preferably used in Gnome. Love/Inkscape/Gnome.'
+arch=('any')
+url="https://github.com/wfpaisa/$pkgname"
+license=('GPL')
+source=("$url/raw/master/build/zip-variants/PlaneDarkGnomedark-$pkgver.zip"
+		"$url/raw/master/build/zip-variants/PlaneGnome-$pkgver.zip"
+		"$url/raw/master/build/zip-variants/PlaneGnomeManjaro-$pkgver.zip")
+makedepends=('unzip')
+
+sha256sums=('d7ffe193e0c3d82c103695173fc10046a3c9c90b938d0500e82fb93cf771d204'
+            '73c394625001bd6ef8f1617ec2792c22b34a5249bca4fd4a2887787242ae5dab'
+            '347e780dcf6f7944274f1f25f8dbf7c0728390cb48ad06554cfc0c41eb5eda66')
+
+noextract=("PlaneDarkGnomedark-$pkgver.zip"
+		   "PlaneGnome-$pkgver.zip"
+		   "PlaneGnomeManjaro-$pkgver.zip")
+
+
+package() {
+	install -dm 755 $pkgdir/usr/share/icons
+	unzip -q "PlaneDarkGnomedark-$pkgver.zip" -d "$pkgdir/usr/share/icons/Plane-Dark"
+	unzip -q "PlaneGnome-$pkgver.zip" -d "$pkgdir/usr/share/icons/Plane"
+	unzip -q "PlaneGnomeManjaro-$pkgver.zip" -d "$pkgdir/usr/share/icons/Plane-Manjaro"
+}
+

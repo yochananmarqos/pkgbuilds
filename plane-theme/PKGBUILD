@@ -1,0 +1,36 @@
+# Maintainer: Stefano Capitani <stefanoatmanjarodotorg>
+
+pkgname=plane-theme
+pkgver=1.6
+pkgrel=1
+_commit=f411b1b83afdbfede3d73531dd5fa74018e9eba8
+pkgdesc='A beautiful theme for Gnome Linux'
+arch=('any')
+url="https://github.com/wfpaisa/$pkgname"
+license=('GPL')
+source=("$pkgname-$_commit.tar.gz::$url/archive/$_commit.tar.gz")
+
+sha256sums=('f9b48de53efbf300134ec46b4598c276ae8098ae8a8368080f6335e8a5cbfaf7')
+makedepends=('npm' 'gulp')
+
+pkgver() {
+	cd $pkgname-$_commit
+	awk '/const version =/ {print $4}' gulpfile.js | cut -d "'" -f2
+}
+
+build() {
+	cd $pkgname-$_commit
+	npm install gulp
+	npm audit fix
+	gulp
+
+}
+
+
+package() {
+	install -dm 755 $pkgdir/usr/share/themes
+	cd $srcdir/$pkgname-$_commit/build
+	cp -r Plane $pkgdir/usr/share/themes/Plane
+	cp -r Plane-dark $pkgdir/usr/share/themes/Plane-dark
+}
+
