@@ -1,0 +1,29 @@
+# Maintainer: Robert Stoffers <rstoffers@gmail.com>
+pkgname=gamehub
+_pkgname=GameHub
+pkgver=0.11.5
+pkgtag=25-dev
+pkgrel=25
+pkgdesc="Games manager/downloader/library written in Vala that supports GOG, Steam and Humble Bundle"
+arch=('x86_64')
+url="https://github.com/tkashkin/GameHub"
+license=('custom')
+depends=('granite' 'gtk3' 'webkit2gtk' 'json-glib' 'libgee' 'libsoup' 'sqlite' 'gdk-pixbuf2' 'cairo' 'file-roller' 'libmanette')
+optdepends=('lib32-json-glib')
+makedepends=('meson' 'ninja' 'vala')
+conflicts=('gamehub-git')
+source=("$_pkgname-$pkgver-$pkgtag.tar.gz"::https://github.com/tkashkin/$_pkgname/archive/$pkgver-$pkgtag.tar.gz)
+md5sums=('12c39b19c00b9271321d68849b0a1001')
+
+build() {
+	cd "$_pkgname-$pkgver-$pkgtag"
+	meson build --prefix=/usr -Ddistro=arch
+	cd build
+	ninja
+}
+
+package() {
+	cd "$_pkgname-$pkgver-$pkgtag/build"
+	DESTDIR=$pkgdir ninja install
+	ln -s com.github.tkashkin.$pkgname $pkgdir/usr/bin/$pkgname
+}

@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!libSDL2-2.0.so.0
+!libSDL2-2.0.so.0.0.0
+!torchlight-hib.desktop

@@ -1,0 +1,30 @@
+pkgname=papirus-adapta-smplayer-theme-git
+_pkgname=papirus-smplayer-theme
+pkgver=20181014
+pkgrel=1
+pkgdesc="Papirus Adapta theme for SMPlayer)"
+url="https://github.com/PapirusDevelopmentTeam/${_pkgname}"
+arch=('any')
+license=('GPL')
+depends=('smplayer')
+optdepends=('smplayer-themes: Install if you also want ePapirus, Papirus and PapirusDark themes')
+options=('!strip')
+source=("${pkgname}::git+${url}.git"
+        "${pkgname}.patch")
+sha256sums=('SKIP'
+            'dfa8dcfec61a09a46997cc1a7c27d97afee20b55bbc1e6f7f5e1276c5101de4f')
+
+pkgver() {
+    cd ${pkgname}
+    git log -1 --format="%cd" --date=short | tr -d '-'
+}
+
+prepare() {
+    cd ${pkgname}
+    rm -rf ePapirus Papirus PapirusDark
+    patch -Np1 -i "${srcdir}/${pkgname}.patch"
+}
+
+package() {
+    make -C "${pkgname}" install DESTDIR="$pkgdir"
+}

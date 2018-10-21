@@ -1,0 +1,23 @@
+pkgname=browser-mpris2-git
+pkgver=r37.3e62f46
+pkgrel=1
+pkgdesc="Implements the MPRIS2 interface for Chrome and Firefox."
+arch=(any)
+url="https://github.com/otommod/browser-mpris2"
+license=('GPL')
+makedepends=('python')
+optdepends=('chromium' 'google-chrome' 'firefox')
+provides=('browser-mpris2')
+source=("$pkgname"::'git+https://github.com/otommod/browser-mpris2.git')
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname}/native"
+	install -Dm755 chrome-mpris2 "$pkgdir/usr/bin/chrome-mpris2"
+#    install-chrome.py aoalaglgoeafaielmgafahalpbiiildo
+}

@@ -1,0 +1,24 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
+pkgname=stylish-gtk-theme-git
+pkgver=r71.f6e18a0
+pkgrel=1
+pkgdesc="A stylish Material Design theme for GTK 3, GTK 2 and Gnome-Shell etc."
+arch=('i686' 'x86_64')
+url="https://vinceliuice.github.io/theme-stylish"
+license=('GPL')
+depends=('gtk-engine-murrine' 'gtk-engines')
+provides=('stylish-gtk-theme')
+conflicts=('gtk-theme-stylishdark')
+source=("$pkgname"::'git+https://github.com/vinceliuice/stylish-gtk-theme.git')
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+    install -m755 -d "$pkgdir/usr/share/themes"
+	DEST_DIR="$pkgdir/usr/share/themes" ./Install
+}

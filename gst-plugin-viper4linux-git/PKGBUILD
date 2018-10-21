@@ -1,0 +1,31 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
+# Contributor: Formed <formed@tuta.io>
+pkgname=gst-plugin-viper4linux-git
+_pkgname=gst-plugin-viperfx
+pkgver=r10.66255ee
+pkgrel=1
+pkgdesc="viperfx core wrapper plug-in for GStreamer1"
+arch=('x86_64')
+url="https://github.com/L3vi47h4N/gst-plugin-viperfx"
+license=('custom')
+depends=('gstreamer' 'libviperfx')
+provides=("gst-plugin-viperfx")
+conflicts=("gst-plugin-viperfx-git")
+source=('git+https://github.com/L3vi47h4N/gst-plugin-viperfx')
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${_pkgname}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir/${_pkgname}"
+	./autogen.sh
+	make
+}
+
+package() {
+	install -Dm755 "${_pkgname}/src/.libs/libgstviperfx.so" "$pkgdir/usr/lib/gstreamer-1.0/libgstviperfx.so"
+    install -Dm644 "${_pkgname}/COPYING" "$pkgdir/usr/share/licenses/${_pkgname}/COPYING"
+}

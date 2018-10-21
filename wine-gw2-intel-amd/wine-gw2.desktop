@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Categories=Game;
+Name=Guild Wars 2
+Icon=/opt/wine-gw2/GW2_Icon.png
+Exec=/usr/bin/wine-gw2
+Terminal=false
+StartupNotify=false

@@ -1,0 +1,71 @@
+diff -ura papirus-adapta-smplayer-theme-git.orig/build.sh papirus-adapta-smplayer-theme-git.new/build.sh
+--- papirus-adapta-smplayer-theme-git.orig/build.sh	2018-10-14 12:08:31.446279000 -0600
++++ papirus-adapta-smplayer-theme-git.new/build.sh	2018-10-14 12:12:05.069602188 -0600
+@@ -5,9 +5,6 @@
+ SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+ 
+ declare -a THEMES=(
+-	ePapirus
+-	Papirus
+-	PapirusDark
+ 	PapirusAdapta
+ 	PapirusAdaptaNokto
+ )
+@@ -30,24 +27,6 @@
+ 	cp -R "$SRC_DIR"/* "$build_theme_dir"
+ 
+ 	case "$theme" in
+-		ePapirus)
+-			theme_name="$theme"
+-			find "$build_theme_dir" -type f -name '*.svg' -exec sed -i \
+-				-e 's/#5c616c/#6e6e6e/gI' \
+-				-e 's/#5294e2/#5294e2/gI' '{}' \;
+-			;;
+-		Papirus)
+-			theme_name="$theme"
+-			find "$build_theme_dir" -type f -name '*.svg' -exec sed -i \
+-				-e 's/#5c616c/#5c616c/gI' \
+-				-e 's/#5294e2/#5294e2/gI' '{}' \;
+-			;;
+-		PapirusDark)
+-			theme_name="Papirus Dark"
+-			find "$build_theme_dir" -type f -name '*.svg' -exec sed -i \
+-				-e 's/#5c616c/#d3dae3/gI' \
+-				-e 's/#5294e2/#5294e2/gI' '{}' \;
+-			;;
+ 		PapirusAdapta)
+ 			theme_name="Papirus Adapta"
+ 			find "$build_theme_dir" -type f -name '*.svg' -exec sed -i \
+diff -ura papirus-adapta-smplayer-theme-git.orig/install.sh papirus-adapta-smplayer-theme-git.new/install.sh
+--- papirus-adapta-smplayer-theme-git.orig/install.sh	2018-10-14 12:08:31.446279000 -0600
++++ papirus-adapta-smplayer-theme-git.new/install.sh	2018-10-14 12:12:27.349601084 -0600
+@@ -24,7 +24,7 @@
+ 
+ EOF
+ 
+-: "${THEMES:=Papirus ePapirus PapirusDark PapirusAdapta PapirusAdaptaNokto}"
++: "${THEMES:=PapirusAdapta PapirusAdaptaNokto}"
+ : "${DESTDIR:=/usr/share/smplayer/themes}"
+ : "${TAG:=master}"
+ : "${uninstall:=false}"
+diff -ura papirus-adapta-smplayer-theme-git.orig/Makefile papirus-adapta-smplayer-theme-git.new/Makefile
+--- papirus-adapta-smplayer-theme-git.orig/Makefile	2018-10-14 12:08:31.442946000 -0600
++++ papirus-adapta-smplayer-theme-git.new/Makefile	2018-10-14 12:11:41.809603340 -0600
+@@ -11,17 +11,11 @@
+ install:
+ 	mkdir -p $(DESTDIR)$(PREFIX)/share/smplayer/themes
+ 	cp -R \
+-		Papirus \
+-		ePapirus \
+-		PapirusDark \
+ 		PapirusAdapta \
+ 		PapirusAdaptaNokto \
+ 		$(DESTDIR)$(PREFIX)/share/smplayer/themes
+ 
+ uninstall:
+-	-rm -rf $(DESTDIR)$(PREFIX)/share/smplayer/themes/Papirus
+-	-rm -rf $(DESTDIR)$(PREFIX)/share/smplayer/themes/ePapirus
+-	-rm -rf $(DESTDIR)$(PREFIX)/share/smplayer/themes/PapirusDark
+ 	-rm -rf $(DESTDIR)$(PREFIX)/share/smplayer/themes/PapirusAdapta
+ 	-rm -rf $(DESTDIR)$(PREFIX)/share/smplayer/themes/PapirusAdaptaNokto
+ 

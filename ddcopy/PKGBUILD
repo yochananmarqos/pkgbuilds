@@ -1,0 +1,24 @@
+# Maintainer:
+
+pkgname=ddcopy
+pkgver=0.2.0
+pkgrel=2
+pkgdesc="ddCopy GUI writes iso image files to CD/DVD and USB key"
+arch=(any)
+url="https://www.opendesktop.org/s/Apps/p/1240360/"
+license=(custom:WTFPL)
+depends=(python2-pyparted yad ntfs-3g udisks2 polkit python2-gobject2 libglade cdrtools)
+optdepends=()
+source=("https://dl.opendesktop.org/api/files/downloadfile/id/1530715494/s/b1596f5df3e85166ea05eb3281d80142/t/1534427766/u//${pkgname}-${pkgver}.tar.xz")
+sha256sums=('26a3c952c3a25adca534864ece2876ba8f7164e2122c3368d819fbd6929ed388')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR=${pkgdir} install
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
