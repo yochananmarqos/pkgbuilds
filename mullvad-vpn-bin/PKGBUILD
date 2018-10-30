@@ -1,21 +1,20 @@
-# Maintainer: alicewww <almw@protonmail.com>
-pkgname=mullvad-vpn
+pkgname=mullvad-vpn-bin
+_pkgname=mullvad-vpn
 pkgver=2018.4
-#_pkgtag=beta3
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
-depends=('gtk2' 'gconf' 'libappindicator-gtk2' 'libappindicator-gtk3')
-conflicts=('mullvad-vpn-old')
+depends=('gconf' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
+conflicts=('mullvad-vpn' 'mullvad-vpn-old')
 replaces=('mullvad-vpn-old')
 install=$pkgname.install
-source=("$pkgname-$pkgver.tar.gz::https://github.com/mullvad/mullvadvpn-app/releases/download/${pkgver}/MullvadVPN-${pkgver}_x86_64.rpm"
-        'LICENSE.md'
+source=("https://github.com/mullvad/mullvadvpn-app/releases/download/${pkgver}/MullvadVPN-${pkgver}_x86_64.rpm"
+        "https://github.com/mullvad/mullvadvpn-app/blob/master/LICENSE.md"
         'mullvad-daemon.service')
 sha256sums=('015e1d5276ef8fd1922cfc2f40ab5c00a92f41f451089e0dcb68c0e56bdb4f87'
-            '8951bda6e616df7418ff3f80d9699f96da704df64f3bc9f0d5bb75a103680456'
+            'b2081f103a2b6b37d5796865bfb9ff052d30b97f938da9f2a7128d2ce55542f6'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 
 package() {
@@ -24,13 +23,13 @@ package() {
     install -Dm644 mullvad-daemon.service "${pkgdir}/usr/lib/systemd/system/mullvad-daemon.service"
 
     # Install the main files.
-    install -d "${pkgdir}/opt/${pkgname}"
-    cp -a "${srcdir}/opt/Mullvad VPN/." "${pkgdir}/opt/${pkgname}"
+    install -d "${pkgdir}/opt/${_pkgname}"
+    cp -a "${srcdir}/opt/Mullvad VPN/." "${pkgdir}/opt/${_pkgname}"
 
     # Desktop Entry
     install -d "${pkgdir}/usr/share/applications"
-    install "${srcdir}/usr/share/applications/${pkgname}.desktop" "${pkgdir}/usr/share/applications"
-    sed -i 's%opt/Mullvad VPN%usr/bin%g' ${pkgdir}/usr/share/applications/${pkgname}.desktop
+    install "${srcdir}/usr/share/applications/${_pkgname}.desktop" "${pkgdir}/usr/share/applications"
+    sed -i 's%opt/Mullvad VPN%usr/bin%g' ${pkgdir}/usr/share/applications/${_pkgname}.desktop
 
     # CLI binary
     install -d "${pkgdir}/usr/bin"
@@ -38,14 +37,14 @@ package() {
     chmod 755 "${pkgdir}/usr/bin/mullvad"
 
     # Main binary
-    chmod 755 "${pkgdir}/opt/${pkgname}/${pkgname}"
-    ln -s "/opt/${pkgname}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+    chmod 755 "${pkgdir}/opt/${_pkgname}/${_pkgname}"
+    ln -s "/opt/${_pkgname}/${_pkgname}" "${pkgdir}/usr/bin/${_pkgname}"
 
     #icons
     install -dm755 "${pkgdir}/usr/share/icons/hicolor"
     cp -a "${srcdir}/usr/share/icons/hicolor/." "${pkgdir}/usr/share/icons/hicolor"
 
     # License
-    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE.md"
 
 }
