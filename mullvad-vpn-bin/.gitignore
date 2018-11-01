@@ -6,4 +6,4 @@
 !PKGBUILD
 !.SRCINFO
 !mullvad-daemon-service
-!mullvad-vpn.install
+!mullvad-vpn-bin.install
