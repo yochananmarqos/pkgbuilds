@@ -1,0 +1,32 @@
+pkgname=pdfstudioviewer
+_pkgname=pdfstudioviewer2018
+pkgver=2018.2.0
+pkgrel=1
+pkgdesc="Review, annotate, and edit PDF Documents"
+arch=('i686' 'x86_64')
+url="https://www.qoppa.com/$pkgname/"
+license=('custom')
+depends=('java-runtime>=6')
+source_i686=("https://download.qoppa.com/$pkgname/PDFStudioViewer_linux.deb")
+source_x86_64=("https://download.qoppa.com/$pkgname/PDFStudioViewer_linux64.deb")
+source=("$pkgname.desktop")
+md5sums_i686=('256a828250be3876b4da2264f8ffed81')
+md5sums_x86_64=('a0112983f1dcc8cc0351bfab3be2f1e9')
+md5sums=('2ff95a0b17acf2017a3d0b5301ff8eb9')
+
+prepare() {
+	bsdtar xf data.tar.gz
+	bsdtar xf "opt/$_pkgname/lib/pdfstudio.jar" resources/license.html
+
+	rm -rf "opt/$_pkgname/jre"
+}
+
+package() {
+	install -dm 755 "$pkgdir/opt"
+	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+	install -Dm644 "$pkgdir/opt/$_pkgname/.install4j/$_pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	install -Dm644 resources/license.html "$pkgdir/usr/share/licenses/$pkgname/LICENSE.html"
+	cp -r opt/ "$pkgdir"
+	mkdir -p "$pkgdir/usr/bin"
+	ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$pkgname"
+}
