@@ -2,7 +2,7 @@
 
 pkgname=nemo-compare
 pkgver=4.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Context menu comparison extension for Nemo file manager"
 arch=("x86_64")
 url="https://github.com/linuxmint/nemo-extensions"
