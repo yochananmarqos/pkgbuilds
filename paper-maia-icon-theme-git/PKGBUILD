@@ -9,8 +9,7 @@ arch=('any')
 url="https://experimentwithlinux.proboards.com"
 license=('CC BY-SA 4.0')
 groups=('mewle')
-depends=('gtk-update-icon-cache'
-         'paper-icon-theme-git')
+depends=('paper-icon-theme-git')
 install=$pkgname.install
 _commit=407498b18503
 _initialdir=Tony-linux-$pkgname-$_commit
