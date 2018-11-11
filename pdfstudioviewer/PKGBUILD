@@ -26,6 +26,7 @@ package() {
 	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
 	install -Dm644 "$pkgdir/opt/$_pkgname/.install4j/$_pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
 	install -Dm644 resources/license.html "$pkgdir/usr/share/licenses/$pkgname/LICENSE.html"
+
 	cp -r opt/ "$pkgdir"
 	mkdir -p "$pkgdir/usr/bin"
 	ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$pkgname"
