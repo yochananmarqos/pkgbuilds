@@ -1,21 +1,20 @@
 pkgname=mullvad-vpn-bin
 _pkgname=mullvad-vpn
-pkgver=2018.4
-pkgrel=3
+pkgver=2018.5
+pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
-conflicts=('mullvad-vpn' 'mullvad-vpn-old')
-replaces=('mullvad-vpn-old')
+conflicts=('mullvad-vpn')
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/${pkgver}/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
         "https://github.com/mullvad/mullvadvpn-app/blob/master/LICENSE.md"
         "mullvad-daemon.service")
-sha256sums=('015e1d5276ef8fd1922cfc2f40ab5c00a92f41f451089e0dcb68c0e56bdb4f87'
+sha256sums=('b508ba1ac2d3b8c27b01e37c0029a464b6b32b55c52615a0ce291ab388a18d47'
             'SKIP'
-            'b2081f103a2b6b37d5796865bfb9ff052d30b97f938da9f2a7128d2ce55542f6'
+            'c8c4afcdf07f89e00a01157cc19f9fd1312849e350c2329dd038b65db1678106'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 
