@@ -1,0 +1,36 @@
+pkgname=nutty-git
+pkgver=130.289db5e
+pkgrel=1
+_gitname=nutty
+pkgdesc='A network utility for linux. Monitor the devices on your network and check bandwidth and speed details.'
+arch=('i686' 'x86_64')
+url='https://github.com/babluboy/nutty'
+license=('GPL3')
+depends=('gtk3' 'granite' 'sqlite' 'libxml2' 'libnotify' 'libgee' 'net-tools' 'nethogs' 'nmap' 'traceroute' 'vnstat' 'curl' 'wireless_tools' 'iproute2' 'pciutils')
+makedepends=('vala' 'meson' 'appstream-glib') #or 'appstream'
+install="${pkgname%-*}.install"
+source=('git+https://github.com/babluboy/nutty.git')
+md5sums=('SKIP')
+
+pkgver() {
+	cd $_gitname
+	echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+#prepare() {
+#	cd $srcdir/$_gitname
+#	git submodule init; git submodule update
+#}
+
+build() {
+	cd $srcdir/$_gitname
+	meson build --prefix=/usr
+	mkdir -p $srcdir/$_gitname/build
+	cd $srcdir/$_gitname/build
+	ninja
+}
+
+package() {
+	cd $srcdir/$_gitname/build
+	DESTDIR="$pkgdir" ninja install
+}
