@@ -12,13 +12,13 @@ post_install() {
 }
 
 post_remove() {
-	echo -e "******************************************************"
-	echo -e "*                                                    *"
-	echo -e "* If vnstat is no longer neeeded,                    *"
-	echo -e "* you may remove it or disable the service           *"
-	echo -e "*                                                    *"
-	echo -e "* systemctl stop vnstat && systemcltl disable vnstat *"
-	echo -e "*                                                    *"
-	echo -e "******************************************************"
+	echo -e "*****************************************************"
+	echo -e "*                                                   *"
+	echo -e "* If vnstat is no longer neeeded,                   *"
+	echo -e "* you may remove it or disable the service          *"
+	echo -e "*                                                   *"
+	echo -e "* systemctl stop vnstat && systemctl disable vnstat *"
+	echo -e "*                                                   *"
+	echo -e "*****************************************************"
 	echo -e -n ""
 }
