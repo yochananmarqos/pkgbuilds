@@ -17,11 +17,6 @@ pkgver() {
 	echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
 }
 
-#prepare() {
-#	cd $srcdir/$_gitname
-#	git submodule init; git submodule update
-#}
-
 build() {
 	cd $srcdir/$_gitname
 	meson build --prefix=/usr
