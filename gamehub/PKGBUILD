@@ -1,8 +1,10 @@
 pkgname=gamehub
 _pkgname=GameHub
-pkgver=0.12.1
-_pkgtag=29-dev
-pkgrel=29
+pkgver=0.12.1.29
+_pkgver=0.12.1
+_buildver=29
+_buildtag=dev
+pkgrel=1
 pkgdesc="Games manager/downloader/library written in Vala that supports GOG, Steam and Humble Bundle"
 arch=('x86_64')
 url="https://github.com/tkashkin/GameHub"
@@ -11,18 +13,18 @@ depends=('granite' 'gtk3' 'webkit2gtk' 'json-glib' 'libgee' 'libsoup' 'sqlite' '
 makedepends=('meson' 'ninja' 'vala')
 optdepends=('lib32-json-glib' 'file-roller' 'innoextract' 'wine' 'dosbox')
 conflicts=('gamehub-git')
-source=("$_pkgname-$pkgver-$_pkgtag.tar.gz"::https://github.com/tkashkin/$_pkgname/archive/$pkgver-$_pkgtag.tar.gz)
+source=("$pkgname-$_pkgver-$_buildver-$_buildtag.tar.gz"::https://github.com/tkashkin/$_pkgname/archive/$_pkgver-$_buildver-$_buildtag.tar.gz)
 md5sums=('9c9c7bd5260bdc442cfa08d556ba3782')
 
 build() {
-	cd "$_pkgname-$pkgver-$_pkgtag"
+	cd "$_pkgname-$_pkgver-$_buildver-$_buildtag"
 	meson build --prefix=/usr -Ddistro=arch
 	cd build
 	ninja
 }
 
 package() {
-	cd "$_pkgname-$pkgver-$_pkgtag/build"
+	cd "$_pkgname-$_pkgver-$_buildver-$_buildtag/build"
 	DESTDIR=$pkgdir ninja install
 	ln -s com.github.tkashkin.$pkgname $pkgdir/usr/bin/$pkgname
 }
