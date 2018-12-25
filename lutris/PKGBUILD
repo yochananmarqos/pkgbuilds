@@ -3,7 +3,8 @@
 # Contributor: Maxime Gauduin <alucryd@archlinux.org>
 
 pkgname=lutris
-pkgver=0.4.23
+pkgver=0.5.0
+_buildtag=beta1
 pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
@@ -15,23 +16,27 @@ checkdepends=('xorg-server-xvfb' 'xterm' 'python-nose-cover3' 'wine')
 optdepends=('wine: Run windows games'
             'wine-staging: Run windows games - Staging patches')
 makedepends=('python-setuptools')
-source=("$url/releases/${pkgname}_$pkgver.tar.xz")
-sha512sums=('c449cf229ecc31e8ad5884b6cddaa595b65b308ced995c9360c75c03bf4c52bded4ef3d215cf6ab01c174fc02858a0011b7688ae2f2ea530ad86a4aeaa304a11')
+#source=("$url/releases/${pkgname}_$pkgver.tar.xz")
+source=("https://github.com/$pkgname/$pkgname/archive/v$pkgver-$_buildtag.tar.gz")
+sha512sums=('80718dd2db079fcbf7d8308795e35a34518511daa352223a1e8aaaf96eb9c1f7e24f64b993056209ac5529c5a3e1c5885496df59f59ae2f5cebea2bc71d348a8')
 
 build() {
-  cd $pkgname
+  #cd $pkgname
+  cd $pkgname-$pkgver-$_buildtag
 
   python setup.py build
 }
 
 check() {
-  cd $pkgname
+  #cd $pkgname
+  cd $pkgname-$pkgver-$_buildtag
 
   xvfb-run nosetests --cover-erase --with-xunit --xunit-file=nosetests.xml --with-coverage --cover-package=lutris --cover-xml-file=coverage.xml
 }
 
 package() {
-  cd $pkgname
+  #cd $pkgname
+  cd $pkgname-$pkgver-$_buildtag
 
   python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
