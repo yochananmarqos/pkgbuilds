@@ -1,8 +1,8 @@
 pkgname=gamehub
 _pkgname=GameHub
-pkgver=0.12.1.41
+pkgver=0.12.1.43
 _pkgver=0.12.1
-_buildver=41
+_buildver=43
 _buildtag=dev
 pkgrel=1
 pkgdesc="Games manager/downloader/library written in Vala that supports GOG, Steam and Humble Bundle"
@@ -14,7 +14,7 @@ makedepends=('meson' 'ninja' 'vala')
 optdepends=('lib32-json-glib' 'file-roller' 'innoextract' 'wine' 'dosbox' 'steam')
 conflicts=('gamehub-git')
 source=("$pkgname-$_pkgver-$_buildver-$_buildtag.tar.gz"::https://github.com/tkashkin/$_pkgname/archive/$_pkgver-$_buildver-$_buildtag.tar.gz)
-md5sums=('d384ae74d16dfb7d27a4ba1506d3848d')
+md5sums=('ac8974104128c5c8e6483d57e2f0e291')
 
 build() {
 	cd "$_pkgname-$_pkgver-$_buildver-$_buildtag"
