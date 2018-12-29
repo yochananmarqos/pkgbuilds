@@ -1,0 +1,12 @@
+diff -ura cage-git.orig/cage.c cage-git.new/cage.c
+--- cage-git.orig/cage.c	2018-12-29 08:02:02.128744037 -0700
++++ cage-git.new/cage.c	2018-12-29 08:04:06.905643302 -0700
+@@ -285,6 +285,8 @@
+ 	case WLR_INPUT_DEVICE_TABLET_PAD:
+ 		wlr_log(WLR_DEBUG, "Tablet input is not implemented");
+ 		return;
++	case WLR_INPUT_DEVICE_SWITCH:
++        return;
+ 	}
+ 
+ 	/* Let the wlr_seat know what our capabilities are. In Cage we

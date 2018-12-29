@@ -1,0 +1,39 @@
+pkgname=cage-git
+pkgver=r17.e1525a2
+pkgrel=1
+pkgdesc="A Wayland kiosk"
+arch=('any')
+url="https://github.com/Hjdskes/cage"
+license=('MIT')
+depends=('wayland' 'wlroots' 'libxkbcommon')
+makedepends=('meson' 'ninja')
+provides=('cage')
+source=("$pkgname"::'git+https://github.com/Hjdskes/cage.git'
+		'https://raw.githubusercontent.com/Hjdskes/cage/master/LICENSE'
+		"$pkgname.patch")
+md5sums=('SKIP'
+         '504817d65983ab010ca8a617689b08e0'
+         'c484d71b157e757f67e19ca1052c1db6')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-VCS}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/$pkgname"
+    patch -Np1 -i "${srcdir}/$pkgname.patch"
+}
+
+build() {
+	cd "$srcdir/$pkgname"
+	rm -rf build
+	meson build
+	ninja -C build
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+	DESTDIR="$pkgdir/" meson install -C build
+	install -Dm644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
