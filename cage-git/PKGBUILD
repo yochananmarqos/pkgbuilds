@@ -18,11 +18,6 @@ pkgver() {
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-#prepare() {
-#	cd "$srcdir/$pkgname"
-#    patch -Np1 -i "${srcdir}/$pkgname.patch"
-#}
-
 build() {
 	cd "$srcdir/$pkgname"
 	rm -rf build
