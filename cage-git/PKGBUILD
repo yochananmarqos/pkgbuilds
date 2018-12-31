@@ -1,5 +1,5 @@
 pkgname=cage-git
-pkgver=r17.e1525a2
+pkgver=r20.a9818c0
 pkgrel=1
 pkgdesc="A Wayland kiosk"
 arch=('any')
@@ -9,21 +9,19 @@ depends=('wayland' 'wlroots' 'libxkbcommon')
 makedepends=('meson' 'ninja')
 provides=('cage')
 source=("$pkgname"::'git+https://github.com/Hjdskes/cage.git'
-		'https://raw.githubusercontent.com/Hjdskes/cage/master/LICENSE'
-		"$pkgname.patch")
+		'https://raw.githubusercontent.com/Hjdskes/cage/master/LICENSE')
 md5sums=('SKIP'
-         '504817d65983ab010ca8a617689b08e0'
-         'c484d71b157e757f67e19ca1052c1db6')
+         '504817d65983ab010ca8a617689b08e0')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-VCS}"
+	cd "$srcdir/$pkgname"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-	cd "$srcdir/$pkgname"
-    patch -Np1 -i "${srcdir}/$pkgname.patch"
-}
+#prepare() {
+#	cd "$srcdir/$pkgname"
+#    patch -Np1 -i "${srcdir}/$pkgname.patch"
+#}
 
 build() {
 	cd "$srcdir/$pkgname"
