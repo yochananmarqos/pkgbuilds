@@ -1,9 +1,9 @@
 pkgname=cage-git
-pkgver=r20.a9818c0
+pkgver=r31.907bb78
 pkgrel=1
 pkgdesc="A Wayland kiosk"
 arch=('any')
-url="https://github.com/Hjdskes/cage"
+url="https://www.hjdskes.nl/projects/cage/"
 license=('MIT')
 depends=('wayland' 'wlroots' 'libxkbcommon')
 makedepends=('meson' 'ninja')
@@ -11,7 +11,7 @@ provides=('cage')
 source=("$pkgname"::'git+https://github.com/Hjdskes/cage.git'
 		'https://raw.githubusercontent.com/Hjdskes/cage/master/LICENSE')
 md5sums=('SKIP'
-         '504817d65983ab010ca8a617689b08e0')
+         '8998d04d20cc4c8db034a037c188e634')
 
 pkgver() {
 	cd "$srcdir/$pkgname"
@@ -21,7 +21,7 @@ pkgver() {
 build() {
 	cd "$srcdir/$pkgname"
 	rm -rf build
-	meson build
+	meson build -Dxwayland=true
 	ninja -C build
 }
 
