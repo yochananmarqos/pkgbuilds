@@ -1,11 +1,11 @@
 pkgname=cage-git
-pkgver=r31.907bb78
+pkgver=r32.81761ca
 pkgrel=1
 pkgdesc="A Wayland kiosk"
 arch=('any')
 url="https://www.hjdskes.nl/projects/cage/"
 license=('MIT')
-depends=('wayland' 'wlroots' 'libxkbcommon')
+depends=('wayland' 'wlroots' 'libxkbcommon' 'xorg-server-xwayland')
 makedepends=('meson' 'ninja')
 provides=('cage')
 source=("$pkgname"::'git+https://github.com/Hjdskes/cage.git'
