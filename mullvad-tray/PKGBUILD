@@ -10,19 +10,11 @@ source=("https://gitlab.com/Plague_Doctor/mullvad-tray/-/archive/$pkgver/$pkgnam
 md5sums=('71a8620f85341ab737b29748f22a0c95')
 
 package() {
-<<<<<<< HEAD
 	cd "$pkgname-$pkgver"
 	install -d "$pkgdir/"{usr/bin,usr/share/pixmaps,usr/share/applications,opt/$pkgname/images}
 	cp -R "$srcdir/$pkgname-$pkgver/images" $pkgdir/opt/$pkgname
 	cp  "$pkgname.py" "$pkgname.ui" $pkgdir/opt/$pkgname/
 	ln -s /opt/$pkgname/$pkgname.py $pkgdir/usr/bin/$pkgname
-=======
-    cd "$pkgname-$pkgver"
-    install -d "$pkgdir/"{usr/bin,usr/share/pixmaps,usr/share/applications,opt/$pkgname/images}
-    cp -R "$srcdir/$pkgname-$pkgver/images" $pkgdir/opt/$pkgname
-    cp  "$pkgname.py" "$pkgname.ui" $pkgdir/opt/$pkgname/
-    ln -s /opt/$pkgname/$pkgname.py $pkgdir/usr/bin/$pkgname
->>>>>>> e92ce9def9c69eb30c3b480a9aab2bed83629aa8
 
 	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
 	install -Dm644 "$srcdir/$pkgname-$pkgver/images/$pkgname-logo.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
