@@ -1,11 +1,11 @@
 post_install() {
-	echo -e "*******************************************"
-	echo -e "*                                         *"
-	echo -e "* Make sure to enable the mullvad daemon: *"
-	echo -e "*                                         *"
-	echo -e "* systemctl enable --now mullvad-daemon   *"
-	echo -e "*                                         *"
-	echo -e "*******************************************"
+	echo -e "***************************************************"
+	echo -e "*                                                 *"
+	echo -e "* Make sure to enable and run the mullvad daemon: *"
+	echo -e "*                                                 *"
+	echo -e "* systemctl enable --now mullvad-daemon           *"
+	echo -e "*                                                 *"
+	echo -e "***************************************************"
 	echo -e -n ""
 }
 

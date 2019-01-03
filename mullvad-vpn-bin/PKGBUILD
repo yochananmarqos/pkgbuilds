@@ -10,11 +10,9 @@ depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libx
 conflicts=('mullvad-vpn')
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/${pkgver}/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
-        "https://github.com/mullvad/mullvadvpn-app/blob/master/LICENSE.md"
         "mullvad-daemon.service")
 sha256sums=('e29dce5f05d97f924dd9e22cccbc018655194992ed2cfcfe6690f39c6d373159'
             'SKIP'
-            '260eecbee6ac44698e13d18a46136983787151c94d2c37ff61dcad3c835f7ab5'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 
@@ -44,8 +42,5 @@ package() {
     #icons
     install -dm755 "${pkgdir}/usr/share/icons/hicolor"
     cp -a "${srcdir}/usr/share/icons/hicolor/." "${pkgdir}/usr/share/icons/hicolor"
-
-    # License
-    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE.md"
 
 }
