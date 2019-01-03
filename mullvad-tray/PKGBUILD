@@ -10,7 +10,7 @@ source=("https://gitlab.com/Plague_Doctor/mullvad-tray/-/archive/$pkgver/$pkgnam
 md5sums=('71a8620f85341ab737b29748f22a0c95')
 
 package() {
-	cd "$pkgname-$pkgver"
+    cd "$pkgname-$pkgver"
     install -d "$pkgdir/"{usr/bin,usr/share/pixmaps,usr/share/applications,opt/$pkgname/images}
     cp -R "$srcdir/$pkgname-$pkgver/images" $pkgdir/opt/$pkgname
     cp  "$pkgname.py" "$pkgname.ui" $pkgdir/opt/$pkgname/
