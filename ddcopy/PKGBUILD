@@ -1,16 +1,16 @@
 # Maintainer:
 
 pkgname=ddcopy
-pkgver=0.2.0
-pkgrel=2
+pkgver=0.2.1
+pkgrel=1
 pkgdesc="ddCopy GUI writes iso image files to CD/DVD and USB key"
 arch=(any)
 url="https://www.opendesktop.org/s/Apps/p/1240360/"
 license=(custom:WTFPL)
 depends=(python2-pyparted yad ntfs-3g udisks2 polkit python2-gobject2 libglade cdrtools)
 optdepends=()
-source=("https://dl.opendesktop.org/api/files/downloadfile/id/1530715494/s/b1596f5df3e85166ea05eb3281d80142/t/1534427766/u//${pkgname}-${pkgver}.tar.xz")
-sha256sums=('26a3c952c3a25adca534864ece2876ba8f7164e2122c3368d819fbd6929ed388')
+source=("https://dl.opendesktop.org/api/files/download/id/1540118414/s/4d38b86eb543876e0761246b2e770150c9046f8145a8b5538afc722e323cf8744c6306e3e76936f02560481c348f20e9b6cce0cfc1ec157690f4b898c8ff5c9c/t/1543781858/u//${pkgname}-${pkgver}.tar.xz")
+sha256sums=('7d0a8f119e6e90730677c2f99a9f0746bcb05f9b53eb91bf287b621a9505c0b7')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"

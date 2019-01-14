@@ -1,6 +1,3 @@
-# Maintainer: Anatol Pomozov <anatol.pomozov@gmail.com>
-# Contributor: Ng Oon-Ee <ngoonee.talk@gmail.com>
-
 pkgname=adbfs-rootless-git
 _pkgname=adbfs-rootless
 pkgver=r89.a8e1c7f
