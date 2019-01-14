@@ -1,0 +1,19 @@
+pkgname='cinnamon-applet-desktop-capture'
+_pkgname='desktop-capture'
+pkgver=1.17
+pkgrel=1
+pkgdesc='A comprehensive screenshot and screencasting applet for Cinnamon.'
+arch=('any')
+url='https://github.com/rjanja/desktop-capture'
+license=('GPL')
+depends=('cinnamon')
+conflicts=('cinnamon-applet-desktop-capture-git')
+source=("$pkgname-$pkgver.tar.gz"::"$url/archive/v$pkgver.tar.gz")
+md5sums=('54ceb41ae172cc5be3d9a727095caf26')
+
+package() {
+    cd "$_pkgname-$pkgver"
+    install -dm755 "$pkgdir/usr/share/cinnamon/applets"
+    install -dm744 "$pkgdir/usr/share/cinnamon/applets/capture@rjanja"
+    cp -r "capture@rjanja" "$pkgdir/usr/share/cinnamon/applets/capture@rjanja"
+}
