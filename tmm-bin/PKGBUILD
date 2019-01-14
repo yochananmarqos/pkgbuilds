@@ -1,0 +1,18 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com
+pkgname=tmm-bin
+_gitname=tmm
+pkgver=2018.09.30
+_pkgver=20180930
+pkgrel=1
+pkgdesc="Tiny Mod Manager: A simple console based mod manager for Linux."
+arch=('any')
+url="https://github.com/9d8/tmm"
+license=('GPL3')
+depends=('glibc')
+source=("$url/releases/download/$_pkgver/$_gitname")
+noextract=($pkgname)
+md5sums=('2f1b47dd337d136e7da02bebd3c46ae5')
+
+package() {
+	install -Dm755 "$_gitname" "$pkgdir/usr/bin/$_gitname"
+}
