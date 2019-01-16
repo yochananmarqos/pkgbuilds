@@ -3,28 +3,31 @@ _gitname=GameHub
 pkgver=0.13.0.2
 _projectver=0.13.0
 _buildver=2
-_buildtag=dev
-pkgrel=1
+_gitbranch=dev
+pkgrel=5
 pkgdesc="Games manager/downloader/library written in Vala that supports GOG, Steam and Humble Bundle"
-arch=('x86_64')
-url="https://github.com/tkashkin/GameHub"
-license=('custom')
+arch=('any')
+url="https://tkashkin.tk/projects/gamehub"
+license=('GPL3')
 depends=('granite' 'gtk3' 'glib2' 'webkit2gtk' 'json-glib' 'libgee' 'libsoup' 'sqlite' 'libxml2' 'polkit' 'libx11' 'libmanette' 'libxtst')
 makedepends=('meson' 'ninja' 'vala')
-optdepends=('lib32-json-glib' 'file-roller' 'innoextract' 'wine' 'dosbox' 'steam')
+optdepends=('lib32-json-glib' 'file-roller' 'innoextract' 'wine' 'dosbox' 'steam' 'retroarch')
 conflicts=('gamehub-git')
-source=("$_gitname-$_projectver-$_buildver-$_buildtag.tar.gz"::https://github.com/tkashkin/$_gitname/archive/$_projectver-$_buildver-$_buildtag.tar.gz)
+source=("$_gitname-$_projectver-$_buildver-$_gitbranch.tar.gz"::https://github.com/tkashkin/$_gitname/archive/$_projectver-$_buildver-$_gitbranch.tar.gz)
 md5sums=('d94a4c589f9ac4539b7d79ded8f0520f')
 
 build() {
-	cd "$_gitname-$_projectver-$_buildver-$_buildtag"
-	meson build --prefix=/usr -Ddistro=arch
+	cd "$_gitname-$_projectver-$_buildver-$_gitbranch"
+	meson build --prefix=/usr -Ddistro=arch -Dgit_branch=dev --buildtype=debug
+	unset CFLAGS
+		unset CXXFLAGS
+		unset CPPFLAGS
 	cd build
 	ninja
 }
 
 package() {
-	cd "$_gitname-$_projectver-$_buildver-$_buildtag/build"
+	cd "$_gitname-$_projectver-$_buildver-$_gitbranch/build"
 	DESTDIR=$pkgdir ninja install
 	ln -s com.github.tkashkin.$pkgname $pkgdir/usr/bin/$pkgname
 }
