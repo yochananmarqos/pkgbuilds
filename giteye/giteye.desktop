@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=GitEye
+Comment=CollabNet GitEye is a desktop for Git
+Comment[de]=CollabNet GitEye ist ein Desktop für Git
+Exec=/usr/bin/giteye
+Icon=giteye.xpm
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Categories=Development;
