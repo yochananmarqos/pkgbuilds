@@ -1,5 +1,5 @@
 pkgname=cage-git
-pkgver=r54.b6024e9
+pkgver=r55.14aadbc
 pkgrel=1
 pkgdesc="A Wayland kiosk"
 arch=('any')
