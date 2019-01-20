@@ -1,5 +1,5 @@
 pkgname=nutty-git
-pkgver=130.289db5e
+pkgver=143.ad98f83
 pkgrel=1
 _gitname=nutty
 pkgdesc='A network utility for linux. Monitor the devices on your network and check bandwidth and speed details.'
