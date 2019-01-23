@@ -1,13 +1,14 @@
 pkgname=bibata-adaptabreath-cursors-git
-pkgver=0.3.2
+pkgver=0.3.1
 pkgrel=1
 pkgdesc="Bibata Based Cursor Themes Made For AdaptaBreath."
 arch=('any')
-url="https://gitlab.com/cscs/Bibata_AdaptaBreath_Cursors/"
+url="https://gitlab.com/cscs/Bibata_AdaptaBreath_Cursors"
 license=('GPL')
 makedepends=('inkscape' 'xorg-xcursorgen' 'gtk-engine-murrine')
+provides=('bibata-adaptabreath-cursors')
 source=("https://gitlab.com/cscs/Bibata_AdaptaBreath_Cursors/-/archive/master/Bibata_AdaptaBreath_Cursors-master.tar.gz")
-sha256sums=(SKIP)
+sha256sums=('SKIP')
 
 build() {
 	cd "$srcdir/Bibata_AdaptaBreath_Cursors-master"
@@ -72,12 +73,11 @@ OUTPUT_Bibata_AdaptaBreathLuna="$(grep --only-matching --perl-regex "(?<=Name\=)
 OUTPUT_Bibata_AdaptaBreathLuna=${OUTPUT_Bibata_AdaptaBreathLuna// /_}
 
 
-mkdir -p "$DIR11X_Bibata" "$DIR10X_Bibata" "$DIR9X_Bibata" "$DIR8X_Bibata" "$DIR7X_Bibata" "$DIR6X_Bibata" "$DIR5X_Bibata" "$DIR4X_Bibata" "$DIR3X_Bibata" "$DIR2X_Bibata" "$DIR1X_Bibata"
-
-mkdir -p "$DIR11X_Bibata_AdaptaBreathLuna" "$DIR10X_Bibata_AdaptaBreathLuna" "$DIR9X_Bibata_AdaptaBreathLuna" "$DIR8X_Bibata_AdaptaBreathLuna" "$DIR7X_Bibata_AdaptaBreathLuna" "$DIR6X_Bibata_AdaptaBreathLuna" "$DIR5X_Bibata_AdaptaBreathLuna" "$DIR4X_Bibata_AdaptaBreathLuna" "$DIR3X_Bibata_AdaptaBreathLuna" "$DIR2X_Bibata_AdaptaBreathLuna" "$DIR1X_Bibata_AdaptaBreathLuna"
-
-mkdir -p "$OUTPUT_Bibata/cursors"
-mkdir -p "$OUTPUT_Bibata_AdaptaBreathLuna/cursors"
+mkdir -p "$DIR11X_Bibata" "$DIR10X_Bibata" "$DIR9X_Bibata" "$DIR8X_Bibata" "$DIR7X_Bibata" "$DIR6X_Bibata" "$DIR5X_Bibata" "$DIR4X_Bibata" "$DIR3X_Bibata" \
+	"$DIR2X_Bibata" "$DIR1X_Bibata" "$DIR11X_Bibata_AdaptaBreathLuna" "$DIR10X_Bibata_AdaptaBreathLuna" "$DIR9X_Bibata_AdaptaBreathLuna" \
+	"$DIR8X_Bibata_AdaptaBreathLuna" "$DIR7X_Bibata_AdaptaBreathLuna" "$DIR6X_Bibata_AdaptaBreathLuna" "$DIR5X_Bibata_AdaptaBreathLuna" \
+	"$DIR4X_Bibata_AdaptaBreathLuna" "$DIR3X_Bibata_AdaptaBreathLuna" "$DIR2X_Bibata_AdaptaBreathLuna" "$DIR1X_Bibata_AdaptaBreathLuna" \
+	"$OUTPUT_Bibata/cursors" "$OUTPUT_Bibata_AdaptaBreathLuna/cursors"
 echo 'Making Folders... DONE';
 
 
@@ -262,7 +262,7 @@ echo -e "\033[0KCopying Theme Index... DONE"
 }
 
 package() {
-	mkdir -p "$pkgdir/usr/share/icons"
-	mv "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreath" "$pkgdir/usr/share/icons/Bibata_AdaptaBreath"
-	mv "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreathLuna" "$pkgdir/usr/share/icons/Bibata_AdaptaBreathLuna"
+	install -d "$pkgdir/usr/share/icons"
+	cp -r "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreath/" "$pkgdir/usr/share/icons/Bibata_AdaptaBreath"
+	cp -r "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreathLuna/" "$pkgdir/usr/share/icons/Bibata_AdaptaBreathLuna"
 }
