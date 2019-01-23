@@ -262,7 +262,7 @@ echo -e "\033[0KCopying Theme Index... DONE"
 }
 
 package() {
-	install -d "$pkgdir/usr/share/icons"
+	install -dm755 "$pkgdir/usr/share/icons"
 	cp -r "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreath/" "$pkgdir/usr/share/icons/Bibata_AdaptaBreath"
 	cp -r "$srcdir/Bibata_AdaptaBreath_Cursors-master/Bibata_AdaptaBreathLuna/" "$pkgdir/usr/share/icons/Bibata_AdaptaBreathLuna"
 }

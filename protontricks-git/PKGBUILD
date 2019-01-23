@@ -20,6 +20,6 @@ pkgver() {
 package() {
 	cd "$_gitname"
 	python setup.py install --optimize=1 --root="${pkgdir}/"
-	install -D -m 0644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+	install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 }
 

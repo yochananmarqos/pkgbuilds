@@ -38,7 +38,7 @@ pkgver() {
 
 package() {
 	cd "$srcdir/$_gitname"
-	mkdir -p "$pkgdir/opt/$_gitname/"
+	install -d "$pkgdir/opt/$_gitname"
 	cp -dr --no-preserve=ownership "$srcdir/$_gitname/." "$pkgdir/opt/$_gitname/"
 
 	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/$_gitname/gogapi/"
@@ -54,7 +54,7 @@ package() {
 	python "/opt/games_nebula/games_nebula.py"' > "$pkgdir/usr/bin/$_gitname"
 	chmod 755 "$pkgdir/usr/bin/$_gitname"
 
-	install -dm755 "$pkgdir/usr/share/applications/"
+	install -dm755 "$pkgdir/usr/share/applications"
 	echo "[Desktop Entry]
 	Name=Games Nebula
 	Comment=Application for managing and playing games

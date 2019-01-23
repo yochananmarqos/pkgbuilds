@@ -1,11 +1,9 @@
-# Maintainer: Hao Long <aur@esd.cc>
-
 pkgname=cloudflared-bin
 pkgver=2018.10.4
 pkgrel=1
 pkgdesc="An Argo Tunnel client which proxies any local webserver through the Cloudflare network"
 arch=("x86_64" "arm")
-url="https://developers.cloudflare.com/argo-tunnel/"
+url="https://developers.cloudflare.com/argo-tunnel"
 license=("custom")
 depends=("glibc")
 provides=("cloudflared")
@@ -32,6 +30,4 @@ package() {
     install -Dm644 cloudflared.yml ${pkgdir}/etc/cloudflared/cloudflared.yml.example
     install -Dm644 cloudflared@.service ${pkgdir}/usr/lib/systemd/system/cloudflared@.service
 }
-
-# vim: ts=2 sw=2 et:
 

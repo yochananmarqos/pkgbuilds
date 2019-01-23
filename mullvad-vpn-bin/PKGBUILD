@@ -9,7 +9,7 @@ license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
 conflicts=('mullvad-vpn')
 install=$pkgname.install
-source=("https://github.com/mullvad/mullvadvpn-app/releases/download/${pkgver}/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
+source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
         "mullvad-daemon.service")
 sha256sums=('e29dce5f05d97f924dd9e22cccbc018655194992ed2cfcfe6690f39c6d373159'
             'SKIP'
@@ -19,28 +19,28 @@ validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 package() {
 
     #install systemd service
-    install -Dm644 mullvad-daemon.service "${pkgdir}/usr/lib/systemd/system/mullvad-daemon.service"
+    install -Dm644 mullvad-daemon.service "$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
     # Install the main files.
-    install -d "${pkgdir}/opt/${_pkgname}"
-    cp -a "${srcdir}/opt/Mullvad VPN/." "${pkgdir}/opt/${_pkgname}"
+    install -d "$pkgdir/opt/$_pkgname"
+    cp -a "$srcdir/opt/Mullvad VPN/." "$pkgdir/opt/$_pkgname"
 
     # Desktop Entry
-    install -d "${pkgdir}/usr/share/applications"
-    install "${srcdir}/usr/share/applications/${_pkgname}.desktop" "${pkgdir}/usr/share/applications"
-    sed -i 's%opt/Mullvad VPN%usr/bin%g' ${pkgdir}/usr/share/applications/${_pkgname}.desktop
+    install -d "$pkgdir/usr/share/applications"
+    install "$srcdir/usr/share/applications/$_pkgname.desktop" "$pkgdir/usr/share/applications"
+    sed -i 's%opt/Mullvad VPN%usr/bin%g' $pkgdir/usr/share/applications/$_pkgname.desktop
 
     # CLI binary
-    install -d "${pkgdir}/usr/bin"
-    cp "${srcdir}/usr/bin/mullvad" "${pkgdir}/usr/bin"
-    chmod 755 "${pkgdir}/usr/bin/mullvad"
+    install -d "$pkgdir/usr/bin"
+    cp "$srcdir/usr/bin/mullvad" "$pkgdir/usr/bin"
+    chmod 755 "$pkgdir/usr/bin/mullvad"
 
     # Main binary
-    chmod 755 "${pkgdir}/opt/${_pkgname}/${_pkgname}"
-    ln -s "/opt/${_pkgname}/${_pkgname}" "${pkgdir}/usr/bin/${_pkgname}"
+    chmod 755 "$pkgdir/opt/$_pkgname/$_pkgname"
+    ln -s "/opt/$_pkgname}/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
 
     #icons
     install -dm755 "${pkgdir}/usr/share/icons/hicolor"
-    cp -a "${srcdir}/usr/share/icons/hicolor/." "${pkgdir}/usr/share/icons/hicolor"
+    cp -a "$srcdir/usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor"
 
 }

@@ -1,4 +1,3 @@
-# Maintainer: Simon Legner <Simon.Legner@gmail.com>
 pkgname=spectre-meltdown-checker
 pkgver=0.40
 pkgrel=1
@@ -8,10 +7,10 @@ arch=('any')
 url="https://github.com/speed47/spectre-meltdown-checker"
 license=('GPL3')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/speed47/spectre-meltdown-checker/archive/v$pkgver.tar.gz")
+sha256sums=('53a597d030e9e3f02e7dd68ddf6c12ddb47ef5ff86ce1b351dd5fb3805114b07')
 
 package() {
   cd "$pkgname-$pkgver"
   install -Dm755 spectre-meltdown-checker.sh "$pkgdir/usr/bin/spectre-meltdown-checker"
 }
 
-sha256sums=('53a597d030e9e3f02e7dd68ddf6c12ddb47ef5ff86ce1b351dd5fb3805114b07')
