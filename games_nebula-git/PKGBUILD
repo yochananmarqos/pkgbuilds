@@ -1,12 +1,12 @@
 pkgname=games_nebula-git
 _gitname=games_nebula
-pkgver=r201.0ec1792
+pkgver=r202.648f89a
 pkgrel=1
 pkgdesc="Unofficial Linux client for GOG"
 arch=('i686' 'x86_64')
 url="https://github.com/yancharkin/${_gitname}"
 license=('GPL')
-depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'webkit2gtk' 'innoextract' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
+depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'innoextract' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
 optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks' 'dosbox' 'scummvm' 'megatools')
 provides=("$_gitname")
 conflicts=("$_gitname")
