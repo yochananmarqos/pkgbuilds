@@ -1,6 +1,6 @@
 pkgname=protontricks-git
 _gitname=protontricks
-pkgver=0.r66.1671e92
+pkgver=0.r68.06c86eb
 pkgrel=1
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
@@ -19,7 +19,7 @@ pkgver() {
 
 package() {
 	cd "$_gitname"
-	python setup.py install --optimize=1 --root="${pkgdir}/"
-	install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+	python setup.py install --optimize=1 --root="$pkgdir/"
+	install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
 }
 
