@@ -1,6 +1,6 @@
 pkgname=python-cheat
 _gitname=cheat
-pkgver=2.3.1
+pkgver=2.4.0
 pkgrel=1
 pkgdesc="Cheat allows you to create and view interactive cheatsheets on the command-line."
 arch=('any')
@@ -9,18 +9,18 @@ depends=('python' 'python-docopt')
 makedepends=('python-setuptools')
 optdepends=('python-pygments')
 license=('GPL3')
-provides=('$_gitname')
+provides=("$_gitname")
 conflicts=('cheat-git' 'cheat-bash-git')
 source=($pkgname-$pkgver.tar.gz::"https://github.com/chrisallenlane/$_gitname/archive/$pkgver.tar.gz")
-sha256sums=('f944612b1d1b97dbe87c6cc3c68932df983482f53a09b0446c318ee7399c865c')
+sha256sums=('d56d0d01717507da59aa2e6b932b0c37a8e842e547f432d0a3f90faea5bdd2dc')
 
 build() {
-  cd "$pkgname-$pkgver"
+  cd "$_gitname-$pkgver"
   python setup.py build
 }
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd "$_gitname-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
 }
 
