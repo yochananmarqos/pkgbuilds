@@ -1,0 +1,30 @@
+pkgname=cheat-git
+_gitname=cheat
+pkgver=2.4.0
+pkgrel=1
+pkgdesc="Create and view interactive cheatsheets on the command-line"
+arch=('any')
+license=('GPL3')
+url="https://github.com/chrisallenlane/$_gitname"
+depends=('python' 'python-docopt')
+optdepends=('python-pygments' 'bash-completion' 'zsh-completions' 'fish')
+makedepends=('git' 'python-setuptools')
+provides=("$_gitname")
+conflicts=("$_gitname-bash-git" "python-$_gitname")
+source=("git+https://github.com/chrisallenlane/$_gitname.git")
+md5sums=('SKIP')
+
+
+pkgver() {
+	cd "$_gitname"
+	git describe | sed 's/^v//;s/-/./g'
+}
+
+package(){
+	cd "$_gitname"
+	python setup.py install --root="$pkgdir/" --optimize=1
+	install -dm755 "$pkgdir/"usr/share/{bash-completion/completions,zsh/site-functions,fish/completions}
+	install -m 644 "$srcdir/$_gitname/$_gitname/autocompletion/$_gitname.bash" "$pkgdir/usr/share/bash-completion/completions/"
+	install -m 644 "$srcdir/$_gitname/$_gitname/autocompletion/$_gitname.zsh" "$pkgdir/usr/share/zsh/site-functions/"
+	install -m 644 "$srcdir/$_gitname/$_gitname/autocompletion/$_gitname.fish" "$pkgdir/usr/share/fish/completions/"
+}
