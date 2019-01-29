@@ -1,9 +1,9 @@
 pkgname=gamehub
 _gitname=GameHub
-pkgver=0.13.0.19
-_projectver=0.13.0
-_buildver=19
-_gitbranch=dev
+pkgver=0.13.1.1
+_projectver=0.13.1
+_buildver=1
+_gitbranch=master
 pkgrel=1
 pkgdesc="Games manager/downloader/library written in Vala that supports GOG, Steam and Humble Bundle"
 arch=('any')
@@ -14,17 +14,19 @@ makedepends=('meson' 'ninja' 'vala')
 optdepends=('lib32-json-glib' 'file-roller' 'innoextract' 'wine' 'dosbox' 'steam' 'retroarch')
 conflicts=('gamehub-git')
 source=("$_gitname-$_projectver-$_buildver-$_gitbranch.tar.gz"::https://github.com/tkashkin/$_gitname/archive/$_projectver-$_buildver-$_gitbranch.tar.gz)
-md5sums=('1ce118def3cdc5e9c64f08b84889f65a')
+md5sums=('c5cb288a1160fbcc49fa9f14c140f5a4')
 
 build() {
 	cd "$_gitname-$_projectver-$_buildver-$_gitbranch"
-	CFLAGS="$CFLAGS -O0" meson build --prefix=/usr -Ddistro=arch --buildtype=debug
-	cd build
-	ninja
+	meson . _build --prefix=/usr --buildtype=debug -Ddistro=arch
+    unset CFLAGS
+		unset CXXFLAGS
+		unset CPPFLAGS
+	ninja -C _build
 }
 
 package() {
-	cd "$_gitname-$_projectver-$_buildver-$_gitbranch/build"
-	DESTDIR=$pkgdir ninja install
+	cd "$_gitname-$_projectver-$_buildver-$_gitbranch"
+	DESTDIR="$pkgdir" ninja -C _build install
 	ln -s com.github.tkashkin.$pkgname $pkgdir/usr/bin/$pkgname
 }
