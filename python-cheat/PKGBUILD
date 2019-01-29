@@ -1,6 +1,6 @@
 pkgname=python-cheat
 _gitname=cheat
-pkgver=2.4.0
+pkgver=2.4.2
 pkgrel=1
 pkgdesc="Create and view interactive cheatsheets on the command-line."
 arch=('any')
@@ -12,7 +12,7 @@ license=('GPL3')
 provides=("$_gitname")
 conflicts=("$_gitname-git" "$_gitname-bash-git")
 source=($pkgname-$pkgver.tar.gz::"https://github.com/chrisallenlane/$_gitname/archive/$pkgver.tar.gz")
-sha256sums=('d56d0d01717507da59aa2e6b932b0c37a8e842e547f432d0a3f90faea5bdd2dc')
+sha256sums=('030231067ad1b9a5744f8cac631b5048549eff4b66e54d2213da6bd105241a16')
 
 build() {
 	cd "$_gitname-$pkgver"
