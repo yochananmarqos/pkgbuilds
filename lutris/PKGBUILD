@@ -1,0 +1,34 @@
+pkgname=lutris
+pkgver=0.5.0.1
+pkgrel=1
+pkgdesc='Open Gaming Platform'
+arch=('any')
+url='https://lutris.net'
+license=('GPL3')
+depends=('python-gobject' 'python-yaml' 'python-evdev' 'gtk3' 'glib2' 'psmisc' 'cabextract' 'unrar' 'unzip' 'p7zip' 'curl' 'xorg-xrandr')
+makedepends=('python-setuptools')
+checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'python-requests' 'python-pillow' 'gtk3' 'webkit2gtk' 'gnome-desktop' 'wine' 'xterm')
+optdepends=('wine: Run windows games'
+            'wine-staging: Run windows games - Staging patches')
+makedepends=('python-setuptools')
+source=("https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
+sha512sums=('bacb6b481db2b84b0fa51d7ff530d25b7ef56601f819db85c5012bbee58e93ecb840d0af60c50ec696f1c059e90b5b0e2f9ecefc1ad54d9986faff34ac714d04')
+
+build() {
+  cd $pkgname-$pkgver
+
+  python setup.py build
+}
+
+check() {
+  cd $pkgname-$pkgver
+
+  xvfb-run nosetests --cover-erase --with-xunit --xunit-file=nosetests.xml --with-coverage --cover-package=lutris --cover-xml-file=coverage.xml
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
+
