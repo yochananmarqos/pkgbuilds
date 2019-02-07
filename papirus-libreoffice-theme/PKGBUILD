@@ -1,0 +1,19 @@
+pkgname=papirus-libreoffice-theme
+pkgver=20170228
+pkgrel=1
+pkgdesc="Papirus theme for LibreOffice"
+url="https://github.com/PapirusDevelopmentTeam/$pkgname"
+arch=('any')
+license=('GPL')
+makedepends=('git' 'make')
+conflicts=('papirus-libreoffice-theme-git' 'papirus-libreoffice-fresh-rpm-theme-git')
+optdepends=('libreoffice' 'libreoffice-fresh-rpm')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/PapirusDevelopmentTeam/$pkgname/archive/$pkgver.tar.gz")
+md5sums=('e5ad52f39d9ae08c8e2cda9af75b06c7')
+
+package() {
+	cd $pkgname-$pkgver
+	make PREFIX="/usr/lib" DESTDIR="$pkgdir/" install
+}
+
