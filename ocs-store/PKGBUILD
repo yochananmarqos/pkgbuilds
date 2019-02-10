@@ -1,0 +1,32 @@
+pkgname=ocs-store
+pkgver=3.5.0
+pkgrel=1
+pkgdesc="A content management app for OCS-compatible websites like opendesktop.org, gnome-look.org, etc."
+arch=('x86_64')
+url="https://www.opendesktop.org/c/1492685474"
+license=('GPL3')
+depends=('gconf' 'libxss' 'libxtst' 'qt5-base>=5.3.0' 'qt5-websockets>=5.3.0' 'libnotify' 'libappindicator' 'libindicator')
+conflicts=('ocsstore')
+replaces=('ocsstore')
+options=('!strip' '!emptydirs')
+_hash_time=($(curl -s "$url"|grep -e "hash =" -e "timetamp ="|sed "s/.*= '\(.*\)';/\1/"))
+source=("https://dl.opendesktop.org/api/files/downloadfile/id/1546244095/s/${_hash_time[0]}/t/${_hash_time[1]}/u/${pkgname}-${pkgver}-${pkgrel}-${arch}.AppImage")
+noextract=('${pkgname}-${pkgver}-${pkgrel}-${arch.AppImage}')
+md5sums=('de99b22ee7dd8b7220fa58bf546a2908')
+
+prepare() {
+  chmod ugo+x "${srcdir}/${pkgname}-${pkgver}-${pkgrel}-${arch}.AppImage"
+  "${srcdir}/${pkgname}-${pkgver}-${pkgrel}-${arch}.AppImage" --appimage-extract
+  chmod ugo-x "${srcdir}/${pkgname}-${pkgver}-${pkgrel}-${arch}.AppImage"
+}
+
+package() {
+  install -dm755 "${pkgdir}/usr"
+  cp -r "${srcdir}/squashfs-root/usr/"* "${pkgdir}/usr"
+  rm -f "${pkgdir}/usr/bin/${pkgname}-appimage"
+  find "${pkgdir}/usr" -type d -exec chmod 755 {} \;
+  find "${pkgdir}/usr" -type f -exec chmod 644 {} \;
+  chmod ugo+x "${pkgdir}/usr/bin/${pkgname}"
+  chmod ugo+x "${pkgdir}/usr/lib/${pkgname}-linux-x64/${pkgname}"
+  chmod ugo+x "${pkgdir}/usr/lib/${pkgname}-linux-x64/resources/app/bin/ocs-manager"
+}
