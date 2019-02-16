@@ -7,7 +7,8 @@ url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
-conflicts=('mullvad-vpn')
+provides=("$_pkgname")
+conflicts=("$_pkgname")
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
         "mullvad-daemon.service")
