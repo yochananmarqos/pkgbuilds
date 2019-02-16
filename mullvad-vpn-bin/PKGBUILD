@@ -35,7 +35,7 @@ package() {
 
     # Main binary
     chmod 755 "$pkgdir/opt/$_pkgname/$_pkgname"
-    ln -s "/opt/$_pkgname}/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
+    ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
 
     # Icons
     install -dm755 "$pkgdir/usr/share/icons/hicolor"
