@@ -1,14 +1,14 @@
 pkgname=cheat-git
 _gitname=cheat
-pkgver=2.4.0
+pkgver=2.5.1
 pkgrel=1
 pkgdesc="Create and view interactive cheatsheets on the command-line"
 arch=('any')
 license=('GPL3')
 url="https://github.com/chrisallenlane/$_gitname"
-depends=('python' 'python-docopt')
-optdepends=('python-pygments' 'bash-completion' 'zsh-completions' 'fish')
+depends=('python' 'python-docopt' 'python-pygments' 'python-termcolor')
 makedepends=('git' 'python-setuptools')
+optdepends=('bash-completion' 'zsh-completions' 'fish')
 provides=("$_gitname")
 conflicts=("$_gitname-bash-git" "python-$_gitname")
 source=("git+https://github.com/chrisallenlane/$_gitname.git")
