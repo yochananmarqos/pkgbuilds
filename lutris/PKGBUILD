@@ -6,7 +6,7 @@ arch=('any')
 url='https://lutris.net'
 license=('GPL3')
 depends=('python-gobject' 'python-yaml' 'python-evdev' 'gtk3' 'glib2' 'psmisc' 'cabextract' 'unzip' 'p7zip' 'curl' 'xorg-xrandr'
-         'python-pillow' 'python-requests' 'gnome-desktop' 'gtk3' 'webkit2gtk')
+         'python-pillow' 'python-requests' 'gnome-desktop' 'webkit2gtk')
 makedepends=('python-setuptools')
 checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm')
 optdepends=('wine: Run windows games'
@@ -32,4 +32,3 @@ package() {
 
   python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
-
