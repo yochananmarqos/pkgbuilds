@@ -1,0 +1,80 @@
+@@ -1390,6 +1390,12 @@
+   GtkFileChooserWidget *impl = (GtkFileChooserWidget *) widget;
+   GtkFileChooserWidgetPrivate *priv = impl->priv;
+ 
++  if (!event->is_modifier) {
++    gtk_widget_grab_focus (priv->browse_files_tree_view);
++    gboolean ret;
++    g_signal_emit_by_name (priv->browse_files_tree_view, "key-press-event", event, &ret);
++  }
++
+   if (should_trigger_location_entry (impl, event))
+     {
+       if (priv->action == GTK_FILE_CHOOSER_ACTION_OPEN ||
+@@ -1399,12 +1405,6 @@
+           return TRUE;
+         }
+     }
+-  else if (gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search_entry), (GdkEvent *)event))
+-    {
+-      if (priv->operation_mode != OPERATION_MODE_SEARCH)
+-        operation_mode_set (impl, OPERATION_MODE_SEARCH);
+-      return TRUE;
+-    }
+ 
+   if (GTK_WIDGET_CLASS (gtk_file_chooser_widget_parent_class)->key_press_event (widget, event))
+     return TRUE;
+@@ -2427,7 +2427,7 @@
+ {
+   GtkFileChooserWidgetPrivate *priv = impl->priv;
+ 
+-  gtk_tree_view_set_search_column (GTK_TREE_VIEW (priv->browse_files_tree_view), -1);
++  gtk_tree_view_set_search_column (GTK_TREE_VIEW (priv->browse_files_tree_view), MODEL_COL_NAME);
+ 
+   gtk_tree_view_column_set_sort_column_id (priv->list_name_column, MODEL_COL_NAME);
+   gtk_tree_view_column_set_sort_column_id (priv->list_time_column, MODEL_COL_TIME);
+@@ -4338,6 +4338,7 @@
+   gtk_tree_view_set_model (GTK_TREE_VIEW (priv->browse_files_tree_view),
+                            GTK_TREE_MODEL (priv->browse_files_model));
+   update_columns (impl, FALSE, _("Modified"));
++  gtk_tree_view_set_enable_search (GTK_TREE_VIEW (priv->browse_files_tree_view), TRUE);
+   file_list_set_sort_column_ids (impl);
+   set_sort_column (impl);
+   profile_msg ("    gtk_tree_view_set_model end", NULL);
+@@ -7098,10 +7099,6 @@
+ {
+   GList *l, *files, *files_with_info, *infos;
+   GFile *file;
+-  gboolean select = FALSE;
+-
+-  if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (impl->priv->search_model), NULL) == 0)
+-    select = TRUE;
+ 
+   files = NULL;
+   files_with_info = NULL;
+@@ -7129,8 +7126,6 @@
+   g_list_free_full (infos, g_object_unref);
+ 
+   gtk_stack_set_visible_child_name (GTK_STACK (impl->priv->browse_files_stack), "list");
+-  if (select)
+-    gtk_widget_grab_focus (impl->priv->browse_files_tree_view);
+ }
+ 
+ /* Callback used from GtkSearchEngine when the query is done running */
+@@ -7427,6 +7422,7 @@
+   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (priv->recent_model),
+                                         GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+                                         GTK_SORT_DESCENDING);
++  gtk_tree_view_set_enable_search (GTK_TREE_VIEW (priv->browse_files_tree_view), TRUE);
+ }
+ 
+ typedef struct
+@@ -7444,7 +7440,7 @@
+ 
+   gtk_tree_view_set_model (GTK_TREE_VIEW (priv->browse_files_tree_view),
+                            GTK_TREE_MODEL (priv->recent_model));
+-  gtk_tree_view_set_search_column (GTK_TREE_VIEW (priv->browse_files_tree_view), -1);
++  gtk_tree_view_set_search_column (GTK_TREE_VIEW (priv->browse_files_tree_view), MODEL_COL_NAME);
+ 
+   gtk_tree_view_column_set_sort_column_id (priv->list_name_column, -1);
+   gtk_tree_view_column_set_sort_column_id (priv->list_time_column, -1);
