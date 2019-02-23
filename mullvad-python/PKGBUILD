@@ -1,0 +1,21 @@
+pkgname=mullvad-python
+pkgver=0.3.1
+pkgrel=1
+pkgdesc="Unofficial Mullvad CLI tool to check if you're secured"
+arch=('any')
+url="https://github.com/franccesco/mullpy"
+license=('MIT')
+depends=('python>=3.6')
+makedepends=('python-pip')
+_name=mullvad_python
+source=("https://files.pythonhosted.org/packages/py3/${_name::1}/$_name/$_name-$pkgver-py3-none-any.whl"
+		"https://raw.githubusercontent.com/franccesco/mullpy/master/LICENSE.md")
+noextract=(*.whl)
+md5sums=('07b51d60f8d74ffe95d17f71c1ca71bc'
+         '225875d00ad8b55d23a09ba30d5e8ee8')
+
+package() {
+	PIP_CONFIG_FILE=/dev/null pip install --isolated --root="$pkgdir" --ignore-installed --no-deps *.whl
+	python -O -m compileall "$pkgdir/usr/bin/mullpy"
+	install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
+}
