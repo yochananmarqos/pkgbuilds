@@ -1,0 +1,58 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
+pkgname=freegemas-git
+_gitname=freegemas
+pkgver=r39.82823e2
+pkgrel=1
+pkgdesc="An open source version of the well known Bejeweled written in C++ using SDL2"
+arch=("any")
+url="https://github.com/JoseTomasTocino/freegemas"
+license=('GPL2')
+depends=('sdl2' 'sdl2_image' 'sdl2_mixer' 'sdl2_ttf')
+makedepends=('git' 'cmake')
+provides=("$_gitname")
+conflicts=("$_gitname")
+source=("git+https://github.com/JoseTomasTocino/freegemas.git")
+sha256sums=("SKIP")
+
+prepare() {
+	cd "${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build(){
+	cd "${pkgname%-git}"
+	mkdir build && cd build
+	cmake ..
+	make
+}
+
+package() {
+	cd "${pkgname%-git}"
+	install -Dm755 build/$_gitname $pkgdir/opt/$_gitname/$_gitname
+	cp -a media $pkgdir/opt/$_gitname/
+
+	install -Dm644 build/media/gemBlue.png $pkgdir/usr/share/pixmaps/$_gitname.png
+
+	install -d $pkgdir/usr/share/applications
+	cat > $pkgdir/usr/share/applications/$_gitname.desktop << EOF
+[Desktop Entry]
+Name=FreeGemas
+Comment=An open source version of Bejeweled
+Exec="/usr/bin/freegemas" %U
+Terminal=false
+Type=Application
+Icon=freegemas
+StartupWMClass=FreeGemas
+Categories=Games;
+EOF
+
+	cat > $pkgdir/opt/$_gitname/$_gitname.sh << EOF
+#!/bin/sh
+cd /opt/$_gitname
+./$_gitname
+EOF
+
+	chmod +x $pkgdir/opt/$_gitname/$_gitname.sh
+	install -d $pkgdir/usr/bin
+	ln -s $pkgdir/opt/$_gitname/$_gitname.sh $pkgdir/usr/bin/$_gitname
+}
