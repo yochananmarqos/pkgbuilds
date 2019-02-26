@@ -11,10 +11,10 @@ source_i686=("https://www.collab.net/sites/default/files/downloads/GitEye-$pkgve
 source_x86_64=("https://www.collab.net/sites/default/files/downloads/GitEye-$pkgver-linux.x86_64.zip")
 source=("LICENSE"
         "${pkgname}.desktop")
-md5sums_i686=('011f3e144f1e7abecca266fbfdfe4815')
-md5sums_x86_64=('117d6e1e905aea0ec91ce18e155e87a1')
 md5sums=('78ba2a04c6b766a778681705d40abbb4'
          'aad2bccbc197010b659e7a38e9c1c8f7')
+md5sums_i686=('011f3e144f1e7abecca266fbfdfe4815')
+md5sums_x86_64=('117d6e1e905aea0ec91ce18e155e87a1')
 noextract=(*.zip) # extract nothing
 
 

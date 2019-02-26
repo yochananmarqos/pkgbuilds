@@ -16,8 +16,8 @@ source_arm=("https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-arm.tg
 sha256sums=('6a486a0f6c00e87cce1caf0aa8db45ea9fefd0bf91d9be6fc44460160dc0dbda'
             '4e06eb54143d872f73707ed2bba2ba2198649d3066df741bd0cfda5d1a5f334d'
             '2bbfc00a768e448fd485de8794e21e5a746fba6f83911db877bd09a9b03d9969')
-sha256sums_x86_64=('cca4888d9f37a9305e73a21e917c6550295e6bc211e85c469a1a562493cdf021')
-sha256sums_arm=('0066269b8e0f91fba26988060cb266520a7a3980e5e7eb5e47dff7eea2f9dcac')
+sha256sums_x86_64=('00ecf11841a2d27a735116d9d58a2b3227b750ad84a3d080e599cbcfdaefc08d')
+sha256sums_arm=('8a9ac20461c71106452beaa0d07bffb78e56a191d60f6cebfdc475cfb2c082e7')
 
 package() {
     # Install License
