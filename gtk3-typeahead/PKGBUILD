@@ -1,5 +1,3 @@
-# Maintainer: twilinx <twilinx@mesecons.net>
-
 pkgname=gtk3-typeahead
 pkgver=3.24.5
 pkgrel=1

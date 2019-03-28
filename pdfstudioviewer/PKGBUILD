@@ -10,9 +10,9 @@ depends=('java-runtime>=6')
 source_i686=("https://download.qoppa.com/$pkgname/PDFStudioViewer_linux.deb")
 source_x86_64=("https://download.qoppa.com/$pkgname/PDFStudioViewer_linux64.deb")
 source=("$pkgname.desktop")
-md5sums_i686=('256a828250be3876b4da2264f8ffed81')
-md5sums_x86_64=('a0112983f1dcc8cc0351bfab3be2f1e9')
 md5sums=('2ff95a0b17acf2017a3d0b5301ff8eb9')
+md5sums_i686=('d41fbce56ae2929903781d115e77a089')
+md5sums_x86_64=('c717ed60c1b00dae6968b465d615c55f')
 
 prepare() {
 	bsdtar xf data.tar.gz

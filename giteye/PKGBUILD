@@ -1,7 +1,7 @@
 pkgname=giteye
 pkgver=2.2.0
 pkgrel=1
-pkgdesc="CollabNet GitEye is a desktop for Git. It works with TeamForge, CloudForge and other Git services."
+pkgdesc="A desktop for Git that works with TeamForge, CloudForge and other Git services."
 arch=('i686' 'x86_64')
 url="https://www.collab.net/products/giteye"
 license=('custom')
@@ -10,7 +10,7 @@ options=('!strip')
 source_i686=("https://www.collab.net/sites/default/files/downloads/GitEye-$pkgver-linux.x86.zip")
 source_x86_64=("https://www.collab.net/sites/default/files/downloads/GitEye-$pkgver-linux.x86_64.zip")
 source=("LICENSE"
-        "${pkgname}.desktop")
+        "$pkgname.desktop")
 md5sums=('78ba2a04c6b766a778681705d40abbb4'
          'aad2bccbc197010b659e7a38e9c1c8f7')
 md5sums_i686=('011f3e144f1e7abecca266fbfdfe4815')
@@ -28,7 +28,7 @@ package() {
     bsdtar -xf "GitEye-$pkgver-linux.$CARCH.zip" -C "$pkgdir/opt/$pkgname/"
 
 	msg2 "Adding GitEye executable to default path..."
-	ln -s "/opt/${pkgname}/GitEye" "${pkgdir}/usr/bin/giteye"
+	ln -s "/opt/$pkgname/GitEye" "$pkgdir/usr/bin/$pkgname"
 
     msg2 "Installing LICENSE..."
 	if [[ "$CARCH" = "i686" ]]; then
@@ -38,5 +38,5 @@ package() {
 
     msg2 "Installing desktop file and icon..."
     install -Dm644 $pkgname.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
-    install -Dm644 "$pkgdir/opt/${pkgname}/icon.xpm" "$pkgdir/usr/share/pixmaps/$pkgname.xpm"
+    install -Dm644 "$pkgdir/opt/$pkgname/icon.xpm" "$pkgdir/usr/share/pixmaps/$pkgname.xpm"
 }

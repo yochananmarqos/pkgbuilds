@@ -8,7 +8,15 @@ url="https://github.com/teejee2008/polo"
 license=('GPL')
 depends=('libgee' 'gtk3' 'vte3' 'rsync' 'p7zip' 'gvfs' 'wget')
 makedepends=('vala')
-optdepends=('clamscan' 'fish' 'ffmpeg' 'qemu' 'mediainfo' 'imagemagick' 'diffuse' 'perl-image-exiftool' 'gnome-disk-utility' 'ghostscript' 'lzop' 'pdftk' 'pngcrush' 'pv' 'rclone' 'udisks2' 'xdg-utils' 'youtube-dl' 'polo-donation-plugins')
+optdepends=('mediainfo: read media properties from audio and video files'
+            'fish: terminal shell'
+            'perl-image-exiftool: read EXIF properties from JPG/TIFF/PNG/PDF files'
+            'pv: get progress info for compression and extraction'
+            'ffmpeg: generate thumbnails for video'
+            'rclone: cloud storage accounts support'
+            'gnome-disk-utility'
+            'lzop'
+            'polo-donation-plugins')
 source=($pkgname-$pkgver.tar.gz::"$url/archive/v$_pkgver.tar.gz")
 md5sums=('e260c26ce6348328fb472512da61f37d')
 
