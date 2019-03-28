@@ -1,6 +1,6 @@
 pkgname=mullvad-vpn-bin
 _pkgname=mullvad-vpn
-pkgver=2019.1
+pkgver=2019.2
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
@@ -12,7 +12,7 @@ conflicts=("$_pkgname")
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
         "mullvad-daemon.service")
-sha256sums=('56602122217655b0883c6c73849be575d2cd6a080b6e11e27eb2b4fddfe99052'
+sha256sums=('4a09ae6000c20f73805026b0a57db658d3ef3b05e99e44f47625c04cb44c1387'
             'SKIP'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
@@ -24,21 +24,21 @@ package() {
 
     # Main files
     install -d "$pkgdir/opt/$_pkgname"
-    cp -a "$srcdir/opt/Mullvad VPN/." "$pkgdir/opt/$_pkgname"
+    cp -a "opt/Mullvad VPN/." "$pkgdir/opt/$_pkgname"
 
     # Desktop Entry
-    install -dm644 "$srcdir/usr/share/applications/$_pkgname.desktop" "$pkgdir/usr/share/applications/$_pkgname.desktop"
+    install -Dm644 "usr/share/applications/$_pkgname.desktop" "$pkgdir/usr/share/applications/$_pkgname.desktop"
     sed -i 's%opt/Mullvad VPN%usr/bin%g' $pkgdir/usr/share/applications/$_pkgname.desktop
 
     # CLI binary
-    install -dm755 "$srcdir/usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
+    install -Dm755 "usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
 
     # Main binary
     chmod 755 "$pkgdir/opt/$_pkgname/$_pkgname"
     ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
 
     # Icons
-    install -dm755 "$pkgdir/usr/share/icons/hicolor"
-    cp -a "$srcdir/usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor"
+    install -d "$pkgdir/usr/share/icons/hicolor"
+    cp -a "usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor/"
 
 }
