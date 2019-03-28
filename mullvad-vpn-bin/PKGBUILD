@@ -38,7 +38,7 @@ package() {
     ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
 
     # Icons
-    install -d "$pkgdir/usr/share/icons/hicolor"
+    install -dm755 "$pkgdir/usr/share/icons/hicolor"
     cp -a "usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor/"
 
 }
