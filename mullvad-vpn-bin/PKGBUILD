@@ -1,6 +1,6 @@
 pkgname=mullvad-vpn-bin
 _pkgname=mullvad-vpn
-pkgver=2019.2
+pkgver=2019.3
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
@@ -12,7 +12,7 @@ conflicts=("$_pkgname" "$pkgname-beta")
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
         "mullvad-daemon.service")
-sha256sums=('4a09ae6000c20f73805026b0a57db658d3ef3b05e99e44f47625c04cb44c1387'
+sha256sums=('28d353fb147f91c6a8258838559dfad18e84a753549c1f6be2311e8950515282'
             'SKIP'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
