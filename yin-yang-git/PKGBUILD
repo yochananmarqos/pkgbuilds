@@ -1,11 +1,11 @@
 pkgname=yin-yang-git
-pkgver=r42.5f8c19d
+pkgver=r43.dcef1e0
 pkgrel=1
 pkgdesc="Automatic night mode for KDE, VSCode and GTK apps"
 arch=('any')
 url="https://github.com/daehruoydeef/Yin-Yang"
 license=('MIT')
-depends=('plasma-desktop' 'python-pyqt5' 'python-qtpy')
+depends=('python-pyqt5' 'python-qtpy')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/daehruoydeef/Yin-Yang")
