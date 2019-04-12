@@ -1,8 +1,9 @@
 pkgname=athenaeum-git
+_pkgdomain=com.gitlab.librebob.Athenaeum
 pkgver=v0.3.0.r0.668867a
 pkgrel=1
 pkgdesc="A libre replacement for Steam"
-arch=(any)
+arch=('any')
 url="https://gitlab.com/librebob/athenaeum"
 license=('GPL3')
 depends=('flatpak' 'python-pyqt5' 'python-peewee' 'python-dateutil' 'qt5-svg' 'qt5-quickcontrols2')
@@ -17,15 +18,20 @@ pkgver() {
     printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py build
+}
+
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	python setup.py install --root="$pkgdir" --optimize=1 --prefix=/usr
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 	for i in 16 32 48 64 96 128 256 512; do
-		install -Dm644 "${pkgname%-git}/resources/icons/hicolor/${i}x${i}/com.gitlab.librebob.Athenaeum.png" \
-			"$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/com.gitlab.librebob.Athenaeum.png"
+		install -Dm644 "${pkgname%-git}/resources/icons/hicolor/${i}x${i}/$_pkgdomain.png" \
+			"$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$_pkgdomain.png"
 	done
-	install -Dm644 "${pkgname%-git}/resources/com.gitlab.librebob.Athenaeum.desktop" \
-		"$pkgdir/usr/share/applications/com.gitlab.librebob.Athenaeum.desktop"
-	install -Dm644 "${pkgname%-git}/resources/com.gitlab.librebob.Athenaeum.appdata.xml" \
-    	"$pkgdir/usr/share/appdata/com.gitlab.librebob.Athenaeum.appdata.xml"
+	install -Dm644 "${pkgname%-git}/resources/$_pkgdomain.desktop" \
+		"$pkgdir/usr/share/applications/$_pkgdomain.desktop"
+	install -Dm644 "${pkgname%-git}/resources/$_pkgdomain.appdata.xml" \
+    	"$pkgdir/usr/share/appdata/$_pkgdomain.appdata.xml"
 }
