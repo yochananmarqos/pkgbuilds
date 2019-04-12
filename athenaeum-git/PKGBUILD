@@ -1,32 +1,31 @@
-# Maintainer: librebob librebob@protonmail.com
 pkgname=athenaeum-git
-_pkgname=athenaeum
-pkgver=r81.ea66856
+pkgver=v0.3.0.r0.668867a
 pkgrel=1
 pkgdesc="A libre replacement for Steam"
 arch=(any)
 url="https://gitlab.com/librebob/athenaeum"
 license=('GPL3')
-depends=('flatpak' 'python3' 'pyqt5-common' 'python-pyqt5' 'python-sip-pyqt5' 'python-peewee' 'python-xdg' 'python-dateutil' 'qt5-base' 'qt5-svg' 'qt5-quickcontrols2' 'qt5-declarative' 'sqlite')
-makedepends=('git')
+depends=('flatpak' 'python-pyqt5' 'python-peewee' 'python-dateutil' 'qt5-svg' 'qt5-quickcontrols2')
+makedepends=('git' 'python-setuptools')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
 source=("git+https://gitlab.com/librebob/athenaeum.git")
-md5sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
-    cd $srcdir/$_pkgname
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 package() {
-    cd $srcdir/$_pkgname
-
-    for i in 32 48 64 96 128 256 512; do
-        install -Dm644 $_pkgname/resources/icons/hicolor/${i}x${i}/athenaeum.png \
-        "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$_pkgname.png"
-    done
-
-    install -Dm644 $_pkgname/resources/$_pkgname.desktop \
-        "$pkgdir/usr/share/applications/$_pkgname.desktop"
-
-    python setup.py install --root="$pkgdir" --optimize=1 --prefix=/usr
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py install --root="$pkgdir" --optimize=1 --prefix=/usr
+	for i in 16 32 48 64 96 128 256 512; do
+		install -Dm644 "${pkgname%-git}/resources/icons/hicolor/${i}x${i}/com.gitlab.librebob.Athenaeum.png" \
+			"$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/com.gitlab.librebob.Athenaeum.png"
+	done
+	install -Dm644 "${pkgname%-git}/resources/com.gitlab.librebob.Athenaeum.desktop" \
+		"$pkgdir/usr/share/applications/com.gitlab.librebob.Athenaeum.desktop"
+	install -Dm644 "${pkgname%-git}/resources/com.gitlab.librebob.Athenaeum.appdata.xml" \
+    	"$pkgdir/usr/share/appdata/com.gitlab.librebob.Athenaeum.appdata.xml"
 }
