@@ -1,5 +1,5 @@
 pkgname=gtk3-typeahead
-pkgver=3.24.5
+pkgver=3.24.8
 pkgrel=1
 conflicts=(gtk3)
 provides=("gtk3=$pkgver" gtk3-print-backends)
@@ -11,10 +11,10 @@ install=gtk3.install
 depends=(atk cairo libxcursor libxinerama libxrandr libxi libepoxy gdk-pixbuf2 dconf
          libxcomposite libxdamage pango shared-mime-info at-spi2-atk wayland libxkbcommon
          adwaita-icon-theme json-glib librsvg wayland-protocols desktop-file-utils mesa
-         cantarell-fonts colord rest libcups libcanberra)
+         cantarell-fonts colord rest libcups libcanberra fribidi)
 makedepends=(gobject-introspection gtk-doc git glib2-docs sassc)
 license=(LGPL)
-_commit=bf60bf15de4afd426304f9f42618eb95a92c2605  # tags/3.24.5^0
+_commit=5428379fad31f1637c920d97a3d0303f606bfb6e  # tags/3.24.8^0
 source=("git+https://gitlab.gnome.org/GNOME/gtk.git#commit=$_commit"
         settings.ini
         gtk-query-immodules-3.0.hook

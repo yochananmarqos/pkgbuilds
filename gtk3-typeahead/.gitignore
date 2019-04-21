@@ -5,7 +5,3 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!*.install
-!*.hook
-!*.ini
-!*.patch
