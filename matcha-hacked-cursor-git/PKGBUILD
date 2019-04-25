@@ -16,10 +16,6 @@ pkgver() {
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-	install -dm644 $pkgdir/usr/share/icons
-}
-
 build() {
 	cd "$srcdir/${pkgname%-git}"
 	make
