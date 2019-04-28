@@ -1,0 +1,49 @@
+pkgname=('backintime' 'backintime-cli')
+pkgbase=backintime
+pkgver=1.2.0
+pkgrel=1
+arch=('any')
+url="https://github.com/bit-team/backintime"
+license=('GPL')
+makedepends=('openssh' 'python-dbus' 'python-keyring' 'rsync' 'systemd' 'xorg-xdpyinfo')
+#checkdepends=('gocryptfs')
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/bit-team/$pkgbase/archive/v$pkgver.tar.gz")
+sha256sums=('79eb77060df2471b0a3baacacab237cc4ee0d712d27e5b98c5398550e89d2115')
+
+build() {
+	cd "$pkgbase-$pkgver/common"
+	./configure --python3 --no-fuse-group
+	make
+
+#	cd "$pkgbase-$pkgver/qt"
+	cd ..
+	cd qt
+	./configure --python3
+	make
+}
+
+check() {
+	cd "$pkgbase-$pkgver/common"
+	LC_ALL=en_US.UTF-8 make test
+}
+
+package_backintime-cli() {
+	pkgdesc="Simple backup/snapshot system inspired by Flyback and TimeVault. CLI version."
+	depends=('cron' 'fuse2' 'openssh' 'python-dbus' 'python-keyring' 'rsync')
+	optdepends=('encfs: encrypted filesystems'
+				'sshfs: remote filesystems')
+
+	cd "$pkgbase-$pkgver/common"
+	make DESTDIR="$pkgdir/" install
+}
+
+package_backintime() {
+	pkgdesc="Simple backup/snapshot system inspired by Flyback and TimeVault. Qt5 GUI version."
+	depends=('backintime-cli' 'libnotify' 'polkit' 'python-dbus' 'python-pyqt5' 'xorg-xdpyinfo')
+	optdepends=('kompare: diff tool'
+				'python-secretstorage: store passwords'
+				'meld: diff tool')
+
+	cd "$pkgbase-$pkgver/qt"
+	make DESTDIR="$pkgdir/" install
+}
