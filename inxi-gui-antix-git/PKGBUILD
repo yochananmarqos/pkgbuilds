@@ -1,0 +1,26 @@
+pkgname=inxi-gui-antix
+pkgver=r7.ceacc97
+pkgrel=1
+pkgdesc="Simple GUI frontend to inxi script for antiX."
+arch=('any')
+url="https://github.com/antiX-Linux/inxi-gui-antix"
+license=('GPL3')
+depends=('yad' 'gksu' 'inxi')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/antiX-Linux/inxi-gui-antix.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm644 inxi-gui.desktop $pkgdir/usr/share/applications/inxi-gui.desktop
+	install -d $pkgdir/usr/share/locale
+	cp -a locale/* $pkgdir/usr/share/locale
+	install -Dm755 inxi-gui $pkgdir/usr/bin/inxi-gui
+}
