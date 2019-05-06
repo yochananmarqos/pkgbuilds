@@ -1,0 +1,43 @@
+pkgname=blueproximity
+pkgver=1.2.5
+pkgrel=8
+pkgdesc="A proximity detector for your mobile phone via bluetooth."
+arch=('i686' 'x86_64')
+url="http://sourceforge.net/projects/blueproximity"
+license=('GPL')
+depends=('bluez-utils-compat' 'pygtk' 'python2-configobj>=4.7.0-1' 'python2-pybluez>=0.14-2' 'python2' 'librsvg')
+optdepends=('gnome-screensaver' 'xscreensaver')
+source=(http://download.sourceforge.net/sourceforge/blueproximity/$pkgname-$pkgver.tar.gz \
+		blueproximity.desktop blueproximity.xpm blueproximity-1.2.5.orig.patch)
+options=(emptydirs)
+sha256sums=('d1211d7898792a6db8448768884970c0d5efe683c6aa2ffc13e765f7d5fb62d9'
+            'b564985f3b9594338b6c9d45ecf1646c2ecc4df7efd8a9cafe42c9e2112305e6'
+            'ffc42c5b1189f6007f7288d19805a778f965c2940bd9d044a0740a707d6354dd'
+            'bc426116025843c35cc6a3d39d85902bf97f8b51a735473ad37f2c2804aa19f5')
+
+build() {
+  rm $srcdir/$pkgname-$pkgver.orig/ChangeLog
+  rm $srcdir/$pkgname-$pkgver.orig/COPYING
+  rm $srcdir/$pkgname-$pkgver.orig/README
+  rm -r $srcdir/$pkgname-$pkgver.orig/doc
+
+  cd $srcdir/$pkgname-$pkgver.orig/
+
+  patch -p1 -i ../$pkgname-$pkgver.orig.patch || return 1
+}
+
+package() {
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/usr/share/applications
+  mkdir -p $pkgdir/usr/share/$pkgname
+  mkdir -p $pkgdir/usr/share/pixmaps
+
+  install -D -m755 $srcdir/$pkgname-$pkgver.orig/proximity.py $pkgdir/usr/bin/
+  install -D -m755 $srcdir/$pkgname-$pkgver.orig/start_proximity.sh $pkgdir/usr/bin/
+  install -D -m644 $srcdir/blueproximity.desktop $pkgdir/usr/share/applications/
+  install -D -m644 $srcdir/blueproximity.xpm $pkgdir/usr/share/pixmaps/
+  cp -r $srcdir/$pkgname-$pkgver.orig/* $pkgdir/usr/share/$pkgname/
+  chmod -R 644 $pkgdir/usr/share/$pkgname/*
+
+  sed -i -e "s|dist_path = './'|dist_path = '/usr/share/blueproximity/'|g" $pkgdir/usr/bin/proximity.py
+}
