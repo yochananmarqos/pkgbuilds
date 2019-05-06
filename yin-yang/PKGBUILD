@@ -1,0 +1,35 @@
+pkgname=yin-yang
+pkgver=1.0
+pkgrel=1
+pkgdesc="Auto Nightmode for KDE, Gnome, Budgie, VSCode, Atom and more"
+arch=('any')
+url="https://github.com/daehruoydeef/Yin-Yang"
+license=('MIT')
+depends=('python-pyqt5' 'python-qtpy')
+optdepends=('code' 'atom')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/daehruoydeef/Yin-Yang/archive/v1.0-beta.tar.gz")
+sha256sums=('3e14f7d03f7b40e1e61f745d7bd644f93e34825efb98554175dffd96e98e8cdf')
+
+package() {
+	cd "$srcdir/Yin-Yang-1.0-beta"
+	install -d $pkgdir/{opt/$pkgname,usr/bin,usr/share/applications}
+	cp -r ./* $pkgdir/opt/$pkgname
+	rm -rf $pkgdir/opt/$pkgname/{build,install.sh,uninstall.sh}
+	chmod +x $pkgdir/opt/$pkgname/src/$pkgname
+	ln -s $pkgdir/opt/$pkgname/src/$pkgname $pkgdir/usr/bin/$pkgname
+	install -Dm644 src/ui/assets/$pkgname.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/$pkgname.svg
+	install -Dm644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+
+	cat <<EOF >$pkgdir/usr/share/applications/$pkgname.desktop
+[Desktop Entry]
+Type=Application
+Version=0.0.1
+Name=Yin & Yang
+Comment=Auto Nightmode for KDE, Gnome, Budgie, VSCode, Atom and more
+Path=/opt/yin-yang
+Exec=env QT_AUTO_SCREEN_SCALE_FACTOR=1 sh /usr/bin/yin-yang -gui
+Icon=yin-yang
+Terminal=false
+Categories=Education;Languages;Python;
+EOF
+}

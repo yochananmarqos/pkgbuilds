@@ -1,0 +1,28 @@
+pkgname=pennywise
+pkgver=0.7.0
+pkgrel=1
+pkgdesc="Cross-platform application to open any website or media in a floating window"
+arch=('i686' 'x86_64')
+url="https://github.com/kamranahmedse/pennywise"
+license=('MIT')
+depends=('gconf' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
+makedepends=('yarn')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/kamranahmedse/$pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('9330b152ea3754e454a4044a7a4907f7dc4a27e9daf8f03ca5f948ad29e96fee')
+
+prepare () {
+	cd "$pkgname-$pkgver"
+	export JOBS=max
+	yarn --ignore-scripts
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	export JOBS=max
+	yarn _build
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	install -Dm644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+}

@@ -1,0 +1,45 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
+pkgname=ocs-manager
+pkgver=0.8.1
+pkgrel=1
+pkgdesc="A tool to handle item installation from OCS provider, file management and apply themes."
+arch=('x86_64')
+url="https://git.opendesktop.org/akiraohgaki/ocs-manager"
+license=('GPL3')
+depends=('fontconfig' 'openssl-1.0' 'zlib' 'unzip' 'p7zip' 'unrar')
+makedepends=('git' 'qt5-base' 'qt5-websockets' 'cmake' 'wget' 'desktop-file-utils' 'glib2' 'cairo' 'openssl-1.0' 'curl' 'libxpm' 'vim')
+source=("$pkgname-$pkgver.tar.gz::https://git.opendesktop.org/akiraohgaki/$pkgname/-/archive/release-$pkgver/$pkgname-release-$pkgver.tar.gz")
+sha256sums=('a17d641cde0e2b0de4e192a11beea34c77e2872d7596d7424d20ab27aa42cb76')
+
+prepare() {
+	cd "$pkgname-release-$pkgver"
+
+	if [ ! -d lib/qtil ]; then
+		git clone https://github.com/akiraohgaki/qtil.git -b release-0.4.0 --single-branch --depth=1 lib/qtil
+	fi
+
+	if [ ! -d lib/AppImageUpdate ]; then
+		git clone https://github.com/AppImage/AppImageUpdate.git -b continuous --single-branch --depth=1 lib/AppImageUpdate
+		git -C lib/AppImageUpdate submodule update --init --recursive #--depth=1
+	fi
+}
+
+build() {
+    cd "$pkgname-release-$pkgver"
+
+    if [ ! -d lib/AppImageUpdate-prebuilt ]; then
+    	mkdir lib/AppImageUpdate-prebuilt
+#    	cd lib/AppImageUpdate-prebuilt
+		cmake lib/AppImageUpdate -DBUILD_QT_UI=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    	make libappimageupdate_static
+    fi
+
+	#cd ../..
+    qmake .. PREFIX=/usr
+    make
+}
+
+package() {
+    cd "$pkgname-release-$pkgver"
+    make prefix=/usr DESTDIR="$pkgdir/" install
+}

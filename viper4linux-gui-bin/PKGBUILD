@@ -1,0 +1,23 @@
+pkgname=viper4linux-gui-bin
+pkgver=1.5
+pkgrel=1
+pkgdesc="Unofficial UI for Viper4Linux"
+arch=('any')
+url="https://github.com/ThePBone/Viper4Linux-GUI"
+license=('GPL3')
+depends=('viper4linux' 'qt5-base')
+provides=(viper4linux-gui)
+conflicts=(viper4linux-gui)
+source=("https://github.com/ThePBone/Viper4Linux-GUI/releases/download/1.4/V4L_GUI"
+		"viper4linux-gui.desktop"
+		"viper4linux-gui.png")
+noextract=(V4L_GUI)
+sha256sums=('925ff376caaf81fbc29cf4bcc261ce857c12f00b1a26718d4542c4a5e368f82a'
+            '012e8b24684d876240b3fd6d62741b236cd41bfbcaaf9b41bbe9f8375ca7df71'
+            '905e9201da348e26e84c0b973a8f91383b0bcab4d642c23be5f60e21c106e8ce')
+
+package() {
+	install -Dm755 V4L_GUI $pkgdir/usr/bin/viper-gui
+	install -Dm644 viper4linux-gui.desktop $pkgdir/usr/share/applications/viper4linux-gui.desktop
+	install -Dm644 viper4linux-gui.png $pkgdir/usr/share/pixmaps/viper4linux-gui.png
+}
