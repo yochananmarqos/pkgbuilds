@@ -12,7 +12,6 @@ makedepends=('meson' 'valgrind' 'gobject-introspection' 'gtk-doc' 'python-pillow
 optdepends=('tpm2-abrmd: TPM2 support'
             'tpm2-tools: TPM2 support')
 #checkdepends=('umockdev')
-conflicts=('fwupd')
 backup=('etc/fwupd/daemon.conf' 'etc/fwupd/uefi.conf')
 source=("$pkgname.$pkgver.tar.gz::https://github.com/hughsie/$pkgname/archive/$pkgver.tar.gz")
 sha256sums=('61b39918ce4c948b055ee090014801bc6777b953d2ed94159b9cbfd5add2f385')
