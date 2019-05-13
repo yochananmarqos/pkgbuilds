@@ -4,11 +4,11 @@ pkgver=0.8.1
 pkgrel=1
 pkgdesc="A tool to handle item installation from OCS provider, file management and apply themes."
 arch=('x86_64')
-url="https://git.opendesktop.org/akiraohgaki/ocs-manager"
+url="https://www.opencode.net/akiraohgaki/ocs-manager"
 license=('GPL3')
 depends=('fontconfig' 'openssl-1.0' 'unzip' 'p7zip' 'unrar' 'zlib')
 makedepends=('git' 'qt5-websockets' 'cmake' 'wget' 'desktop-file-utils' 'glib2' 'cairo' 'curl' 'libxpm' 'vim')
-source=("$pkgname-$pkgver.tar.gz::https://git.opendesktop.org/akiraohgaki/$pkgname/-/archive/release-$pkgver/$pkgname-release-$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://www.opencode.net/akiraohgaki/$pkgname/-/archive/release-$pkgver/$pkgname-release-$pkgver.tar.gz")
 sha256sums=('a17d641cde0e2b0de4e192a11beea34c77e2872d7596d7424d20ab27aa42cb76')
 
 prepare() {
