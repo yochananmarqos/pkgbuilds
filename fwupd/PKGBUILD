@@ -5,16 +5,27 @@ pkgdesc="A simple daemon to allow session software to update firmware"
 arch=('i686' 'x86_64')
 url="https://github.com/hughsie/fwupd"
 license=('GPL2')
-depends=('libgusb' 'modemmanager')
-makedepends=('meson' 'valgrind' 'gobject-introspection' 'gtk-doc' 'python-pillow' 'git'
-			'python-cairo' 'noto-fonts' 'noto-fonts-cjk' 'python-gobject' 'vala'
-			'libsoup' 'polkit' 'gcab')
+depends=('libxmlb' 'efivar' 'python' 'libsmbios' 'libgusb'
+	'libsoup' 'json-glib' 'gcab' 'libarchive' 'gpgme'
+	'libgudev' 'polkit' 'shared-mime-info' 'modemmanager')
+makedepends=('meson' 'valgrind' 'gobject-introspection' 'gtk-doc'
+	'python-cairo' 'noto-fonts' 'noto-fonts-cjk' 'python-gobject' 'vala'
+	'bash-completion' 'python-pillow' 'help2man' 'gnu-efi-libs')
 optdepends=('tpm2-abrmd: TPM2 support'
             'tpm2-tools: TPM2 support')
-#checkdepends=('umockdev')
-backup=('etc/fwupd/daemon.conf' 'etc/fwupd/uefi.conf')
-source=("$pkgname.$pkgver.tar.gz::https://github.com/hughsie/$pkgname/archive/$pkgver.tar.gz")
-sha256sums=('61b39918ce4c948b055ee090014801bc6777b953d2ed94159b9cbfd5add2f385')
+checkdepends=('umockdev')
+backup=('etc/fwupd/daemon.conf'
+	'etc/fwupd/redfish.conf'
+	'etc/fwupd/remotes.d/dell-esrt.conf'
+	'etc/fwupd/remotes.d/fwupd-tests.conf'
+	'etc/fwupd/remotes.d/lvfs-testing.conf'
+	'etc/fwupd/remotes.d/lvfs.conf'
+	'etc/fwupd/remotes.d/vendor-directory.conf'
+	'etc/fwupd/remotes.d/vendor.conf'
+	'etc/fwupd/uefi.conf')
+source=("https://people.freedesktop.org/~hughsient/releases/$pkgname-$pkgver.tar.xz"{,.asc})
+sha256sums=('8c03a17b3de08d0de89902ac676c9c0ce66c14152e8798120c9669c044c17b61' 'SKIP')
+validpgpkeys=(163EB50119225DB3DF8F49EA17ACBA8DFA970E17) # Richard Hughes <richard@hughsie.com>
 
 build() {
 	cd "$pkgname-$pkgver"
@@ -25,10 +36,10 @@ build() {
 	ninja -v -C ../build
 }
 
-#check() {
-#	cd "$pkgname-$pkgver"
-#	ninja -C ../build test
-#}
+check() {
+	cd build
+	meson test
+}
 
 package() {
 	cd "$pkgname-$pkgver"
