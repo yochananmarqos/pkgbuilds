@@ -1,5 +1,5 @@
 pkgname=yin-yang-git
-pkgver=r51.c34ac9d
+pkgver=r52.a98fdbc
 pkgrel=1
 pkgdesc="Auto Nightmode for KDE, Gnome, Budgie, VSCode, Atom and more"
 arch=('any')
@@ -34,7 +34,7 @@ Version=0.0.1
 Name=Yin & Yang
 Comment=Auto Nightmode for KDE, Gnome, Budgie, VSCode, Atom and more
 Path=/opt/yin-yang
-Exec=env QT_AUTO_SCREEN_SCALE_FACTOR=1 sh /usr/bin/yin-yang -gui
+Exec=env QT_AUTO_SCREEN_SCALE_FACTOR=1 sh /usr/bin/yin-yang
 Icon=yin-yang
 Terminal=false
 Categories=Education;Languages;Python;
