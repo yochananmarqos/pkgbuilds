@@ -1,23 +1,23 @@
-pkgname=nautilus-folder-icons
+pkgname=nemo-folder-icons
 pkgver=3.0
 pkgrel=1
 pkgdesc='Nautilus extension that makes changing folders icons easy!'
 arch=('i686' 'x86_64')
 license=('GPL3')
 url="https://github.com/bilelmoussaoui/nautilus-folder-icons"
-depends=('gobject-introspection' 'gtk3' 'python-nautilus')
+depends=('gobject-introspection' 'gtk3' 'nemo-python')
 makedepends=('gnome-common' 'meson' 'gettext' 'appstream-glib')
 options=('!emptydirs')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/bil-elmoussaoui/$pkgname/archive/$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/bil-elmoussaoui/nautilus-folder-icons/archive/$pkgver.tar.gz")
 sha256sums=('25fa6f164f50ed84ee6fa6d7a6004cb5190051847a5c3895f41bf1b426ad2565')
 
 build() {
-	cd "$pkgname-$pkgver"
-	meson builddir --prefix=/usr -Dfile_manager=nautilus
+	cd "nautilus-folder-icons-$pkgver"
+	meson builddir --prefix=/usr -Dfile_manager=nemo
 	ninja -C builddir
 }
 
 package() {
-	cd "$pkgname-$pkgver"
+	cd "nautilus-folder-icons-$pkgver"
 	DESTDIR="$pkgdir" ninja -C builddir install
 }
