@@ -1,16 +1,15 @@
 pkgname=freegemas-git
-_gitname=freegemas
 pkgver=r39.82823e2
 pkgrel=1
 pkgdesc="An open source version of the well known Bejeweled written in C++ using SDL2"
 arch=("any")
-url="https://github.com/JoseTomasTocino/$_gitname"
+url="https://github.com/JoseTomasTocino/freegemas"
 license=('GPL2')
-depends=('sdl2' 'sdl2_image' 'sdl2_mixer' 'sdl2_ttf')
+depends=('sdl2_image' 'sdl2_mixer' 'sdl2_ttf')
 makedepends=('git' 'cmake')
-provides=("$_gitname")
-conflicts=("$_gitname")
-source=("git+https://github.com/JoseTomasTocino/$_gitname")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://github.com/JoseTomasTocino/freegemas")
 sha256sums=("SKIP")
 
 prepare() {
@@ -27,31 +26,29 @@ build(){
 
 package() {
 	cd "${pkgname%-git}"
-	install -Dm755 build/$_gitname $pkgdir/opt/$_gitname/$_gitname
-	cp -a media $pkgdir/opt/$_gitname/
+	install -Dm755 build/${pkgname%-git} $pkgdir/opt/${pkgname%-git}/${pkgname%-git}
+	cp -a media $pkgdir/opt/${pkgname%-git}/
 
-	install -Dm644 build/media/gemBlue.png $pkgdir/usr/share/pixmaps/$_gitname.png
+	cat > $pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh << EOF
+#!/bin/sh
+cd /opt/${pkgname%-git}
+./${pkgname%-git}
+EOF
 
-	install -d $pkgdir/usr/share/applications
-	cat > $pkgdir/usr/share/applications/$_gitname.desktop << EOF
+	chmod +x $pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh
+	install -d $pkgdir/usr/{bin,share/applications}
+	ln -s $pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh $pkgdir/usr/bin/${pkgname%-git}
+	install -Dm644 build/media/gemBlue.png $pkgdir/usr/share/pixmaps/${pkgname%-git}.png
+
+	cat > $pkgdir/usr/share/applications/${pkgname%-git}.desktop << EOF
 [Desktop Entry]
-Name=FreeGemas
+Name=Freegemas
 Comment=An open source version of Bejeweled
 Exec="/usr/bin/freegemas" %U
 Terminal=false
 Type=Application
 Icon=freegemas
-StartupWMClass=FreeGemas
+StartupWMClass=Freegemas
 Categories=Games;
 EOF
-
-	cat > $pkgdir/opt/$_gitname/$_gitname.sh << EOF
-#!/bin/sh
-cd /opt/$_gitname
-./$_gitname
-EOF
-
-	chmod +x $pkgdir/opt/$_gitname/$_gitname.sh
-	install -d $pkgdir/usr/bin
-	ln -s $pkgdir/opt/$_gitname/$_gitname.sh $pkgdir/usr/bin/$_gitname
 }
