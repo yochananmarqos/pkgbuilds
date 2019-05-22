@@ -1,0 +1,36 @@
+pkgname=gosearch-git
+pkgver=v0.1.r6.df011a9
+pkgrel=1
+pkgdesc="A fast, real-time file searching program"
+arch=('x86_64')
+url="https://github.com/ozeidan/gosearch"
+license=('GPL3')
+depends=('linux51')
+makedepends=('git' 'go')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+install=
+source=('git+https://github.com/ozeidan/gosearch')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	make build
+}
+
+check() {
+	cd "$srcdir/${pkgname%-git}"
+	make -k test
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 ${pkgname%-git} $pkgdir/usr/bin/${pkgname%-git}
+	install -Dm755 gosearchServer $pkgdir/usr/bin/gosearchServer
+	install -Dm644 init/${pkgname%-git}.service $pkgdir/etc/systemd/system/${pkgname%-git}.service
+}
