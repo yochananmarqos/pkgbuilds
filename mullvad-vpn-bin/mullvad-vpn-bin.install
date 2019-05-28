@@ -1,20 +1,17 @@
 post_install() {
-	echo -e "***************************************************"
-	echo -e "*                                                 *"
-	echo -e "* Make sure to enable and run the mullvad daemon: *"
-	echo -e "*                                                 *"
-	echo -e "* systemctl enable --now mullvad-daemon           *"
-	echo -e "*                                                 *"
-	echo -e "***************************************************"
-	echo -e -n ""
+	systemctl enable --now mullvad-daemon
+}
+
+pre_upgrade() {
+    systemctl stop mullvad-daemon
 }
 
 post_upgrade() {
-	echo -e "***********************************************"
-	echo -e "*                                             *"
-	echo -e "* Restart the mullvad daemon after upgrading: *"
-	echo -e "* systemctl restart mullvad-daemon            *"
-	echo -e "*                                             *"
-	echo -e "***********************************************"
-	echo -e -n ""
+	systemctl daemon-reload
+	systemctl start mullvad-daemon
+}
+
+pre_remove() {
+    systemctl stop mullvad-daemon
+    systemctl disable mullvad-daemon
 }
