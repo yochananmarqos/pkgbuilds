@@ -1,0 +1,15 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!19.patch
+!99-anbox-rules
+!anbox-conf
+!anbox-desktop
+!anbox-bridge-netdev
+!anbox-bridge-network
+!anbox-container-manager.service
+!andbox-session-manager.service
