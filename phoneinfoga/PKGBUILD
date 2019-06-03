@@ -1,0 +1,18 @@
+pkgname=phoneinfoga
+pkgver=1.6.7
+pkgrel=1
+pkgdesc="Advanced information gathering & OSINT tool for phone numbers."
+arch=('x86_64')
+url="https://github.com/sundowndev/PhoneInfoga"
+license=('GPL3')
+depends=('python-requests' 'python-beautifulsoup4' 'python-html5lib' 'python-phonenumbers' 'python-argparse' 'python-colorama')
+source=("$pkgname-$pkgver.tar.gz"::https://github.com/sundowndev/PhoneInfoga/archive/v$pkgver.tar.gz)
+sha256sums=('105a260b605c4fa74d880390fc7b112973e0d3c6c03301b0b5e62ff001fe4144')
+
+package() {
+	install -d $pkgdir/{opt/$pkgname,usr/bin}
+	cp PhoneInfoga-$pkgver/config.example.py config.py
+	cp -r PhoneInfoga-$pkgver/* $pkgdir/opt/$pkgname
+	chmod 0755 $pkgdir/opt/$pkgname/$pkgname.py
+	ln -s /opt/$pkgname/$pkgname.py $pkgdir/usr/bin/$pkgname
+}
