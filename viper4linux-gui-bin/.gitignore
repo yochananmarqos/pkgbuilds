@@ -1,9 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!PKGBUILD
-!.SRCINFO
-!viper4linux-gui.desktop
-!viper4linux-gui.png
