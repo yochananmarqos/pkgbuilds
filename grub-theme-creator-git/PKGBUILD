@@ -1,29 +1,26 @@
 pkgname=grub-theme-creator-git
-pkgver=v.0.2.r3.3f9ef7e
+pkgver=.0.2.3.g3f9ef7e
 pkgrel=1
 pkgdesc="Automates the creation of a grub2 theme"
 arch=('any')
 url="https://github.com/petsam/grub-theme-creator"
 license=('GPL3')
-depends=('grub' 'imagemagick')
+depends=('grub' 'horizontal-grub' 'imagemagick')
 optdepends=('grub2-theme-preview')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("git+https://github.com/petsam/${pkgname%-git}.git"
-	"https://raw.githubusercontent.com/petsam/horizontal-grub/master/horizontal-grub")
-sha256sums=('SKIP'
-            'c9758ceebafd572320107064826a177dcb831da2701b8d8b3905a1b89fdf3c14')
+source=("git+https://github.com/petsam/${pkgname%-git}.git")
+sha256sums=('SKIP')
             
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/([^-]*-g)/r/;s/-/./g')"
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d $pkgdir/usr/share/prettygrub
 	cp -r templates  $pkgdir/usr/share/prettygrub/
-	install -Dm755 "${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
 	install -Dm755 prettygrub $pkgdir/usr/bin/prettygrub
-	install -Dm755 $srcdir/horizontal-grub $pkgdir/usr/bin/horizontal-grub
+	install -Dm755 "${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
 }
