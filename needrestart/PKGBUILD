@@ -1,0 +1,30 @@
+pkgname=needrestart
+_pkgver=3.4-5
+pkgver=${_pkgver//-/.}
+pkgrel=1
+pkgdesc='Restart daemons after library updates.'
+arch=('any')
+url="https://github.com/liske/needrestart"
+license=('GPL')
+depends=('perl-module-find' 'perl-term-readkey' 'perl-proc-processtable' 
+	'perl-sort-naturally' 'perl-module-scandeps' 'perl-libintl-perl')
+optdepends=('iucode-tool: for outdated microcode detection')
+options=(!emptydirs)
+source=("$pkgname-$_pkgver.tar.gz::https://github.com/liske/$pkgname/archive/v$_pkgver.tar.gz")
+sha256sums=('23c553d2c3592a212e67c7956d7adae226d391660c2bfdbcb10cca026c531b43')
+
+prepare() {
+	cd "$pkgname-$_pkgver"
+	sed -i -e 's|/usr/sbin|/usr/bin|' Makefile
+}
+
+build() {
+	cd "$pkgname-$_pkgver"
+	make
+}
+
+package() {
+	cd "$pkgname-$_pkgver"
+	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
+	make INSTALLDIRS=vendor DESTDIR="$pkgdir/" install
+}
