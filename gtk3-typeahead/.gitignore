@@ -5,3 +5,6 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!gtk3.install
+!settings.ini
+!typeahead.patch
