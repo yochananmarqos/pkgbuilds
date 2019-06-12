@@ -5,6 +5,7 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!drill-search
 !drill-search-gtk.desktop
 !drill-search-gtk.svg
 !DRILL_VERSION
