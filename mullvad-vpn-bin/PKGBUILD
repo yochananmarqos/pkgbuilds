@@ -10,7 +10,7 @@ depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libx
 provides=("$_pkgname")
 conflicts=("$_pkgname" "$pkgname-beta")
 install=$pkgname.install
-source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_x86_64.rpm"{,.asc}
+source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc}
         "mullvad-daemon.service")
 sha256sums=('34d542d804580d84711d15423a80ec0c85f4e2839d65f9a64884e10dc0e75eae'
             'SKIP'
