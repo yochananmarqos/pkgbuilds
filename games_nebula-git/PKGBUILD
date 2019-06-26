@@ -1,71 +1,70 @@
 pkgname=games_nebula-git
-_gitname=games_nebula
-pkgver=r202.648f89a
+pkgver=r220.ebb4685
 pkgrel=1
 pkgdesc="Unofficial Linux client for GOG"
 arch=('i686' 'x86_64')
-url="https://github.com/yancharkin/${_gitname}"
+url="https://github.com/yancharkin/games_nebula"
 license=('GPL')
-depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'innoextract' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
+depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
 optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks' 'dosbox' 'scummvm' 'megatools')
-provides=("$_gitname")
-conflicts=("$_gitname")
-source=("git+https://github.com/yancharkin/${_gitname}.git"
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://github.com/yancharkin/${pkgname%-git}.git"
 		pygogapi.zip::"https://github.com/yancharkin/pygogapi/archive/master.zip"
-		goglib_scripts1.zip::"https://github.com/yancharkin/${_gitname}_goglib_scripts/archive/master.zip"
-		goglib_scripts2.zip::"https://bitbucket.org/yancharkin/${_gitname}_goglib_scripts/get/master.zip"
-		goglib_scripts3.zip::"https://gitlab.com/yancharkin/${_gitname}_goglib_scripts/-/archive/master/${_gitname}_goglib_scripts-master.zip"
-		mylib_scripts1.zip::"https://github.com/yancharkin/${_gitname}_mylib_scripts/archive/master.zip"
-		mylib_scripts2.zip::"https://bitbucket.org/yancharkin/${_gitname}_mylib_scripts/get/master.zip"
-		mylib_scripts3.zip::"https://gitlab.com/yancharkin/${_gitname}_mylib_scripts/-/archive/master/${_gitname}_mylib_scripts-master.zip"
-		goglib_images1.zip::"https://github.com/yancharkin/${_gitname}_goglib_images/archive/master.zip"
-		mylib_images1.zip::"https://github.com/yancharkin/${_gitname}_mylib_images/archive/master.zip")
+		goglib_scripts1.zip::"https://github.com/yancharkin/${pkgname%-git}_goglib_scripts/archive/master.zip"
+		goglib_scripts2.zip::"https://bitbucket.org/yancharkin/${pkgname%-git}_goglib_scripts/get/master.zip"
+		goglib_scripts3.zip::"https://gitlab.com/yancharkin/${pkgname%-git}_goglib_scripts/-/archive/master/${pkgname%-git}_goglib_scripts-master.zip"
+		mylib_scripts1.zip::"https://github.com/yancharkin/${pkgname%-git}_mylib_scripts/archive/master.zip"
+		mylib_scripts2.zip::"https://bitbucket.org/yancharkin/${pkgname%-git}_mylib_scripts/get/master.zip"
+		mylib_scripts3.zip::"https://gitlab.com/yancharkin/${pkgname%-git}_mylib_scripts/-/archive/master/${pkgname%-git}_mylib_scripts-master.zip"
+		goglib_images1.zip::"https://github.com/yancharkin/${pkgname%-git}_goglib_images/archive/master.zip"
+		mylib_images1.zip::"https://github.com/yancharkin/${pkgname%-git}_mylib_images/archive/master.zip")
 md5sums=('SKIP'
          '15cbdb34fadeeb971c8cab79fbfeabe5'
-         '1bb777cce0e503eb785a89318e879280'
-         '557ae8fc4ebde471fc01c7eb4bf706ba'
-         '11cccd4c889178e66e7fffa130136f54'
+         '10c32270a1b7deff7a6a259d431aa254'
+         'a062fabe335e12ed7a7fbc73be4fc697'
+         'f141e3f76b44ddef1d3951fcc0a618a5'
          '419d925579e7c23db09b594ecd882fef'
          'fde3669b7d793630a6a005088f207f0d'
          'da0137a43690ef6f7b1eb8aa3c9970d7'
-         '538e4e9475613c217151987377ae386c'
+         '9287f0402baef5653a94f2a11c6bfee8'
          'efe85e92d928b13bbb4e5351e2deeb0e')
 
 pkgver() {
-	cd "$srcdir/$_gitname"
+	cd "$srcdir/${pkgname%-git}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-	cd "$srcdir/$_gitname"
-	install -d "$pkgdir/opt/$_gitname"
-	cp -dr --no-preserve=ownership "$srcdir/$_gitname/." "$pkgdir/opt/$_gitname/"
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/opt/${pkgname%-git}"
+	cp -dr --no-preserve=ownership "$srcdir/${pkgname%-git}/." "$pkgdir/opt/${pkgname%-git}/"
 
-	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/$_gitname/gogapi/"
-	cp -r "$srcdir/${_gitname}_goglib_scripts-master/." "$pkgdir/opt/$_gitname/scripts/goglib/"
-	cp -r "$srcdir/yancharkin-${_gitname}_goglib_scripts-01ec4ce1dc40/." "$pkgdir/opt/$_gitname/scripts/goglib/"
-	cp -r "$srcdir/${_gitname}_mylib_scripts-master/." "$pkgdir/opt/$_gitname/scripts/mylib/"
-	cp -r "$srcdir/yancharkin-${_gitname}_mylib_scripts-2321b93b8189/." "$pkgdir/opt/$_gitname/scripts/mylib/"
-	cp -r "$srcdir/${_gitname}_goglib_images-master/." "$pkgdir/opt/$_gitname/images/goglib/"
-	cp -r "$srcdir/${_gitname}_mylib_images-master/." "$pkgdir/opt/$_gitname/images/mylib/"
+	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/${pkgname%-git}/gogapi/"
+	cp -r "$srcdir/${pkgname%-git}_goglib_scripts-master/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
+	cp -r "$srcdir/yancharkin-${pkgname%-git}_goglib_scripts-c27b3fae043c/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
+	cp -r "$srcdir/${pkgname%-git}_mylib_scripts-master/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
+	cp -r "$srcdir/yancharkin-${pkgname%-git}_mylib_scripts-2321b93b8189/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
+	cp -r "$srcdir/${pkgname%-git}_goglib_images-master/." "$pkgdir/opt/${pkgname%-git}/images/goglib/"
+	cp -r "$srcdir/${pkgname%-git}_mylib_images-master/." "$pkgdir/opt/${pkgname%-git}/images/mylib/"
 
     install -dm755 "$pkgdir/usr/bin"
 	echo '#!/bin/bash
-	python "/opt/games_nebula/games_nebula.py"' > "$pkgdir/usr/bin/$_gitname"
-	chmod 755 "$pkgdir/usr/bin/$_gitname"
+	python "/opt/games_nebula/games_nebula.py"' > "$pkgdir/usr/bin/${pkgname%-git}"
+	chmod 755 "$pkgdir/usr/bin/${pkgname%-git}"
 
 	install -dm755 "$pkgdir/usr/share/applications"
 	echo "[Desktop Entry]
-	Name=Games Nebula
-	Comment=Application for managing and playing games
-	Exec="/usr/bin/$_gitname"
-	Icon="/opt/$_gitname/images/icon.png"
-	Type=Application
-	Terminal=false
-	Categories=Game;" > "$pkgdir/usr/share/applications/$_gitname.desktop"
-	chmod 644 "$pkgdir/usr/share/applications/$_gitname.desktop"
+Name=Games Nebula
+Comment=Application for managing and playing games
+Exec="/usr/bin/${pkgname%-git}"
+Icon="/opt/${pkgname%-git}/images/icon.png"
+Type=Application
+Terminal=false
+Categories=Game;" > "$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
+	chmod 644 "$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
 
 	# remove unneeded files
-	rm -r "$pkgdir/opt/$_gitname/"{.git,.github}
-	rm -f "$pkgdir/opt/$_gitname/"{setup.sh,start.sh,.gitignore}
+	rm -r "$pkgdir/opt/${pkgname%-git}/"{.git,.github}
+	rm -f "$pkgdir/opt/${pkgname%-git}/"{setup.sh,start.sh,.gitignore}
 }

@@ -21,13 +21,13 @@ source=($pkgname-$pkgver.tar.gz::"https://github.com/yancharkin/$pkgname/archive
 		mylib_images1.zip::"https://github.com/yancharkin/${pkgname}_mylib_images/archive/master.zip")
 sha256sums=('4803b3e19e2ed7725dc16feeb69a7a96d14a53d521f8c90c154b1dd21ce3902c'
             'cff8b67cabc64faaf31903a1cb3e931e49b6d7a0277cd273a1ff347669ec21fb'
-            '2497457ab61b96b7459e60258532b2320ef1df98608bbfe4ea0a2125c2e6ddfa'
-            'dd88c1e8f9a4370a641b9a3daf1d0d71a98c4f2315143785edcec0f235896bed'
-            'dd124bb75ad32ae93bfd7b5fec0aa1ca2446368ef9571e2ebe2603b163d1a6e6'
+            '38276b248bacb3fdfd0ad431e6eab766bb76740c86fe4e27ae05e87ada50a247'
+            '98bf752d2a4c4045ad66e309bb35a6fe954f68672a0307b73ae02c887ee4c4f2'
+            'c6582b1a7a658757c0bf375467e4fc11ca2b96a89b952f7cb6340efc790e4a65'
             '1149f9cd43387d6074cf25aa731189541d18fea1c9de7b30d822077c146d7818'
             'de24bea3cc5fc3443e31562feac5679d2b9a395f24abf9eb803dea8489a79cb9'
             'ec6acdfe3411179089e166b234de1b53c8fb972342a12f66b766f1fbfa6085db'
-            'd9e2672afaa4451d0de5774721f2d3e2213342f03736a26fe0ad15447964a109'
+            'd00b3155b50f1abe0d00e3c0e01085934c1616e8d9b99efa2b5f8f424e5e2273'
             '8654c91f398c3a84047968404f0029c4143a21f52773ef67dfb3846ba2bb6241')
 
 package() {
@@ -49,13 +49,13 @@ package() {
 
 	install -dm755 "$pkgdir/usr/share/applications"
 	echo "[Desktop Entry]
-	Name=Games Nebula
-	Comment=Application for managing and playing games
-	Exec="/usr/bin/$pkgname"
-	Icon="/opt/$pkgname/images/icon.png"
-	Type=Application
-	Terminal=false
-	Categories=Game;" > "$pkgdir/usr/share/applications/$pkgname.desktop"
+Name=Games Nebula
+Comment=Application for managing and playing games
+Exec="/usr/bin/$pkgname"
+Icon="/opt/$pkgname/images/icon.png"
+Type=Application
+Terminal=false
+Categories=Game;" > "$pkgdir/usr/share/applications/$pkgname.desktop"
 	chmod 644 "$pkgdir/usr/share/applications/$pkgname.desktop"
 
 	# Remove unneeded files
