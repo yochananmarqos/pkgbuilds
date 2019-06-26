@@ -36,7 +36,7 @@ package() {
 
 	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/$pkgname/gogapi/"
 	cp -r "$srcdir/${pkgname}_goglib_scripts-master/." "$pkgdir/opt/$pkgname/scripts/goglib/"
-	cp -r "$srcdir/yancharkin-${pkgname}_goglib_scripts-01ec4ce1dc40/." "$pkgdir/opt/$pkgname/scripts/goglib/"
+	cp -r "$srcdir/yancharkin-${pkgname}_goglib_scripts-c27b3fae043c/." "$pkgdir/opt/$pkgname/scripts/goglib/"
 	cp -r "$srcdir/${pkgname}_mylib_scripts-master/." "$pkgdir/opt/$pkgname/scripts/mylib/"
 	cp -r "$srcdir/yancharkin-${pkgname}_mylib_scripts-2321b93b8189/." "$pkgdir/opt/$pkgname/scripts/mylib/"
 	cp -r "$srcdir/${pkgname}_goglib_images-master/." "$pkgdir/opt/$pkgname/images/goglib/"
