@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!budgie-window-shuffler-toggle
+!budgie-window-shuffler-toggle.desktop
