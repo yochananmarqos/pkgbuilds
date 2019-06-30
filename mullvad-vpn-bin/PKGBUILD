@@ -23,7 +23,7 @@ package() {
 
     # Main files
     install -d "$pkgdir/opt/${pkgname%-bin}"
-    cp -a opt/Mullvad VPN/. "$pkgdir/opt/${pkgname%-bin}"
+    cp -a "opt/Mullvad VPN/". "$pkgdir/opt/${pkgname%-bin}"
 
     # Desktop Entry
     install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
