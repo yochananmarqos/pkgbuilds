@@ -1,0 +1,29 @@
+pkgname=x-tile-git
+pkgver=2.5.1.r6.g79d2ff3
+pkgrel=1
+pkgdesc="An application that allows you to select a number of windows and tile them in different ways. It works on any X desktop (GNOME, KDE, Xfce, LXDE…)."
+arch=('any')
+url="https://www.giuspen.com/x-tile"
+license=('GPL2')
+depends=('hicolor-icon-theme' 'pygtk')
+makedepends=('git' 'python2-distutils-extra')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://github.com/giuspen/${pkgname%-git}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	sed -i 's%#!/usr/bin/env python%#!/usr/bin/env python2%g' setup.py
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	python2 setup.py install --prefix=/usr --exec-prefix=/usr -f --root="$pkgdir/" --optimize=1
+}
+
