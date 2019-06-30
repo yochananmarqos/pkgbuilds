@@ -27,7 +27,7 @@ package() {
 
     # Desktop Entry
     install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
-    sed -i 's%opt/Mullvad VPN%usr/bin%g' "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
+    sed -i 's%opt/Mullvad VPN%opt/mullvad-vpn%g' "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
 
     # CLI binary
     install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
