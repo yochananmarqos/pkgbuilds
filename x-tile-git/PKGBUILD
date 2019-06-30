@@ -19,7 +19,9 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-	sed -i 's%#!/usr/bin/env python%#!/usr/bin/env python2%g' setup.py
+	for i in $(find -name '*.py') ${pkgname%-git}; do
+		sed -i 's:^#!/usr/bin/env python$:&2:' "$i"
+	done
 }
 
 package() {
