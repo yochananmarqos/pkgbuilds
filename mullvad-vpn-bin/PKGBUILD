@@ -1,5 +1,4 @@
 pkgname=mullvad-vpn-bin
-_pkgname=mullvad-vpn
 pkgver=2019.5
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
@@ -7,8 +6,8 @@ url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
-provides=("$_pkgname")
-conflicts=("$_pkgname" "$pkgname-beta")
+provides=("${pkgname%-bin}")
+conflicts=("${pkgname%-bin}")
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc}
         "mullvad-daemon.service")
@@ -23,22 +22,21 @@ package() {
     install -Dm644 mullvad-daemon.service "$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
     # Main files
-    install -d "$pkgdir/opt/$_pkgname"
-    cp -a "opt/Mullvad VPN/." "$pkgdir/opt/$_pkgname"
+    install -d "$pkgdir/opt/${pkgname%-bin}"
+    cp -a opt/Mullvad VPN/. "$pkgdir/opt/${pkgname%-bin}"
 
     # Desktop Entry
-    install -Dm644 "usr/share/applications/$_pkgname.desktop" "$pkgdir/usr/share/applications/$_pkgname.desktop"
-    sed -i 's%opt/Mullvad VPN%usr/bin%g' $pkgdir/usr/share/applications/$_pkgname.desktop
+    install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
+    sed -i 's%opt/Mullvad VPN%usr/bin%g' "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
 
     # CLI binary
-    install -Dm755 "usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
+    install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
 
     # Main binary
-    chmod 755 "$pkgdir/opt/$_pkgname/$_pkgname"
-    ln -s "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
+    chmod 755 "$pkgdir/opt/${pkgname%-bin}/${pkgname%-bin}"
+    ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" "$pkgdir/usr/bin/${pkgname%-bin}"
 
     # Icons
     install -dm755 "$pkgdir/usr/share/icons/hicolor"
-    cp -a "usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor/"
-
+    cp -a usr/share/icons/hicolor/. "$pkgdir/usr/share/icons/hicolor/"
 }
