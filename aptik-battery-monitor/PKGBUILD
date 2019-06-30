@@ -1,0 +1,24 @@
+pkgname=aptik-battery-monitor
+pkgver=17.12
+pkgrel=1
+pkgdesc="Battery monitor for laptops. Displays detailed statistics for battery life, remaining capacity, and charge/discharge rate."
+arch=('any')
+url="https://github.com/teejee2008/battery-monitor"
+license=('GLGPL')
+depends=('gtk3' 'libgee' 'json-glib')
+makedepends=('vala')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/teejee2008/battery-monitor/archive/v$pkgver.tar.gz"
+	"https://raw.githubusercontent.com/teejee2008/battery-monitor/master/COPYING")
+sha256sums=('93205480718b8ef6da4aba8169203ecf77055c6d018f520f01c6309630133d8e'
+            '8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903')
+
+build() {
+	cd "battery-monitor-$pkgver"
+	make
+}
+
+package() {
+	cd "battery-monitor-$pkgver"
+	make DESTDIR="$pkgdir/" install
+	install -Dm644 $srcdir/COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+}
