@@ -1,0 +1,33 @@
+pkgname=plane-theme-git
+pkgver=r146.d537d85
+pkgrel=1
+pkgdesc='A beautiful theme for Gnome Linux'
+arch=('any')
+url="https://github.com/wfpaisa/plane-theme"
+license=('GPL')
+makedepends=('git' 'npm' 'gulp')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://github.com/wfpaisa/${pkgname%-git}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "${pkgname%-git}"
+	npm install --cache "$srcdir/npm-cache" gulp gulp-zip del gulp-rename gulp-sass gulp-watch
+	npm audit fix
+	gulp
+}
+
+package() {
+	install -dm 755 $pkgdir/usr/share/themes
+	
+	cd "$srcdir/${pkgname%-git}/build"
+	cp -r Plane $pkgdir/usr/share/themes/Plane
+	cp -r Plane-dark $pkgdir/usr/share/themes/Plane-dark
+}
+
