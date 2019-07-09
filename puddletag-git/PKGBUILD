@@ -9,7 +9,7 @@ license=('GPL')
 depends=('python2-pyqt5' 'python2-pyparsing' 'python2-mutagen' 'python2-configobj' 'python2-musicbrainz2' 'python2-pillow' 'qt5-svg')
 makedepends=('git')
 optdepends=('quodlibet: import / edit a QuodLibet library'
-			'chromaprint: for AcoustID support')
+		'chromaprint: for AcoustID support')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/keithgg/${pkgname%-git}#branch=pyqt5")
