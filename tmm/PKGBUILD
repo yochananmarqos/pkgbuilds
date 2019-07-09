@@ -1,0 +1,21 @@
+pkgname=tmm
+pkgver=2018.09.30
+_pkgver=20180930
+pkgrel=1
+pkgdesc="Tiny Mod Manager: A simple console based mod manager for Linux."
+arch=('any')
+url="https://github.com/9d8/tmm"
+license=('GPL3')
+depends=('glibc')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/9d8/$pkgname/archive/$_pkgver.tar.gz")
+sha256sums=('a3818121a47319a5d30a979d8d771293400dfc03891dd6aa1f3c4cb86267e692')
+
+build() {
+	cd "$pkgname-$_pkgver"
+	make
+}
+
+package() {
+	cd "$pkgname-$_pkgver"
+	install -Dm755 "build/${pkgname%-bin}" "$pkgdir/usr/bin/${pkgname%-bin}"
+}
