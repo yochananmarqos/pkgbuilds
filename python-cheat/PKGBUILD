@@ -1,7 +1,7 @@
 pkgname=python-cheat
 _gitname=cheat
 pkgver=2.5.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Create and view interactive cheatsheets on the command-line."
 arch=('any')
 url="https://github.com/chrisallenlane/$_gitname"
@@ -23,8 +23,11 @@ package() {
 	cd "$_gitname-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1
 	install -dm755 "$pkgdir/"usr/share/{bash-completion/completions,zsh/site-functions,fish/completions}
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.bash" "$pkgdir/usr/share/bash-completion/completions/$_gitname"
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.zsh" "$pkgdir/usr/share/zsh/site-functions/$_gitname"
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.fish" "$pkgdir/usr/share/fish/completions/$_gitname"
+	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.bash" \
+			"$pkgdir/usr/share/bash-completion/completions/$_gitname"
+	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.zsh" \
+			"$pkgdir/usr/share/zsh/site-functions/_${_gitname}"
+	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.fish" \
+			"$pkgdir/usr/share/fish/completions/$_gitname"
 }
 
