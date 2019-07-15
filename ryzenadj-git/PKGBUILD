@@ -1,0 +1,30 @@
+pkgname=ryzenadj-git
+pkgver=0.5.2.r0.gf7a8993
+pkgrel=1
+pkgdesc="RyzenAdj tool for adjusting Ryzen Mobile power states"
+arch=('x86_64')
+url="https://github.com/FlyGoat/RyzenAdj"
+license=('LGPL3')
+depends=('pciutils')
+makedepends=('cmake')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://github.com/FlyGoat/RyzenAdj")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' 
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}"
+    mkdir build && cd build
+    cmake ..
+    make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+    install -Dm755 "build/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
+}
