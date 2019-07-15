@@ -4,13 +4,13 @@ pkgver=2.5.1
 pkgrel=2
 pkgdesc="Create and view interactive cheatsheets on the command-line."
 arch=('any')
-url="https://github.com/chrisallenlane/$_gitname"
+url="https://github.com/chrisallenlane/cheat"
 depends=('python' 'python-docopt' 'python-pygments' 'python-termcolor')
 makedepends=('python-setuptools')
 optdepends=('bash-completion' 'zsh-completions' 'fish')
 license=('GPL3')
 provides=("$_gitname")
-conflicts=("$_gitname-git" "$_gitname-bash-git")
+conflicts=("${_gitname}-git" "${_gitname-bash}-git" "ruby-${_gitname}")
 source=($pkgname-$pkgver.tar.gz::"https://github.com/chrisallenlane/$_gitname/archive/$pkgver.tar.gz")
 sha256sums=('9ae44cfc79478a7ba604871f3253e176f2bf3e1a4e698c9466e58a39d279effd')
 
