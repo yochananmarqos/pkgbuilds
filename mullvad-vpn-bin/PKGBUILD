@@ -1,5 +1,5 @@
 pkgname=mullvad-vpn-bin
-pkgver=2019.5
+pkgver=2019.6
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
@@ -11,7 +11,7 @@ conflicts=("${pkgname%-bin}")
 install=$pkgname.install
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc}
         "mullvad-daemon.service")
-sha256sums=('34d542d804580d84711d15423a80ec0c85f4e2839d65f9a64884e10dc0e75eae'
+sha256sums=('7c1bc977727313e5faf7605a88df4e9c15fa4a0321f14366b98008db6963a318'
             'SKIP'
             '77b71d613ef09c6ffbcfa66a59f787246f64d4463843e648edc6fbbea18dd55e')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
@@ -23,7 +23,7 @@ package() {
 
     # Main files
     install -d "$pkgdir/opt/${pkgname%-bin}"
-    cp -a "opt/Mullvad VPN/". "$pkgdir/opt/${pkgname%-bin}"
+    cp -a opt/Mullvad VPN/. "$pkgdir/opt/${pkgname%-bin}"
 
     # Desktop Entry
     install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
