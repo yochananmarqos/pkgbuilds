@@ -1,6 +1,6 @@
 pkgname=('anbox-git' 'anbox-modules-dkms-git')
 pkgbase=anbox-git
-pkgver=r1096.ea2b7a3
+pkgver=r1098.cd829e9
 pkgrel=1
 epoch=1
 arch=('x86_64')
@@ -15,8 +15,7 @@ source=("git+https://github.com/anbox/anbox.git"
 	'anbox.conf'
 	'anbox.desktop'
 	'anbox-bridge.network'
-	'anbox-bridge.netdev'
-	'https://github.com/anbox/anbox-modules/pull/19.patch')
+	'anbox-bridge.netdev')
 sha256sums=('SKIP'
             'SKIP'
             '5be94b63dc30d141f15ca7d1be6e3e81f26ef33f844614975537562f5d08236c'
@@ -25,8 +24,7 @@ sha256sums=('SKIP'
             '3e07dc524a827c1651857cce28a06c1565bc5188101c140ed213bbafedc5abff'
             '7332d09865be553a259a53819cebddd21f661c7a251d78c2f46acd75c66676b6'
             '44899328725667041e6e84912da81c1d0147b708006eb2c2bb6503f271629ff0'
-            '559190df4d6d595480b30d8b13b862081fc4aac52790e33eb24cf7fbcb8003b8'
-            '86ecdaae1f2c965ba94eea289163c9628bb56b9a21d39778e1c894f77a98d3fb')
+            '559190df4d6d595480b30d8b13b862081fc4aac52790e33eb24cf7fbcb8003b8')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -42,9 +40,6 @@ prepare() {
   # Don't build tests
   truncate -s 0 cmake/FindGMock.cmake
   truncate -s 0 tests/CMakeLists.txt
-  
-  cd "$srcdir/anbox-modules"
-  patch -p0 binder/binder.c < ../19.patch
 }
 
 build() {
