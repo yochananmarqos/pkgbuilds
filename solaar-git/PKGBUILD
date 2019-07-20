@@ -8,7 +8,7 @@ arch=('any')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 depends=('gtk3' 'libnotify' 'python-dbus' 'python-gobject' 'python-pyudev')
-source=("${pkgname%-git}::git+https://github.com/pwr/Solaar.git")
+source=("${pkgname%-git}::git+https://github.com/pwr-Solaar/Solaar.git")
 sha512sums=('SKIP')
 
 pkgver() {
