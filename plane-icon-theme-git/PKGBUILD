@@ -13,12 +13,12 @@ source=("git+https://github.com/wfpaisa/${pkgname%-git}.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgbase%-git}"
+	cd "$srcdir/${pkgname%-git}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "${srcdir}/${pkgbase%-git}"
+	cd "$srcdir/${pkgname%-git}"
 	npm install --cache "$srcdir/npm-cache" gulp-cli
 	npm audit fix
 	gulp
