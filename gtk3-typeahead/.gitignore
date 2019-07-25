@@ -6,5 +6,6 @@
 !PKGBUILD
 !.SRCINFO
 !gtk3.install
+!gtk-query-immodules-3.0.hook
 !settings.ini
 !typeahead.patch

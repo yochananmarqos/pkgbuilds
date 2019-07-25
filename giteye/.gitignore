@@ -5,5 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!*.desktop
+!giteye.desktop
 !LICENSE

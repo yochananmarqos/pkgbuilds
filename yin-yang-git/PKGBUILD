@@ -1,5 +1,5 @@
 pkgname=yin-yang-git
-pkgver=r52.a98fdbc
+pkgver=r57.ba417b5
 pkgrel=1
 pkgdesc="Auto Nightmode for KDE, Gnome, Budgie, VSCode, Atom and more"
 arch=('any')

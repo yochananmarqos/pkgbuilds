@@ -10,29 +10,35 @@ optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetr
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/yancharkin/${pkgname%-git}.git"
-		pygogapi.zip::"https://github.com/yancharkin/pygogapi/archive/master.zip"
-		goglib_scripts1.zip::"https://github.com/yancharkin/${pkgname%-git}_goglib_scripts/archive/master.zip"
-		goglib_scripts2.zip::"https://bitbucket.org/yancharkin/${pkgname%-git}_goglib_scripts/get/master.zip"
-		goglib_scripts3.zip::"https://gitlab.com/yancharkin/${pkgname%-git}_goglib_scripts/-/archive/master/${pkgname%-git}_goglib_scripts-master.zip"
-		mylib_scripts1.zip::"https://github.com/yancharkin/${pkgname%-git}_mylib_scripts/archive/master.zip"
-		mylib_scripts2.zip::"https://bitbucket.org/yancharkin/${pkgname%-git}_mylib_scripts/get/master.zip"
-		mylib_scripts3.zip::"https://gitlab.com/yancharkin/${pkgname%-git}_mylib_scripts/-/archive/master/${pkgname%-git}_mylib_scripts-master.zip"
-		goglib_images1.zip::"https://github.com/yancharkin/${pkgname%-git}_goglib_images/archive/master.zip"
-		mylib_images1.zip::"https://github.com/yancharkin/${pkgname%-git}_mylib_images/archive/master.zip")
-md5sums=('SKIP'
-         '15cbdb34fadeeb971c8cab79fbfeabe5'
-         '10c32270a1b7deff7a6a259d431aa254'
-         'a062fabe335e12ed7a7fbc73be4fc697'
-         'f141e3f76b44ddef1d3951fcc0a618a5'
-         '419d925579e7c23db09b594ecd882fef'
-         'fde3669b7d793630a6a005088f207f0d'
-         'da0137a43690ef6f7b1eb8aa3c9970d7'
-         '9287f0402baef5653a94f2a11c6bfee8'
-         'efe85e92d928b13bbb4e5351e2deeb0e')
+		"pygogapi::git+https://github.com/yancharkin/pygogapi.git"
+		"goglib_scripts1::git+https://github.com/yancharkin/${pkgname%-git}_goglib_scripts.git"
+		"goglib_scripts2::git+https://bitbucket.org/yancharkin/${pkgname%-git}_goglib_scripts.git"
+		"goglib_scripts3::git+https://gitlab.com/yancharkin/${pkgname%-git}_goglib_scripts.git"
+		"mylib_scripts1::git+https://github.com/yancharkin/${pkgname%-git}_mylib_scripts.git"
+		"mylib_scripts2::git+https://bitbucket.org/yancharkin/${pkgname%-git}_mylib_scripts.git"
+		"mylib_scripts3::git+https://gitlab.com/yancharkin/${pkgname%-git}_mylib_scripts.git"
+		"goglib_images1::git+https://github.com/yancharkin/${pkgname%-git}_goglib_images.git"
+		"mylib_images1::git+https://github.com/yancharkin/${pkgname%-git}_mylib_images.git")
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	git submodule init
+	git submodule update
 }
 
 package() {
@@ -40,13 +46,15 @@ package() {
 	install -d "$pkgdir/opt/${pkgname%-git}"
 	cp -dr --no-preserve=ownership "$srcdir/${pkgname%-git}/." "$pkgdir/opt/${pkgname%-git}/"
 
-	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/${pkgname%-git}/gogapi/"
-	cp -r "$srcdir/${pkgname%-git}_goglib_scripts-master/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
-	cp -r "$srcdir/yancharkin-${pkgname%-git}_goglib_scripts-c27b3fae043c/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
-	cp -r "$srcdir/${pkgname%-git}_mylib_scripts-master/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
-	cp -r "$srcdir/yancharkin-${pkgname%-git}_mylib_scripts-2321b93b8189/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
-	cp -r "$srcdir/${pkgname%-git}_goglib_images-master/." "$pkgdir/opt/${pkgname%-git}/images/goglib/"
-	cp -r "$srcdir/${pkgname%-git}_mylib_images-master/." "$pkgdir/opt/${pkgname%-git}/images/mylib/"
+	cp -r "$srcdir/pygogapi/gogapi/." "$pkgdir/opt/${pkgname%-git}/gogapi/"
+	cp -r "$srcdir/goglib_scripts1/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
+	cp -r "$srcdir/goglib_scripts2/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
+	cp -r "$srcdir/goglib_scripts3/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
+	cp -r "$srcdir/mylib_scripts1/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
+	cp -r "$srcdir/mylib_scripts2/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
+	cp -r "$srcdir/mylib_scripts3/." "$pkgdir/opt/${pkgname%-git}/scripts/mylib/"
+	cp -r "$srcdir/goglib_images1/." "$pkgdir/opt/${pkgname%-git}/images/goglib/"
+	cp -r "$srcdir/mylib_images1/." "$pkgdir/opt/${pkgname%-git}/images/mylib/"
 
     install -dm755 "$pkgdir/usr/bin"
 	echo '#!/bin/bash

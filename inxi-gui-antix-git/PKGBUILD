@@ -1,4 +1,4 @@
-pkgname=inxi-gui-antix
+pkgname=inxi-gui-antix-git
 pkgver=r7.ceacc97
 pkgrel=1
 pkgdesc="Simple GUI frontend to inxi script for antiX."
