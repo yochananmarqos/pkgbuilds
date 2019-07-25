@@ -23,12 +23,11 @@ prepare() {
 }
 
 package() {
-	install -dm 755 "$pkgdir/opt"
-	cp -r opt/ "$pkgdir/"
+	install -dm 755 "$pkgdir/opt/$pkgname"
+	cp -r "opt/$_pkgname/." "$pkgdir/opt/$pkgname/"
 	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
-	install -Dm644 "$pkgdir/opt/$_pkgname/.install4j/$_pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	install -Dm644 "$pkgdir/opt/$pkgname/.install4j/$_pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
 	install -Dm644 resources/license.html "$pkgdir/usr/share/licenses/$pkgname/LICENSE.html"
 	install -d "$pkgdir/usr/bin"
-	ln -sf "/opt/$_pkgname/$_pkgname" "$pkgdir/usr/bin/$pkgname"
-	ln -sf "/opt/$_pkgname/pdfstudiosu" "$pkgdir/usr/bin/pdfstudiosu"
+	ln -sf "/opt/$pkgname/$_pkgname" "$pkgdir/usr/bin/$pkgname"
 }
