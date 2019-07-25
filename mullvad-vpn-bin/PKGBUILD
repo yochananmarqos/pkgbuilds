@@ -19,22 +19,26 @@ validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 package() {
 
     # Systemd service
-    install -Dm644 mullvad-daemon.service "$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
+    install -Dm644 mullvad-daemon.service \
+    	"$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
     # Main files
     install -d "$pkgdir/opt/${pkgname%-bin}"
     cp -a opt/Mullvad VPN/. "$pkgdir/opt/${pkgname%-bin}"
 
     # Desktop Entry
-    install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
-    sed -i 's%opt/Mullvad VPN%opt/mullvad-vpn%g' "$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
+    install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" \
+    	"$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
+    sed -i 's%opt/Mullvad VPN%opt/mullvad-vpn%g' \
+    	"$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
 
     # CLI binary
     install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
 
     # Main binary
     chmod 755 "$pkgdir/opt/${pkgname%-bin}/${pkgname%-bin}"
-    ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" "$pkgdir/usr/bin/${pkgname%-bin}"
+    ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" \
+    	"$pkgdir/usr/bin/${pkgname%-bin}"
 
     # Icons
     install -dm755 "$pkgdir/usr/share/icons/hicolor"
