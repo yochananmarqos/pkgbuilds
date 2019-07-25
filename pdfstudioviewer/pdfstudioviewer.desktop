@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=PDF Studio Viewer 2018
+Name=PDF Studio Viewer 2019
 Comment=Views and Edits Adobe PDF (acrobat) files
 Exec=pdfstudioviewer %f
 Terminal=false
