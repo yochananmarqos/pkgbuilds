@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Icon=/opt/ryzen-controller/resources/app/assets/icon.png
+Name=Ryzen Controller
+Exec=/opt/ryzen-controller/ryzencontroller
+Terminal=false
+Hidden=false
+Categories=Utility
