@@ -1,0 +1,8 @@
+post_install() {
+    echo "----------------------------------------------------"
+    echo "Add the following code in your bashrc file:         "
+	echo "if [[ -r /usr/share/doc/mcfly/mcfly.bash ]]; then   "
+	echo "    source /usr/share/doc/mcfly/mcfly.bash          "
+	echo "fi                                                  "
+    echo "----------------------------------------------------"
+}
