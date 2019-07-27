@@ -1,19 +1,16 @@
 # Maintainer: Vaibhav Singh <vaibhavlinux at bitbucket dot org>
 pkgname=paper-maia-icon-theme-git
-pkgver=r366.6ea8f47
-pkgrel=1
+pkgver=746.04115106
+pkgrel=4
 pkgdesc="Manjaro variation of Paper Icon Theme"
 arch=('any')
 url="https://bitbucket.org/vaibhavlinux/paper-maia-icon-theme-git"
 license=('CC BY-SA 4.0')
-depends=('gtk-update-icon-cache' 'paper-icon-theme-git')
-# install=$pkgname.install
-source=("git+https://bitbucket.org/vaibhavlinux/$pkgname.git")
+depends=('paper-icon-theme-git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://bitbucket.org/vaibhavlinux/$pkgname.git#tag=4d753f51a2d5")
 sha256sums=('SKIP')
-
-pkgver() {
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
 
 package() {
 	cd "$srcdir/$pkgname"
