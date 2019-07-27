@@ -1,6 +1,6 @@
 _name=Solaar
 pkgname=solaar
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="Device manager for Logitech's Unifying receiver peripherals"
 url="https://github.com/pwr-Solaar/Solaar"
@@ -8,7 +8,7 @@ license=('GPL2')
 arch=('any')
 depends=('gtk3' 'libnotify' 'python-dbus' 'python-gobject' 'python-pyudev')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/pwr/${_name}/archive/${pkgver}.tar.gz")
-sha512sums=('ce55a022d2183c7be47e2298d3a45ce5ab0f69bc53ef1e1976104f77b1f69d876cf97a62620225cbf280eed08a086ce3ef39f9aa5e8470e53b6d4d62d5d94f13')
+sha512sums=('e0b2bbfd97d9650d94f1a4b47e4e70f09c75f684e7e1d3e67d2cf6dd197109084e941b98333e173fb205d5c9464dd07e17390d9c2d5b46393fee2efdb20429ac')
 
 build() {
 	cd "${_name}-${pkgver}"
@@ -27,7 +27,4 @@ package() {
 	# docs
 	install -vDm 644 {ChangeLog,README.md} \
 		-t "${pkgdir}/usr/share/doc/${pkgname}/"
-	# Fix typo #534: https://github.com/pwr-Solaar/Solaar/pull/534/commits/5e35482d51ff1f01c7a34c611525f720eed52a35
-	sed -i 's/slef.product_id/self.product_id/g' \
-		$pkgdir/usr/lib/python3.7/site-packages/logitech_receiver/receiver.py
 }
