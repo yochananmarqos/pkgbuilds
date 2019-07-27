@@ -1,0 +1,31 @@
+pkgname=nicotine-plus-git
+pkgver=1.2.16.r688.8b2c199
+pkgrel=1
+pkgdesc="A fork of Nicotine, a graphical client for Soulseek."
+arch=('i686' 'x86_64')
+url="https://www.nicotine-plus.org"
+license=('GPL')
+depends=('gtk2' 'pygtk' 'python2-mutagen')
+makedepends=('git')
+optdepends=('python2-geoip: to enable Geographical Blocking'
+	'python2-notify: for notification support'
+	'miniupnpc: to enable UPnP support')
+provides=("${pkgname%-git}" 'nicotine')
+conflicts=("${pkgname%-git}" 'nicotine')
+source=("git+https://github.com/Nicotine-Plus/${pkgname%-git}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python2 setup.py build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	python2 setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
