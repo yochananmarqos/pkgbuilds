@@ -1,7 +1,7 @@
 # Maintainer: Vaibhav Singh <vaibhavlinux at bitbucket dot org>
 pkgname=paper-maia-icon-theme-git
-pkgver=746.04115106
-pkgrel=4
+pkgver=r8.4d753f5
+pkgrel=1
 pkgdesc="Manjaro variation of Paper Icon Theme"
 arch=('any')
 url="https://bitbucket.org/vaibhavlinux/paper-maia-icon-theme"
@@ -11,6 +11,11 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://bitbucket.org/vaibhavlinux/${pkgname%-git}.git")
 sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
