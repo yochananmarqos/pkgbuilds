@@ -4,16 +4,16 @@ pkgver=746.04115106
 pkgrel=4
 pkgdesc="Manjaro variation of Paper Icon Theme"
 arch=('any')
-url="https://bitbucket.org/vaibhavlinux/paper-maia-icon-theme-git"
+url="https://bitbucket.org/vaibhavlinux/paper-maia-icon-theme"
 license=('CC BY-SA 4.0')
 depends=('paper-icon-theme-git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("git+https://bitbucket.org/vaibhavlinux/$pkgname.git#tag=4d753f51a2d5")
+source=("git+https://bitbucket.org/vaibhavlinux/${pkgname%-git}.git")
 sha256sums=('SKIP')
 
 package() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/icons"
 	cp -r Paper-Maia "$pkgdir/usr/share/icons/"
 	cp -r Paper-Maia-Mono-Dark "$pkgdir/usr/share/icons/"
