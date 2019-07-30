@@ -7,6 +7,7 @@ arch=('any')
 url="https://bitbucket.org/vaibhavlinux/paper-maia-icon-theme"
 license=('CC BY-SA 4.0')
 depends=('paper-icon-theme-git')
+makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://bitbucket.org/vaibhavlinux/${pkgname%-git}.git")
