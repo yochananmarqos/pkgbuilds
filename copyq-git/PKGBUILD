@@ -1,0 +1,29 @@
+pkgname=copyq-git
+pkgver=3.9.0.r21.g93bceed8
+pkgrel=1
+pkgdesc="Clipboard manager with searchable and editable history"
+arch=('x86_64')
+url="https://github.com/hluk/copyq"
+license=('GPL3')
+depends=('hicolor-icon-theme' 'libxtst' 'qt5-script' 'qt5-svg' 'qt5-x11extras')
+makedepends=('git' 'cmake' 'qt5-tools')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/hluk/copyq.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	cmake -DCMAKE_BUILD_TYPE=Release -DWITH_WEBKIT=0 -DCMAKE_INSTALL_PREFIX=/usr -DWITH_QT5=TRUE .
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir/" install
+}
