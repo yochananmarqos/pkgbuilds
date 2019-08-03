@@ -1,0 +1,31 @@
+pkgname=properties-cpp
+pkgver=0.0.1
+_pkgver=0.0.1+14.10.20140730
+pkgrel=1
+pkgdesc="A very simple convenience library for handling properties and signals in C++11"
+arch=('any')
+url="https://launchpad.net/properties-cpp"
+license=('LGPL3')
+depends=()
+makedepends=('cmake' 'lcov-git' 'gcovr' 'pbuilder-ubuntu' 'doxygen')
+source=("https://launchpad.net/ubuntu/+archive/primary/+files/${pkgname}_${_pkgver}.orig.tar.gz")
+sha256sums=('5c5400d5e7f16e90916d9be2742785c68e7ce544641739a380d2d815cff67223')
+
+prepare() {
+	cd "$pkgname-$_pkgver"
+
+	# Don't build tests
+	truncate -s 0 tests/CMakeLists.txt
+}
+
+build() {
+	cd "$pkgname-$_pkgver"
+	mkdir -p build && cd build
+	cmake .. -DCMAKE_INSTALL_LIBDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+	make
+}
+
+package() {
+	cd "$pkgname-$_pkgver/build"
+	make DESTDIR="$pkgdir/" install
+}
