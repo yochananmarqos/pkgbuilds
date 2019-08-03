@@ -6,7 +6,7 @@ epoch=1
 arch=('x86_64')
 url="https://anbox.io"
 license=('GPL3')
-makedepends=('cmake' 'git' 'glm' 'lxc' 'sdl2_image' 'protobuf' 'boost' 'properties-cpp' 'gtest' 'python2')
+makedepends=('cmake' 'git' 'glm' 'lxc' 'sdl2_image' 'protobuf' 'boost' 'properties-cpp' 'gtest' 'python2' 'libdwarf')
 source=("git+https://github.com/anbox/anbox.git#commit=cd829e9ccd3a5d654c8aa5e16e32f0d3915d54a8"
 	"git+https://github.com/anbox/anbox-modules.git"
 	'anbox-container-manager.service'
@@ -62,8 +62,10 @@ package_anbox-git() {
 
 	install -Dm 644 -t $pkgdir/usr/lib/systemd/system $srcdir/anbox-container-manager.service
 	install -Dm 644 -t $pkgdir/usr/lib/systemd/user $srcdir/anbox-session-manager.service
-	install -Dm 644 $srcdir/anbox-bridge.network $pkgdir/usr/lib/systemd/network/80-anbox-bridge.network
-	install -Dm 644 $srcdir/anbox-bridge.netdev $pkgdir/usr/lib/systemd/network/80-anbox-bridge.netdev
+	install -Dm 644 $srcdir/anbox-bridge.network \
+		$pkgdir/usr/lib/systemd/network/80-anbox-bridge.network
+	install -Dm 644 $srcdir/anbox-bridge.netdev \
+		$pkgdir/usr/lib/systemd/network/80-anbox-bridge.netdev
 	install -Dm 644 -t $pkgdir/usr/lib/udev/rules.d $srcdir/99-anbox.rules
 	install -Dm 644 -t $pkgdir/usr/share/applications $srcdir/anbox.desktop
 	install -Dm 644 snap/gui/icon.png $pkgdir/usr/share/pixmaps/anbox.png
@@ -73,8 +75,8 @@ package_anbox-modules-dkms-git() {
 	pkgdesc="Required kernel module sources for Android"
 	arch=('any')
 	depends=('dkms')
-	provides=('anbox-modules-dkms')
-	conflicts=('anbox-modules-dkms')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
 
 	cd "$srcdir/anbox-modules"
 	modules=(ashmem binder)
