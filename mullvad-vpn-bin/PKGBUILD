@@ -17,9 +17,8 @@ validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 
 package() {
 	# Main files
-	install -d "$pkgdir/opt/${pkgname%-bin}"
+	install -dm755 "$pkgdir/opt/${pkgname%-bin}"
 	cp -a "opt/Mullvad VPN/." "$pkgdir/opt/${pkgname%-bin}"
-	chmod 755 "$pkgdir/opt/${pkgname%-bin}"
 	
 	# Binaries
 	install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
@@ -27,12 +26,13 @@ package() {
 		"$pkgdir/usr/bin/${pkgname%-bin}"
 
 	# Systemd service
-	sed -i 's/Mullvad\x20VPN/mullvad-vpn/g' "opt/Mullvad VPN/resources/mullvad-daemon.service"
+	sed -i 's|/opt/Mullvad\\x20VPN|/opt/mullvad-vpn|g' \
+		"opt/Mullvad VPN/resources/mullvad-daemon.service"
 	install -Dm644 "opt/Mullvad VPN/resources/mullvad-daemon.service" \
 		"$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
 	# Desktop Entry
-	sed -i 's/Mullvad VPN/mullvad-vpn/g' \
+	sed -i 's|/opt/Mullvad VPN|/opt/mullvad-vpn|g' \
 		"usr/share/applications/${pkgname%-bin}.desktop"
 	install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" \
 		"$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
