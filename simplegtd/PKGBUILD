@@ -4,10 +4,9 @@ pkgrel=1
 pkgdesc="Manage your to-do list using the Getting Things Done system."
 arch=('any')
 url="https://pypi.org/project/simplegtd"
-license=('GPL')
+license=('GPL3')
 depends=('gobject-introspection' 'gtk3' 'python-gobject' 'python-xdg')
 makedepends=('python-setuptools')
-optdepends=()
 source=("https://files.pythonhosted.org/packages/source/${pkgname::1}/$pkgname/$pkgname-$pkgver.tar.gz")
 sha256sums=('d5fe6e3cd4761b29e2e8a1780072c1e3696bd40995e1405165e83b5cc6c927a2')
 
