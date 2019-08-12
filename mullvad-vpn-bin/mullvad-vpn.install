@@ -3,7 +3,9 @@ post_install() {
 }
 
 pre_upgrade() {
-    systemctl stop mullvad-daemon
+	systemctl stop mullvad-daemon
+	
+	rm -f /var/cache/mullvad-vpn/relays.json
 }
 
 post_upgrade() {
@@ -12,6 +14,16 @@ post_upgrade() {
 }
 
 pre_remove() {
-    systemctl stop mullvad-daemon
-    systemctl disable mullvad-daemon
+	systemctl stop mullvad-daemon
+	systemctl disable mullvad-daemon
 }
+
+post_remove() {
+	# remove logs & cache
+	rm -rf /var/log/mullvad-vpn/
+  	rm -rf /var/cache/mullvad-vpn/
+	
+	# remove config
+	rm -rf /etc/mullvad-vpn
+}
+

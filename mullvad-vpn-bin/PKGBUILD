@@ -1,5 +1,5 @@
 pkgname=mullvad-vpn-bin
-pkgver=2019.6
+pkgver=2019.7
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
@@ -8,36 +8,34 @@ license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
+backup=("etc/${pkgname%-bin}/settings.json")
 install="${pkgname%-bin}.install"
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc})
-sha256sums=('7c1bc977727313e5faf7605a88df4e9c15fa4a0321f14366b98008db6963a318'
+sha256sums=('970c96cf10b7a0cd2761bb51665893112340371e82dca5cf91eb2ef09b2a2cf6'
             'SKIP')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
 
 package() {
+	# Main files
+	install -d "$pkgdir/opt/${pkgname%-bin}"
+	cp -a "opt/Mullvad VPN/." "$pkgdir/opt/${pkgname%-bin}"
+	chmod 755 "$pkgdir/opt/${pkgname%-bin}"
+	
+	# Binaries
+	install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
+	ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" \
+		"$pkgdir/usr/bin/${pkgname%-bin}"
 
 	# Systemd service
 	sed -i 's/Mullvad\x20VPN/mullvad-vpn/g' "opt/Mullvad VPN/resources/mullvad-daemon.service"
 	install -Dm644 "opt/Mullvad VPN/resources/mullvad-daemon.service" \
 		"$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
-	# Main files
-	install -d "$pkgdir/opt/${pkgname%-bin}"
-	cp -a "opt/Mullvad VPN/". "$pkgdir/opt/${pkgname%-bin}"
-
 	# Desktop Entry
 	sed -i 's/Mullvad VPN/mullvad-vpn/g' \
 		"usr/share/applications/${pkgname%-bin}.desktop"
 	install -Dm644 "usr/share/applications/${pkgname%-bin}.desktop" \
 		"$pkgdir/usr/share/applications/${pkgname%-bin}.desktop"
-
-	# CLI binary
-	install -Dm755 usr/bin/mullvad "$pkgdir/usr/bin/mullvad"
-
-	# Main binary
-	chmod 755 "$pkgdir/opt/${pkgname%-bin}/${pkgname%-bin}"
-	ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" \
-		"$pkgdir/usr/bin/${pkgname%-bin}"
 
 	# Icons
 	install -d "$pkgdir/usr/share/icons/hicolor"
