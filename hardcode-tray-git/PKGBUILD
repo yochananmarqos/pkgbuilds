@@ -1,0 +1,35 @@
+pkgname=hardcode-tray-git
+pkgver=4.3.r34.gfaa6a8e
+pkgrel=1
+pkgdesc="Fixes Hardcoded Tray Icons"
+arch=('i686' 'x86_64')
+url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
+license=('GPL3')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+makedepends=('ninja' 'meson' 'git')
+depends=('python' 'python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
+optdepends=('sni-qt-patched-git: patched qt4 sni plugin to enable icon modification'
+            'inkscape: convert svg to png'
+            'imagemagick: convert svg to png')
+optdepends_x86_64=('lib32-sni-qt-patched-git: 32-bit patched qt4 sni plugin to enable icon modification')
+source=('git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/Hardcode-Tray"
+	( set -o pipefail
+	  git describe --long --tags 2>/dev/null | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' ||
+	  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	)
+}
+
+build() {
+	cd "$srcdir/Hardcode-Tray"
+	meson builddir --prefix=/usr
+}
+
+package() {
+	cd "$srcdir/Hardcode-Tray"
+	DESTDIR="${pkgdir}" ninja -C builddir install
+}
