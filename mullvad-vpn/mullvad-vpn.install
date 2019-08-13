@@ -1,0 +1,17 @@
+post_install() {
+	systemctl enable --now mullvad-daemon
+}
+
+pre_upgrade() {
+    systemctl stop mullvad-daemon
+}
+
+post_upgrade() {
+	systemctl daemon-reload
+	systemctl start mullvad-daemon
+}
+
+pre_remove() {
+    systemctl stop mullvad-daemon
+    systemctl disable mullvad-daemon
+}
