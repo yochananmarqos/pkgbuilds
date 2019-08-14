@@ -22,8 +22,5 @@ post_remove() {
 	# remove logs & cache
 	rm -rf /var/log/mullvad-vpn/
   	rm -rf /var/cache/mullvad-vpn/
-	
-	# remove config
-	rm -rf /etc/mullvad-vpn
 }
 
