@@ -22,7 +22,7 @@ build() {
 	export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
 
 	meson build  --prefix /usr \
-		-Dwith-daemon=false -Dwith-examples=false -Dwith-systemd=false -Dwith-util=false --libdir lib3
+		-Dwith-daemon=false -Dwith-examples=false -Dwith-systemd=false -Dwith-util=false --libdir lib32
 	ninja -C build
 }
 
