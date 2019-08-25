@@ -10,8 +10,8 @@ makedepends=('python-setuptools')
 optdepends=('bash-completion' 'zsh-completions' 'fish')
 license=('GPL3')
 provides=("$_gitname")
-conflicts=("${_gitname}-git" "${_gitname-bash}-git" "ruby-${_gitname}")
-source=($pkgname-$pkgver.tar.gz::"https://github.com/chrisallenlane/$_gitname/archive/$pkgver.tar.gz")
+conflicts=("${_gitname}-git" "${_gitname}-bash-git" "ruby-${_gitname}")
+source=($pkgname-$pkgver.tar.gz::"https://github.com/chrisallenlane/cheat/archive/$pkgver.tar.gz")
 sha256sums=('9ae44cfc79478a7ba604871f3253e176f2bf3e1a4e698c9466e58a39d279effd')
 
 build() {
@@ -21,13 +21,13 @@ build() {
 
 package() {
 	cd "$_gitname-$pkgver"
-	python setup.py install --root="$pkgdir/" --optimize=1
-	install -dm755 "$pkgdir/"usr/share/{bash-completion/completions,zsh/site-functions,fish/completions}
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.bash" \
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+
+	install -dm644 "$_gitname/autocompletion/$_gitname.bash" \
 			"$pkgdir/usr/share/bash-completion/completions/$_gitname"
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.zsh" \
+	install -dm644 "$_gitname/autocompletion/$_gitname.zsh" \
 			"$pkgdir/usr/share/zsh/site-functions/_${_gitname}"
-	install -m 644 "$srcdir/$_gitname-$pkgver/$_gitname/autocompletion/$_gitname.fish" \
+	install -dm644 "$_gitname/autocompletion/$_gitname.fish" \
 			"$pkgdir/usr/share/fish/completions/$_gitname"
 }
 
