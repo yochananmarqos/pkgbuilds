@@ -1,0 +1,52 @@
+pkgname=conky-git
+pkgver=1.11.5.r2.g0d449029
+pkgrel=1
+pkgdesc='Lightweight system monitor for X'
+url='https://github.com/brndnmtthws/conky'
+license=('BSD' 'GPL')
+arch=('x86_64')
+makedepends=('cmake' 'docbook2x' 'docbook-xml' 'man-db' 'git')
+depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
+         'imlib2' 'libxml2' 'libpulse')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+options=('!strip' 'debug')
+source=('git+https://github.com/brndnmtthws/conky.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+
+	cmake \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D MAINTAINER_MODE=ON \
+		-D BUILD_DOCS=ON \
+		-D BUILD_WLAN=ON \
+		-D BUILD_XDBE=ON \
+		-D BUILD_XSHAPE=ON \
+		-D BUILD_IMLIB2=ON \
+		-D BUILD_CURL=ON \
+		-D BUILD_RSS=ON \
+		-D BUILD_WEATHER_METAR=ON \
+		-D BUILD_PULSEAUDIO=ON \
+		-D BUILD_JOURNAL=ON \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		.
+
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="${pkgdir}" install
+	install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+	install -Dm644 extras/vim/syntax/conkyrc.vim \
+		"${pkgdir}"/usr/share/vim/vimfiles/syntax/conkyrc.vim
+	install -Dm644 extras/vim/ftdetect/conkyrc.vim \
+		"${pkgdir}"/usr/share/vim/vimfiles/ftdetect/conkyrc.vim
+}
