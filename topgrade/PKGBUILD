@@ -1,0 +1,48 @@
+pkgname=topgrade
+pkgver=2.9.0
+pkgrel=1
+pkgdesc='Invoke the upgrade proceadure of multiple package managers'
+arch=('x86_64' 'armv7')
+url='https://github.com/r-darwish/topgrade'
+license=('GPL3')
+makedepends=('rust')
+optdepends=('yay: Run yay or fall back to pacman'
+            'etc-update: Run etc-update'
+            'linuxbrew: Run brew update && brew upgrade'
+            'nix: Run nix upgrade-nix && nix --upgrade'
+            'pearl: Run pearl update'
+            'git: Check if dotfiles are tracked by Git. If so, pull them'
+            'zplug: Run zplug update'
+            'fisher: Run fisher'
+            'rustup: Run rustup update / Run Cargo install-update'
+            'opam: Upgrade OCaml packages'
+            'vcpkg: Upgrade vcpkg globally installed packages'
+            'myrepos: Upgrade myrepos managed sourcecode repositories'
+            'python-pipx: Upgrade Python packages installed using pipx'
+            'neobundle-git: Upgrade Vim/Neovim packages'
+            'vundle: Upgrade Vim/Neovim packages'
+            'vim-plug: Upgrade Vim/Neovim packages'
+            'vim-dein-git: Upgrade Vim/Neovim packages'
+            'yarn: Run yarn global update'
+            'npm: Run npm update -g and npm root -g is a path inside your home directory.'
+            'composer: Run composer global update, run valet install after.'
+            'atom: Upgrade Atom packages'
+            'rubygems: Run gem upgrade --user-install if ~/.gem exists'
+            'flatpak: Update Flatpak packages'
+            'snapd: Update snap packages'
+            'fwupd: Run fwupdmgr to show firmware upgrade'
+            'needrestart: Run needrestart'
+            )
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('10c5a4659d8ad895a78077e848623eaf6c0a868232ef204464370ba1e45ecf2e')
+
+build() {
+	cd "$pkgname-$pkgver"
+	cargo build --release
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	install -Dm755 target/release/$pkgname "$pkgdir/usr/bin/$pkgname"
+	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
