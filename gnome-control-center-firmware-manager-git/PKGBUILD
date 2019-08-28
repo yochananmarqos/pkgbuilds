@@ -1,0 +1,55 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=gnome-control-center-firmware-manager-git
+_pkgname=gnome-control-center
+pkgver=3.32.2.r20725.e3907102f
+pkgrel=1
+pkgdesc="Pop!_OS fork of GNOME Control Center with Firmware Manager built-in"
+arch=('x86_64')
+url="https://github.com/pop-os/gnome-control-center"
+license=('GPL2')
+groups=('gnome')
+depends=('accountsservice' 'cups-pk-helper' 'gnome-bluetooth' 'gnome-desktop'
+         'gnome-online-accounts' 'gnome-settings-daemon' 'gsettings-desktop-schemas' 'gtk3'
+         'libgtop' 'nm-connection-editor' 'sound-theme-freedesktop' 'upower' 'libpwquality'
+         'gnome-color-manager' 'smbclient' 'libmm-glib' 'libgnomekbd' 'grilo' 'libibus'
+         'cheese' 'libgudev' 'bolt' 'udisks2' 'libhandy' 'gsound' 'firmware-manager')
+makedepends=('docbook-xsl' 'modemmanager' 'git' 'python' 'meson')
+optdepends=('system-config-printer: Printer settings'
+            'gnome-user-share: Bluetooth and WebDAV file sharing'
+            'gnome-remote-desktop: screen sharing'
+            'rygel: media sharing'
+            'openssh: remote login')
+provides=("${pkgname%-git}" "$_pkgname")
+conflicts=("${pkgname%-git}" "$_pkgname")
+source=('git+https://github.com/pop-os/gnome-control-center.git'
+        'git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git'
+        'system76_firmware.patch')
+sha256sums=('SKIP'
+            'SKIP'
+            '43b35a5576fd722a8850f0fdd68e7528e684b4231a67edad839c44530e8f2cb4')
+
+pkgver() {
+	cd "$_pkgname"
+	printf "3.32.2.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$_pkgname"
+	git submodule init
+	git config --local submodule.subprojects/gvc.url "$srcdir/libgnome-volume-control"
+	git submodule update
+	
+	patch -p1 -i "$srcdir/system76_firmware.patch"
+	
+	sed -i "s/meson_version : '>= 0.48.0'/meson_version : '>= 0.50.0'/g" meson.build
+}
+
+build() {
+	arch-meson "$_pkgname" build -D documentation=true
+	ninja -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+	install -d -o root -g 102 -m 750 "$pkgdir/usr/share/polkit-1/rules.d"
+}
