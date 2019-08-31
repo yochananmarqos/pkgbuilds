@@ -1,6 +1,6 @@
 # Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
 pkgname=jdsp4linux-git
-pkgver=r4.46e6c10
+pkgver=r8.19fe01a
 pkgrel=1
 pkgdesc="A port of the open source version of JamesDSP to Linux"
 arch=('x86_64')
@@ -21,6 +21,7 @@ pkgver() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 jdsp_test "$pkgdir/usr/bin/jdsp"
+	install -Dm755 jdsp "$pkgdir/usr/bin/jdsp"
 	install -Dm644 audio.conf "$pkgdir/etc/jamesdsp/audio.conf"
+	install -Dm644 icon.png "pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
 }

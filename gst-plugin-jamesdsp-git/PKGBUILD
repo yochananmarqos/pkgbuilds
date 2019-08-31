@@ -1,6 +1,6 @@
 # Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
 pkgname=gst-plugin-jamesdsp-git
-pkgver=r12.1438f0e
+pkgver=r14.378f0fa
 pkgrel=1
 pkgdesc="JamesDSP wrapper plugin for GStreamer"
 arch=('x86_64')
