@@ -11,8 +11,11 @@ makedepends=('git')
 optdepends=('gdb: for debugging')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'viper4linux')
-source=("${pkgname%-git}::git+https://github.com/ThePBone/JDSP4Linux.git")
-sha256sums=('SKIP')
+source=("${pkgname%-git}::git+https://github.com/ThePBone/JDSP4Linux.git"
+        'devices.conf'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            'df6eef3afcf7f31fe38dac8afce98a20ac3a65ac89a88631af37cea8b795200a')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -23,5 +26,6 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 jdsp "$pkgdir/usr/bin/jdsp"
 	install -Dm644 audio.conf "$pkgdir/etc/jamesdsp/audio.conf"
+	install -Dm644 devices.conf "$pkgdir/etc/jamesdsp/devices.conf"
 	install -Dm644 icon.png "pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
 }

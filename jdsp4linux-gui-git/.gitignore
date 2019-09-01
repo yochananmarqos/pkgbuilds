@@ -5,4 +5,4 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!devices.conf
+!jdsp4linux-gui.desktop
