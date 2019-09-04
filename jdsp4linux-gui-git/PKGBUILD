@@ -1,6 +1,6 @@
 # Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
 pkgname=jdsp4linux-gui-git
-pkgver=0.1.r2.d6f8e13
+pkgver=0.1.r3.420b524
 pkgrel=1
 pkgdesc="User Interface for JamesDSP on Linux"
 arch=('x86_64')
