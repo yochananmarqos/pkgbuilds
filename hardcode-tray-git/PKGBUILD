@@ -1,5 +1,5 @@
 pkgname=hardcode-tray-git
-pkgver=4.3.r34.gfaa6a8e
+pkgver=4.3.r40.ga45d52b
 pkgrel=1
 pkgdesc="Fixes Hardcoded Tray Icons"
 arch=('i686' 'x86_64')
@@ -23,6 +23,14 @@ pkgver() {
 	  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 	)
 }
+
+prepare() {
+	cd "$srcdir/Hardcode-Tray"
+	# DEPRECATION: Project targetting '>= 0.40.0' but tried to use feature deprecated 
+	# since '0.48.0': python3 module
+	sed -i "s/meson_version: '>= 0.40.0',/meson_version: '>= 0.51.2',/g" meson.build
+}
+
 
 build() {
 	cd "$srcdir/Hardcode-Tray"
