@@ -1,5 +1,5 @@
 pkgname=matcha-hacked-cursor-git
-pkgver=r22.af0299b
+pkgver=r24.d191028
 pkgrel=1
 pkgdesc="Cursor theme forked from Breeze Hacked and based on Matcha color palette"
 arch=('any')
