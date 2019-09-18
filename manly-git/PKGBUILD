@@ -1,0 +1,24 @@
+pkgname=manly-git
+pkgver=0.4.0.r12.b9ade3a
+pkgrel=1
+pkgdesc="A compliment to the man pages."
+url="https://github.com/mpolidori/manly"
+depends=('python')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+license=('MIT')
+arch=('any')
+source=('git+https://github.com/mpolidori/manly.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	mv "${pkgname%-git}.py" "${pkgname%-git}"
+	install -Dm755 -t "$pkgdir/usr/bin" "${pkgname%-git}"
+	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE"
+}
