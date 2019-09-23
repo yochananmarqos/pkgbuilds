@@ -1,5 +1,5 @@
 pkgname=mullvad-vpn-bin
-pkgver=2019.7
+pkgver=2019.8
 pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
@@ -8,12 +8,11 @@ license=('GPL3')
 depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxtst' 'nss' 'libxss')
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-backup=("etc/${pkgname%-bin}/settings.json")
 install="${pkgname%-bin}.install"
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc})
-sha256sums=('970c96cf10b7a0cd2761bb51665893112340371e82dca5cf91eb2ef09b2a2cf6'
+sha256sums=('1fedc18d20501355b8bab326effc6f3df3cab5ca89a058176193b976e31f6291'
             'SKIP')
-validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF')
+validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF' # Mullvad (code signing) <admin@mullvad.net>)
 
 package() {
 	# Main files
