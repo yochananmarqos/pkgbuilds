@@ -1,0 +1,59 @@
+# Maintainer: Your Name <youremail@domain.com>
+# Contributor: aksr <aksr at t-com dot me>
+pkgname=regoth-bs-git
+pkgver=r531.94b07d9
+pkgrel=1
+pkgdesc="Reimplementation of Gothic I and II using modern technologies."
+arch=('i686' 'x86_64')
+url="https://regoth-project.github.io/REGoth-bs"
+license=('MIT')
+depends=('physfs' 'libxcursor' 'libxi' 'icu' 'mesa' 'freeglut' 'libsquish' 'cxxopts')
+         #'bszenlib' # coming soon
+makedepends=('git' 'vcpkg')
+optdepends=('doxygen: for building documentation' 
+            'python-sphinxcontrib-plantuml: for building documentation' 
+            'python-breathe: for building documentation')
+provides=("${pkgname%-git}" 'regoth')
+conflicts=("${pkgname%-git}" 'regoth')
+source=("${pkgname%-git}::git+https://github.com/REGoth-project/REGoth-bs.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	# Use bsf & BsZenLib submodules for now until system libs can be used
+	git submodule update --init --recursive
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo .. \
+		-DSKIP_AUTOMATE_VCPKG=ON \
+		-DCMAKE_TOOLCHAIN_FILE=/usr/share/vcpkg/scripts/buildsystems/vcpkg.cmake
+		
+	cmake --build . --parallel $(nproc)
+	
+	# Build documentation
+	#cmake --build . --target REGoth_docs
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/opt/${pkgname%-git}"
+	cp -a build/bin "$pkgdir/opt/${pkgname%-git}"
+	cp -a lib "$pkgdir/opt/${pkgname%-git}"
+	cp -a lib/bsf/Dependencies/PhysX/include "$pkgdir/opt/${pkgname%-git}/include/PhysX"
+	cp -a lib/bsf/Dependencies/PhysX/lib "$pkgdir/opt/${pkgname%-git}/lib/PhysX"
+	install -Dm644 README.md "$pkgdir/usr/share/doc/${pkgname%-git}/README.md"
+	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE"
+}
+
