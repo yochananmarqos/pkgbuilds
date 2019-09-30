@@ -1,0 +1,41 @@
+pkgname=mullvad-vpn-beta
+pkgver=2019.8.stable
+_pkgver=2019.8
+pkgrel=1
+pkgdesc="VPN Client for Mullvad.net (latest/beta release)."
+url="https://www.mullvad.net"
+arch=('x86_64')
+license=('GPL3')
+depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxss' 'nss')
+provides=("${pkgname%-beta}")
+conflicts=("${pkgname%-beta}")
+install="${pkgname%-beta}.install"
+source=("https://github.com/mullvad/mullvadvpn-app/releases/download/${_pkgver}/MullvadVPN-${_pkgver}_${arch}.rpm"{,.asc})
+sha256sums=('1fedc18d20501355b8bab326effc6f3df3cab5ca89a058176193b976e31f6291'
+            'SKIP')
+validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF') # Mullvad (code signing) <admin@mullvad.net>
+
+package() {
+	# /opt/ Contents
+	install -d "$pkgdir/opt/${pkgname%-beta}"
+	cp -a "$srcdir/opt/Mullvad VPN/." "$pkgdir/opt/${pkgname%-beta}"
+	chmod -R 755 "$pkgdir/opt/${pkgname%-beta}"
+	
+	# /usr/bin/ Contents
+	install -Dm755 "$srcdir/usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
+	ln -s "$pkgdir/opt/${pkgname%-beta}/mullvad-gui" "$pkgdir/usr/bin/${pkgname%-beta}"
+
+	# Systemd Service
+	sed -i 's|Mullvad\\x20VPN|mullvad-vpn|g' "$pkgdir/opt/${pkgname%-beta}/resources/mullvad-daemon.service"
+	install -Dm644 "$pkgdir/opt/${pkgname%-beta}/resources/mullvad-daemon.service" \
+		"$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
+
+	# Desktop Entry
+	sed -i 's|Exec=.*|Exec=/usr/bin/mullvad-vpn|g' "$srcdir/usr/share/applications/${pkgname%-beta}.desktop"
+	install -Dm644 "$srcdir/usr/share/applications/${pkgname%-beta}.desktop" \
+		"$pkgdir/usr/share/applications/${pkgname%-beta}.desktop"
+
+	# Icons
+	install -dm644 "$pkgdir/usr/share/icons/hicolor"
+	cp -a "$srcdir/usr/share/icons/hicolor/." "$pkgdir/usr/share/icons/hicolor"
+}
