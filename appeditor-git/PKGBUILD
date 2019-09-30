@@ -1,5 +1,5 @@
 pkgname=appeditor-git
-pkgver=1.1.0.r8.b7b4350
+pkgver=1.1.0.r11.caacf30
 pkgrel=1
 pkgdesc="AppEditor allows you to edit application entries in the application menu."
 arch=('i686' 'x86_64')
@@ -19,7 +19,8 @@ pkgver() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	meson build && cd build
+	meson build
+	cd build
 	meson configure -Dprefix=/usr
 	ninja
 }
