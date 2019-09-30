@@ -1,5 +1,5 @@
 pkgname=adwaita-maia
-pkgver=20190903
+pkgver=20190929
 pkgrel=1
 pkgdesc="Adwaita theme with maia highlight color"
 arch=('any')
@@ -7,7 +7,7 @@ url="https://github.com/Chrysostomus/adwaita-maia"
 license=('GPL3')
 depends=('gtk-engine-murrine' 'gtk-engines' 'gtk3')
 makedepends=('git')
-_commit=0ddfd0cbbabfba72bcca4bb5bfa2ead3f4f0ce07
+_commit=d503dacb176029456302556f818028572ef6a48b
 source=("git+$url.git#commit=$_commit")
 sha256sums=('SKIP')
 
@@ -17,6 +17,7 @@ pkgver() {
 
 package() {
 	cd "$pkgname/theme"
-	install -d "$pkgdir/usr/share/themes"
+	install -d "$pkgdir/usr/share/"{themes,Kvantum}
 	cp -r adwaita-maia adwaita-maia-dark "$pkgdir/usr/share/themes"
+	cp -r adwaita-maia-dark/KvAdwaitaDarkMaia "$pkgdir/usr/share/Kvantum"
 }
