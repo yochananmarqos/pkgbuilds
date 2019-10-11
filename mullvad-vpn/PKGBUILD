@@ -1,6 +1,6 @@
 pkgname=mullvad-vpn
-pkgver=2019.8
-pkgrel=2
+pkgver=2019.9
+pkgrel=1
 pkgdesc="VPN Client for Mullvad.net, a bitcoin-friendly VPN for anonymity and privacy"
 url="https://www.mullvad.net"
 arch=('x86_64')
@@ -9,7 +9,7 @@ depends=('gconf' 'gtk3' 'libnotify' 'libappindicator-gtk2' 'libxss' 'nss')
 install="$pkgname.install"
 validpgpkeys=("A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF")
 source=("https://github.com/mullvad/mullvadvpn-app/releases/download/$pkgver/MullvadVPN-${pkgver}_${arch}.rpm"{,.asc})
-sha256sums=('1fedc18d20501355b8bab326effc6f3df3cab5ca89a058176193b976e31f6291'
+sha256sums=('b6088b08b1aa54842668c9a1f3b36e9ef55ac19a00b3b0f3866b2c455681b79c'
             'SKIP')
 validpgpkeys=('A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF') # Mullvad (code signing) <admin@mullvad.net>
 
@@ -22,6 +22,7 @@ package() {
 	# /usr/bin/ Contents
 	install -Dm755 "$srcdir/usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
 	ln -s "$pkgdir/opt/$pkgname/mullvad-gui" "$pkgdir/usr/bin/$pkgname"
+	ln -s "$pkgdir/opt/$pkgname/resources/mullvad-problem-report" "$pkgdir/usr/bin/mullvad-problem-report"
 
 	# Systemd Service
 	sed -i 's|Mullvad\\x20VPN|mullvad-vpn|g' "$pkgdir/opt/$pkgname/resources/mullvad-daemon.service"
