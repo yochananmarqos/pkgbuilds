@@ -32,7 +32,7 @@ package() {
 		"$pkgdir/usr/lib/systemd/system/mullvad-daemon.service"
 
 	# Desktop Entry
-	sed -i 's|Exec=.*|Exec=/usr/bin/mullvad-vpn|g' "$srcdir/usr/share/applications/${pkgname%-beta}.desktop"
+	sed -i 's|Exec=.*|Exec=/opt/mullvad-vpn/mullvad-vpn U%|g' "$srcdir/usr/share/applications/$pkgname.desktop"
 	install -Dm644 "$srcdir/usr/share/applications/${pkgname%-beta}.desktop" \
 		"$pkgdir/usr/share/applications/${pkgname%-beta}.desktop"
 
