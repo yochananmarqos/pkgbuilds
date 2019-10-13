@@ -48,12 +48,12 @@ _hookdir=/usr/share/libalpm/hooks
 	
 	#Script
 	for i in *sh; do
-			install -Dm755 $srcdir/$i $pkgdir/$_scriptdir/${i::(-3)}
-		done
+		install -Dm755 $srcdir/$i $pkgdir/$_scriptdir/${i::(-3)}
+	done
 		
-		#tweak
-		mkdir -p $pkgdir/usr/bin
-		mv $pkgdir/$_scriptdir/$_tweak $pkgdir/usr/bin/
+	#tweak
+	mkdir -p $pkgdir/usr/bin
+	mv $pkgdir/$_scriptdir/$_tweak $pkgdir/usr/bin/
 	  	
 }
 
