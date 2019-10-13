@@ -1,0 +1,16 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = adwaita-maia
+Target = eog
+Target = shotwell
+Target = celluloid
+Target = totem
+
+[Action]
+Description = Apply adwaita-maia override
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/adwaita-maia-override-install
+
+

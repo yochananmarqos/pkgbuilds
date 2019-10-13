@@ -1,0 +1,10 @@
+[Trigger]
+Type = Package
+Operation = Remove
+Target = adwaita-maia
+
+[Action]
+Description = Remove adwaita-maia override
+When = PreTransaction
+Exec = /usr/share/libalpm/scripts/adwaita-maia-override-remove
+

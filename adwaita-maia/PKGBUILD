@@ -1,23 +1,59 @@
+# Maintainer: Matti Hyttinen matti@manjaro.org
+# original PKGBUILD by yochananmarqos
+# Contributor: Stefano Capitani <stefano@manjaro.org> 
+
 pkgname=adwaita-maia
-pkgver=20191011
+_tweak=$pkgname-override
+pkgver=20191013
 pkgrel=1
 pkgdesc="Adwaita theme with maia highlight color"
 arch=('any')
 url="https://github.com/Chrysostomus/adwaita-maia"
 license=('GPL3')
 depends=('gtk-engine-murrine' 'gtk-engines' 'gtk3')
-makedepends=('git')
+makedepends=('git' )
 _commit=db23bc0c081864d4ae1ae2b12af563cdf1c6d073
-source=("git+$url.git#commit=$_commit")
-sha256sums=('SKIP')
+source=("git+$url.git#commit=$_commit"
+		"$_tweak.sh"
+		"$_tweak-install.hook"
+		"$_tweak-install.sh"
+		"$_tweak-remove.hook"
+		"$_tweak-remove.sh")
+sha256sums=('SKIP'
+            '3371484471bb69fd9c556fb02e927fc3748cbb7429616b7db3a8a287845a032b'
+            '56085080eb30c0de8275462a602381b3a6fe7099a15554102725ca8c2a40eb3d'
+            '6d4395086caae4b8ecf4223af3207c795282a4199bb440b358e2cb3efa409577'
+            '852070883d9b657340fc0d97b705d5b9422c6f323ef908286c9a7230a5f43194'
+            '6820a493a60f8705a0a8bf0e824863ebc4af43077932de2bfb127fccf49becd8')
 
 pkgver() {
 	date +%Y%m%d
 }
 
 package() {
+
+_scriptdir=/usr/share/libalpm/scripts
+_hookdir=/usr/share/libalpm/hooks
+
 	cd "$pkgname/theme"
 	install -d "$pkgdir/"usr/share/{themes,Kvantum}
 	cp -r adwaita-maia adwaita-maia-dark "$pkgdir/usr/share/themes"
 	cp -r adwaita-maia-dark/KvAdwaitaDarkMaia "$pkgdir/usr/share/Kvantum"
+	
+	cd $srcdir
+	#Hook
+	for i in *hook; do
+		install -Dm644 $srcdir/$i $pkgdir/$_hookdir/$i
+	done
+	
+	#Script
+	for i in *sh; do
+			install -Dm755 $srcdir/$i $pkgdir/$_scriptdir/${i::(-3)}
+		done
+		
+		#tweak
+		mkdir -p $pkgdir/usr/bin
+		mv $pkgdir/$_scriptdir/$_tweak $pkgdir/usr/bin/
+	  	
 }
+
