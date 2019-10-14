@@ -23,8 +23,8 @@ package() {
 	
 	# /usr/bin/ Contents
 	install -Dm755 "$srcdir/usr/bin/mullvad" "$pkgdir/usr/bin/mullvad"
-	ln -s "$pkgdir/opt/${pkgname%-beta}/mullvad-gui" "$pkgdir/usr/bin/${pkgname%-beta}"
-	ln -s "$pkgdir/opt/$pkgname/resources/mullvad-problem-report" "$pkgdir/usr/bin/mullvad-problem-report"
+	ln -s "/opt/${pkgname%-beta}/mullvad-gui" "$pkgdir/usr/bin/${pkgname%-beta}"
+	ln -s "/opt/${pkgname%-beta}/resources/mullvad-problem-report" "$pkgdir/usr/bin/mullvad-problem-report"
 
 	# Systemd Service
 	sed -i 's|Mullvad\\x20VPN|mullvad-vpn|g' "$pkgdir/opt/${pkgname%-beta}/resources/mullvad-daemon.service"
