@@ -6,7 +6,6 @@ Target = adwaita-maia
 Target = eog
 Target = shotwell
 Target = celluloid
-Target = totem
 
 [Action]
 Description = Apply adwaita-maia override

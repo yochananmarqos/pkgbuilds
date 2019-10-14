@@ -1,8 +1,16 @@
-#/usr/bin/env dash
+#!/usr/bin/env dash
 cmd=$1
+file="${@}"
 gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme | tr -d "'")
-if [ $gtk_theme != Adwaita ] && [ $DESKTOP_SESSION = "gnome" ]; then
-	GTK_THEME=${gtk_theme} exec $1
+
+if [ $gtk_theme != Adwaita ]; then
+	if [ -z "$file" ]; then
+		GTK_THEME="${gtk_theme}" exec "$cmd"
+	else
+		
+	fi
 else
-	exec $1
+	exec "$cmd"
 fi
+
+GTK_THEME="${gtk_theme}" exec totem "$file"

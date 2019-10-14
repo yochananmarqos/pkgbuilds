@@ -1,15 +1,11 @@
 #!/bin/bash
 
 workdir=/usr/share/applications
-prgs=(eog celluloid shotwell totem)
+prgs=(org.gnome.Totem eog celluloid shotwell org.gnome.gthumb)
 
-
-for i in $prgs; do
-	if [[ -f $workdir/$prgs.desktop ]]; then
-		sed -i.bck "/Exec/d" $workdir/$prgs.desktop
-		echo "Exec=/usr/bin/adwaita-maia-override $prgs %U" >> $workdir/$prgs.desktop
+for i in "${prgs[@]}"; do
+	echo "$workdir/"$i".desktop"
+	if [[ -f $workdir/"$i".desktop ]]; then
+		sed -i.bck "/adwaita-maia-override/! s/^Exec=/Exec=adwaita-maia-override\ /g" $workdir/$prgs.desktop
 	fi
 done
-
-
-
