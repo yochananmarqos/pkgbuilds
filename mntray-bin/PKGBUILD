@@ -1,5 +1,5 @@
 pkgname=mntray-bin
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
 pkgdesc="A Manjaro Linux announcements notification app"
 arch=('x86_64')
@@ -10,7 +10,7 @@ provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
 source=("$url/releases/download/$pkgver/${pkgname%-bin}-linux-x64-v$pkgver.tar.gz"
         "https://raw.githubusercontent.com/moson-mo/${pkgname%-bin}/master/LICENSE.md")
-sha256sums=('0c80202ab954f09f872c700410951e000c7a9b5a1b549e6bb56b8b05153f6281'
+sha256sums=('b48fc81869fac2811faf3c18ebfa5a2afc26729d23f94220aad1bb6c07b1d156'
             '7464e5e1670895c267a2951820f166972dab35d6869d4fcf7c68668eccfdfeb6')
 
 package() {
