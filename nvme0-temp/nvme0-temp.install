@@ -1,0 +1,33 @@
+post_install() {
+    echo ---------------------------------------------------------------------------------
+    echo 'Enable the service:'
+	echo 'systemctl enable --now nvme0-temp'
+	echo ''
+	echo 'Then you can see the temperature with:'
+	echo ''
+	echo 'cat /tmp/nvme0-temp'
+	echo '33'
+	echo ''
+	echo 'You need something like this in your .conkyrc file to display the temperature:'
+	echo ''
+	echo '${goto 825}${color0}NVMe: $color \'
+	echo '${if_existing /tmp/nvme0-temp}${tail /tmp/nvme0-temp 1 1}°C${endif}\'
+    echo ---------------------------------------------------------------------------------
+}
+
+post_upgrade() {
+	systemctl daemon-reload
+	systemctl restart nvme0-temp.service
+	
+    echo -------------------------------------------------------------
+    echo 'nvme0-temp has been restarted.'
+    echo -------------------------------------------------------------
+}
+
+pre_remove() {
+    systemctl disable --now nvme-temp.serice
+    
+    echo -------------------------------------------------------------
+    echo 'nvme0-temp has been stopped & removed.'
+    echo -------------------------------------------------------------
+}

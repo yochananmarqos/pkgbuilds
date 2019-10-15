@@ -1,0 +1,8 @@
+[Unit]
+Description=NVMe temperature monitor daemon
+
+[Service]
+ExecStart=/usr/bin/nvme0-temp
+
+[Install]
+WantedBy=multi-user.target
