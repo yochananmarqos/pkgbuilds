@@ -1,0 +1,28 @@
+pkgname=multibootusb-git
+pkgver=9.2.0.r153.cd3864a
+pkgrel=1
+pkgdesc="Boot multiple live Linux distros from a usb flash drive."
+arch=('any')
+url="http://multibootusb.org"
+license=('GPL')
+depends=('python-pyqt5' 'python-dbus' 'mtools' 'parted' 'p7zip' 'python-pyudev' 'lsof')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/mbusb/multibootusb.git')
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py build
+}
+
+package() {
+    cd "$srcdir/${pkgname%-git}"
+    python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
