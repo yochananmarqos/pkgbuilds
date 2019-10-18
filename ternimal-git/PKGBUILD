@@ -1,0 +1,28 @@
+# Maintainer: xiretza <xiretza+aur@gmail.com>
+pkgname=ternimal-git
+pkgver=0.1.0.r2.e7953b4
+pkgrel=1
+pkgdesc="Simulate a lifeform in the terminal"
+arch=('x86_64' 'i686' 'armv7h')
+url="https://github.com/p-e-w/ternimal"
+license=('GPL3')
+makedepends=('rust' 'git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/p-e-w/ternimal.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	rustc -O "${pkgname%-git}.rs"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 -t "$pkgdir/usr/bin/" "${pkgname%-git}"
+}
