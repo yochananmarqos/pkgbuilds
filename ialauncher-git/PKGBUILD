@@ -5,12 +5,11 @@ pkgdesc="Play all of the Internet Archive’s MS-DOS games offline!"
 arch=('any')
 url="https://github.com/rtts/ialauncher"
 license=('GPL3')
-depends=('dosbox' 'webkit2gtk' 'python' 'python-jinja' 'python-gobject' 'python-natsort')
+depends=('dosbox' 'webkit2gtk' 'python-jinja' 'python-gobject' 'python-natsort' 'gst-plugins-bad')
 makedepends=('git' 'python-setuptools')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-install="${pkgname%-git}".install
-source=('git+https://github.com/rtts/ialauncher')
+source=('git+https://github.com/rtts/ialauncher.git')
 sha256sums=('SKIP')
 
 pkgver() {
@@ -26,6 +25,4 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
-	install -dm755 "$pkgdir/opt/${pkgname%-git}/games"
-	cp -a games/* "$pkgdir/opt/${pkgname%-git}/games/"
 }
