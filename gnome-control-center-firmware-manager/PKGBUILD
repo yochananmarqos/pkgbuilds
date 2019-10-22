@@ -1,11 +1,10 @@
-# Maintainer: Your Name <youremail@domain.com>
-pkgname=gnome-control-center-firmware-manager-git
+pkgname=gnome-control-center-firmware-manager
 _pkgname=gnome-control-center
-pkgver=3.32.2.r20725.e3907102f
+pkgver=3.34.1
 pkgrel=1
-pkgdesc="Pop!_OS fork of GNOME Control Center with Firmware Manager built-in"
+pkgdesc="GNOME Control Center with System76's Firmware Manager built-in"
 arch=('x86_64')
-url="https://github.com/pop-os/gnome-control-center"
+url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=('GPL2')
 groups=('gnome')
 depends=('accountsservice' 'cups-pk-helper' 'gnome-bluetooth' 'gnome-desktop'
@@ -14,14 +13,16 @@ depends=('accountsservice' 'cups-pk-helper' 'gnome-bluetooth' 'gnome-desktop'
          'gnome-color-manager' 'smbclient' 'libmm-glib' 'libgnomekbd' 'grilo' 'libibus'
          'cheese' 'libgudev' 'bolt' 'udisks2' 'libhandy' 'gsound' 'firmware-manager')
 makedepends=('docbook-xsl' 'modemmanager' 'git' 'python' 'meson')
+checkdepends=('python-dbusmock' 'python-gobject' 'xorg-server-xvfb')
 optdepends=('system-config-printer: Printer settings'
             'gnome-user-share: Bluetooth and WebDAV file sharing'
             'gnome-remote-desktop: screen sharing'
             'rygel: media sharing'
             'openssh: remote login')
-provides=("${pkgname%-git}" "$_pkgname")
-conflicts=("${pkgname%-git}" "$_pkgname")
-source=('git+https://github.com/pop-os/gnome-control-center.git'
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+_commit=777c68347d49d079acb014c8910bed4abed22835  # tags/3.34.1^0
+source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         'git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git'
         'system76_firmware.patch')
 sha256sums=('SKIP'
@@ -30,7 +31,7 @@ sha256sums=('SKIP'
 
 pkgver() {
 	cd "$_pkgname"
-	printf "3.32.2.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	git describe --tags | sed 's/^GNOME_CONTROL_CENTER_//;s/_/./g;s/-/+/g'
 }
 
 prepare() {
@@ -40,13 +41,15 @@ prepare() {
 	git submodule update
 	
 	patch -p1 -i "$srcdir/system76_firmware.patch"
-	
-	sed -i "s/meson_version : '>= 0.48.0'/meson_version : '>= 0.50.0'/g" meson.build
 }
 
 build() {
 	arch-meson "$_pkgname" build -D documentation=true
 	ninja -C build
+}
+
+check() {
+	meson test -C build --print-errorlogs
 }
 
 package() {
