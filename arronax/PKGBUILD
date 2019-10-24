@@ -1,24 +1,25 @@
 pkgname=arronax
 pkgver=0.7.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A program to create and modify desktop files.'
 arch=('any')
 license=('GPL3')
 url="http://www.florian-diesch.de/software/arronax"
-depends=('desktop-file-utils' 'gtk3' 'hicolor-icon-theme' 'python-gobject' 'python-setuptools' 'python-xdg')
+depends=('gtk3' 'python-gobject' 'python-xdg')
+makedepends=('python-setuptools')
 optdepends=('python-nautilus: for the Nautilus plugin'
-	'nemo-python: for the Nemo plugin'
-	'caja-python: for the Caja plugin')
-source=(http://www.florian-diesch.de/software/$pkgname/dist/$pkgname-$pkgver.tar.gz)
+            'nemo-python: for the Nemo plugin'
+            'caja-python: for the Caja plugin')
+source=("http://www.florian-diesch.de/software/$pkgname/dist/$pkgname-$pkgver.tar.gz")
 sha256sums=('2f914401ce822ec34a828efb4bbf815304765751a90d18468a4477a2bf231eec')
 
 build() {
-  cd "$srcdir"/$pkgname-$pkgver
-  python setup.py build
+	cd "$srcdir"/$pkgname-$pkgver
+	python setup.py build
 }
 
 package() {
-  cd "$srcdir"/$pkgname-$pkgver
-  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+	cd "$srcdir"/$pkgname-$pkgver
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
 
