@@ -1,6 +1,6 @@
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=nvme0-temp
-pkgver=20191014
+pkgver=20191029
 pkgrel=1
 pkgdesc="NVMe temperature monitor daemon for use with conky"
 arch=('any')
@@ -11,7 +11,7 @@ optdepends=('conky')
 install="$pkgname.install"
 source=("$pkgname.sh"
         "$pkgname.service")
-sha256sums=('4b0ceed6e621bf0df8ba8c731d65a1238fd7d7af0525309cb3d7f14a25867eeb'
+sha256sums=('eb60995193e96be87b7091e839de843a84abf954507fd2730199a83daa057054'
             'ce3cddd5278fbf2742a18e9d0973fe2861ea0fe5512cc111f4fda18595cd209f')
 
 pkgver() {
