@@ -1,0 +1,41 @@
+pkgname=('autokey-common' 'autokey-gtk' 'autokey-qt')
+pkgbase=autokey
+pkgver=0.95.7
+pkgrel=3
+arch=('i686' 'x86_64')
+url="https://github.com/autokey/autokey"
+license=('GPL3')
+makedepends=('python-setuptools')
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
+sha256sums=('b126fe4db8327e9575bd689d57c5e09236f3c08e9ac571b7cc257baf6c3a9d68')
+
+build() {
+	cd "$pkgbase-$pkgver"
+	python setup.py build
+}
+
+package_autokey-common() {
+	pkgdesc="A desktop automation utility for Linux and X11 - common data"
+	depends=('python-pyinotify' 'python-xlib' 'python-dbus' 'wmctrl' 'gtk-update-icon-cache'
+	         'xautomation' 'imagemagick' 'xorg-xwd')
+	provides=("$pkgbase")
+	conflicts=("$pkgbase")
+	
+	cd "$pkgbase-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+}
+
+package_autokey-gtk() {
+	pkgdesc="A desktop automation utility for Linux and X11 - GTK version meta package"
+	depends=('autokey-common' 'python-gobject' 'gtksourceview3' 'libappindicator-gtk3' 
+	         'libnotify' 'zenity')
+	optdepends=('python-atspi')
+	conflicts=("$pkgbase-qt")
+}
+
+package_autokey-qt() {
+	pkgdesc="A desktop automation utility for Linux and X11 - Qt version meta package"
+	depends=('autokey-common' 'python-pyqt5' 'python-qscintilla-qt5' 'qt5-svg' 'kdialog')
+	optdepends=('qt-at-spi')
+	conflicts=("$pkgbase-gtk") 
+}
