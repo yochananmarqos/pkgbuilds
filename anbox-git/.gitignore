@@ -12,3 +12,4 @@
 !anbox-bridge.network
 !anbox-container-manager.service
 !anbox-session-manager.service
+!anbox.patch
