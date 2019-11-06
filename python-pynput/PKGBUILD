@@ -1,0 +1,37 @@
+pkgname=('python-pynput' 'python2-pynput')
+_pkgname=pynput
+pkgver=1.4.5
+pkgrel=1
+pkgdesc="Python library to monitor and control user input devices"
+arch=('any')
+url="https://github.com/moses-palmer/pynput"
+license=('LGPL3')
+makedepends=('python-setuptools' 'python2-setuptools' 'python-sphinx' 'python2-sphinx')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/moses-palmer/$_pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('83164701cf52beb677357f60d848218bfa2714bbbfad7a345b85f31df710d72d')
+
+prepare() {
+	cp -a "$_pkgname-$pkgver"{,-py2}
+}
+
+build() {
+	cd "$_pkgname-$pkgver"
+	python setup.py build
+	
+	cd ../"$_pkgname-$pkgver-py2"
+	python2 setup.py build
+}
+
+package_python-pynput() {
+	depends=('python-xlib' 'python-six')
+	
+	cd "$_pkgname-$pkgver"
+	python setup.py install --root="$pkgdir/" --prefix=/usr --optimize=1 --skip-build
+}
+
+package_python2-pynput() {
+	depends=('python2-xlib' 'python2-six' 'python2-enum34')
+	
+	cd "$_pkgname-$pkgver-py2"
+	python2 setup.py install --root="$pkgdir/" --prefix=/usr --optimize=1 --skip-build
+}
