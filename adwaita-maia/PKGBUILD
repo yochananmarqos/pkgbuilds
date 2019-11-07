@@ -4,7 +4,7 @@
 
 pkgname=adwaita-maia
 _tweak=$pkgname-override
-pkgver=20191014
+pkgver=20191107
 pkgrel=1
 pkgdesc="Adwaita theme with maia highlight color"
 arch=('any')
@@ -12,7 +12,7 @@ url="https://github.com/Chrysostomus/adwaita-maia"
 license=('GPL3')
 depends=('gtk-engine-murrine' 'gtk-engines' 'gtk3' 'dash')
 makedepends=('git' )
-_commit=0c515b84017055b208c41ad139b5ccf7f6be7370
+_commit=410b323edb9b158fd83ba1052431112c9024fa2b
 source=("git+$url.git#commit=$_commit"
 		"$_tweak.sh"
 		"$_tweak-install.hook"
@@ -20,7 +20,7 @@ source=("git+$url.git#commit=$_commit"
 		"$_tweak-remove.hook"
 		"$_tweak-remove.sh")
 sha256sums=('SKIP'
-            '8d21f2c13b9a02d5e81fd021ed29aba0e2b07c36341e11fd871c79f80b0d2f13'
+            '995b0bde85b15286e85e0863cbd5f996191837a3e56c0b121883f664d5709cc2'
             'b71c83d270ab1e054b66f25b130e9be1200dcadd1f39bd74b8584076a151cf41'
             '27107ff46cd2dd331afb5d2d5151b2d946bf27caf37083d332bf208c9e18b4db'
             '852070883d9b657340fc0d97b705d5b9422c6f323ef908286c9a7230a5f43194'
@@ -36,7 +36,7 @@ package() {
 
 	cd "$pkgname/theme"
 	install -d "$pkgdir/"usr/share/{themes,Kvantum}
-	cp -r adwaita-maia adwaita-maia-dark "$pkgdir/usr/share/themes"
+	cp -r Adwaita-maia Adwaita-maia-dark "$pkgdir/usr/share/themes"
 	cp -r KvAdwaitaMaia KvAdwaitaDarkMaia "$pkgdir/usr/share/Kvantum"	
 	cd $srcdir
 	#Hook
@@ -51,6 +51,6 @@ package() {
 		
 	#tweak
 	install -dm755 "$pkgdir/usr/bin"
-	mv "$pkgdir/$_scriptdir/$_tweak $pkgdir/usr/bin/"
+	mv "$pkgdir/$_scriptdir/$_tweak" "$pkgdir/usr/bin/"
 }
 
