@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Icon=text-x-script
+Name=Texpander
+Exec=texpander
+Terminal=false
+Hidden=false
+Categories=Utility
