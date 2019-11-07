@@ -6,12 +6,17 @@ pkgdesc="Python library to monitor and control user input devices"
 arch=('any')
 url="https://github.com/moses-palmer/pynput"
 license=('LGPL3')
-makedepends=('python-setuptools' 'python2-setuptools' 'python-sphinx' 'python2-sphinx')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/moses-palmer/$_pkgname/archive/v$pkgver.tar.gz")
-sha256sums=('83164701cf52beb677357f60d848218bfa2714bbbfad7a345b85f31df710d72d')
+makedepends=('python-setuptools' 'python2-setuptools')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/moses-palmer/$_pkgname/archive/v$pkgver.tar.gz"
+        'python-pynput.patch')
+sha256sums=('83164701cf52beb677357f60d848218bfa2714bbbfad7a345b85f31df710d72d'
+            'b2e10f5baf1501e8365b1a95fd756cde5a8510107d89557ab764a47c3ef47226')
 
 prepare() {
-	cp -a "$_pkgname-$pkgver"{,-py2}
+	cd "$_pkgname-$pkgver"
+	patch -Np1 -i "$srcdir/python-pynput.patch"
+	
+	cp -a "$srcdir/$_pkgname-$pkgver"{,-py2}
 }
 
 build() {
@@ -24,6 +29,7 @@ build() {
 
 package_python-pynput() {
 	depends=('python-xlib' 'python-six')
+	optdepends=('python-sphinx: build online documentation')
 	
 	cd "$_pkgname-$pkgver"
 	python setup.py install --root="$pkgdir/" --prefix=/usr --optimize=1 --skip-build
@@ -31,6 +37,7 @@ package_python-pynput() {
 
 package_python2-pynput() {
 	depends=('python2-xlib' 'python2-six' 'python2-enum34')
+	optdepends=('python2-sphinx: build online documentation')
 	
 	cd "$_pkgname-$pkgver-py2"
 	python2 setup.py install --root="$pkgdir/" --prefix=/usr --optimize=1 --skip-build
