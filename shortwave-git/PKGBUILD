@@ -1,0 +1,35 @@
+pkgname=shortwave-git
+_pkgname=Shortwave
+pkgver=0.0.1.r0.cd80fc2
+pkgrel=1
+pkgdesc="Find and listen to internet radio stations"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://gitlab.gnome.org/World/Shortwave"
+license=('GPL3')
+depends=('gstreamer' 'libhandy')
+makedepends=('git' 'appstream-glib' 'gobject-introspection' 'gst-plugins-base-libs' 'libdazzle' 'meson' 'rust')
+provides=("${pkgname%-git}" 'gradio')
+conflicts=("${pkgname%-git}" 'gradio')
+source=('git+https://gitlab.gnome.org/World/Shortwave.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$_pkgname"
+	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/$_pkgname"
+	meson --prefix=/usr build
+	ninja -C build
+}
+
+check() {
+	cd "$srcdir/$_pkgname"
+	ninja -C build test
+}
+
+package() {
+	cd "$srcdir/$_pkgname"
+	DESTDIR="$pkgdir/" ninja -C build install
+}
