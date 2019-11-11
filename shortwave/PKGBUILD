@@ -14,17 +14,17 @@ source=("https://gitlab.gnome.org/World/$_pkgname/-/archive/$pkgver/$_pkgname-$p
 sha256sums=('7173400e55c8c5d0117ca1e877942af685e646197552f7ee8103fca73d648e34')
 
 build() {
-    cd "$_pkgname-$pkgver"
-    meson --prefix=/usr build
-    ninja -C build
+	cd "$_pkgname-$pkgver"
+	meson --prefix=/usr build
+	ninja -C build
 }
 
 check() {
-    cd "$_pkgname-$pkgver"
-    ninja -C build test
+	cd "$_pkgname-$pkgver"
+	ninja -C build test
 }
 
 package() {
-    cd "$_pkgname-$pkgver"
-    DESTDIR="$pkgdir/" ninja -C build install
+	cd "$_pkgname-$pkgver"
+	DESTDIR="$pkgdir/" ninja -C build install
 }
