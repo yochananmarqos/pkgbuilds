@@ -5,9 +5,9 @@ pkgdesc="Python library and CLI tool for searching and downloading subtitles."
 arch=('any')
 url="https://github.com/Diaoul/subliminal"
 license=('MIT')
-depends=('python-guessit' 'python-enzyme' 'python-beautifulsoup4' 'python-requests' 'python-click'
-         'python-dogpile.cache' 'python-stevedore' 'python-chardet' 'python-pysrt' 'python-six'
-         'python-appdirs' 'python-rarfile' 'python-pytz')
+depends=('python-guessit' 'python-enzyme' 'python-beautifulsoup4' 'python-requests' 
+         'python-click' 'python-dogpile.cache' 'python-stevedore' 'python-chardet' 
+         'python-pysrt' 'python-six' 'python-appdirs' 'python-rarfile' 'python-pytz')
 makedepends=('git' 'python-setuptools' 'python-sphinxcontrib-programoutput'
              'python-sphinx_rtd_theme')
 provides=("${pkgname%-git}")
