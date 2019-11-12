@@ -2,7 +2,6 @@ pkgname=proton-native
 pkgver=4.11.8
 _geckover=2.47
 _monover=4.9.4
-_afdkover=3.0a5
 pkgrel=1
 pkgdesc="Compatibility tool for Steam Play based on Wine and additional components. Monolithic distribution"
 arch=('x86_64')
@@ -62,10 +61,10 @@ makedepends=(autoconf ncurses bison perl fontforge flex
   opencl-headers
   git
   cmake
-  afdko=$_afdkover
+  afdko
   python-brotli
   python-zopfli
-  yasm
+  nasm
 )
 optdepends=(
   giflib                lib32-giflib
