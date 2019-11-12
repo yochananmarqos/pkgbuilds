@@ -22,7 +22,7 @@ pkgver() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 README.md "$pkgdir/usr/share/docs/${pkgname%-git}/README.md"
+	install -Dm644 README.md "$pkgdir/usr/share/doc/${pkgname%-git}/README.md"
 	install -Dm644 "$srcdir/${pkgname%-git}.desktop" \
 		"$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
 }
