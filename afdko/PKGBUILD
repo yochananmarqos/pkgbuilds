@@ -1,0 +1,37 @@
+pkgname=afdko
+pkgver=3.0.2a5
+pkgrel=1
+pkgdesc="Adobe Font Development Kit for OpenType"
+arch=('x86_64')
+url="https://adobe-type-tools.github.io/afdko"
+license=('Apache')
+depends=('python-lxml' 'python-booleanoperations' 'python-cu2qu' 'python-mutatormath' 
+         'psautohint' 'python-ufonormalizer' 'python-ufoprocessor')
+depends_x86_64=('lib32-glibc')
+makedepends=('python-wheel' 'python-setuptools-scm')
+checkdepends=('python-pytest')
+source=("https://github.com/adobe-type-tools/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('a2816c77ff466c1dd3e771d480ae66318e5241d72559eff599661cc2ef6e1b9b')
+
+prepare() {
+	cd "$pkgname-$pkgver"
+	sed -i 's/==4.0.1/>=4.0.1/g' requirements.txt
+	sed -i 's/==2.0.0a1/>=2.0.0a1/g' requirements.txt
+	sed -i 's/==1.0.6/>=1.0.6/g' requirements.txt
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	python setup.py build
+}
+
+check() {
+	cd "$pkgname-$pkgver"
+	python setup.py test
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
+}
