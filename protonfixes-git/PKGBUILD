@@ -5,7 +5,7 @@ pkgdesc="A module for applying fixes at runtime to unsupported games with Steam 
 arch=('any')
 url="https://simons-public.github.io/protonfixes"
 license=('BSD')
-makedepends=('python-setuptools')
+makedepends=('git' 'python-setuptools')
 optdepends=('wine: win32 proton prefix support'
             'winetricks: winetricks support'
             'cefpython3: splash dialog support'
