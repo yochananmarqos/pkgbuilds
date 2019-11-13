@@ -1,0 +1,34 @@
+pkgname=protonfixes-git
+pkgver=1.0.15.r69.f56984e
+pkgrel=1
+pkgdesc="A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files"
+arch=('any')
+url="https://simons-public.github.io/protonfixes"
+license=('BSD')
+makedepends=('python-setuptools')
+optdepends=('wine: win32 proton prefix support'
+            'winetricks: winetricks support'
+            'cefpython3: splash dialog support'
+            'zenity: splash dialog support')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/simons-public/protonfixes.git')
+md5sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}"
+    python setup.py build
+}
+
+package() {
+    cd "$srcdir/${pkgname%-git}"
+    python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+    mv "$pkgdir"/usr/static "$pkgdir"/usr/lib/python*/site-packages/protonfixes
+    rm -r "$pkgdir"/usr/lib/python*/site-packages/tests
+    install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+}
