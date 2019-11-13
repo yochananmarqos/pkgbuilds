@@ -156,7 +156,7 @@ package() {
     cd build
 
     install -d "$pkgdir/usr/share/steam/compatibilitytools.d"
-    cp -a dist "$pkgdir/usr/share/steam/compatibilitytools.d/$pkgname"
+    cp -a dist/* "$pkgdir/usr/share/steam/compatibilitytools.d/$pkgname"
 
     find "$pkgdir/usr/share/steam/compatibilitytools.d/$pkgname" -type f -exec chmod 644 {} \;
     chmod 755 "$pkgdir/usr/share/steam/compatibilitytools.d/$pkgname"/{proton,dist/bin/{wine{,64},wine{,64}-preloader,wineserver}}
