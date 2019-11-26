@@ -1,6 +1,6 @@
-pkgname=gnome-control-center-firmware-manager
+pkgname=gnome-control-center-pop-os
 _pkgname=gnome-control-center
-pkgver=3.34.1
+pkgver=3.34.2
 pkgrel=1
 pkgdesc="GNOME Control Center with System76's Firmware Manager built-in"
 arch=('x86_64')
@@ -21,7 +21,7 @@ optdepends=('system-config-printer: Printer settings'
             'openssh: remote login')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
-_commit=777c68347d49d079acb014c8910bed4abed22835  # tags/3.34.1^0
+_commit=049df20eca021449eadc61960770e8d9709da16e  # tags/3.34.2^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         'git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git'
         'system76_firmware.patch')
@@ -39,7 +39,7 @@ prepare() {
 	git submodule init
 	git config --local submodule.subprojects/gvc.url "$srcdir/libgnome-volume-control"
 	git submodule update
-	
+
 	patch -p1 -i "$srcdir/system76_firmware.patch"
 }
 
