@@ -1,0 +1,103 @@
+# Maintainer: Mark Wagie <yochanan dot marqos at gmail dot com>
+pkgname=mullvad-vpn
+pkgver=2019.9
+pkgrel=6
+pkgdesc="The Mullvad VPN client app for desktop"
+url="https://www.mullvad.net"
+arch=('x86_64')
+license=('GPL3')
+depends=('gtk3' 'libnotify' 'libappindicator-gtk2' 'libxss' 'nss')
+makedepends=('git' 'man2html' 'unzip' 'wget' 'curl' 'osslsigncode' 'go' 'dbus' 'cargo' 'npm')
+install="$pkgname.install"
+_binaries-commit=14ce537f70e660f8e5ff29a5b969510e6079243a
+_libmnl-ver=libmnl-1.0.4
+_libnftnl-ver=libnftnl-1.1.4
+_libsodium-ver=1.0.18
+_lz4-ver=v1.8.2
+_openssl-ver="OpenSSL 1.1.1d"
+_openvpn-ver=v2.4.8-mullvad
+_openvpn-build-ver=openvpn-install-2.4.8-I601-mullvad
+_shadowsocks-rust-commit=acc14d4fc1f2c21ab2f7bd7b2ff8620346852c00
+source=("$pkgname-$pkgver.tar.gz::https://github.com/mullvad/mullvadvpn-app/archive/$pkgver.tar.gz"
+        "git+https://github.com/mullvad/mullvadvpn-app-binaries.git#commit=$_binaries-commit"
+        "git+https://git.netfilter.org/libmnl#tag=$_libmnl-ver"
+        "git+https://git.netfilter.org/libnftnl#tag=$_libnftnl-ver"
+        "git+https://github.com/jedisct1/libsodium.git#tag=$_libsodium-ver"
+        "git+https://github.com/lz4/lz4.git#tag=$_lz4-ver"
+        "git+https://github.com/openssl/openssl.git#tag=$_openssl-ver"
+        "git+https://github.com/mullvad/openvpn.git#tag=$_openvpn-ver"
+        "git+https://github.com/mullvad/openvpn-build.git#tag=$_openvpn-build-ver"
+        "git+https://github.com/shadowsocks/shadowsocks-rust.git#commit=$_shadowsocks-rust-commit")
+sha256sums=('7966694defe048eb320142cac711756e4fc42cb503de7c2fc1e93b7be04aad6b'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+prepare() {
+	cd "$srcdir/mullvadvpn-app-binaries"
+	for submodule in libmnl libnftnl libsodium lz4 openssl openvpn openvpn-build shadowsocks-rust; do
+		git submodule init "${submodule}"
+		git config submodule."${submodule}".url ../"${submodule#*/}"
+		git submodule update "${submodule}"
+	done
+
+	rm -rf "$srcdir/binaries"
+	mv "$srcdir/mullvadvpn-app-binaries" "$srcdir/binaries"
+	rm -rf "$srcdir/mullvadvpn-app-$pkgver/dist-assets/binaries"
+	ln -s "$srcdir/binaries" "$srcdir/mullvadvpn-app-$pkgver/dist-assets/binaries"
+
+	sed -i 's/shell uname -s/uname -s/g' Makefile
+}
+
+build() {
+	cd "$srcdir/mullvadvpn-app-$pkgver/dist-assets/binaries"
+
+	# Build dependencies
+	make openvpn
+
+	make wireguard-go
+
+	make update_openssl
+
+	make libnftnl
+
+	make libsodium
+
+	make shadowsocks
+
+	cd "$srcdir/mullvadvpn-app-$pkgver"
+
+	# Build mullvad-daemon
+	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+	export LIBMNL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
+	export LIBNFTNL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
+
+	export OPENSSL_STATIC="1"
+	export OPENSSL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
+	export OPENSSL_INCLUDE_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET/include"
+
+	cargo build
+
+	# Build Electron GUI app
+	cd gui
+	npm install --cache "${srcdir}/npm-cache"
+	npm run pack:linux
+}
+
+check() {
+	cd "$srcdir/mullvadvpn-app-$pkgver"
+	npm test
+}
+
+package() {
+	cd "$srcdir/mullvadvpn-app-$pkgver"
+
+	#?
+}
