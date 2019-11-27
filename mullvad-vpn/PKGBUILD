@@ -74,14 +74,12 @@ build() {
 	cd "$srcdir/mullvadvpn-app-$pkgver"
 
 	# Build mullvad-daemon
-	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-	export LIBMNL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
-	export LIBNFTNL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
+	export LIBMNL_LIB_DIR="dist-assets/binaries/$TARGET"
+	export LIBNFTNL_LIB_DIR="dist-assets/binaries/$TARGET"
 
 	export OPENSSL_STATIC="1"
-	export OPENSSL_LIB_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET"
-	export OPENSSL_INCLUDE_DIR="$SCRIPT_DIR/dist-assets/binaries/$TARGET/include"
+	export OPENSSL_LIB_DIR="dist-assets/binaries/$TARGET"
+	export OPENSSL_INCLUDE_DIR="dist-assets/binaries/$TARGET/include"
 
 	cargo build
 
@@ -99,5 +97,4 @@ check() {
 package() {
 	cd "$srcdir/mullvadvpn-app-$pkgver"
 
-	#?
 }
