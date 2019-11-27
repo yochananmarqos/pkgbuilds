@@ -7,7 +7,8 @@ url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('gtk3' 'libnotify' 'libappindicator-gtk2' 'libxss' 'nss')
-makedepends=('git' 'man2html' 'unzip' 'wget' 'curl' 'osslsigncode' 'go' 'dbus' 'cargo' 'npm')
+makedepends=('git' 'unzip' 'wget' 'curl' 'osslsigncode' 'cmake' 'go' 'dbus' 'cargo' 'npm')
+             #'mingw-w64-gcc' 'dos2unix' 'nsis' 'arm-linux-gnueabi-gcc'
 install="$pkgname.install"
 _binariescommit=14ce537f70e660f8e5ff29a5b969510e6079243a
 _libmnlver=libmnl-1.0.4
