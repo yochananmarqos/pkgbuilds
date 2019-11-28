@@ -1,6 +1,6 @@
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=ryzen-controller
-pkgver=1.13.4
+pkgver=1.16.0
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
@@ -8,15 +8,15 @@ url="https://gitlab.com/le.storm1er/ryzen-controller"
 license=('CC0 1.0 Universal')
 depends=('ryzenadj' 'nss' 'nodejs' 'gtk3' 'libxss')
 makedepends=('npm')
+options=('!strip')
 source=("https://gitlab.com/le.storm1er/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz"
 	"$pkgname.desktop")
-sha256sums=('09b02d0518a7e506ac8ddba9a1f9063016823ce9b63a93e89d5c8674fd1cd032'
+sha256sums=('db314f6dc2cadea6825facd45fcbf8254835b206ca56e3113419ff53d9a5cdbf'
             'e1c7d2d4cfa10da7bc284c0fe4b94f5592ea2b5ab92854d74f23b70a98d8db7c')
 
 build() {
 	cd "$pkgname-$pkgver"
-	npm install --cache "${srcdir}/npm-cache"
-	npm audit fix
+	npm install --cache "$srcdir/npm-cache"
 	npm run-script package-linux
 }
 
@@ -26,5 +26,5 @@ package() {
 	cp -a release-builds/ryzencontroller-linux-x64/. \
 		"$pkgdir/opt/$pkgname"
 	ln -s "/opt/$pkgname/ryzencontroller" "$pkgdir/usr/bin/$pkgname"
-	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
