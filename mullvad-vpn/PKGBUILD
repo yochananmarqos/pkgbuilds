@@ -20,7 +20,7 @@ prepare() {
 	cd "$srcdir/mullvadvpn-app"
 	git submodule init dist-assets/binaries
 	git config submodule.mullvadvpn-app-binaries.url "$srcdir/mullvadvpn-app-binaries"
-	git submodule update
+	git submodule update --init --recursive
 }
 
 build() {
