@@ -6,7 +6,7 @@ url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('libnotify' 'libappindicator-gtk3' 'libxss' 'nss')
-makedepends=('git' 'cargo' 'npm')
+makedepends=('git' 'cargo' 'npm' 'gulp')
 install="$pkgname.install"
 source=("git+https://github.com/mullvad/mullvadvpn-app.git#tag=$pkgver"
         'git+https://github.com/mullvad/mullvadvpn-app-binaries.git'
@@ -20,7 +20,7 @@ prepare() {
 	cd "$srcdir/mullvadvpn-app"
 	git submodule init dist-assets/binaries
 	git config submodule.mullvadvpn-app-binaries.url "$srcdir/mullvadvpn-app-binaries"
-	git submodule update --init --recursive
+	git submodule update
 }
 
 build() {
@@ -32,6 +32,7 @@ build() {
 	# Build Electron GUI app
 	cd gui
 	npm install --cache "$srcdir/npm-cache"
+	npm run pack:linux
 }
 
 check() {
