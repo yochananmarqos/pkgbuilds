@@ -6,16 +6,14 @@ url="https://www.mullvad.net"
 arch=('x86_64')
 license=('GPL3')
 depends=('libnotify' 'libappindicator-gtk3' 'libxss' 'nss')
-makedepends=('git' 'cargo' 'npm' 'rpm-org')
+makedepends=('git' 'cargo' 'curl' 'npm' 'rpm-org')
 install="$pkgname.install"
 source=("git+https://github.com/mullvad/mullvadvpn-app.git#tag=$pkgver"
         'git+https://github.com/mullvad/mullvadvpn-app-binaries.git'
-        "$pkgname.desktop"
-        'relays.json')
+        "$pkgname.desktop")
 sha256sums=('SKIP'
             'SKIP'
-            '121d90e6683e64d9c0d2dbb7b346fa918bdb37cf21fdaf9f66232304ed23abc2'
-            'c11d854c2bacf4f9c1fac7f6208fa4e7f5aac163a64f5f84114e322b423df866')
+            '121d90e6683e64d9c0d2dbb7b346fa918bdb37cf21fdaf9f66232304ed23abc2')
 
 prepare() {
 	# Point the submodule to our local copy
@@ -38,8 +36,25 @@ build() {
 	cp target/release/*talpid_openvpn_plugin* dist-assets/
 	cp target/release/{mullvad,mullvad-daemon,mullvad-problem-report} \
 		dist-assets/
-	# relays.json is MIA, copy from .deb
-	cp "$srcdir/relays.json" dist-assets/
+
+	# Generate relays.json
+	read -d '' JSONRPC_CODE <<-JSONRPC_CODE
+	var buff = "";
+	process.stdin.on('data', function (chunk) {
+    	buff += chunk;
+	})
+	process.stdin.on('end', function () {
+    	var obj = JSON.parse(buff);
+    	var output = JSON.stringify(obj.result, null, '    ');
+    	process.stdout.write(output);
+	})
+	JSONRPC_CODE
+
+	JSONRPC_RESPONSE="$(curl -X POST --fail \
+     	-H "Content-Type: application/json" \
+     	-d '{"jsonrpc": "2.0", "id": "0", "method": "relay_list_v3"}' \
+     	https://api.mullvad.net/rpc/)"
+	echo "$JSONRPC_RESPONSE" | node -e "$JSONRPC_CODE" >  dist-assets/relays.json
 
 	# Build Electron GUI app
 	cd gui
