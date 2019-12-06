@@ -1,40 +1,73 @@
 pkgname=('autokey-common' 'autokey-gtk' 'autokey-qt')
-pkgbase=autokey
-pkgver=0.95.7
-pkgrel=3
+_pkgname=autokey
+pkgver=0.95.8
+pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/autokey/autokey"
 license=('GPL3')
-source=("$pkgbase-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
-sha256sums=('b126fe4db8327e9575bd689d57c5e09236f3c08e9ac571b7cc257baf6c3a9d68')
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
+sha256sums=('5de4b11c999af7f41273cf07e13c35f4c58c467e6c6df25e417c8b135c06bb49')
 
 build() {
-	cd "$pkgbase-$pkgver"
+	cd "$_pkgname-$pkgver"
 	python setup.py build
 }
 
+_pyver="$(python -c 'import sys; print("%s.%s" %sys.version_info[0:2])')"
+
 package_autokey-common() {
 	pkgdesc="A desktop automation utility for Linux and X11 - common data"
-	depends=('python-pyinotify' 'python-xlib' 'python-dbus' 'python-setuptools' 'wmctrl' 
+	depends=('python-pyinotify' 'python-xlib' 'python-dbus' 'python-setuptools' 'wmctrl'
 	         'gtk-update-icon-cache' 'xautomation' 'imagemagick' 'xorg-xwd')
-	provides=("$pkgbase")
-	conflicts=("$pkgbase")
-	
-	cd "$pkgbase-$pkgver"
+	provides=("$_pkgname")
+	conflicts=("$_pkgname")
+
+	cd "$_pkgname-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	rm "$pkgdir/usr/bin/$_pkgname"{-qt,-gtk}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{gtkapp.py,qtapp.py}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/__pycache__/"{gtkapp*,qtapp*}
+	rm "$pkgdir/usr/share/man/man1/$_pkgname"{-gtk*,-qt*}
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{gtkui,qtui}
+	rm -rf "$pkgdir/usr/share/applications"
 }
 
 package_autokey-gtk() {
-	pkgdesc="A desktop automation utility for Linux and X11 - GTK version meta package"
-	depends=('autokey-common' 'python-gobject' 'gtksourceview3' 'libappindicator-gtk3' 
+	pkgdesc="A desktop automation utility for Linux and X11 - GTK frontend"
+	depends=('autokey-common' 'python-gobject' 'gtksourceview3' 'libappindicator-gtk3'
 	         'libnotify' 'zenity')
 	optdepends=('python-atspi')
-	conflicts=("$pkgbase-qt")
+	conflicts=("$_pkgname-qt")
+
+	cd "$_pkgname-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	rm "$pkgdir/usr/bin/$_pkgname"{-qt,-run,-shell}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{common*,config*,__init__*,interface*,macro*,model*,monitor*,qtapp*,scripting*,service*}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/__pycache__/"{common*,config*,__init__*,interface*,macro*,model*,monitor*,qtapp*,scripting*,service*}
+	rm "$pkgdir/usr/share/applications/$_pkgname-qt.desktop"
+	rm "$pkgdir/usr/share/man/man1/$_pkgname"{-qt*,-run*}
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{iomediator,qtui}
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/"*.egg-info
+	rm -rf "$pkgdir/usr/share/icons"
 }
 
 package_autokey-qt() {
-	pkgdesc="A desktop automation utility for Linux and X11 - Qt version meta package"
+	pkgdesc="A desktop automation utility for Linux and X11 - Qt frontend"
 	depends=('autokey-common' 'python-pyqt5' 'python-qscintilla-qt5' 'qt5-svg' 'kdialog')
 	optdepends=('qt-at-spi')
-	conflicts=("$pkgbase-gtk") 
+	conflicts=("$_pkgname-gtk")
+
+	cd "$_pkgname-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	rm "$pkgdir/usr/bin/$_pkgname"{-gtk,-run,-shell}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{common*,config*,gtkapp*,__init__*,interface*,macro*,model*,monitor*,scripting*,service*}
+	rm "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/__pycache__/"{common*,config*,gtkapp*,__init__*,interface*,macro*,model*,monitor*,scripting*,service*}
+	rm "$pkgdir/usr/share/applications/$_pkgname-gtk.desktop"
+	rm "$pkgdir/usr/share/man/man1/$_pkgname"{-gtk*,-run*}
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname/"{iomediator,gtkui}
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/"*.egg-info
+	rm -rf "$pkgdir/usr/share/icons"
 }
