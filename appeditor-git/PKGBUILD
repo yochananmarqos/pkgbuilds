@@ -17,6 +17,11 @@ pkgver() {
 	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	sed -i 's/unowned string _path = info.get_string (KeyFileDesktop.KEY_PATH);/string _path = info.get_string (KeyFileDesktop.KEY_PATH);/g' src/DesktopApp.vala
+}
+
 build() {
 	cd "$srcdir/${pkgname%-git}"
 	meson build
@@ -28,4 +33,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}/build"
 	DESTDIR="$pkgdir/" ninja install
+
+	ln -s /usr/bin/com.github.donadigo.appeditor "$pkgdir/usr/bin/${pkgname%-git}"
 }
