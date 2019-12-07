@@ -10,6 +10,7 @@ optdepends=('systemd')
 makedepends=('meson' 'pkg-config' 'git')
 provides=("$pkgname")
 conflicts=("$pkgname")
+install="$pkgname.install"
 source=("https://github.com/FeralInteractive/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz"{,.asc})
 sha256sums=('e83f07dc91bbd27d1faadd69f7fda899810001e2a256be8061e36dee0e858f4a'
             'SKIP')
@@ -27,7 +28,7 @@ build() {
 
 package() {
 	cd "$pkgname-$pkgver"
-	DESTDIR=$pkgdir ninja -C build install
+	DESTDIR="$pkgdir" ninja -C build install
 
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
