@@ -17,12 +17,17 @@ validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
 
 build() {
 	cd "$pkgname-$pkgver"
-	meson build --prefix /usr -Dwith-systemd-user-unit-dir=/usr/lib/systemd/user -Dwith-pam-group=gamemode
+	meson build \
+		--prefix /usr \
+		--libexecdir lib/gamemode \
+		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user \
+		-Dwith-pam-group=gamemode
 	ninja -C build
 }
 
 package() {
 	cd "$pkgname-$pkgver"
 	DESTDIR=$pkgdir ninja -C build install
-	install -m644 -Dt "$pkgdir/usr/share/licenses/$pkgname" LICENSE.txt
+
+	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }

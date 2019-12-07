@@ -21,14 +21,21 @@ build() {
 	export CXXFLAGS=-m32
 	export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
 
-	meson build  --prefix /usr \
-		-Dwith-daemon=false -Dwith-examples=false -Dwith-systemd=false -Dwith-util=false --libdir lib32
+	meson build  \
+		--prefix /usr \
+		--libdir lib32 \
+		-Dwith-daemon=false \
+		-Dwith-examples=false \
+		-Dwith-systemd=false \
+		-Dwith-util=false
 	ninja -C build
 }
 
 package() {
 	cd "$_pkgname-$pkgver"
 	DESTDIR=$pkgdir ninja -C build install
+
 	rm -rf $pkgdir/usr/include
-	install -m644 -Dt "$pkgdir/usr/share/licenses/$pkgname" LICENSE.txt
+
+	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
