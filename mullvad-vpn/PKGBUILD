@@ -18,9 +18,9 @@ sha256sums=('SKIP'
             '121d90e6683e64d9c0d2dbb7b346fa918bdb37cf21fdaf9f66232304ed23abc2'
             'ec125bc9cfe2403bacfcaebf4b58f88b4d734b0f6194c23016efd7e15684f8e0')
 validpgpkeys=('A6A4778440D27368967A7A3578CEAA8CB72E4467')
-              # tagger Linus Färnstrand <linus at mullvad dot net> 1570795216 +0200
-              #'8339C7D2942EB854E3F27CE5AEE9DECFD582E984')
-              # gpg: Can't check signature: No public key
+              # Linus Färnstrand (code signing key) <linus at mullvad dot net>
+              #'8339C7D2942EB854E3F27CE5AEE9DECFD582E984') # key 6913F664B9D37A95: public key
+              # David Marby (Code signing) <david at mullvad dot net>
 
 
 prepare() {
@@ -32,11 +32,15 @@ prepare() {
 	git submodule update
 
 	# Verify git tag
-	git tag -v "$pkgver"
+	git verify-tag "$pkgver"
 
 	# Verify git commit
 	#cd "$srcdir/mullvadvpn-app-binaries"
-	#git verify-commit $_commit
+	#git verify-commit "$_commit"
+
+	# gpg: Signature made Wed 09 Oct 2019 02:45:56 AM MDT
+	# gpg:                using RSA key 8339C7D2942EB854E3F27CE5AEE9DECFD582E984
+	# gpg: Can't check signature: No public key
 }
 
 build() {
