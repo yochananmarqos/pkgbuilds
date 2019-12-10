@@ -1,6 +1,6 @@
 pkgname=arronax
 pkgver=0.7.1
-pkgrel=2
+pkgrel=3
 pkgdesc='A program to create and modify desktop files.'
 arch=('any')
 license=('GPL3')
