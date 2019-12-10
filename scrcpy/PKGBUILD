@@ -27,7 +27,8 @@ build() {
     meson \
     	--prefix /usr \
     	--buildtype release \
-    	--strip -Db_lto=true \
+    	--strip \
+    	-Db_lto=true \
         -Dprebuilt_server="../$pkgname-server-v$pkgver" \
         build
     ninja -C build
