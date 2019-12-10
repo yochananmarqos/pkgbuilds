@@ -1,6 +1,6 @@
 pkgname=scrcpy
 pkgver=1.12
-pkgrel=1
+pkgrel=2
 pkgdesc='Display and control your Android device'
 arch=('i686' 'x86_64')
 url='https://github.com/Genymobile/scrcpy'
@@ -24,11 +24,7 @@ prepare() {
 
 build() {
     cd "$pkgname-$pkgver"
-    meson \
-    	--prefix /usr \
-    	--buildtype release \
-    	--strip \
-    	-Db_lto=true \
+    arch-meson \
         -Dprebuilt_server="../$pkgname-server-v$pkgver" \
         build
     ninja -C build
