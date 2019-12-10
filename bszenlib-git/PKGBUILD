@@ -1,6 +1,5 @@
-# Maintainer: Your Name <youremail@domain.com>
 pkgname=bszenlib-git
-pkgver=r124.d1871b5
+pkgver=r127.f28098f
 pkgrel=1
 pkgdesc="Importers for files from the games Gothic and Gothic II for the bs:framework."
 arch=('x86_64')
@@ -8,8 +7,8 @@ url="https://regoth-project.github.io/BsZenLib"
 license=('GPL3')
 depends=() # 'bsf' bsf-git package broken
 makedepends=('git' 'cmake')
-optdepends=('doxygen: for building documentation' 
-            'python-sphinxcontrib-plantuml: for building documentation' 
+optdepends=('doxygen: for building documentation'
+            'python-sphinxcontrib-plantuml: for building documentation'
             'python-breathe: for building documentation')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -21,21 +20,23 @@ pkgver() {
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-build() {
+prepare() {
 	cd "$srcdir/${pkgbase%-git}"
-	rm -rf build
 	mkdir build
-	cd build
+}
+
+build() {
+	cd "$srcdir/${pkgbase%-git}/build"
 #	cmake -bsf_INSTALL_DIR=path/to/bsf .. # with external bs:f installation
 	cmake -DBSZENLIB_DOWNLOAD_BSF_BINARIES=On .. # let CMake download bs:f
 	cmake --build . --parallel $(nproc)
-	
+
 	# Build docs
 	#cmake --build . --target BsZenLib_docs
-	
+
 }
 
 package() {
 	cd "$srcdir/${pkgbase%-git}"
-	
+
 }
