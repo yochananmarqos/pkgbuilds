@@ -1,0 +1,33 @@
+pkgname=chkservice-git
+pkgver=0.3.r0.ac0e878
+pkgrel=1
+pkgdesc="Systemd units manager with ncurses, terminal interface"
+arch=('i686' 'x86_64')
+url="https://github.com/linuxenko/chkservice"
+license=('GPL')
+makedepends=('git' 'cmake')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/linuxenko/chkservice.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	mkdir build
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}/build"
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ../
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 "build/src/${pkgname%-git}" -t "$pkgdir/usr/bin"
+}
