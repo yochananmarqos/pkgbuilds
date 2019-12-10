@@ -1,0 +1,23 @@
+pkgname=boxtron
+pkgver=0.5.3
+pkgrel=1
+pkgdesc="Steam Play compatibility tool to run DOS games using native Linux DOSBox"
+arch=('x86_64')
+url="https://luxtorpeda.gitlab.io"
+license=('GPL2')
+depends=('python' 'dosbox' 'inotify-tools')
+optdepends=('timidity++: MIDI support'
+            'soundfont-fluid: MIDI support'
+            'steam')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/dreamer/boxtron/archive/v$pkgver.tar.gz")
+sha256sums=('3fdd7518595cabaebe46b58797dd7067ab002bf699ab1366c37ba785f8c87fbb')
+
+check() {
+	cd "$pkgname-$pkgver"
+	make test
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	make DESTDIR="$pkgdir" prefix=/usr install
+}
