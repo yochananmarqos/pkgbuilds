@@ -1,29 +1,32 @@
-pkgname="authenticator"
-pkgver=0.2.4
+pkgname=authenticator
+pkgver=3.32.2
 pkgrel=4
 pkgdesc="2FA code generator for GNOME"
 arch=('x86_64')
 url="https://gitlab.gnome.org/World/Authenticator"
 license=("GPL3")
-depends=('pyzbar' 'python-pyotp' 'python-pillow' 'appstream-glib')
-makedepends=('meson' 'gobject-introspection' 'git')
-source=("$pkgname::git+https://gitlab.gnome.org/World/Authenticator.git?unsigned#tag=${pkgver}"
+depends=('appstream-glib' 'libhandy' 'libsecret' 'python-pyotp' 'python-requests' 'pyzbar'
+         'python-pyfavicon' 'python-yoyo-migrations')
+makedepends=('git' 'meson' 'gobject-introspection')
+source=("$pkgname::git+$url.git?unsigned#tag=$pkgver"
         'git+https://gitlab.gnome.org/GNOME/libgd.git')
-sha256sums=('SKIP' 'SKIP')
+sha256sums=('SKIP'
+            'SKIP')
 
 prepare() {
-    cd $pkgname
-
+    cd "$srcdir/$pkgname"
     git submodule init
     git config --local submodule.subprojects/libgd.url "$srcdir/libgd"
     git submodule update
 }
 
 build() {
-    arch-meson $pkgname build
+	cd "$srcdir/$pkgname"
+    arch-meson build
     ninja -C build
 }
 
 package() {
-    DESTDIR="${pkgdir}" ninja -C build install
+	cd "$srcdir/$pkgname"
+    DESTDIR="$pkgdir" ninja -C build install
 }
