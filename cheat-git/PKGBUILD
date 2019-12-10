@@ -1,16 +1,23 @@
 pkgname=cheat-git
-pkgver=3.0.3.r0.33ac3d3
+pkgver=3.2.1.r0.e2920bd
 pkgrel=1
 pkgdesc="Allows you to create and view interactive cheatsheets on the command-line"
 arch=('x86_64')
 url="https://github.com/cheat/cheat"
 license=('MIT')
 makedepends=('git' 'go-pie')
-optdepends=('fzf: for Fuzzy Finder integration')
+optdepends=('fzf: for Fuzzy Finder integration'
+            'bash-completion: for bash completions'
+            'fish: for fish completions')
 provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}" 'cheat-bash-git' 'python-cheat')
-source=('git+https://github.com/cheat/cheat.git')
-sha256sums=('SKIP')
+conflicts=("${pkgname%-git}" 'cheat-bash-git')
+replaces=('python-cheat')
+source=('git+https://github.com/cheat/cheat.git'
+        'conf.yml'
+        'git+https://github.com/cheat/cheatsheets.git')
+sha256sums=('SKIP'
+            '1c3a6ebb65d3a91f9f9711dfaf81463f6b68b9e73fe341720946dd31b311d35b'
+            'SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -18,11 +25,11 @@ pkgver() {
 }
 
 prepare() {
-	
+
 	# create gopath
 	mkdir -p "$srcdir/gopath"
 	export GOPATH="$srcdir/gopath"
-	
+
 	# fetch dependencies
 	msg "Fetching Go dependencies"
 	cd "$srcdir/gopath"
@@ -40,14 +47,28 @@ build() {
 		-asmflags "all=-trimpath=$srcdir" \
 		-ldflags "-extldflags $LDFLAGS" \
 		-o "./dist/${pkgname%-git}" "./cmd/${pkgname%-git}"
-		
+
 		# Clean mod cache for makepkg -C
 		go clean -modcache
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 "dist/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm755 scripts/fzf.bash "$pkgdir/usr/share/${pkgname%-git}/fzf.bash"
-	install -Dm655 LICENSE.txt "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE.txt"
+	install -Dm755 "dist/${pkgname%-git}" -t "$pkgdir/usr/bin"
+	install -Dm755 scripts/fzf.bash -t "$pkgdir/usr/share/${pkgname%-git}"
+	install -Dm755 "scripts/${pkgname%-git}-autocompletion.bash" \
+		"$pkgdir/usr/share/bash-completion/completions/cheat"
+	install -Dm755 "scripts/${pkgname%-git}-autocompletion.fish" \
+		"$pkgdir/usr/share/fish/completions/cheat.fish"
+	install -Dm644 LICENSE.txt "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE"
+
+    install -dm755 "$pkgdir/usr/share/cheat/cheatsheets/community"
+    find "$srcdir/cheatsheets" \
+        -maxdepth 1 \
+        -type f \
+        -perm 644 \
+        -exec \
+            install -m644 "{}" \
+            "$pkgdir/usr/share/${pkgname%-git}/cheatsheets/community/" \;
+	install -Dm644 "$srcdir/conf.yml" -t "$pkgdir/etc/cheat"
 }
