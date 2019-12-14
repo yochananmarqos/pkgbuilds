@@ -1,0 +1,21 @@
+pkgname=prettyfirefox
+_pkgver=0.0.1
+_channel=beta
+pkgver="$_pkgver.$_channel"
+pkgrel=1
+pkgdesc="Using existing projects for Firefox modifications easily"
+arch=('any')
+url="https://github.com/petsam/prettyfirefox"
+license=('GPL3')
+depends=('firefox' 'dos2unix')
+optdepends=('wget: fetch new versions from web source'
+            'git: fetch new versions from web source')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$_pkgver-$_channel.tar.gz")
+sha256sums=('0aa1451a906a1025223d387b79fbc792933c938660888cc6f574bca096096541')
+
+package() {
+	cd "$pkgname-$_pkgver-$_channel"
+	install -Dm755 "$pkgname" -t "$pkgdir/usr/bin"
+	install -d "$pkgdir/etc/$pkgname"
+	cp -a SystemConf/* "$pkgdir/etc/$pkgname"
+}
