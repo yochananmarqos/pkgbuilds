@@ -1,5 +1,5 @@
 pkgname=fsearch-git
-pkgver=0.1beta2.r164.4dda089
+pkgver=0.1beta2.r167.4085c83
 pkgrel=1
 pkgdesc="A fast file search utility. Git Version."
 arch=('i686' 'x86_64')
@@ -9,7 +9,7 @@ depends=('gtk3')
 makedepends=('git' 'intltool' 'autoconf-archive')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git://github.com/cboxdoerfer/fsearch.git')
+source=('git+https://github.com/cboxdoerfer/fsearch.git')
 sha256sums=('SKIP')
 
 pkgver() {
