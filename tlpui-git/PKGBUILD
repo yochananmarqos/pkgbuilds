@@ -5,7 +5,7 @@ pkgdesc="A GTK user interface for TLP written in Python"
 arch=('any')
 url="https://github.com/d4nj1/TLPUI"
 license=('GPL2')
-depends=('tlp' 'pygtk' 'python-gobject')
+depends=('tlp' 'python-gobject')
 makedepends=('git' 'python-setuptools')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -30,4 +30,3 @@ package() {
 
 	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 }
-
