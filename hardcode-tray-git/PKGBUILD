@@ -1,5 +1,5 @@
 pkgname=hardcode-tray-git
-pkgver=4.3.r40.ga45d52b
+pkgver=4.3.r58.g4752f16
 pkgrel=1
 pkgdesc="Fixes Hardcoded Tray Icons"
 arch=('i686' 'x86_64')
@@ -7,8 +7,8 @@ url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
 license=('GPL3')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-makedepends=('ninja' 'meson' 'git')
-depends=('python' 'python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
+makedepends=('git' 'meson')
+depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
 optdepends=('sni-qt-patched-git: patched qt4 sni plugin to enable icon modification'
             'inkscape: convert svg to png'
             'imagemagick: convert svg to png')
@@ -18,23 +18,21 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/Hardcode-Tray"
-	( set -o pipefail
-	  git describe --long --tags 2>/dev/null | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' ||
-	  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-	)
+	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
 }
 
 prepare() {
 	cd "$srcdir/Hardcode-Tray"
-	# DEPRECATION: Project targetting '>= 0.40.0' but tried to use feature deprecated 
+	# DEPRECATION: Project targetting '>= 0.40.0' but tried to use feature deprecated
 	# since '0.48.0': python3 module
-	sed -i "s/meson_version: '>= 0.40.0',/meson_version: '>= 0.51.2',/g" meson.build
+	sed -i "s/meson_version: '>= 0.40.0',/meson_version: '>= 0.49',/g" meson.build
 }
 
 
 build() {
 	cd "$srcdir/Hardcode-Tray"
-	meson builddir --prefix=/usr
+	arch-meson builddir
+	ninja -C builddir
 }
 
 package() {
