@@ -37,5 +37,5 @@ build() {
 
 package() {
 	cd "$srcdir/Hardcode-Tray"
-	DESTDIR="${pkgdir}" ninja -C builddir install
+	DESTDIR="$pkgdir" ninja -C builddir install
 }
