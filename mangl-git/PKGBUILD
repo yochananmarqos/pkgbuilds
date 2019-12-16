@@ -23,10 +23,6 @@ build() {
 	make -C ..
 }
 
-check() {
-	true
-}
-
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
