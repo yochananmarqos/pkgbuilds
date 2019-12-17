@@ -1,15 +1,18 @@
-pkgname=inxi-gui-antix-git
-pkgver=r7.ceacc97
+pkgname=inxi-gui-git
+pkgver=r19.d168379
 pkgrel=1
-pkgdesc="Simple GUI frontend to inxi script for antiX."
+pkgdesc="Simple GUI frontend to inxi script."
 arch=('any')
-url="https://github.com/antiX-Linux/inxi-gui-antix"
+url="https://github.com/yochananmarqos/inxi-gui"
 license=('GPL3')
-depends=('yad' 'gksu' 'inxi')
+depends=('yad' 'inxi')
 makedepends=('git')
+optdepends=('mesa-demos: view OpenGL config'
+            'lsb-release: view lsb release info'
+            'gksu: for root shell commands')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/antiX-Linux/inxi-gui-antix.git')
+source=('git+https://github.com/yochananmarqos/inxi-gui')
 sha256sums=('SKIP')
 
 pkgver() {
@@ -19,8 +22,8 @@ pkgver() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -Dm644 inxi-gui.desktop $pkgdir/usr/share/applications/inxi-gui.desktop
-	install -d $pkgdir/usr/share/locale
-	cp -a locale/* $pkgdir/usr/share/locale
-	install -Dm755 inxi-gui $pkgdir/usr/bin/inxi-gui
+	install -Dm644 inxi-gui.desktop -t "$pkgdir/usr/share/applications"
+	install -d "$pkgdir/usr/share/locale"
+	cp -a locale/* "$pkgdir/usr/share/locale"
+	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
 }
