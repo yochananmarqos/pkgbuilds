@@ -14,7 +14,7 @@ sha256sums=('a1ed382c44677e8c44f4735d1e127847d7dca41e30bd9aac266d7ca240bde1b7')
 
 prepare() {
 	cd "$pkgname-$pkgver"
-	sed -i 's/==/>=/g' requirements.txt
+	sed -i 's/ufoProcessor>=1.0.5,<=1.0.6/ufoProcessor>=1.0.6/g' requirements.txt
 }
 
 build() {
