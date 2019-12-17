@@ -1,0 +1,31 @@
+pkgname=ipfs-desktop
+pkgver=0.10.2
+pkgrel=1
+pkgdesc="Desktop client for the InterPlanetary File System"
+arch=('x86_64')
+url="https://ipfs.io"
+license=('MIT')
+depends=('c-ares' 'ffmpeg' 'gtk3' 'http-parser' 'libevent' 'libvpx' 'libxslt' 'libxss' 'minizip'
+         'nss' 're2' 'snappy' 'libnotify' 'libappindicator-gtk3' 'libappindicator-sharp')
+makedepends=('npm')
+install=$pkgname.install
+source=("$pkgname-$pkgver.tar.gz::https://github.com/ipfs-shipyard/$pkgname/archive/v$pkgver.tar.gz")
+sha256sums=()
+
+build() {
+	cd "$pkgname-$pkgver"
+	npm install --cache "$srcdir/npm-cache"
+	npm run-script build:babel
+	npx electron-builder build --linux pacman
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	tar -xf dist/$pkgname-$pkgver-linux-x64.pacman -C "$pkgdir"
+	rm "$pkgdir"/{.MTREE,.PKGINFO,.INSTALL}
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
+	# Link to the binary
+	install -dm755 "$pkgdir/usr/bin/$pkgname"
+	ln -sf "/opt/IPFS Desktop/$pkgname" "$pkgdir/usr/bin/$pkgname"
+}
