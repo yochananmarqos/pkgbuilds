@@ -1,0 +1,26 @@
+pkgname=icon-requests
+pkgver=0.1.2
+pkgrel=1
+pkgdesc='A Gtk application to report missing icons to your theme repository'
+arch=('i686' 'x86_64')
+license=('GPL3')
+url="https://github.com/bil-elmoussaoui/Icon-Requests"
+depends=('gobject-introspection' 'gtk3' 'python-pillow' 'python-gobject'
+         'python-cairosvg' 'python-requests' 'python-xdg')
+makedepends=('gnome-common' 'meson')
+optdepends=('git')
+options=('!emptydirs')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('47c0bc5b452cc5ce4f64013d892191f80075e06c75f88dc65b0741262aa6018f')
+
+build() {
+	cd "Icon-Requests-$pkgver"
+	arch-meson -Dpost_install=false build
+  	ninja -C build
+}
+
+package() {
+	cd "Icon-Requests-$pkgver"
+	DESTDIR="$pkgdir" ninja -C build install
+	chmod +x "$pkgdir/usr/bin/$pkgname"
+}
