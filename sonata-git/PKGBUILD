@@ -1,0 +1,30 @@
+pkgname=sonata-git
+pkgver=1.7a2.r100.gcee3555
+pkgrel=1
+pkgdesc='Elegant GTK+3 music client for MPD (Git Version)'
+url='https://github.com/multani/sonata'
+license=('GPL3')
+arch=('i686' 'x86_64')
+depends=('python-gobject' 'gtk3' 'python-mpd2')
+makedepends=('git')
+optdepends=('python-tagpy: metadata editing support'
+            'python-dbus: multimedia keys support')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/multani/sonata.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
