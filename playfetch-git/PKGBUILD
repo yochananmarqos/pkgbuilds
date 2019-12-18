@@ -1,0 +1,26 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=playfetch-git
+pkgver=r24.4200ac9
+pkgrel=1
+pkgdesc="Fetch playlists from GMusicProxy"
+arch=('any')
+url="https://github.com/jeffmhubbard/playfetch"
+license=('MIT')
+depends=('python-mpd2' 'python-requests' 'gmusicproxy' 'mpd')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/jeffmhubbard/playfetch.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
+	install -Dm644 README.md sample.config -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+}
