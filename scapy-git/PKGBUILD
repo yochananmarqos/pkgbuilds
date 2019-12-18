@@ -1,0 +1,59 @@
+pkgname=('scapy-git' 'python-scapy-git')
+pkgbase=scapy-git
+pkgver=2.4.3.r193.g1b3952b2
+pkgrel=1
+pkgdesc="Powerful interactive packet manipulation program written in Python"
+arch=('any')
+url="http://www.secdev.org/projects/scapy"
+license=('GPL2')
+makedepends=('git' 'python-setuptools')
+checkdepends=('python-cryptography' 'python-pyx' 'python-matplotlib'
+               'graphviz' 'sox')
+source=('git+https://github.com/secdev/scapy.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgbase%-git}"
+	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgbase%-git}"
+		python setup.py build
+}
+
+check() {
+	# Run only main tests, without network access
+	cd "$srcdir/${pkgbase%-git}/test"
+		./run_tests_py3 -K netaccess -F
+}
+
+package_scapy-git() {
+	depends=('python-scapy')
+	pkgdesc+=' (tools)'
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	cd "$srcdir/${pkgbase%-git}"
+	python setup.py install --prefix=/usr --root="$pkgdir/" --skip-build
+	install -d "$pkgdir/usr/share/doc"
+	ln -sf /usr/share/doc/python-scapy "$pkgdir/usr/share/doc/$pkgname"
+	rm -rf "$pkgdir/usr/lib"
+}
+
+package_python-scapy-git() {
+	pkgdesc+=' (library)'
+	depends=('tcpdump' 'python')
+	optdepends=('python-cryptography: WEP, IPsec and SSL/TLS support'
+                'python-pyx: psdump() and pdfdump() functions'
+                'python-matplotlib: plotting support'
+                'graphviz: conversations() method support'
+                'sox: for VOIP support')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	cd "$srcdir/${pkgbase%-git}"
+	python setup.py install --prefix=/usr --root="$pkgdir/" --skip-build
+	install -Dm644 doc/scapy/*.rst -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+	rm -rf "$pkgdir"{/usr/bin,/usr/share/man}
+}
