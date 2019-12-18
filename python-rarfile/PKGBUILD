@@ -13,7 +13,7 @@ optdepends=('unrar: Decompressing compressed files'
             'libarchive: Alternative to "unrar"'
             'python-crypto: Parsing encrypted headers')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-#source=("https://github.com/markokr/rarfile/archive/${_name}_{$_pkgver}.tar.gz")
+#source=("https://github.com/markokr/rarfile/archive/${_name}_${_pkgver}.tar.gz")
 sha256sums=('dc1062176c529f417522af7da1291a35b85c8017464e665aabce048cfe2659b6')
 
 build() {
