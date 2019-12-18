@@ -1,0 +1,23 @@
+pkgname=telefuel-desktop
+pkgver=0.1.2
+pkgrel=1
+pkgdesc="The new Telegram chat app for professionals & power users."
+arch=("x86_64")
+url="https://telefuel.com"
+license=('ISC')
+depends=('gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'at-spi2-core' 'libappindicator-gtk3' 'libsecret')
+source=("$pkgname-$pkgver.deb::https://github.com/telefuel/$pkgname/releases/download/v$pkgver/Telefuel-linux.deb")
+sha256sums=('cc985030d7ad67c1ee26618b05aeca1ab258fc9d5e53e5d00dc361e43a6ed8dc')
+
+package() {
+    tar xf data.tar.xz -C "$pkgdir"
+    install -d "$pkgdir/usr/bin"
+    ln -sf "/opt/Telefuel/$pkgname" "$pkgdir/usr/bin/$pkgname"
+
+    # Fix icon location
+    install -d "$pkgdir/usr/share/pixmaps"
+    mv "$pkgdir/usr/share/icons/hicolor/0x0/apps/$pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+
+    # install license when one can be found
+    #install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
