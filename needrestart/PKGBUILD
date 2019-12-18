@@ -6,8 +6,8 @@ pkgdesc='Restart daemons after library updates.'
 arch=('any')
 url="https://github.com/liske/needrestart"
 license=('GPL')
-depends=('perl-module-find' 'perl-term-readkey' 'perl-proc-processtable' 
-	'perl-sort-naturally' 'perl-module-scandeps' 'perl-libintl-perl')
+depends=('perl-module-find' 'perl-term-readkey' 'perl-proc-processtable'
+         'perl-sort-naturally' 'perl-module-scandeps' 'perl-libintl-perl')
 optdepends=('iucode-tool: for outdated microcode detection')
 options=(!emptydirs)
 source=("$pkgname-$_pkgver.tar.gz::https://github.com/liske/$pkgname/archive/v$_pkgver.tar.gz")
