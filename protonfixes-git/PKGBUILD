@@ -28,7 +28,10 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
-	mv "$pkgdir"/usr/static "$pkgdir"/usr/lib/python*/site-packages/protonfixes
-	rm -r "$pkgdir"/usr/lib/python*/site-packages/tests
+
+	_pyver="$(python -c 'import sys; print("%s.%s" %sys.version_info[0:2])')"
+
+	mv "$pkgdir/usr/static" "$pkgdir/usr/lib/python$_pyver/site-packages/${pkgname%-git}"
+	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/tests"
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
