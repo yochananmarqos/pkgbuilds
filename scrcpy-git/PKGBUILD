@@ -1,0 +1,44 @@
+pkgname=scrcpy-git
+pkgver=1.12.1.r1.g31bd950
+pkgrel=1
+pkgdesc='Display and control your Android device'
+arch=('i686' 'x86_64')
+url='https://github.com/Genymobile/scrcpy'
+license=('Apache')
+depends=('adb' 'ffmpeg' 'sdl2')
+makedepends=('git' 'meson')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/Genymobile/scrcpy.git'
+        "$url/releases/download/v${pkgver%.r*}/${pkgname%-git}-server-v${pkgver%.r*}")
+noextract=("${pkgname%-git}-server"*)
+sha256sums=('SKIP'
+            '63e569c8a1d0c1df31d48c4214871c479a601782945fed50c1e61167d78266ea')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	# Remove old build directory if present to ensure clean build
+	if [ -d build ]
+	then
+		rm -rf build
+	fi
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}"
+    arch-meson \
+        -Dprebuilt_server="../${pkgname%-git}-server-v${pkgver%.r*}" \
+        build
+    ninja -C build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	DESTDIR="$pkgdir" ninja -C build install
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+}
