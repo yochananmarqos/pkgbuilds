@@ -1,0 +1,22 @@
+pkgname=nostalgia
+pkgver=0.3
+pkgrel=1
+pkgdesc="Set historic GNOME wallpapers"
+arch=('x86_64')
+url="https://gitlab.gnome.org/bertob/nostalgia"
+license=('GPL3')
+depends=('gtk3')
+makedepends=('meson')
+source=("$url/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('833656c96d68d5067344a3ac107f5355794af11946e84b1d7a0f7b77cff3d3e0')
+
+build() {
+	cd "$pkgname-$pkgver"
+	arch-meson build
+	ninja -C build
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	DESTDIR="$pkgdir" ninja -C build install
+}
