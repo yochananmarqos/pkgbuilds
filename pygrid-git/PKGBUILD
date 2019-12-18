@@ -5,14 +5,14 @@ pkgdesc="Quickly place and move windows around the X11 desktop using a grid"
 arch=('i686' 'x86_64')
 url="https://github.com/mjs7231/pygrid"
 license=('GPL2')
-depends=('python-gobject' 'python-xlib') 
+depends=('python-gobject' 'python-xlib')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/mjs7231/pygrid.git')
-        #"${pkgname%-git}.desktop")
+        "${pkgname%-git}.desktop")
 sha256sums=('SKIP')
-            #'d39d8dae7f8326a41309132101175a36bd042e42f2cfde15cf8c12a69b5ef945')
+            'd39d8dae7f8326a41309132101175a36bd042e42f2cfde15cf8c12a69b5ef945')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -23,5 +23,5 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
 	install -Dm644 README.md "$pkgdir/usr/share/docs/${pkgname%-git}"
-	#install -Dm644 "$srcdir/${pkgname%-git}.desktop" "$pkgdir/etc/xdg/autostart/${pkgname%-git}.desktop"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/etc/xdg/autostart"
 }
