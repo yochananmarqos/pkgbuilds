@@ -6,12 +6,13 @@ pkgdesc="An audio tag editor for GNU/Linux."
 arch=('i686' 'x86_64')
 url="http://docs.puddletag.net"
 license=('GPL')
-depends=('python2-pyqt5' 'python2-pyparsing' 'python2-mutagen' 'python2-configobj' 'python2-musicbrainz2' 'python2-pillow' 'qt5-svg')
+depends=('python2-pyqt5' 'python2-pyparsing' 'python2-mutagen' 'python2-configobj'
+         'python2-musicbrainz2' 'python2-pillow' 'qt5-svg')
 makedepends=('git')
 optdepends=('quodlibet: import / edit a QuodLibet library'
-	'chromaprint: for AcoustID support')
-provides=("${pkgname%-git}" 'puddletag')
-conflicts=("${pkgname%-git}" 'puddletag')
+            'chromaprint: for AcoustID support')
+provides=("${pkgname%-git}" "${pkgname%-qt5-git}")
+conflicts=("${pkgname%-git}" "${pkgname%-qt5-git}")
 source=("${pkgname%-git}::git+https://github.com/keithgg/puddletag#branch=pyqt5")
 sha256sums=('SKIP')
 
@@ -32,5 +33,5 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}/source"
-	python2 setup.py install --root="$pkgdir" --optimize=1
+	python2 setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
