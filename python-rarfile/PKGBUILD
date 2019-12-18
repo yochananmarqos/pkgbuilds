@@ -9,8 +9,6 @@ url="https://pypi.org/project/rarfile"
 license=('ISC')
 depends=('python')
 makedepends=('python-setuptools')
-# These only required to build the documentation:
-#makedepends+=('python-docutils' 'python-sphinx')
 optdepends=('unrar: Decompressing compressed files'
             'libarchive: Alternative to "unrar"'
             'python-crypto: Parsing encrypted headers')
@@ -21,14 +19,10 @@ sha256sums=('dc1062176c529f417522af7da1291a35b85c8017464e665aabce048cfe2659b6')
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build
-	
-#	cd doc
-#	make html SPHINXBUILD=sphinx-build BUILDDIR="_build-$pkgname"
 }
 
 package() {
 	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
-#	install -Dm644 "doc/_build-$pkgname/html" -t "$pkgdir/usr/share/doc/$pkgname"
 }
