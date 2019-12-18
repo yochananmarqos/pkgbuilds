@@ -1,0 +1,22 @@
+pkgname=python-pystray
+_pkgname=pystray
+pkgver=0.15.0
+pkgrel=1
+pkgdesc="Allows you to create a system tray icon"
+arch=('any')
+url="https://github.com/moses-palmer/pystray"
+license=('GPL')
+depends=('python-pillow' 'python-xlib')
+makedepends=('python-setuptools')
+source=("$pkgname-$pkgver::$url/$_pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('5f07b9da8a312474e2276559dca04cbf18da58b6e9e44223adf2095f70abb2b6')
+
+build() {
+	cd "$_pkgname-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_pkgname-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
