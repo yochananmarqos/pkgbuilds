@@ -5,3 +5,7 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!/.config/**/*
+!/.i3/**/*
+!.dmenurc
+!.Xresources
