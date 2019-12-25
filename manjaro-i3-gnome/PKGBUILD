@@ -1,0 +1,63 @@
+pkgname=manjaro-i3-gnome
+_pkgname=i3-gnome
+pkgver=3.34.2
+pkgrel=1
+pkgdesc="Use i3 with GNOME Session integration: Manjaro edition."
+arch=('any')
+url="https://github.com/i3-gnome/i3-gnome"
+license=('MIT')
+depends=('gnome-session'
+         'gnome-settings-daemon'
+
+         # manjaro-i3-settings packages:
+         'adapta-maia-theme'
+         'conky-i3'
+         'dmenu-manjaro'
+         'dunst'
+         'gsfonts'
+         'i3-default-artwork'
+         'i3exit'
+         'i3-scripts'
+         'i3-scrot'
+         'i3-gaps'
+         'i3-help'
+         'i3status-manjaro'
+         'nerd-fonts-terminus'
+         'nitrogen'
+         'papirus-maia-icon-theme'
+         'urxvt-perls'
+         'xcursor-breeze'
+         'xorg-fonts-misc'
+
+         #extras:
+         'network-manager-applet'
+         'volumeicon')
+makedepends=('git')
+optdepends=('gdm'
+            'gnome-flashback'
+
+            # manjaro-i3-settings packages:
+            'artwork-i3: Manjaro-i3 wallpapers'
+            'manjaro-backgrounds: Collection of Manjaro wallpapers'
+            'vertex-maia-icon-theme: Icons matching Vertex Maia themes, based on Menda Circle'
+
+            # extras
+            'bmenu'
+            'morc_menu')
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('32563eb239b7e8811f14359183f56a342e043425321a3fdb0a921a19c9a1af12')
+
+build() {
+	cd "$_pkgname-$pkgver"
+	make
+}
+
+package() {
+	cd "$_pkgname-$pkgver"
+	make DESTDIR="$pkgdir/" install
+
+	echo 'Explore https://gitlab.manjaro.org/profiles-and-settings/desktop-settings/tree/master/community/i3/skel for config files'
+}
+
