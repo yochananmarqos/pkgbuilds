@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Fraidycat
+Exec=/opt/Fraidycat/fraidycat %U
+Terminal=false
+Type=Application
+Icon=fraidycat
+StartupWMClass=Fraidycat
+Comment=Follow blogs, wikis, YouTube, Twitter, Reddit, Instagram and the like... from a distance.
+Categories=News;

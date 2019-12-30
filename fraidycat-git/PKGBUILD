@@ -1,0 +1,55 @@
+pkgname=fraidycat-git
+pkgver=1.0.7.r2.g76d1b26
+pkgrel=1
+pkgdesc="Follow blogs, wikis and social media from a single page."
+arch=('x86_64')
+url="https://fraidyc.at"
+license=('BlueOak-1.0.0')
+depends=('libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'libappindicator-gtk3' 'libsecret')
+makedepends=('git-lfs' 'npm')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}.desktop")
+sha256sums=('fc23c2950220a4a1a5560f611ce5056ec22da5358ac8e36ae36be61f2320bb29')
+
+prepare() {
+	rm -rf "$srcdir/${pkgname%-git}"
+
+	git clone https://github.com/kickscondor/fraidycat.git
+
+	cd "$srcdir/${pkgname%-git}"
+	git lfs install
+	git lfs pull
+}
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	npm install --cache "$srcdir/npm-cache"
+	npm run electron:linux
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+
+	install -dm755 "$pkgdir/opt/Fraidycat"
+	cp -dr --no-preserve=ownership dist/linux-unpacked/* "$pkgdir/opt/Fraidycat"
+
+	install -dm755 "$pkgdir/usr/bin"
+	ln -s "/opt/Fraidycat/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
+
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+
+	for icon_size in 16 32 64 128 512; do
+		icons_dir=/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps
+		install -d "$pkgdir/$icons_dir"
+		install -m644 src/images/flatcat-${icon_size}.png \
+			"$pkgdir$icons_dir/${pkgname%-git}.png"
+	done
+}
