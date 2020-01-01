@@ -1,0 +1,26 @@
+pkgname=proton-exec-git
+pkgver=r37.a121d3c
+pkgrel=1
+pkgdesc="Execute third-party executables in a Steam Proton prefix."
+arch=('any')
+url="https://gitlab.com/SparrowOchon/proton-exec"
+license=('custom: SdS')
+depends=('steam' 'wine')
+makedepends=('git')
+optdepends=('winetricks')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://gitlab.com/SparrowOchon/proton-exec')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+}
