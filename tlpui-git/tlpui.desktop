@@ -1,9 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=TLPUI
-Comment=A GTK user interface for TLP
-Keywords=TLP TLP-UI
-Exec=tlpui
+Keywords=tlp;power;
+Exec=/usr/bin/tlpui
 Terminal=false
+X-MultipleArgs=false
 Type=Application
-Categories=Settings;HardwareSettings
+Icon=battery-good-charging
+Categories=Application;Utility;
+StartupNotify=true

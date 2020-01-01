@@ -12,7 +12,7 @@ conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/d4nj1/TLPUI.git"
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
-            '9a085522172c8ef04d592bc8d4b0c82b49065f2dd259b312e4785cd5d3408e78')
+            '3bdf31704fcf5f2e4f2817b59a88316e6e3aed94de08cc27be331697fe39d37f')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
