@@ -37,19 +37,19 @@ build() {
 
 	cd "gopath/src/github.com/evilsocket/${pkgname%-git}/daemon"
 	go build \
-    -trimpath \
-    -ldflags "-extldflags $LDFLAGS" \
-    -o opensnitchd .
+		-trimpath \
+		-ldflags "-extldflags $LDFLAGS" \
+		-o opensnitchd .
 
-    cd "$srcdir/${pkgname%-git}/proto"
-    make
+	cd "$srcdir/${pkgname%-git}/proto"
+	make
 
-    cd "$srcdir/${pkgname%-git}/ui"
-    python setup.py build
+	cd "$srcdir/${pkgname%-git}/ui"
+	python setup.py build
 
 	# Skipping, too many syntax errors
-    #cd "$srcdir/${pkgname%-git}"
-    #python make_ads_rules.py
+	#cd "$srcdir/${pkgname%-git}"
+	#python make_ads_rules.py
 }
 
 package() {
