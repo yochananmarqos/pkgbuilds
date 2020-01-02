@@ -1,19 +1,19 @@
 pkgname=fancontrol-gui
-pkgver=0.7
+pkgver=0.8
 pkgrel=1
 pkgdesc="GUI for the fancontrol script and systemd service"
 arch=('i686' 'x86_64')
 url="https://github.com/Maldela/Fancontrol-GUI"
 license=('GPL2')
-depends=('qt5-quickcontrols2' 'qt5-declarative' 'lm_sensors' 'kirigami2' 'kdbusaddons' 'knotifications' 'kdeclarative' 'kauth' 'kpackage' 'ki18n' 'kconfig' 'systemd')
-makedepends=('git' 'cmake' 'extra-cmake-modules' )
-conflicts=('fancontrol-common')
+depends=('qt5-quickcontrols2' 'qt5-declarative' 'lm_sensors' 'kirigami2' 'kdbusaddons'
+		 'knotifications' 'kdeclarative' 'kauth' 'kpackage' 'ki18n' 'kconfig' 'systemd')
+makedepends=('git' 'extra-cmake-modules' )
+replaces=('fancontrol-common')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Maldela/$pkgname/archive/v$pkgver.tar.gz")
-sha256sums=('099a7a0c8c64709e84159dc375211b10e00b0b022f3f1733ba2c27ee1cabc751')
+sha256sums=('c05b73d8aba481603f7d3958dbb7b885494c0160a4eca725189f3995cf85ab00')
 
 build() {
 	cd "$pkgname-$pkgver"
-	mkdir build
 	cmake . \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=Release \
@@ -24,8 +24,8 @@ build() {
 		-DBUILD_GUI=on \
 		-DBUILD_KCM=off \
 		-DBUILD_HELPER=on \
-		-DINSTALL_SHARED=on \
-		-DKDE_INSTALL_USE_QT_SYS_PATHS=on
+		-DBUILD_PLASMOID=off \
+		-DINSTALL_SHARED=on
 	make
 }
 
