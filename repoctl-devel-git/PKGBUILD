@@ -1,0 +1,59 @@
+pkgname=repoctl-devel-git
+pkgver=0.18.r16.g717a4e1
+pkgrel=1
+pkgdesc="Make it easy to manage your local Arch Linux repository."
+arch=('i686' 'x86_64' 'armv7h')
+url="https://github.com/cassava/repoctl"
+license=('MIT')
+makedepends=('git' 'go-pie')
+provides=("${pkgname%-git}" "${pkgname%-devel-git}")
+conflicts=("${pkgname%-git}" "${pkgname%-devel-git}")
+source=("${pkgname%-devel-git}::git+$url.git#branch=devel")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-devel-git}"
+	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+prepare() {
+	mkdir -p gopath/src/github.com/cassava
+	ln -rTsf "$srcdir/${pkgname%-devel-git}" \
+		"gopath/src/github.com/cassava/${pkgname%-devel-git}"
+}
+
+build() {
+	export GOPATH="$srcdir"/gopath
+
+	cd "gopath/src/github.com/cassava/${pkgname%-devel-git}/cmd/${pkgname%-devel-git}"
+	go build \
+		-trimpath \
+		-ldflags "-extldflags ${LDFLAGS}" \
+		.
+
+	cd "$srcdir/gopath/src/github.com/cassava/${pkgname%-devel-git}/cmd/repols"
+	go build \
+		-trimpath \
+		-ldflags "-extldflags ${LDFLAGS}" \
+		.
+}
+
+package() {
+	cd "$srcdir/${pkgname%-devel-git}"
+
+	# Install binaries
+	install -Dm755 "cmd/${pkgname%-devel-git}/${pkgname%-devel-git}" cmd/repols/repols -t \
+		"$pkgdir/usr/bin"
+
+	# Install documentation
+	install -Dm644 README.md NEWS.md -t \
+		"$pkgdir/usr/share/doc/${pkgname%-devel-git}"
+	install -Dm644 LICENSE -t \
+		"$pkgdir/usr/share/licenses/${pkgname%-devel-git}"
+
+	# Install completion files
+	install -Dm644 "contrib/${pkgname%-devel-git}_completion.zsh" \
+		"$pkgdir/usr/share/zsh/site-functions/_repoctl"
+	install -Dm644 "contrib/${pkgname%-devel-git}_completion.bash" \
+		"$pkgdir/usr/share/bash-completion/completions/${pkgname%-devel-git}"
+}
