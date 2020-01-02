@@ -1,0 +1,26 @@
+pkgname=python-libconfigparser
+_name=configparser
+pkgver=4.0.2
+pkgrel=1
+pkgdesc="Backport of configparser from Python 3"
+arch=('any')
+url="https://github.com/jaraco/configparser"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools-scm')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz"
+        "https://raw.githubusercontent.com/jaraco/configparser/master/LICENSE")
+sha256sums=('c7d282687a5308319bf3d2e7706e575c635b0a470342641c93bea0ea3b5331df'
+            'a55e2ffe9b44998e621d51d8c094bed09acc4b5236ee73d7df395a33ba3c18fd')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+
+	install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
