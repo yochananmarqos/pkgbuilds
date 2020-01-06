@@ -41,8 +41,7 @@ package() {
     cp -dr --no-preserve=ownership dist/linux-unpacked/resources/* \
     	"$pkgdir/usr/lib/${pkgname%-git}"
 
-    install -Dm644 app/icon.png \
-    	"$pkgdir/usr/share/icons/hicolor/1024x1024/apps/${pkgname%-git}.png"
+    install -Dm644 app/icon.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
 
     install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
 
