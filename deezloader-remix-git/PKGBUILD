@@ -1,0 +1,51 @@
+pkgname=deezloader-remix-git
+pkgver=4.2.1.r258.bfb9838
+pkgrel=1
+pkgdesc="An improved version of Deezloader based on the Reborn branch.
+        Download songs, playlists and albums directly from Deezer's servers."
+arch=('x86_64')
+url="https://notabug.org/RemixDevs/DeezloaderRemix"
+license=('GPL3')
+makedepends=('git' 'npm')
+depends=('electron3' 'libappindicator-gtk3' 'libnotify')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" "${pkgname%-git}-bin")
+source=("${pkgname%-git}::git+https://notabug.org/RemixDevs/DeezloaderRemix.git"
+        "${pkgname%-git}.desktop"
+        "${pkgname%-git}.sh")
+sha256sums=('SKIP'
+            '5a01202d021d72640901305a975429bb7277856315e0ffab67c4b2b74a429a7f'
+            'aa85dc656f3559c01b132decaf702600a2726664689e452be36dffe529fb311e')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}"
+
+    # use system electron version
+    # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
+    electronDist=$(dirname $(realpath $(which electron3)))
+    electronVer=$(electron3 --version | tail -c +2)
+    sed -i "/\"electron\": \"/c\\\"electron\": \"$electronVer\"," package.json
+    HOME="$srcdir/.electron-gyp" npm install --cache "$srcdir/npm-cache"
+    ./node_modules/.bin/electron-builder \
+    	--linux --x64 --dir dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
+}
+
+package() {
+    cd "$srcdir/${pkgname%-git}"
+    install -dm755 "$pkgdir/usr/lib/${pkgname%-git}"
+    cp -dr --no-preserve=ownership dist/linux-unpacked/resources/* \
+    	"$pkgdir/usr/lib/${pkgname%-git}"
+
+    install -Dm644 app/icon.png \
+    	"$pkgdir/usr/share/icons/hicolor/1024x1024/apps/${pkgname%-git}.png"
+
+    install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
+
+    install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+}
+
