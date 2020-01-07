@@ -1,0 +1,44 @@
+pkgname=clightd-git
+pkgver=4.0.r1.1539389
+pkgrel=1
+pkgdesc="Bus interface to change screen brightness and capture frames from webcam.
+         Devel version."
+arch=('i686' 'x86_64')
+url="https://github.com/FedeDP/Clightd"
+license=('GPL')
+depends=('systemd>=221' 'linux-api-headers' 'libx11' 'libxrandr' 'libxext' 'polkit'
+         'ddcutil>=0.9.5' 'libmodule>=5.0.0')
+makedepends=('git' 'cmake')
+optdepends=('clight-git: user service to automagically change screen backlight matching
+             ambient brightness.')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://github.com/FedeDP/Clightd.git")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+prepare() {
+    cd "$srcdir/${pkgname%-git}"
+    mkdir -p build
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}/build"
+    cmake \
+        -G "Unix Makefiles" \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DCMAKE_BUILD_TYPE="Release" \
+        -DENABLE_DDC=1 -DENABLE_GAMMA=1 -DENABLE_DPMS=1 -DENABLE_SCREEN=1 \
+        ..
+    make
+}
+
+package() {
+    cd "$srcdir/${pkgname%-git}/build"
+    make DESTDIR="$pkgdir" install
+}
