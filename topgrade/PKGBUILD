@@ -1,5 +1,5 @@
 pkgname=topgrade
-pkgver=3.7.0
+pkgver=3.7.1
 pkgrel=1
 pkgdesc='Invoke the upgrade proceadure of multiple package managers'
 arch=('x86_64' 'armv7')
@@ -42,8 +42,9 @@ makedepends=('rust')
             ##'?: Run rpi-update to update Raspberry Pi Firmware'
             ##'?: Run pihole updater'
             #'needrestart: Run needrestart')
+            #'tldr'
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('3aab23ea372cd3dbbb68a45fef2232b39ab668aebda5e19dd0ed47e254913d63')
+sha256sums=('2f75d3315ac925d0735836ddee251446f78366060e801202cecd8ad76fe1ea08')
 
 build() {
 	cd "$pkgname-$pkgver"
