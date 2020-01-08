@@ -1,3 +1,10 @@
 [Desktop Entry]
 Type=Application
+Name=PyGrid
+Comment=Quickly move windows around the an X11 desktop
 Exec=pygrid
+Icon=view-grid
+Terminal=false
+Hidden=false
+Categories=Utility
+

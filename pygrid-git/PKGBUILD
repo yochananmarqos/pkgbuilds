@@ -9,10 +9,10 @@ depends=('python-gobject' 'python-xlib')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/mjs7231/pygrid.git')
+source=('git+https://github.com/mjs7231/pygrid.git'
         "${pkgname%-git}.desktop")
-sha256sums=('SKIP')
-            'd39d8dae7f8326a41309132101175a36bd042e42f2cfde15cf8c12a69b5ef945')
+sha256sums=('SKIP'
+            '1082bc5484cc05a7dc36b117f96434525d1e24fb7dedc4017163a656dc626ba6')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -22,6 +22,5 @@ pkgver() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 README.md "$pkgdir/usr/share/docs/${pkgname%-git}"
-	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/etc/xdg/autostart"
+	install -Dm644 README.md -t "$pkgdir/usr/share/docs/${pkgname%-git}"
 }
