@@ -1,5 +1,5 @@
 pkgname=python-hddtemp
-_pkgname=hddtemp
+_name=${pkgname#python-}
 pkgver=0.1.0
 pkgrel=1
 pkgdesc="Python library to parse hddtemp data"
@@ -8,20 +8,20 @@ url="https://pypi.python.org/pypi/hddtemp"
 license=('GPL3')
 depends=('python' 'hddtemp')
 makedepends=('python-setuptools')
-source=("https://pypi.io/packages/source/h/$_pkgname/$_pkgname-$pkgver.tar.gz")
+source=("https://pypi.io/packages/source/h/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('0fd485be04793ae6aea7f7f3824ab095a85ace686c86b19605307577f9b51b4e')
 
 build() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	python setup.py build
 }
 
 package() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
 	_pyver="$(python -c 'import sys; print("%s.%s" %sys.version_info[0:2])')"
 
-	chmod -R 744 "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname-$pkgver-py$_pyver.egg-info"
-	chmod 755 "$pkgdir/usr/lib/python$_pyver/site-packages/$_pkgname-$pkgver-py$_pyver.egg-info"
+	chmod -R 744 "$pkgdir/usr/lib/python$_pyver/site-packages/$_name-$pkgver-py$_pyver.egg-info"
+	chmod 755 "$pkgdir/usr/lib/python$_pyver/site-packages/$_name-$pkgver-py$_pyver.egg-info"
 }
