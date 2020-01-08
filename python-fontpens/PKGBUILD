@@ -7,8 +7,8 @@ arch=('any')
 url="https://github.com/robotools/fontPens"
 license=('BSD')
 depends=('python-fonttools')
-makedepends=('python-setuptools')
-checkdepends=('python-pytest' 'python-booleanoperations') # Test will download fontParts
+makedepends=('python-setuptools' 'python-wheel')
+checkdepends=('python-pytest' 'python-booleanoperations') # fontParts will be downloaded
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
 sha256sums=('a6d9a14573b3450f3313d69523f9006028c21fc7aef5d35333b87aab7f2b41fd')
 
@@ -25,6 +25,7 @@ check() {
 package() {
     cd "$_name-$pkgver"
     python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
-    install -Dm644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+    install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
 
