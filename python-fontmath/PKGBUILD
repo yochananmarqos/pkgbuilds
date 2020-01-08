@@ -8,7 +8,7 @@ url="https://github.com/robotools/fontMath"
 license=('MIT')
 depends=('python-fonttools')
 makedepends=('python-setuptools')
-checkdepends=('python-pytest-runner' 'python-wheel')
+checkdepends=('python-pytest-runner')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
 sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2')
 
