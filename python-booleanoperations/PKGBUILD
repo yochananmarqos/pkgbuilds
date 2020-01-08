@@ -1,5 +1,5 @@
 pkgname=python-booleanoperations
-_pkgname=booleanOperations
+_name=${pkgname#python-}
 pkgver=0.9.0
 pkgrel=1
 pkgdesc="Boolean operations on paths."
@@ -8,14 +8,15 @@ url="https://github.com/typemytype/booleanOperations"
 license=('MIT')
 depends=('python-pyclipper' 'python-fonttools')
 makedepends=('python-setuptools-scm')
-#checkdepends=('python-pytest' 'python-defcon' 'python-fontpens') # Test will download pytest if not present
+#checkdepends=('python-pytest' 'python-defcon' 'python-fontpens') # pytest will download if not present
 #options=(!emptydirs)
-source=("https://pypi.org/packages/source/${_pkgname:0:1}/${_pkgname}/${_pkgname}-${pkgver}.zip")
+source=("https://pypi.org/packages/source/${_name:0:1}/${_name}/${_name}-$pkgver.zip"
+        "https://github.com/typemytype/booleanOperations/raw/master/LICENSE")
 sha256sums=('8cfa821c32ad374fa120d6b2e0b444ebeac57c91e6631528645fa19ac2a281b8')
 
 prepare() {
 	cd "$_pkgname-$pkgver"
-	sed -i 's/pyclipper==1.1.0.post1/pyclipper>=1.1.0.post1/g' requirements.txt
+	sed -i 's/==/>=/g' requirements.txt
 }
 
 build() {
@@ -31,4 +32,6 @@ build() {
 package() {
 	cd "$_pkgname-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+
+	install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
 }
