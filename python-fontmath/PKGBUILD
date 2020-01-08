@@ -8,10 +8,8 @@ url="https://github.com/robotools/fontMath"
 license=('MIT')
 depends=('python-fonttools')
 makedepends=('python-pytest-runner' 'python-wheel')
-source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip"
-        "https://raw.githubusercontent.com/robotools/fontMath/master/License.txt")
-sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2'
-            'c4752b63d4e98c7429ddf7f6525c39f1029171e6fe3964f550d02fba2cc72da0')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
+sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2')
 
 build() {
 	cd "$_name-$pkgver"
@@ -27,5 +25,5 @@ package() {
 	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
-	install -Dm644 "$srcdir/License.txt" -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 License.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
