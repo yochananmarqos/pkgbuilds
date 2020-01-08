@@ -1,5 +1,5 @@
 pkgname=python-ufonormalizer
-_pkgname=ufonormalizer
+_name=${pkgname#python-}
 pkgver=0.3.6
 pkgrel=1
 pkgdesc="A tool that will normalize XML and other data inside of a UFO."
@@ -9,7 +9,7 @@ license=('BSD')
 depends=('python')
 makedepends=('python-setuptools')
 #checkdepends=()
-source=("https://pypi.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.zip")
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
 sha256sums=('e41978fa581feb31ff9aec10f6e52aff27ccdd1ce242529cbc51bfe862687acf')
 
 build() {
@@ -27,7 +27,8 @@ package() {
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
 	# somehow the files end up with 640 permissions
-	find "$pkgdir/usr/lib/python3.8/site-packages/ufonormalizer-$pkgver-py3.8.egg-info" -type f -exec chmod 644 {} \;
+	find "$pkgdir/usr/lib/python3.8/site-packages/ufonormalizer-$pkgver-py3.8.egg-info" \
+		-type f -exec chmod 644 {} \;
 
-	install -D -m644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
