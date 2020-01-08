@@ -7,7 +7,7 @@ url="https://adobe-type-tools.github.io/afdko"
 license=('Apache')
 depends=('python-lxml' 'python-booleanoperations' 'python-cu2qu' 'python-mutatormath'
          'psautohint' 'python-ufonormalizer' 'python-ufoprocessor' 'lib32-glibc')
-makedepends=('python-wheel' 'python-setuptools-scm')
+makedepends=('python-setuptools-scm' 'python-wheel')
 checkdepends=('python-pytest')
 source=("https://github.com/adobe-type-tools/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('a1ed382c44677e8c44f4735d1e127847d7dca41e30bd9aac266d7ca240bde1b7')
@@ -30,5 +30,6 @@ check() {
 package() {
 	cd "$pkgname-$pkgver"
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
 	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
 }
