@@ -1,27 +1,31 @@
-# Maintainer: Guillaume Horel <guillaume.horel@gmail.com>
-# Ex-Maintainer: William Turner <willtur.will@gmail.com>
-pkgname='python-fontmath'
-_pkgname=fontMath
+pkgname=python-fontmath
+_name=fontMath
 pkgver=0.5.2
 pkgrel=1
-pkgdesc='A set of objects for performing math operations on font data.'
+pkgdesc="A set of objects for performing math operations on font data."
 arch=('any')
-url='https://github.com/typesupply/fontMath'
+url="https://github.com/robotools/fontMath"
 license=('MIT')
-makedepends=()
+makedepends=('python-pytest-runner' 'python-wheel')
 depends=('python-fonttools')
-checkdepends=('python-pytest')
-options=(!emptydirs)
-source=("https://pypi.org/packages/source/${_pkgname:0:1}/${_pkgname}/${_pkgname}-${pkgver}.zip")
-sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip"
+        "https://raw.githubusercontent.com/robotools/fontMath/master/License.txt")
+sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2'
+            'c4752b63d4e98c7429ddf7f6525c39f1029171e6fe3964f550d02fba2cc72da0')
 
-package() {
-
-  cd "${srcdir}/$_pkgname-$pkgver"
-  python setup.py install --root=$pkgdir || return 1
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
 }
 
 check() {
-  cd "${srcdir}/$_pkgname-$pkgver"
-  python setup.py test
+	cd "$_name-$pkgver"
+	python setup.py test
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+
+	install -Dm644 "$srcdir/License.txt" -t "$pkgdir/usr/share/licenses/$pkgname"
 }
