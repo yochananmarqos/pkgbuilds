@@ -9,7 +9,6 @@ depends=('libreoffice')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-options=('!strip')
 source=("git+https://github.com/PapirusDevelopmentTeam/${pkgname%-git}.git")
 sha256sums=('SKIP')
 
