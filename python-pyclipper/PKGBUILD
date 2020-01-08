@@ -1,5 +1,5 @@
 pkgname=python-pyclipper
-_name=pyclipper
+_name=${pkgname#python-}
 pkgver=1.1.0.post3
 pkgrel=1
 pkgdesc="Cython wrapper for the C++ translation of the Angus Johnson's Clipper library"
@@ -9,10 +9,8 @@ license=('MIT')
 depends=('python')
 makedepends=('python-setuptools-scm' 'cython')
 checkdepends=('python-pytest-runner')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.zip"
-        "https://raw.githubusercontent.com/fonttools/pyclipper/master/LICENSE")
-sha256sums=('f1acd74bdb8c114fea2eab0bcf76460d1ef4b4120953e410fc7c638eb79e9e98'
-            '32ee7398e3123736fd14e9f08287edc2d97ace102ab54d8dc4edc8d31c651fa8')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.zip")
+sha256sums=('f1acd74bdb8c114fea2eab0bcf76460d1ef4b4120953e410fc7c638eb79e9e98')
 
 build() {
 	cd "$_name-$pkgver"
@@ -28,5 +26,5 @@ package() {
 	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
-	install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
