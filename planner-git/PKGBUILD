@@ -7,7 +7,6 @@ url="https://planner-todo.web.app"
 license=('GPL3')
 depends=('gtk3' 'libsoup' 'granite' 'webkit2gtk' 'evolution-data-server' )
 makedepends=('git' 'meson' 'vala' 'cmake' 'appstream')
-optdepends=()
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/alainm23/planner.git')
