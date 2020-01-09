@@ -1,30 +1,30 @@
 pkgname=python-pynput
-_pkgname=pynput
-pkgver=1.5.0
+_name=${pkgname#python-}
+pkgver=1.6.5
 pkgrel=1
 pkgdesc="Python library to monitor and control user input devices"
 arch=('any')
 url="https://github.com/moses-palmer/pynput"
 license=('LGPL3')
 depends=('python-xlib' 'python-six')
-makedepends=('python-setuptools')
+makedepends=('python-setuptools' 'python-wheel')
 optdepends=('python-sphinx: build online documentation')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/moses-palmer/$_pkgname/archive/v$pkgver.tar.gz"
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz"
         'python-pynput.patch')
-sha256sums=('68ad3b44c4648c3ad0b1036686a79a0cb00116f4e3dd9ca87b0002616f24718b'
+sha256sums=('b8a6efac6e50ca86d0354da2070a07826eec46a1e0c02f47ef09523d380a734d'
             'b2e10f5baf1501e8365b1a95fd756cde5a8510107d89557ab764a47c3ef47226')
 
 prepare() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	patch -Np1 -i "$srcdir/python-pynput.patch"
 }
 
 build() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	python setup.py build
 }
 
 package() {
-	cd "$_pkgname-$pkgver"
-	python setup.py install --root="$pkgdir/" --prefix=/usr --optimize=1 --skip-build
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
