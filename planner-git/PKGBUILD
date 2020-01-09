@@ -1,5 +1,5 @@
 pkgname=planner-git
-pkgver=r274.57e1ad5
+pkgver=r275.c602c6f
 pkgrel=1
 pkgdesc="Personal task manager designed for elementary OS"
 arch=('x86_64')
@@ -16,11 +16,6 @@ sha256sums=('SKIP')
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
-
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-	sed -i 's/libecal-1.2/libecal-2.0/g' meson.build
 }
 
 build() {
