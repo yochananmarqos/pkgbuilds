@@ -1,5 +1,5 @@
 pkgname=planner-git
-pkgver=r275.c602c6f
+pkgver=r276.d16c537
 pkgrel=1
 pkgdesc="Personal task manager designed for elementary OS"
 arch=('x86_64')
@@ -27,4 +27,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	DESTDIR="$pkgdir" ninja -C build install
+
+	ln -s /usr/bin/com.github.alainm23.planner "$pkgdir/usr/bin/planner"
 }
