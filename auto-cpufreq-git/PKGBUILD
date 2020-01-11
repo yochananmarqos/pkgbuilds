@@ -1,0 +1,28 @@
+pkgname=auto-cpufreq-git
+pkgver=r59.39f0e52
+pkgrel=1
+pkgdesc="Automatic CPU speed & power optimizer"
+arch=('any')
+url="https://foolcontrol.org/?p=3124"
+license=('LGPL3')
+depends=('python-distro' 'python-psutil' 'python-click')
+makedepends=('git')
+optdepends=('gnome-shell-extension-cpufreq')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+install="${pkgname%-git}.install"
+source=('git+https://github.com/AdnanHodzic/auto-cpufreq.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 "${pkgname%-git}".py "$pkgdir/usr/bin/${pkgname%-git}"
+	install -Dm755 scripts/cpufreqctl.sh "$pkgdir/usr/bin/cpufreqctl"
+
+	install -Dm644 "scripts/${pkgname%-git}.service" -t "$pkgdir/etc/systemd/system"
+}
