@@ -1,31 +1,32 @@
 pkgname=nutty-git
-pkgver=143.ad98f83
+pkgver=1.1.1.r27.14229d8
 pkgrel=1
-pkgdesc='A network utility that monitors the devices on your network, checks bandwidth and speed details.'
+pkgdesc='A network utility that monitors the devices on your network,
+         checks bandwidth and speed details.'
 arch=('i686' 'x86_64')
 url='https://github.com/babluboy/nutty'
 license=('GPL3')
-depends=('gtk3' 'granite' 'sqlite' 'libxml2' 'libnotify' 'libgee' 'net-tools' 'nethogs' 'nmap' 'traceroute' 'vnstat' 'curl' 'wireless_tools' 'iproute2' 'pciutils')
-makedepends=('vala' 'meson' 'appstream-glib')
+depends=('granite' 'sqlite' 'libxml2' 'libnotify' 'net-tools' 'nethogs' 'nmap' 'traceroute'
+         'vnstat' 'wireless_tools')
+makedepends=('git' 'meson' 'vala' 'appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-install="${pkgname%-*}.install"
+install="${pkgname%-git}.install"
 source=('git+https://github.com/babluboy/nutty.git')
 md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	meson build --prefix=/usr
-	mkdir -p build && cd build
-	ninja
+	arch-meson build
+	ninja -C build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}/build"
-	DESTDIR="$pkgdir/" ninja install
+	cd "$srcdir/${pkgname%-git}"
+	DESTDIR="$pkgdir" ninja -C build install
 }
