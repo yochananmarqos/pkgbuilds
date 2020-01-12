@@ -7,10 +7,10 @@ arch=('any')
 url="https://github.com/moses-palmer/pynput"
 license=('LGPL3')
 depends=('python-xlib' 'python-six')
-makedepends=('python-setuptools' 'python-wheel')
+makedepends=('python-setuptools-lint')
 optdepends=('python-sphinx: build online documentation')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz"
-        'python-pynput.patch')
+        "$pkgname.patch")
 sha256sums=('b8a6efac6e50ca86d0354da2070a07826eec46a1e0c02f47ef09523d380a734d'
             'b2e10f5baf1501e8365b1a95fd756cde5a8510107d89557ab764a47c3ef47226')
 
