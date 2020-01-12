@@ -12,12 +12,14 @@ sha256sums=('d00f91ebefa34d5c7d578c78a17825238fcb90540de0dbf4cf3ffb587e1ae976')
 build() {
 	cd "$srcdir/Bibata_Cursor-$pkgver"
 
+	echo ''
 	echo ' ██████╗ ██╗██████╗  █████╗ ████████╗ █████╗'
 	echo ' ██╔══██╗██║██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗'
 	echo ' ██████╔╝██║██████╔╝███████║   ██║   ███████║'
 	echo ' ██╔══██╗██║██╔══██╗██╔══██║   ██║   ██╔══██║'
 	echo ' ██████╔╝██║██████╔╝██║  ██║   ██║   ██║  ██║'
 	echo ' ╚═════╝ ╚═╝╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝'
+	echo ''
 
 	for variant in Bibata_Amber Bibata_Classic Bibata_Ice Bibata_Oil; do
 		echo "Building $variant..."
