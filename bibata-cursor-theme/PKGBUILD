@@ -1,14 +1,13 @@
 pkgname=bibata-cursor-theme
-pkgver=0.4.2.beta.1
+pkgver=0.4.2
 pkgrel=1
-pkgdesc="Material Based Cursor Theme."
+pkgdesc="Material Based Cursor Theme"
 arch=('any')
-url="https://github.com/KaizIqbal/Bibata_Cursor.git"
+url="https://github.com/KaizIqbal/Bibata_Cursor"
 license=('GPL3')
-depends=()
 makedepends=('python-pillow' 'inkscape' 'xorg-xcursorgen')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('8dfc0ce33b110ce881c83f98c55943c5bab12f80145e527d507dfef290d089a7')
+sha256sums=('d00f91ebefa34d5c7d578c78a17825238fcb90540de0dbf4cf3ffb587e1ae976')
 
 build() {
 	cd "$srcdir/Bibata_Cursor-$pkgver"
@@ -20,36 +19,20 @@ build() {
     echo ' ██████╔╝██║██████╔╝██║  ██║   ██║   ██║  ██║'
     echo ' ╚═════╝ ╚═╝╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝'
 
-	# Bibata_Amber
-	python render-cursors.py ./src/Bibata_Amber/source-cursors.svg -o -a --name Bibata_Amber
-	./tweak.sh Bibata_Amber
-	./x11-make.sh Bibata_Amber
-	cp src/Bibata_Amber/*.theme Bibata_Amber/out/X11/Bibata_Amber
-
-	# Bibata_Classic
-	python render-cursors.py ./src/Bibata_Classic/source-cursors.svg -o -a --name Bibata_Classic
-	./tweak.sh Bibata_Classic
-	./x11-make.sh Bibata_Classic
-	cp src/Bibata_Classic/*.theme Bibata_Classic/out/X11/Bibata_Classic
-
-	# Bibata_Ice
-	python render-cursors.py ./src/Bibata_Ice/source-cursors.svg -o -a --name Bibata_Ice
-	./tweak.sh Bibata_Ice
-	./x11-make.sh Bibata_Ice
-	cp src/Bibata_Ice/*.theme Bibata_Ice/out/X11/Bibata_Ice
-
-	# Bibata_Oil
-	python render-cursors.py ./src/Bibata_Oil/source-cursors.svg -o -a --name Bibata_Oil
-	./tweak.sh Bibata_Oil
-	./x11-make.sh Bibata_Oil
-	cp src/Bibata_Oil/*.theme Bibata_Oil/out/X11/Bibata_Oil
+	for variant in Bibata_Amber Bibata_Classic Bibata_Ice Bibata_Oil; do
+		echo "Building $variant..."
+		python render-cursors.py ./src/$variant/source-cursors.svg -o -a --name $variant
+		./tweak.sh $variant
+		./x11-make.sh $variant
+		cp src/$variant/*.theme $variant/out/X11/$variant
+	done
 }
 
 package() {
 	cd "$srcdir/Bibata_Cursor-$pkgver"
 	install -d "$pkgdir/usr/share/icons"
-	cp -a Bibata_Amber/out/X11/Bibata_Amber "$pkgdir/usr/share/icons"
-	cp -a Bibata_Classic/out/X11/Bibata_Classic "$pkgdir/usr/share/icons"
-	cp -a Bibata_Ice/out/X11/Bibata_Ice "$pkgdir/usr/share/icons"
-	cp -a Bibata_Oil/out/X11/Bibata_Oil "$pkgdir/usr/share/icons"
+
+	for variant in Bibata_Amber Bibata_Classic Bibata_Ice Bibata_Oil; do
+		cp -a $variant/out/X11/$variant "$pkgdir/usr/share/icons"
+	done
 }
