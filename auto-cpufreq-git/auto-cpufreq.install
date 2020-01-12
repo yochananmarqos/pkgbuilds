@@ -2,17 +2,21 @@ post_install() {
 	# This is needed on SELinux enabled systems (see also ConditionPathExists in .service)
 	touch /var/log/auto-cpufreq.log
 
+	echo ''
 	echo 'Enable daemon service on boot:'
 	echo 'systemctl enable --now auto-cpufreq'
 	echo ''
 	echo 'To view live log, run:'
 	echo 'auto-cpufreq --log'
+	echo ''
 }
 
 post_upgrade() {
-	 echo 'Reload systemd manager configuration & restart service:'
-	 echo 'systemctl daemon-reload'
-	 echo 'systemctl systemctl restart auto-cpufreq'
+	echo ''
+	echo 'Reload systemd manager configuration & restart service:'
+	echo 'systemctl daemon-reload'
+	echo 'systemctl restart auto-cpufreq'
+	echo ''
 }
 
 post_remove() {
