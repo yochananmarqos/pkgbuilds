@@ -1,0 +1,21 @@
+pkgname=python-setuptools-lint
+_name=${pkgname#python-}
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="Expose pylint as a lint command into setup.py"
+arch=('any')
+url="https://github.com/johnnoone/setuptools-pylint"
+license=('BSD')
+depends=('python-pylint')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('e794e15c7c8dde970b618d9c7ad4588aeaea067f034ccb4ae8facc630b534199')
+
+build() {
+    cd "$_name-$pkgver"
+    python setup.py build
+}
+
+package() {
+    cd "$_name-$pkgver"
+    python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
