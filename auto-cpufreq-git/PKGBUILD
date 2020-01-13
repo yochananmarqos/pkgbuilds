@@ -5,7 +5,7 @@ pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
 url="https://foolcontrol.org/?p=3124"
 license=('LGPL3')
-depends=('python-distro' 'python-psutil' 'python-click')
+depends=('python-distro' 'python-psutil' 'python-click' 'python-power')
 makedepends=('git')
 optdepends=('gnome-shell-extension-cpufreq')
 provides=("${pkgname%-git}")
