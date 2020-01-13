@@ -1,7 +1,7 @@
 pkgname=repoctl-devel-git
 pkgver=0.18.r16.g717a4e1
 pkgrel=1
-pkgdesc="Make it easy to manage your local Arch Linux repository."
+pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
 license=('MIT')
@@ -53,7 +53,7 @@ package() {
 
 	# Install completion files
 	install -Dm644 "contrib/${pkgname%-devel-git}_completion.zsh" \
-		"$pkgdir/usr/share/zsh/site-functions/_repoctl"
+		"$pkgdir/usr/share/zsh/site-functions/_${pkgname%-devel-git}"
 	install -Dm644 "contrib/${pkgname%-devel-git}_completion.bash" \
 		"$pkgdir/usr/share/bash-completion/completions/${pkgname%-devel-git}"
 }

@@ -1,0 +1,52 @@
+pkgname=repoctl
+pkgver=0.19
+pkgrel=1
+pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
+arch=('i686' 'x86_64' 'armv7h')
+url="https://github.com/cassava/repoctl"
+license=('MIT')
+makedepends=('go-pie')
+source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('1c7b0ee078db9fa5b845329dad7a5603e678df9f39281dc3f0228c257734d58f')
+
+prepare() {
+	mkdir -p gopath/src/github.com/cassava
+	ln -rTsf "$pkgname-$pkgver" \
+		"gopath/src/github.com/cassava/$pkgname"
+}
+
+build() {
+	export GOPATH="$srcdir"/gopath
+
+	cd "gopath/src/github.com/cassava/$pkgname/cmd/$pkgname"
+	go build \
+		-trimpath \
+		-ldflags "-extldflags ${LDFLAGS}" \
+		.
+
+	cd "$srcdir/gopath/src/github.com/cassava/$pkgname/cmd/repols"
+	go build \
+		-trimpath \
+		-ldflags "-extldflags ${LDFLAGS}" \
+		.
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+
+	# Install binaries
+	install -Dm755 "cmd/$pkgname/$pkgname" cmd/repols/repols -t \
+		"$pkgdir/usr/bin"
+
+	# Install documentation
+	install -Dm644 README.md NEWS.md -t \
+		"$pkgdir/usr/share/doc/$pkgname"
+	install -Dm644 LICENSE -t \
+		"$pkgdir/usr/share/licenses/$pkgname"
+
+	# Install completion files
+	install -Dm644 "contrib/${pkgname}_completion.zsh" \
+		"$pkgdir/usr/share/zsh/site-functions/_${pkgname}"
+	install -Dm644 "contrib/${pkgname}_completion.bash" \
+		"$pkgdir/usr/share/bash-completion/completions/$pkgname"
+}

@@ -1,5 +1,5 @@
 pkgname=clight-git
-pkgver=4.0.r5.0786b21
+pkgver=4.0.r7.74e9bcc
 pkgrel=1
 pkgdesc="A C daemon that turns your webcam into a light sensor. It can also change display
          gamma temperature, dim your screen and set your dpms. Devel version."

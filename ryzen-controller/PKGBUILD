@@ -1,4 +1,3 @@
-# Maintainer: Your Name <youremail@domain.com>
 pkgname=ryzen-controller
 pkgver=1.16.0
 pkgrel=1
@@ -10,7 +9,7 @@ depends=('ryzenadj' 'nss' 'nodejs' 'gtk3' 'libxss')
 makedepends=('npm')
 options=('!strip')
 source=("https://gitlab.com/le.storm1er/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz"
-	"$pkgname.desktop")
+        "$pkgname.desktop")
 sha256sums=('db314f6dc2cadea6825facd45fcbf8254835b206ca56e3113419ff53d9a5cdbf'
             'e1c7d2d4cfa10da7bc284c0fe4b94f5592ea2b5ab92854d74f23b70a98d8db7c')
 

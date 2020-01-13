@@ -1,4 +1,3 @@
-# Maintainer: Your Name <youremail@domain.com>
 pkgname=texpander-git
 pkgver=2.0.r19.cd53b18
 pkgrel=1
@@ -22,7 +21,7 @@ pkgver() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 README.md "$pkgdir/usr/share/doc/${pkgname%-git}/README.md"
-	install -Dm644 "$srcdir/${pkgname%-git}.desktop" \
-		"$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
+	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
+		"$pkgdir/usr/share/applications"
 }

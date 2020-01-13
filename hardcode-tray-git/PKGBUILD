@@ -1,5 +1,5 @@
 pkgname=hardcode-tray-git
-pkgver=4.3.r58.g4752f16
+pkgver=4.3.r60.g1356a48
 pkgrel=1
 pkgdesc="Fixes Hardcoded Tray Icons"
 arch=('i686' 'x86_64')
