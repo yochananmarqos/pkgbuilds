@@ -1,17 +1,19 @@
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=nvme0-temp
-pkgver=20191029
+pkgver=20200114
 pkgrel=1
 pkgdesc="NVMe temperature monitor daemon for use with conky"
 arch=('any')
 url="https://forums.fedoraforum.org/showthread.php?320314-Solution-Is-there-an-hddtemp-fork-that-reads-NVMe-drives&s=2574a7c807d5cc04331f50a9779f6d9d&p=1817680#post1817680"
 license=('GPL')
-depends=('nvme-cli' 'mksh')
-optdepends=('conky')
+depends=('mksh')
+optdepends=('nvme-cli: choose one'
+            'smartmontools: choose one'
+            'conky: display temps in conky')
 install="$pkgname.install"
 source=("$pkgname.sh"
         "$pkgname.service")
-sha256sums=('eb60995193e96be87b7091e839de843a84abf954507fd2730199a83daa057054'
+sha256sums=('cd48ea680bc1789410eca0b518c47c75aa954566a6dc93acf46a35eb0fb76ce2'
             'ce3cddd5278fbf2742a18e9d0973fe2861ea0fe5512cc111f4fda18595cd209f')
 
 pkgver() {
