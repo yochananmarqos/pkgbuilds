@@ -10,15 +10,15 @@ provides=("${pkgname%-bin}" "${pkgname%-bin}=$pkgver" 'd9vk')
 conflicts=("${pkgname%-bin}" "${pkgname%-bin}=$pkgver" 'd9vk')
 options=('!strip')
 source=("$url/releases/download/v$pkgver/${pkgname%-bin}-$pkgver.tar.gz")
-noextract=("${pkgname%-bin}-$pkgver.tar.gz")
 sha256sums=('474ce9995edd47a3bd347a8f3263f35cf8df2676f5b16668bf38efa298d75c01')
 
 package() {
-	install -d "$pkgdir/usr/share/${pkgname%-bin}"
-	tar -xf "${pkgname%-bin}-$pkgver".tar.gz -C "$pkgdir/usr/share/${pkgname%-bin}" \
-		--strip-components=1 dxvk-"$pkgver"/
+	cd "${pkgname%-bin}-$pkgver"
+	install -D x32/* -t "$pkgdir/usr/share/${pkgname%-bin}/x32"
+	install -D x64/* -t "$pkgdir/usr/share/${pkgname%-bin}/x64"
+	install -D "setup_${pkgname%-bin}.sh" -t "$pkgdir/usr/share/${pkgname%-bin}"
+
 	install -d "$pkgdir/usr/bin"
 	ln -s "/usr/share/${pkgname%-bin}/setup_${pkgname%-bin}.sh" \
 		"$pkgdir/usr/bin/setup_${pkgname%-bin}"
-	chown -R root:root "$pkgdir/usr/"
 }
