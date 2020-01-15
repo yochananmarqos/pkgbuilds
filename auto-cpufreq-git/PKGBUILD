@@ -7,7 +7,8 @@ url="https://foolcontrol.org/?p=3124"
 license=('LGPL3')
 depends=('python-distro' 'python-psutil' 'python-click' 'python-power')
 makedepends=('git')
-optdepends=('gnome-shell-extension-cpufreq')
+optdepends=('cpufreqctl: CPU Power Manager'
+            'gnome-shell-extension-cpufreq: CPU Power Manager for GNOME Shell')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 install="${pkgname%-git}.install"
