@@ -26,7 +26,7 @@ package() {
 	ln -s "opt/${pkgname%-git}/src/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
 	install -Dm644 "src/ui/assets/${pkgname%-git}.svg" -t \
 		"$pkgdir/usr/share/icons/hicolor/scalable/apps"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 
 	cat <<EOF >"$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
 [Desktop Entry]
