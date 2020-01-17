@@ -9,7 +9,7 @@ license=('BSD')
 depends=('python-fonttools' 'python-defcon' 'python-fontmath')
 makedepends=('python-setuptools')
 #options=(!emptydirs)
-source=("https://github.com/LettError/MutatorMath/archive/$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
 #source=("https://pypi.org/packages/source/${_name:0:1}/${_name}/${_name}-$pkgver.zip")
 sha256sums=('07fe44ca63ce51354ebd5ec8688301a11a5f6ebda0280980689add6333462c47')
 
