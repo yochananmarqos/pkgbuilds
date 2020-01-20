@@ -7,9 +7,10 @@ arch=('any')
 url="https://github.com/moses-palmer/pystray"
 license=('GPL')
 depends=('python-pillow' 'python-xlib')
-makedepends=('python-setuptools')
+makedepends=('python-setuptools' 'python-sphinx')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('5f07b9da8a312474e2276559dca04cbf18da58b6e9e44223adf2095f70abb2b6')
+#source=("https://github.com/moses-palmer/$_name/archive/v$pkgver.tar.gz")
+sha256sums=('97e4f388f2ab62304ea7c31da15a6248e7ce03ecd211e7a4d7d0e1ca28414c43')
 
 build() {
 	cd "$_name-$pkgver"
