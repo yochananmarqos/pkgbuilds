@@ -1,0 +1,30 @@
+pkgname=bat-extras-git
+pkgver=20190117.r8.765658c
+pkgrel=1
+pkgdesc='Bash scripts that integrate bat with various command line tools'
+arch=('any')
+_gitname='bat-extras'
+url="https://github.com/eth-p/bat-extras"
+license=('MIT')
+depends=('bat')
+makedepends=('git')
+optdepends=('ripgrep: for batgrep script')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/eth-p/bat-extras.git')
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+    cd "$srcdir/${pkgname%-git}"
+    ./build.sh --minify=none --no-verify
+}
+
+package() {
+    cd "$srcdir/${pkgname%-git}"
+    install -Dm755 bin/* -t "$pkgdir/usr/bin"
+}
