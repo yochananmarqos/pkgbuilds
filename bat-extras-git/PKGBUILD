@@ -1,9 +1,8 @@
 pkgname=bat-extras-git
 pkgver=20190117.r8.765658c
 pkgrel=1
-pkgdesc='Bash scripts that integrate bat with various command line tools'
+pkgdesc="Bash scripts that integrate bat with various command line tools."
 arch=('any')
-_gitname='bat-extras'
 url="https://github.com/eth-p/bat-extras"
 license=('MIT')
 depends=('bat')
@@ -27,4 +26,5 @@ build() {
 package() {
     cd "$srcdir/${pkgname%-git}"
     install -Dm755 bin/* -t "$pkgdir/usr/bin"
+    install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
