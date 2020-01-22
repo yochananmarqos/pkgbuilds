@@ -9,10 +9,10 @@ depends=('polkit')
 optdepends=('systemd')
 makedepends=('meson' 'pkg-config' 'git')
 install="$pkgname.install"
-source=("$url/releases/download/$pkgver/$pkgname-$pkgver.tar.xz"{,.asc})
-sha256sums=('262389e0a625670c5f53f89d0c30a28cd5f9569a8e6b012dccf78b7fdcb98408'
-            'SKIP')
-validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
+source=("$url/releases/download/$pkgver/$pkgname-$pkgver.tar.xz") #{,.asc})
+sha256sums=('262389e0a625670c5f53f89d0c30a28cd5f9569a8e6b012dccf78b7fdcb98408')
+            #'SKIP')
+#validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
               # Alex Smith <asmith@feralinteractive.com>
 
 build() {
