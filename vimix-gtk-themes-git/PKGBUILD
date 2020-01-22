@@ -1,0 +1,26 @@
+pkgname=vimix-gtk-themes-git
+pkgver=2019.05.03.r21.g2514743
+pkgrel=1
+pkgdesc="A flat Material Design theme for GTK 3, GTK 2, GNOME Shell, etc."
+arch=('any')
+url="https://vinceliuice.github.io/theme-vimix.html"
+license=('GPL3')
+depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
+makedepends=('git')
+optdepends=('kvantum-theme-vimix: Matching Kvantum theme'
+            'tela-icon-theme: Recommended icon theme')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/vinceliuice/vimix-gtk-themes.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/usr/share/themes"
+	./Install -d "$pkgdir/usr/share/themes"
+}
