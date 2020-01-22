@@ -8,10 +8,10 @@ url="https://github.com/FeralInteractive/gamemode"
 license=('BSD 3-Clause License (Revised)')
 depends=('polkit' 'gamemode' 'lib32-glibc' 'lib32-systemd' 'lib32-dbus')
 makedepends=('meson' 'pkg-config' 'git')
-source=("$url/releases/download/$pkgver/$_pkgname-$pkgver.tar.xz") #{,.asc})
-sha256sums=('262389e0a625670c5f53f89d0c30a28cd5f9569a8e6b012dccf78b7fdcb98408')
-            #'SKIP')
-#validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
+source=("$url/releases/download/$pkgver/$_pkgname-$pkgver.tar.xz"{,.asc})
+sha256sums=('262389e0a625670c5f53f89d0c30a28cd5f9569a8e6b012dccf78b7fdcb98408'
+            'SKIP')
+validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
               # Alex Smith <asmith@feralinteractive.com>
 
 build() {
