@@ -1,0 +1,25 @@
+pkgname=chromeos-gtk-theme-git
+_gitname=ChromeOS-theme
+pkgver=2020.01.18.r1.g86d8b7a
+pkgrel=1
+pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
+arch=('any')
+url="https://github.com/vinceliuice/ChromeOS-theme"
+license=('GPL3')
+depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("git+https://github.com/vinceliuice/ChromeOS-theme.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$_gitname"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+	cd "$srcdir/$_gitname"
+	install -d "$pkgdir/usr/share/themes"
+	./install.sh -d "$pkgdir/usr/share/themes"
+}
