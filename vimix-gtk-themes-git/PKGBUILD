@@ -8,6 +8,7 @@ license=('GPL3')
 depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
 makedepends=('git')
 optdepends=('kvantum-theme-vimix: Matching Kvantum theme'
+            'vimix-icon-theme: Matching icon theme'
             'tela-icon-theme: Recommended icon theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
