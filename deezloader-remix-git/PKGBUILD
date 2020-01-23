@@ -1,5 +1,5 @@
 pkgname=deezloader-remix-git
-pkgver=4.2.1.r258.bfb9838
+pkgver=4.2.1.r258.gbfb9838
 pkgrel=1
 pkgdesc="An improved version of Deezloader based on the Reborn branch.
         Download songs, playlists and albums directly from Deezer's servers."
@@ -19,7 +19,7 @@ sha256sums=('SKIP'
 
 pkgver() {
     cd "$srcdir/${pkgname%-git}"
-    printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
