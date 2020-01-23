@@ -1,4 +1,5 @@
-pkgname=byte
+pkgname=elementary-byte
+_pkgname=${pkgname#elementary-}
 pkgver=0.3.1
 pkgrel=1
 pkgdesc="A music player designed for elementary OS"
@@ -12,14 +13,14 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/alainm23/byte/archive/$pkgv
 sha256sums=('a55449f7869b999517495154bdb31474e9b04c1e30ba8f8b8b0f6eef6306527c')
 
 build() {
-	cd "$pkgname-$pkgver"
+	cd "$_pkgname-$pkgver"
 	arch-meson build
 	ninja -C build
 }
 
 package() {
-	cd "$pkgname-$pkgver"
+	cd "$_pkgname-$pkgver"
 	DESTDIR="$pkgdir" ninja -C build install
 
-	ln -s /usr/bin/com.github.alainm23.byte "$pkgdir/usr/bin/$pkgname"
+	ln -s /usr/bin/com.github.alainm23.byte "$pkgdir/usr/bin/$_pkgname"
 }
