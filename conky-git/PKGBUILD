@@ -1,5 +1,5 @@
 pkgname=conky-git
-pkgver=1.11.5.r4.g9517ab1e
+pkgver=1.11.5.r18.g435d05dc
 pkgrel=1
 pkgdesc='Lightweight system monitor for X'
 url='https://github.com/brndnmtthws/conky'
@@ -44,10 +44,10 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	make DESTDIR="${pkgdir}" install
-	install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+	make DESTDIR="$pkgdir" install
+	install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 	install -Dm644 extras/vim/syntax/conkyrc.vim \
-		"${pkgdir}"/usr/share/vim/vimfiles/syntax/conkyrc.vim
+		"$pkgdir"/usr/share/vim/vimfiles/syntax/conkyrc.vim
 	install -Dm644 extras/vim/ftdetect/conkyrc.vim \
-		"${pkgdir}"/usr/share/vim/vimfiles/ftdetect/conkyrc.vim
+		"$pkgdir"/usr/share/vim/vimfiles/ftdetect/conkyrc.vim
 }
