@@ -1,5 +1,5 @@
 pkgname=manjaro-i3-gnome
-_pkgname=i3-gnome
+_pkgname=${pkgname#manjaro-}
 pkgver=3.34.2
 pkgrel=1
 pkgdesc="Use i3 with GNOME Session integration: Manjaro edition."
@@ -27,11 +27,7 @@ depends=('gnome-session'
          'papirus-maia-icon-theme'
          'urxvt-perls'
          'xcursor-breeze'
-         'xorg-fonts-misc'
-
-         #extras:
-         'network-manager-applet'
-         'volumeicon')
+         'xorg-fonts-misc')
 makedepends=('git')
 optdepends=('gdm'
             'gnome-flashback'
@@ -43,7 +39,9 @@ optdepends=('gdm'
 
             # extras
             'bmenu'
-            'morc_menu')
+            'morc_menu'
+            'network-manager-applet'
+            'volumeicon')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
