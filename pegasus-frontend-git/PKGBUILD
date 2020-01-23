@@ -1,14 +1,14 @@
 pkgname=pegasus-frontend-git
-pkgver=alpha13.r37.g67846c6
+pkgver=alpha13.r40.009b0fe
 pkgrel=1
-pkgdesc="A cross platform, customizable graphical frontend for launching emulators and managing your game collection."
+pkgdesc="A cross platform, customizable graphical frontend for launching emulators and managing
+         your game collection."
 arch=('i686' 'x86_64')
 url="https://pegasus-frontend.org"
 license=('GPL3')
 depends=('qt-gstreamer' 'qt5-svg' 'qt5-multimedia' 'qt5-gamepad' 'qt5-graphicaleffects'
          'fontconfig' 'openssl-1.0')
-makedepends=('git' 'qt5-tools'
-)
+makedepends=('git' 'qt5-tools')
 optdepends=('polkit: for shutting down/restarting the device without admin rights')
 provides=("${pkgname%-git}" 'pegasus-fe')
 conflicts=("${pkgname%-git}" 'pegasus-fe')
@@ -24,7 +24,7 @@ sha256sums=('SKIP'
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+	git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g'
 }
 
 prepare() {
