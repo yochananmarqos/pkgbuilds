@@ -9,8 +9,10 @@ depends=('zlib' 'freeglut' 'libgl' 'glu')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/zigalenarcic/mangl.git')
-sha1sums=('SKIP')
+source=('git+https://github.com/zigalenarcic/mangl.git'
+        "${pkgname%-git}.desktop")
+sha1sums=('SKIP'
+          '68a39c576a302c55c7dadb86697f8d880e394b9c')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -26,5 +28,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
