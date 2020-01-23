@@ -1,5 +1,5 @@
 pkgname=mangl-git
-pkgver=1.0.2.r0.ge9cb5e7
+pkgver=1.0.2.r2.g0ec3611
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
@@ -14,7 +14,7 @@ sha1sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
