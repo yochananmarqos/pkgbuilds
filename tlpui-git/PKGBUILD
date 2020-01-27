@@ -1,5 +1,5 @@
 pkgname=tlpui-git
-pkgver=r110.372463b
+pkgver=r117.8496dce
 pkgrel=1
 pkgdesc="A GTK user interface for TLP written in Python"
 arch=('any')
