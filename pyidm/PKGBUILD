@@ -1,0 +1,26 @@
+pkgname=pyidm
+pkgver=4.3.0
+#pkgver=2020.1.20
+pkgrel=1
+pkgdesc="Python open source alternative to IDM (Internet Download Manager) with multi-connections"
+arch=('x86_64')
+url="https://github.com/pyIDM/pyIDM"
+license=('GPL3')
+depends=('python-certifi' 'python-plyer' 'python-pycurl' 'python-pyperclip' 'python-pysimplegui'
+         'ffmpeg' 'youtube-dl')
+optdepends=('xsel: clipboard access'
+            'xclip: clipboard access')
+#source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/pyIDM/pyIDM/archive/v$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha256sums=('bb3c221b3db30559883bda88b50e037b7be9963714c52df142bbbf5f82c1cc5d'
+            '1b477b3261bc9b3cf0b4599243456933d6bc3c1faa2cace2041c65908f7f73d5')
+
+package() {
+	cd "pyIDM-$pkgver"
+	install -Dm755 pyIDM.py "$pkgdir/usr/bin/pyidm"
+
+	install -Dm644 icons/icon.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
+
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+}
