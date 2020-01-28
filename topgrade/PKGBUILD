@@ -1,8 +1,8 @@
 pkgname=topgrade
-pkgver=3.7.1
+pkgver=3.8.0
 pkgrel=1
 pkgdesc='Invoke the upgrade proceadure of multiple package managers'
-arch=('x86_64' 'armv7')
+arch=('x86_64' 'armv7' 'aarch64')
 url='https://github.com/r-darwish/topgrade'
 license=('GPL3')
 makedepends=('rust')
@@ -39,12 +39,11 @@ makedepends=('rust')
             #'flatpak: Update Flatpak packages'
             #'snapd: Update snap packages'
             #'fwupd: Run fwupdmgr to show firmware upgrade'
-            ##'?: Run rpi-update to update Raspberry Pi Firmware'
             ##'?: Run pihole updater'
             #'needrestart: Run needrestart')
             #'tldr'
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('2f75d3315ac925d0735836ddee251446f78366060e801202cecd8ad76fe1ea08')
+sha256sums=('0a9bfcc8a2ea87d6549de159de57f08eba95c81456c02631cd87b6e63febdc0e')
 
 build() {
 	cd "$pkgname-$pkgver"
@@ -54,5 +53,4 @@ build() {
 package() {
 	cd "$pkgname-$pkgver"
 	install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
