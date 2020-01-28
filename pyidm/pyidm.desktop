@@ -2,6 +2,6 @@
 Type=Application
 Icon=pyidm
 Name=pyIDM
-Exec=pyidm
+Exec=python /usr/bin/pyidm
 Terminal=false
 Hidden=false
