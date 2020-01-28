@@ -1,5 +1,5 @@
 pkgname=ooniprobe-desktop-git
-pkgver=3.0.0.rc.3.r13.g33108df
+pkgver=3.0.0.rc.3.r15.gb447a6f
 pkgrel=1
 pkgdesc="The next generation OONI Probe desktop app"
 arch=('x86_64')
@@ -17,11 +17,14 @@ sha256sums=('SKIP'
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
+
+	# Don't download darwin & windows files
+	#sed -i 's/(darwin|linux|windows)/linux/g' scripts/download-bin.js
 
 	# Disable building of rpm & tar.gz
 	sed -i 's/"deb",/"deb"/g' package.json
@@ -31,7 +34,6 @@ prepare() {
 build() {
 	cd "$srcdir/${pkgname%-git}"
 	yarn install --cache-folder "$srcdir/yarn-cache"
-	yarn install
 	yarn run probe-cli
 	yarn run pack:linux
 }
