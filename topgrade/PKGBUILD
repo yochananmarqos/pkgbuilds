@@ -1,5 +1,5 @@
 pkgname=topgrade
-pkgver=3.8.0
+pkgver=3.8.1
 pkgrel=1
 pkgdesc='Invoke the upgrade proceadure of multiple package managers'
 arch=('x86_64' 'armv7' 'aarch64')
@@ -43,7 +43,7 @@ makedepends=('rust')
             #'needrestart: Run needrestart')
             #'tldr'
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('0a9bfcc8a2ea87d6549de159de57f08eba95c81456c02631cd87b6e63febdc0e')
+sha256sums=('df2f26ceb530f9805375947b26008704539c3eff526e2a5cc12d525c5fd2770b')
 
 build() {
 	cd "$pkgname-$pkgver"
