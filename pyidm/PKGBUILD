@@ -16,6 +16,12 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/$_name/$_name/archive/$pkgv
         "$pkgname.desktop")
 sha256sums=('11f3b0b9aaacdd566dcaf274e4516f6d98d16e3176135e15d2c2cf23e78ee5db'
             'da5d216b06a03b2aba8c7c2c750a044a05ca05f0b580da6e0fa66259843ea3cc')
+prepare() {
+	cd "$_name-$pkgver"
+
+	# setup.py looks for README.md
+	mv readme.md README.md
+}
 
 build() {
 	cd "$_name-$pkgver"
