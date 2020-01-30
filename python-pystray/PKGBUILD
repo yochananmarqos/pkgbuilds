@@ -6,9 +6,9 @@ pkgdesc="Allows you to create a system tray icon"
 arch=('any')
 url="https://github.com/moses-palmer/pystray"
 license=('GPL')
-depends=('python-pillow' 'python-xlib')
-makedepends=('python-setuptools' 'python-sphinx')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+depends=('python-pillow' 'python-six' 'python-xlib')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 #source=("https://github.com/moses-palmer/$_name/archive/v$pkgver.tar.gz")
 sha256sums=('97e4f388f2ab62304ea7c31da15a6248e7ce03ecd211e7a4d7d0e1ca28414c43')
 
