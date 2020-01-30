@@ -1,6 +1,6 @@
 pkgname=pyidm
 _name=pyIDM
-pkgver=2020.1.27
+pkgver=2020.1.30
 pkgrel=1
 pkgdesc="Python open source alternative to IDM (Internet Download Manager) with multi-connections"
 arch=('x86_64')
@@ -10,11 +10,11 @@ depends=('python-certifi' 'python-plyer' 'python-pycurl' 'python-pyperclip' 'pyt
          'ffmpeg' 'youtube-dl')
 optdepends=('xsel: clipboard access'
             'xclip: clipboard access')
-source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
-        "https://github.com/$_name/$_name/raw/master/icons/icon.png"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/$_name/$_name/archive/$pkgver.tar.gz"
+#source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
+        #"https://github.com/$_name/$_name/raw/master/icons/icon.png"
         "$pkgname.desktop")
-sha256sums=('f40e45968a0954419a44d9be2b1d4803ce3a6ccdb6c8839803cb106005d147bd'
-            '290f39aea9c289f1ca4cff7e0f9a6f00d5e7dd2ec693dc7b54748c94bd0c5ed5'
+sha256sums=('11f3b0b9aaacdd566dcaf274e4516f6d98d16e3176135e15d2c2cf23e78ee5db'
             'da5d216b06a03b2aba8c7c2c750a044a05ca05f0b580da6e0fa66259843ea3cc')
 
 build() {
@@ -28,7 +28,8 @@ package() {
 
 	mv "$pkgdir/usr/bin/$_name.py" "$pkgdir/usr/bin/$pkgname"
 
-	install -Dm644 "$srcdir/icon.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	install -Dm644 icons/icon.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	#install -Dm644 "$srcdir/icon.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
 	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
 
