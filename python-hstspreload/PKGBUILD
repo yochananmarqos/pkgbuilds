@@ -9,7 +9,7 @@ license=('BSD-3-Clause')
 depends=('python')
 makedepends=('python-setuptools')
 #checkdepends=('python-pytest')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('702c7350a2a84f5baf4ab4a2b2fdd4c931f51143d73515e132b0131f6fe0d264')
 
 build() {
