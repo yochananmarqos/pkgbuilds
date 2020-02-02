@@ -1,4 +1,5 @@
 pkgname=nerd-fonts-terminus
+_name=Terminus
 pkgver=2.1.0
 pkgrel=1
 pkgdesc="A Nerd Font patched version of Terminus"
@@ -9,7 +10,7 @@ depends=('fontconfig' 'xorg-font-utils')
 makedepends=('fontconfig' 'xorg-mkfontscale' 'xorg-mkfontdir')
 conflicts=('nerd-fonts' 'nerd-fonts-complete')
 install="$pkgname.install"
-source=("https://github.com/ryanoasis/nerd-fonts/releases/download/v$pkgver/Terminus.zip"
+source=("$_name-$pkgver.zip::https://github.com/ryanoasis/nerd-fonts/releases/download/v$pkgver/$_name.zip"
         "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/$pkgver/LICENSE")
 sha256sums=('f28d523ff6bd969577d891d6a7c653d651c1a418cc2aebf8ae9dbb22845e5e3c'
             'd2a29823384e9194a87936ccad495c764c2ef733b29bfa6f72a1d65803ce02e5')
