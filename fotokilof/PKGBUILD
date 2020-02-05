@@ -1,0 +1,29 @@
+pkgname=fotokilof
+_gitname=FotoKilof
+pkgver=3.2
+pkgrel=1
+pkgdesc="GUI for ImageMagick"
+arch=('x86_64')
+url="https://github.com/TeaM-TL/FotoKilof"
+license=('MIT')
+depends=('imagemagick' 'tk') #'python-touch' ?
+makedepends=('pyinstaller' 'upx')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/TeaM-TL/FotoKilof/archive/$pkgver.tar.gz"
+        "$pkgname.sh")
+sha256sums=('7fc131214e492797d42084957a33fc2423ef175c507b10dd56888386ccc2057a'
+            '161809a7ad5d16919c52e63ab51bd8cd5c752c11d058aab6f969fe93ee118549')
+
+build() {
+	cd "$_gitname-$pkgver/scripts"
+	./linux.sh
+}
+
+package() {
+	cd "$_gitname-$pkgver"
+	install -d "$pkgdir/opt"
+	bsdtar -xf "dist/$pkgname-$pkgver-linux.sh-$CARCH.zip" -C "$pkgdir/opt"
+
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
+	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+}
