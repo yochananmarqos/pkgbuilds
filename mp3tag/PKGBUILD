@@ -1,5 +1,5 @@
 pkgname=mp3tag
-pkgver=3.0.0
+pkgver=3.00
 pkgrel=1
 pkgdesc="The universal tag editor."
 arch=('i686' 'x86_64')
@@ -8,7 +8,7 @@ license=('custom')
 depends=('wine' 'samba' 'lib32-gnutls')
 makedepends=('p7zip')
 options=('!strip')
-source=("https://download.mp3tag.de/${pkgname}v${pkgver//./}setup.exe"
+source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
         'LICENSE'
         "$pkgname"
         "$pkgname.desktop"
@@ -20,7 +20,7 @@ sha256sums=('9d2a9c680f9e0c1e0eda17d138ed766f239931c4adfd7b7cf722802a25b1b310'
             'a3e09f7cda34bc31b3b5b1d7cf2010c3b17847c141ef5a074472eb72f760f6bf')
 
 prepare() {
-	7z -y -o"$srcdir/$pkgname-$pkgver" x "${pkgname}v${pkgver//./}setup.exe"
+	7z -y -o"$srcdir/$pkgname-$pkgver" x "${pkgname}v${pkgver/./}setup.exe"
 }
 
 package() {
