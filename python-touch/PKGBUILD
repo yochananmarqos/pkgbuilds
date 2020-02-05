@@ -1,0 +1,21 @@
+pkgname=python-touch
+_name=${pkgname#python-}
+pkgver=2019.4.13
+pkgrel=1
+pkgdesc="touch(path) - update the access and modification date of a path(s)"
+arch=('any')
+url="https://github.com/andrewp-as-is/touch.py"
+license=('GPL')
+depends=('python-setuptools' 'python-values')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('bd883adf4631dd4392a3dbd3f864719854833b949a31b9025bcc9dac48514449')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}

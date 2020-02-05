@@ -1,0 +1,21 @@
+pkgname=python-values
+_name=${pkgname#python-}
+pkgver=2019.4.13
+pkgrel=1
+pkgdesc="values.get(input) - create list from input"
+arch=('any')
+url="https://github.com/andrewp-as-is/values.py"
+license=('GPL')
+depends=('python-public' 'python-setuptools')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('8490feebec95cbdb61ee2992355f064371a70ab0a3d9f725a5450987ebf891ad')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
