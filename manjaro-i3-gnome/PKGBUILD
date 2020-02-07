@@ -41,7 +41,8 @@ optdepends=('gdm'
             'bmenu'
             'morc_menu'
             'network-manager-applet'
-            'volumeicon')
+            'volumeicon'
+            'sgtk-menu')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
