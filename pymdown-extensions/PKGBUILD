@@ -1,17 +1,17 @@
 pkgname=pymdown-extensions
-pkgver=6.2.1
+pkgver=6.3
 pkgrel=1
 pkgdesc="Extensions for Python Markdown"
-arch=("any")
+arch=('any')
 url="http://facelessuser.github.io/pymdown-extensions"
 license=('MIT')
 depends=('python')
 makedepends=('python-setuptools')
 #checkdepends=('python-pyaml' 'python-pytest-cov' 'python-pep562')
 optdepends=('python-pygments')
-source=("https://files.pythonhosted.org/packages/source/${pkgname::1}/$pkgname/$pkgname-$pkgver.tar.gz")
+source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
 #source=("https://github.com/facelessuser/$pkgname/archive/$pkgver.tar.gz")
-sha256sums=('3bbe6048275f8a0d13a0fe44e0ea201e67268aa7bb40c2544eef16abbf168f7b')
+sha256sums=('cb879686a586b22292899771f5e5bc3382808e92aa938f71b550ecdea709419f')
 
 build() {
     cd "$pkgname-$pkgver"
