@@ -7,11 +7,13 @@ arch=('x86_64')
 url="https://github.com/TeaM-TL/FotoKilof"
 license=('MIT')
 depends=('imagemagick' 'tk' 'python-libconfigparser' 'python-pathlib')
-makedepends=('pyinstaller' 'upx')
+makedepends=('pyinstaller')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/TeaM-TL/FotoKilof/archive/$pkgver.tar.gz"
-        "$pkgname.sh")
+        "$pkgname.sh"
+        "$pkgname.desktop")
 sha256sums=('3f48bdfee71963dcb189785d2429a81cf8b32303caf8a8d0a4aaa4ed1c72d6e1'
-            '161809a7ad5d16919c52e63ab51bd8cd5c752c11d058aab6f969fe93ee118549')
+            '161809a7ad5d16919c52e63ab51bd8cd5c752c11d058aab6f969fe93ee118549'
+            '4768a8ad812a8fa5e7385d75e3459b7c9484a806f61403b544c4bfebbcc86078')
 
 build() {
 	cd "$_gitname-$pkgver/scripts"
@@ -24,6 +26,6 @@ package() {
 	bsdtar -xf "dist/$pkgname-$pkgver-linux.sh-$arch.zip" -C "$pkgdir/opt"
 
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
-
 	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
