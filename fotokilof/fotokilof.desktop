@@ -2,7 +2,7 @@
 Type=Application
 Icon=image-auto-adjust
 Name=FotoKilof
-Exec=/usr/bin/fotokilof
+Exec=fotokilof
 Terminal=false
 Hidden=false
 Categories=Graphics
