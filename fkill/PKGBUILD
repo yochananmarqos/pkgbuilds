@@ -1,0 +1,38 @@
+pkgname=fkill
+_npmname=fkill-cli
+pkgver=6.0.0
+pkgrel=1
+pkgdesc="Fabulously kill processes. Cross-platform."
+arch=('any')
+url="https://github.com/sindresorhus/fkill-cli"
+license=('MIT')
+depends=('nodejs')
+makedepends=('npm' 'jq')
+source=("https://registry.npmjs.org/$_npmname/-/$_npmname-$pkgver.tgz")
+#noextract=("$_npmname-$pkgver.tgz")
+sha256sums=('386cb56ec54dcac1b12c5f4e0ba736709194a45ff02e1beb40d1991c7820a2a1')
+
+package() {
+	npm install \
+	--cache "$srcdir/npm-cache" \
+	-g \
+	--user root \
+	--prefix "$pkgdir"/usr \
+	"$srcdir"/$_npmname-$pkgver.tgz
+
+	# Non-deterministic race in npm gives 777 permissions to random directories.
+	# See https://github.com/npm/npm/issues/9359 for details.
+	find "${pkgdir}"/usr -type d -exec chmod 755 {} +
+
+	# Remove references to $pkgdir
+	find "$pkgdir" -type f -name package.json -print0 | xargs -0 sed -i "/_where/d"
+
+	# Remove references to $srcdir
+	local tmppackage="$(mktemp)"
+	local pkgjson="$pkgdir/usr/lib/node_modules/$_npmname/package.json"
+	jq '.|=with_entries(select(.key|test("_.+")|not))' "$pkgjson" > "$tmppackage"
+	mv "$tmppackage" "$pkgjson"
+	chmod 644 "$pkgjson"
+
+	install -Dm644 "$srcdir/package/license" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
