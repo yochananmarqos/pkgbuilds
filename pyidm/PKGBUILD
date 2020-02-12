@@ -1,6 +1,6 @@
 pkgname=pyidm
 _name=pyIDM
-pkgver=2020.1.30
+pkgver=2020.2.12
 pkgrel=1
 pkgdesc="Python open source alternative to IDM (Internet Download Manager) with multi-connections"
 arch=('x86_64')
@@ -14,14 +14,8 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/$_name/$_name/archive/$pkgv
 #source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
         #"https://github.com/$_name/$_name/raw/master/icons/icon.png"
         "$pkgname.desktop")
-sha256sums=('11f3b0b9aaacdd566dcaf274e4516f6d98d16e3176135e15d2c2cf23e78ee5db'
+sha256sums=('72557f9a70fda75ca333977c7c086198897ae690df256fa537553db64c2fa2a6'
             'da5d216b06a03b2aba8c7c2c750a044a05ca05f0b580da6e0fa66259843ea3cc')
-prepare() {
-	cd "$_name-$pkgver"
-
-	# setup.py looks for README.md
-	mv readme.md README.md
-}
 
 build() {
 	cd "$_name-$pkgver"
@@ -31,8 +25,6 @@ build() {
 package() {
 	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
-
-	mv "$pkgdir/usr/bin/$_name.py" "$pkgdir/usr/bin/$pkgname"
 
 	install -Dm644 icons/icon.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
 	#install -Dm644 "$srcdir/icon.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
