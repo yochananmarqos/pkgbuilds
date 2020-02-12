@@ -1,21 +1,21 @@
-pkgname=tela-icon-theme-git
-pkgver=2019.09.29.r23.gc1cab3ab
+pkgname=tela-circle-icon-theme-git
+pkgver=r1.d264ca5
 pkgrel=1
-pkgdesc="A flat colorful design icon theme."
+pkgdesc="A flat colorful design icon theme"
 arch=('any')
-url="https://github.com/vinceliuice/Tela-icon-theme"
+url="https://github.com/vinceliuice/Tela-circle-icon-theme"
 license=('GPL3')
 depends=('hicolor-icon-theme' 'gtk-update-icon-cache')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
-source=("${pkgname%-git}::git+https://github.com/vinceliuice/Tela-icon-theme.git")
+source=("${pkgname%-git}::git+https://github.com/vinceliuice/Tela-circle-icon-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
@@ -25,4 +25,3 @@ package() {
 		-a \
 		-d "$pkgdir/usr/share/icons"
 }
-
