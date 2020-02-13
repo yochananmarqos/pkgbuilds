@@ -1,5 +1,5 @@
 pkgname=appimagelauncher
-pkgver=2.1.0
+pkgver=2.1.1
 pkgrel=1
 pkgdesc="A Helper application for running and integrating AppImages."
 arch=('x86_64')
@@ -8,7 +8,6 @@ license=('MIT')
 depends=('binutils' 'boost' 'cairo' 'desktop-file-utils' 'fuse' 'gtest' 'libarchive' 'libbsd'
          'qt5-base' 'shared-mime-info')
 makedepends=('git' 'cmake' 'wget' 'xxd' 'qt5-tools')
-conflicts=("$pkgname-git")
 source=("$pkgname::git+$url.git#tag=v$pkgver"
         'appimage-binfmt-remove.hook')
 sha256sums=('SKIP'
