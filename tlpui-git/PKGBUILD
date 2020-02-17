@@ -1,5 +1,5 @@
 pkgname=tlpui-git
-pkgver=r117.8496dce
+pkgver=1.2.r3.gc86fc83
 pkgrel=1
 pkgdesc="A GTK user interface for TLP written in Python"
 arch=('any')
@@ -12,11 +12,11 @@ conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/d4nj1/TLPUI.git"
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
-            '3bdf31704fcf5f2e4f2817b59a88316e6e3aed94de08cc27be331697fe39d37f')
+            'fdcc1e054b1a603258cb92bdb9625b2a9ba5371c5b3f7578cb5549d705e855d3')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+	git describe --long --tags | sed 's/^tlp.//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {

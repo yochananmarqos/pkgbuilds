@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=TLPUI
 Keywords=tlp;power;
-Exec=/usr/bin/tlpui
+Exec=tlpui
 Terminal=false
 X-MultipleArgs=false
 Type=Application
