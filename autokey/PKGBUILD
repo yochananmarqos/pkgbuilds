@@ -1,12 +1,12 @@
 pkgname=('autokey-common' 'autokey-gtk' 'autokey-qt')
 _pkgname=autokey
-pkgver=0.95.9
+pkgver=0.95.10
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/autokey/autokey"
 license=('GPL3')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
-sha256sums=('46d42189d7a033ce9710395d2ddca685e83bd8792d6b25309e2446c4184063b5')
+sha256sums=('e622ca04b3340f1ca0999bf03f05c9071a9f8aa3bc91c26c45c35509d63ff23d')
 
 build() {
 	cd "$_pkgname-$pkgver"
