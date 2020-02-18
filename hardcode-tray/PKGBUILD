@@ -14,13 +14,6 @@ optdepends_x86_64=('lib32-sni-qt-patched-git: 32-bit patched qt4 sni plugin to e
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('5f64c5a1083b8cefc07ba3a218bb0258f7846d9c0d04dae6f91c2478e288f0e1')
 
-prepare() {
-	cd "Hardcode-Tray-$pkgver"
-	# DEPRECATION: Project targetting '>= 0.40.0' but tried to use feature deprecated
-	# since '0.48.0': python3 module
-	sed -i "s/meson_version: '>= 0.40.0',/meson_version: '>= 0.49',/g" meson.build
-}
-
 build() {
 	cd "Hardcode-Tray-$pkgver"
 	arch-meson builddir
