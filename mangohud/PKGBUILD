@@ -1,0 +1,57 @@
+pkgname=('mangohud' 'lib32-mangohud')
+pkgbase=mangohud
+pkgver=0.2.0
+pkgrel=3
+pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
+arch=('x86_64')
+url="https://github.com/flightlessmango/MangoHud"
+license=('MIT')
+makedepends=('git' 'meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
+             'vulkan-headers' 'vulkan-icd-loader' 'lib32-vulkan-icd-loader')
+source=("$pkgbase::git+https://github.com/flightlessmango/MangoHud.git#tag=v$pkgver"
+        'git+https://github.com/flightlessmango/imgui.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+prepare() {
+	cd "$srcdir/$pkgbase"
+	git submodule init modules/ImGui/src
+	git config submodule.'ImGui'.url "$srcdir/ImGui"
+	git submodule update
+}
+
+build() {
+	arch-meson -Duse_system_vulkan=enabled "$pkgbase" build64
+	ninja -C build64
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export LLVM_CONFIG="/usr/bin/llvm-config32"
+	arch-meson -Duse_system_vulkan=enabled "$pkgbase" build32 --libdir lib32
+	ninja -C build32
+}
+
+package_mangohud() {
+	depends=('vulkan-driver')
+
+	DESTDIR="$pkgdir" ninja -C build64 install
+
+	mv "$pkgdir/usr/share/vulkan/implicit_layer.d/"mangohud{,64}.json
+	sed -i -e 's|libMangoHud.so|/usr/lib/&|g' \
+		"$pkgdir/usr/share/vulkan/implicit_layer.d/mangohud64.json"
+
+	install -Dm644 "$pkgbase/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+package_lib32-mangohud() {
+	depends=('lib32-vulkan-driver')
+
+	DESTDIR="$pkgdir" ninja -C build32 install
+
+	mv "$pkgdir/usr/share/vulkan/implicit_layer.d/"mangohud{,32}.json
+	sed -i -e 's|libMangoHud.so|/usr/lib32/&|g' -e 's|64bit|32bit|g' \
+		"$pkgdir/usr/share/vulkan/implicit_layer.d/mangohud32.json"
+
+	install -Dm644 "$pkgbase/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
