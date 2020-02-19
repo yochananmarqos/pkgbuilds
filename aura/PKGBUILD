@@ -1,0 +1,45 @@
+pkgname=aura
+pkgver=2.1.0
+pkgrel=1
+pkgdesc="A secure package manager for Arch Linux and the AUR"
+arch=('x86_64')
+url="https://github.com/fosskers/aura"
+license=('GPL3')
+makedepends=('stack')
+optdepends=('bash-completion: for bash completions'
+            'zsh: for zsh completions'
+            'cronie: automatic package record backups with cron')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/fosskers/aura/archive/v$pkgver.tar.gz")
+sha256sums=('b4c250c8a62eee53828a2922dbbda699cade2001ef4f8235f3bd201df2e717f6')
+
+build() {
+	cd "$pkgname-$pkgver"
+	stack clean "$pkgname"
+	stack build \
+		--pedantic \
+		"$pkgname"
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	stack install \
+		--local-bin-path="$pkgdir/usr/bin" \
+		"$pkgname"
+
+	# Installing man page
+	install -Dm644 "$pkgname/doc/$pkgname.8" -t "$pkgdir/usr/share/man/man8"
+
+	# Installing bash completions
+	install -Dm644 "$pkgname/doc/completions/bashcompletion.sh" \
+		"$pkgdir/usr/share/bash-completion/completions/$pkgname"
+
+	# Installing zsh completions
+	install -Dm644 "$pkgname/doc/completions/_$pkgname" -t \
+		"$pkgdir/usr/share/zsh/site-functions"
+
+	# Installing docs
+	install -Dm644 "$pkgname/doc/backups-with-cron.rst" -t "$pkgdir/usr/share/doc/$pkgname"
+
+	# Directories for storing PKGBUILDs, source packages & installed package states
+	install -d "$pkgdir/var/cache/aura"/{pkgbuilds,src,states}
+}
