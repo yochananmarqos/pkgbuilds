@@ -15,16 +15,12 @@ sha256sums=('b4c250c8a62eee53828a2922dbbda699cade2001ef4f8235f3bd201df2e717f6')
 build() {
 	cd "$pkgname-$pkgver"
 	stack clean "$pkgname"
-	stack build \
-		--pedantic \
-		"$pkgname"
+	stack build --pedantic "$pkgname"
 }
 
 package() {
 	cd "$pkgname-$pkgver"
-	stack install \
-		--local-bin-path="$pkgdir/usr/bin" \
-		"$pkgname"
+	stack install --local-bin-path="$pkgdir/usr/bin" "$pkgname"
 
 	# Installing man page
 	install -Dm644 "$pkgname/doc/$pkgname.8" -t "$pkgdir/usr/share/man/man8"
