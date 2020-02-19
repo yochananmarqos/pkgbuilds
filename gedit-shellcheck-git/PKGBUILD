@@ -1,24 +1,24 @@
 pkgname=gedit-shellcheck-git
-pkgver=r10.f86c036
+pkgver=1.0.0.r2.gf051963
 pkgrel=1
 pkgdesc="Gedit3 plugin for linting shell scripts using ShellCheck"
 arch=('any')
-url="https://github.com/lwindolf/gedit-shellcheck"
+url="https://github.com/elbosso/gedit-shellcheck"
 license=('GPL3')
 depends=('gedit' 'shellcheck')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/lwindolf/gedit-shellcheck.git')
+source=('git+https://github.com/elbosso/gedit-shellcheck.git')
 sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm644 shellcheck.plugin -t "$pkgdir/usr/lib/gedit/plugins"
-	cp -a shellcheck/ "$pkgdir/usr/lib/gedit/plugins"
+	cp -r shellcheck/ "$pkgdir/usr/lib/gedit/plugins"
 }
