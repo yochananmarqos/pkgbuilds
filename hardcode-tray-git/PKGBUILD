@@ -11,7 +11,6 @@ makedepends=('git' 'meson')
 depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
 optdepends=('inkscape: convert svg to png'
             'imagemagick: convert svg to png')
-optdepends_x86_64=('lib32-sni-qt-patched-git: 32-bit patched qt4 sni plugin to enable icon modification')
 source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git")
 sha256sums=('SKIP')
 
