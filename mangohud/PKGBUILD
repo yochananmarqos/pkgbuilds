@@ -33,7 +33,7 @@ build() {
 }
 
 package_mangohud() {
-	depends=('vulkan-driver')
+	depends=('gcc-libs' 'libx11')
 
 	DESTDIR="$pkgdir" ninja -C build64 install
 
@@ -45,7 +45,7 @@ package_mangohud() {
 }
 
 package_lib32-mangohud() {
-	depends=('lib32-vulkan-driver')
+	depends=('lib32-gcc-libs' 'lib32-libx11')
 
 	DESTDIR="$pkgdir" ninja -C build32 install
 
