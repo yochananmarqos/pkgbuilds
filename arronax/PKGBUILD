@@ -9,7 +9,7 @@ depends=('gtk3' 'python-gobject' 'python-xdg')
 makedepends=('python-setuptools')
 optdepends=('python-nautilus: for the Nautilus plugin'
             'nemo-python: for the Nemo plugin'
-            'caja-python: for the Caja plugin')
+            'python-caja: for the Caja plugin')
 source=("http://www.florian-diesch.de/software/$pkgname/dist/$pkgname-$pkgver.tar.gz")
 sha256sums=('2f914401ce822ec34a828efb4bbf815304765751a90d18468a4477a2bf231eec')
 
