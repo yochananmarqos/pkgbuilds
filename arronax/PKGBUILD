@@ -13,13 +13,19 @@ optdepends=('python-nautilus: for the Nautilus plugin'
 source=("http://www.florian-diesch.de/software/$pkgname/dist/$pkgname-$pkgver.tar.gz")
 sha256sums=('2f914401ce822ec34a828efb4bbf815304765751a90d18468a4477a2bf231eec')
 
+prepare() {
+	# Fix icon location
+	cd "$srcdir/$pkgname-$pkgver"
+	sed -i 's|share/icons/hicolor/{s}x{s}|share/icons/hicolor/{s}x{s}/apps|g' setup.py
+}
+
 build() {
-	cd "$srcdir"/$pkgname-$pkgver
+	cd "$srcdir/$pkgname-$pkgver"
 	python setup.py build
 }
 
 package() {
-	cd "$srcdir"/$pkgname-$pkgver
+	cd "$srcdir/$pkgname-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
 
