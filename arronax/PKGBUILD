@@ -1,6 +1,6 @@
 pkgname=arronax
 pkgver=0.7.1
-pkgrel=3
+pkgrel=4
 pkgdesc='A program to create and modify desktop files.'
 arch=('any')
 license=('GPL3')
@@ -15,12 +15,12 @@ sha256sums=('2f914401ce822ec34a828efb4bbf815304765751a90d18468a4477a2bf231eec')
 
 prepare() {
 	# Fix icon location
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	sed -i 's|share/icons/hicolor/{s}x{s}|share/icons/hicolor/{s}x{s}/apps|g' setup.py
 }
 
 build() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	python setup.py build
 }
 
