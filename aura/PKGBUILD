@@ -1,5 +1,5 @@
 pkgname=aura
-pkgver=2.1.0
+pkgver=2.2.0
 pkgrel=1
 pkgdesc="A secure package manager for Arch Linux and the AUR"
 arch=('x86_64')
@@ -9,8 +9,8 @@ makedepends=('stack')
 optdepends=('bash-completion: for bash completions'
             'zsh: for zsh completions'
             'cronie: automatic package record backups with cron')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/fosskers/aura/archive/v$pkgver.tar.gz")
-sha256sums=('b4c250c8a62eee53828a2922dbbda699cade2001ef4f8235f3bd201df2e717f6')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('20d7315659487c41f3f8a99accb567611002f0de9f562d4fa872606cf37c463b')
 
 build() {
 	cd "$pkgname-$pkgver"
@@ -26,7 +26,8 @@ package() {
 	install -Dm644 "$pkgname/doc/$pkgname.8" -t "$pkgdir/usr/share/man/man8"
 
 	# Installing docs
-	install -Dm644 "$pkgname/doc/backups-with-cron.rst" -t "$pkgdir/usr/share/doc/$pkgname"
+	install -Dm644 "$pkgname/doc/backups-with-cron.rst" -t \
+		"$pkgdir/usr/share/doc/$pkgname"
 
 	# Installing bash completions
 	install -Dm644 "$pkgname/doc/completions/bashcompletion.sh" \
