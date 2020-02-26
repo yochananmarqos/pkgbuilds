@@ -28,12 +28,12 @@ sha256sums_x86_64=('ff5c2afcfb9accfbfca76a445fd0fdabf3499df9090bb90f39ca16fb017d
 sha256sums_i686=('18af557dd40707b63db08663f666ff9524eb04230cc44dea879a98f0972ccaf0')
 
 package() {
-	cd "$pkgname-$pkgver"
-	install -Dm755 "${pkgname%-*}" "${pkgname%-*}-st" "$pkgdir/usr/bin"
+	cd "${pkgname%-*}-$pkgver"
+	install -Dm755 "${pkgname%-*}" "$srcdir/${pkgname%-*}-st" -t "$pkgdir/usr/bin"
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-*}"
-	install -Dm644 "${pkgname%-*}.desktop" -t "$pkgdir/usr/share/applications"
-	install -Dm644 bindings.json settings.json "$pkgdir/etc/skel/.config/${pkgname%-*}"
-	install -Dm644 tcelldb "$pkgdir/etc/skel/.tcelldb"
-	install -Dm644 "${pkgname%-*}-keymap.service" -t "$pkgdir/usr/lib/systemd/system"
-	install -Dm644 supplemental.kmap -t "$pkgdir/usr/share/kbd/keymaps"
+	install -Dm644 "$srcdir/${pkgname%-*}.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$srcdir/"{bindings.json,settings.json} -t "$pkgdir/etc/skel/.config/${pkgname%-*}"
+	install -Dm644 "$srcdir/tcelldb" "$pkgdir/etc/skel/.tcelldb"
+	install -Dm644 "$srcdir/${pkgname%-*}-keymap.service" -t "$pkgdir/usr/lib/systemd/system"
+	install -Dm644 "$srcdir/supplemental.kmap" -t "$pkgdir/usr/share/kbd/keymaps"
 }
