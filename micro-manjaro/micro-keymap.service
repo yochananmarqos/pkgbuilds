@@ -1,0 +1,12 @@
+[Unit]
+Description=Micro keybindings in console
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardInput=tty
+StandardOutput=tty
+ExecStart=/usr/bin/loadkeys supplemental.kmap
+ 
+[Install]
+WantedBy=multi-user.target

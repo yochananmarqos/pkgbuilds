@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!bindings.json
+!micro.desktop
+!micro-keymap.service
+!micro-st
+!settings.json
+!supplemental.kmap
+!tcelldb
