@@ -1,5 +1,5 @@
 pkgname=ryzen-controller-git
-pkgver=1.16.0.r1.7040a31
+pkgver=1.17.0.r0.04b5569
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
@@ -8,7 +8,7 @@ license=('CC0 1.0 Universal')
 depends=('ryzenadj' 'nss' 'nodejs' 'gtk3' 'libxss')
 makedepends=('git' 'npm')
 provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" 'ryzencontroller')
 source=('git+https://gitlab.com/le.storm1er/ryzen-controller.git'
 	"${pkgname%-git}.desktop")
 sha256sums=('SKIP'
@@ -21,16 +21,15 @@ pkgver() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	npm install --cache "${srcdir}/npm-cache"
-	npm audit fix
+	npm install --cache "$srcdir/npm-cache"
 	npm run-script package-linux
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/"{opt/"${pkgname%-git}",usr/bin}
-	cp -a release-builds/ryzencontroller-linux-x64/. \
-		"$pkgdir/opt/${pkgname%-git}"
+	cp -a release-builds/ryzencontroller-linux-x64/. "$pkgdir/opt/${pkgname%-git}"
+
 	ln -s "/opt/${pkgname%-git}/ryzencontroller" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 }
