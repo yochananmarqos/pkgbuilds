@@ -1,12 +1,12 @@
 pkgname=plane-theme-git
-pkgver=r147.2ceb3d8
+pkgver=r162.0d90247
 pkgrel=1
 pkgdesc='A beautiful theme for Gnome Linux'
 arch=('any')
 url="https://github.com/wfpaisa/plane-theme"
 license=('GPL')
 depends=('gnome-shell')
-makedepends=('git' 'npm' 'gulp')
+makedepends=('git' 'npm' 'nvm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/wfpaisa/${pkgname%-git}.git")
@@ -18,9 +18,20 @@ pkgver() {
 }
 
 build() {
+	export npm_config_cache="$srcdir/npm_cache"
+	npm config delete prefix
+	source /usr/share/nvm/init-nvm.sh
+	_npm_prefix=$(npm config get prefix)
+	_nodeversion='8.12.0'
+	nvm install ${_nodeversion} && nvm use ${_nodeversion}
+
 	cd "$srcdir/${pkgname%-git}"
 	npm install --cache "$srcdir/npm-cache"
-	gulp
+	npm start
+
+	# Restore node config from nvm
+	npm config set prefix ${_npm_prefix}
+	nvm unalias default
 }
 
 package() {
