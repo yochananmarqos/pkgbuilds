@@ -7,6 +7,8 @@ url="https://www.pling.com/p/1198768"
 license=('GPL')
 depends=('gnome-shell')
 makedepends=('git' 'npm' 'nvm')
+optdepends=('plane-icon-theme: matching icon theme'
+            'breeze-snow-cursor-theme: recommended cursor theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/wfpaisa/${pkgname%-git}.git")
@@ -22,7 +24,7 @@ build() {
 	npm config delete prefix
 	source /usr/share/nvm/init-nvm.sh
 	_npm_prefix=$(npm config get prefix)
-	_nodeversion='8.12.0'
+	_nodeversion='8.16.2'
 	nvm install ${_nodeversion} && nvm use ${_nodeversion}
 
 	cd "$srcdir/${pkgname%-git}"
