@@ -2,7 +2,7 @@ pkgname=topgrade
 pkgver=4.1.0
 pkgrel=1
 pkgdesc='Invoke the upgrade proceadure of multiple package managers'
-arch=('x86_64' 'armv7' 'aarch64')
+arch=('x86_64' 'aarch64' 'armv7')
 url='https://github.com/r-darwish/topgrade'
 license=('GPL3')
 makedepends=('rust')
@@ -58,4 +58,5 @@ check() {
 package() {
 	cd "$pkgname-$pkgver"
 	install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 "$pkgname.8" -t "$pkgdir/usr/share/man/man8"
 }
