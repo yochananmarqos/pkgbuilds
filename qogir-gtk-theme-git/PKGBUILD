@@ -1,6 +1,5 @@
 pkgname=qogir-gtk-theme-git
-_gitname=Qogir-theme
-pkgver=2019.10.25.r12.gde987de
+pkgver=2020.02.26.r2.gb00c1ab
 pkgrel=1
 pkgdesc='A flat design theme for GTK 3, GTK 2 and Gnome-Shell'
 arch=('any')
@@ -14,16 +13,16 @@ optdepends=('kvantum-theme-qogir: Matching Kvantum theme'
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
-source=('git+https://github.com/vinceliuice/Qogir-theme.git')
+source=("${pkgname%-git}::git+https://github.com/vinceliuice/Qogir-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$_gitname"
+	cd "$srcdir/${pkgname%-git}"
 	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/$_gitname"
+	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/themes"
 	./install.sh -d "$pkgdir/usr/share/themes"
 }
