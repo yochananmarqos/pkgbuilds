@@ -1,6 +1,6 @@
 pkgname=python-gitpython
 _name=GitPython
-pkgver=3.0.7
+pkgver=3.1.0
 pkgrel=1
 pkgdesc="A python library used to interact with Git repositories"
 arch=('any')
@@ -9,11 +9,11 @@ license=('BSD')
 depends=('git' 'python-gitdb')
 makedepends=('python-setuptools')
 checkdepends=('python-ddt' 'python-nose')
-source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"{,.asc})
-sha256sums=('99cd0403cecd8a13b95d2e045b9fcaa7837137fcc5ec3105f2c413305d82c143'
-            'SKIP')
-validpgpkeys=('2CF6E0B51AAF73F09B1C21174D1DA68C88710E60')
-              # Sebastian Thiel (In Rust I trust!) <byronimo@gmail.com>
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz") #{,.asc})
+sha256sums=('e426c3b587bd58c482f0b7fe6145ff4ac7ae6c82673fc656f489719abca6f4cb')
+#            'SKIP')
+#validpgpkeys=('2CF6E0B51AAF73F09B1C21174D1DA68C88710E60')
+               # Sebastian Thiel (I do trust in Rust!) <byronimo@gmail.com>
 
 build() {
 	cd "${_name}-${pkgver}"
