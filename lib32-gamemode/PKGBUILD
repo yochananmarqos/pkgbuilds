@@ -18,8 +18,7 @@ build() {
 	export CXXFLAGS=-m32
 	export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
 
-	meson $_pkgname build  \
-		--prefix /usr \
+	arch-meson $_pkgname build  \
 		--libdir lib32 \
 		-Dwith-daemon=false \
 		-Dwith-examples=false \

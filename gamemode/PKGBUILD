@@ -22,11 +22,9 @@ prepare() {
 }
 
 build() {
-	meson "$pkgname" build \
-		--prefix /usr \
+	arch-meson "$pkgname" build \
 		--libexecdir lib/gamemode \
-		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user \
-		-Dwith-pam-group=gamemode
+		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user
 	ninja -C build
 }
 
