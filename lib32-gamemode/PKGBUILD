@@ -1,5 +1,5 @@
 pkgname=lib32-gamemode
-_pkgname=gamemode
+_pkgname=${pkgname#lib32-}
 pkgver=1.5.1
 pkgrel=1
 pkgdesc="A daemon/lib combo for Linux that allows games to request a set of optimisations be temporarily applied to the host OS."
@@ -18,7 +18,7 @@ build() {
 	export CXXFLAGS=-m32
 	export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
 
-	meson $pkgname build  \
+	meson $_pkgname build  \
 		--prefix /usr \
 		--libdir lib32 \
 		-Dwith-daemon=false \
@@ -33,6 +33,6 @@ package() {
 
 	rm -rf "$pkgdir/usr/include"
 
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/$_pkgname"
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 }
