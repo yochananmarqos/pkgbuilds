@@ -5,7 +5,7 @@ pkgrel=1
 pkgdesc="A daemon/lib combo for Linux that allows games to request a set of optimisations be temporarily applied to the host OS."
 arch=('x86_64')
 url="https://github.com/FeralInteractive/gamemode"
-license=('BSD 3-Clause License (Revised)')
+license=('BSD 3-Clause')
 depends=('polkit' 'gamemode' 'lib32-glibc' 'lib32-systemd' 'lib32-dbus')
 makedepends=('git' 'meson')
 source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver"
