@@ -1,5 +1,5 @@
 pkgname=gamemode
-pkgver=1.5
+pkgver=1.5.1
 pkgrel=1
 pkgdesc="Optimise Linux system performance on demand"
 arch=('x86_64')
@@ -7,17 +7,22 @@ url="https://github.com/FeralInteractive/gamemode"
 license=('BSD 3-Clause')
 depends=('polkit')
 optdepends=('systemd')
-makedepends=('meson' 'pkg-config' 'git')
+makedepends=('git' 'meson')
 install="$pkgname.install"
-source=("$url/releases/download/$pkgver/$pkgname-$pkgver.tar.xz") #{,.asc})
-sha256sums=('262389e0a625670c5f53f89d0c30a28cd5f9569a8e6b012dccf78b7fdcb98408')
-            #'SKIP')
-#validpgpkeys=('5AB43EC644CE6A84C39289F5048EF7331E7B6424')
-              # Alex Smith <asmith@feralinteractive.com>
+source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver"
+        'git+https://github.com/benhoyt/inih.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+prepare() {
+	cd "$srcdir/$pkgname"
+	git submodule init subprojects/inih
+	git config submodule.inih.url $srcdir/inih
+	git submodule update
+}
 
 build() {
-	cd "$pkgname-$pkgver"
-	meson build \
+	meson "$pkgname" build \
 		--prefix /usr \
 		--libexecdir lib/gamemode \
 		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user \
@@ -26,8 +31,9 @@ build() {
 }
 
 package() {
-	cd "$pkgname-$pkgver"
 	DESTDIR="$pkgdir" ninja -C build install
 
+	cd "$srcdir/$pkgname"
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 "example/$pkgname.ini" -t "$pkgdir/usr/share/doc/$pkgname/example"
 }
