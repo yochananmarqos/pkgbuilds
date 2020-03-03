@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://github.com/FeralInteractive/gamemode"
 license=('BSD 3-Clause')
 depends=('polkit' 'gamemode' 'lib32-glibc' 'lib32-systemd' 'lib32-dbus')
-makedepends=('git' 'meson')
+makedepends=('meson')
 source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver")
 sha256sums=('SKIP')
 
