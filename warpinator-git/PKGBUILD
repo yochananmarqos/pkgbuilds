@@ -1,7 +1,7 @@
 pkgname=warpinator-git
 pkgver=r58.32feb06
 pkgrel=1
-pkgdesc="Share files across the LAN by Linux Mint"
+pkgdesc="Share files across the LAN"
 arch=('x86_64')
 url="https://github.com/linuxmint/warp"
 license=('none')
@@ -36,5 +36,5 @@ package() {
 	DESTDIR="$pkgdir" ninja -C build install
 
 	# Binary name conflicts with haskell-wai-app-static
-	mv "$pkgdir/usr/bin/warp" "$pkgdir/usr/bin/warpinator"
+	mv "$pkgdir/usr/bin/warp" "$pkgdir/usr/bin/${pkgname%-git}"
 }
