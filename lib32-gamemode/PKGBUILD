@@ -8,10 +8,8 @@ url="https://github.com/FeralInteractive/gamemode"
 license=('BSD 3-Clause')
 depends=('polkit' 'gamemode' 'lib32-glibc' 'lib32-systemd' 'lib32-dbus')
 makedepends=('git' 'meson')
-source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver"
-        'git+https://github.com/benhoyt/inih.git')
-sha256sums=('SKIP'
-            'SKIP')
+source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver")
+sha256sums=('SKIP')
 
 build() {
 	export CFLAGS=-m32
