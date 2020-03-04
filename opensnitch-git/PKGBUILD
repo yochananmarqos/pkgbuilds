@@ -11,7 +11,7 @@ depends=('libnetfilter_queue' 'libpcap' 'python-protobuf-compiler'
          'python-libconfigparser')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-install=("${pkgname%-git}.install")
+install="${pkgname%-git}.install"
 source=('git+https://github.com/gustavo-iniguez-goya/opensnitch.git')
 sha256sums=('SKIP')
 
