@@ -1,4 +1,4 @@
-pkgname=music21
+pkgname=python-music21
 _name=${pkgname#python-}
 pkgver=5.7.2
 pkgrel=1
