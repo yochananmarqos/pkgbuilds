@@ -9,20 +9,18 @@ depends=('polkit')
 optdepends=('systemd')
 makedepends=('git' 'meson')
 install="$pkgname.install"
-source=("git+https://github.com/FeralInteractive/gamemode.git#tag=$pkgver"
-        'git+https://github.com/benhoyt/inih.git')
-sha256sums=('SKIP'
-            'SKIP')
+source=("$url/releases/download/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('fa23d9d80ae07dcab3db4e63e6f7a3eda70355bb8fdd419c463bed4d2e02c616')
 
 prepare() {
-	cd "$srcdir/$pkgname"
-	git submodule init subprojects/inih
-	git config submodule.inih.url $srcdir/inih
-	git submodule update
+	cd "$pkgname-$pkgver"
+
+	# inih currently only needed by the daemon
+	sed -i "s/'inih_dep'/'inih_dependency'/g" meson.build
 }
 
 build() {
-	arch-meson "$pkgname" build \
+	arch-meson "$pkgname-$pkgver" build \
 		--libexecdir lib/gamemode \
 		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user
 	ninja -C build
@@ -31,7 +29,7 @@ build() {
 package() {
 	DESTDIR="$pkgdir" ninja -C build install
 
-	cd "$srcdir/$pkgname"
+	cd "$pkgname-$pkgver"
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 	install -Dm644 "example/$pkgname.ini" -t "$pkgdir/usr/share/doc/$pkgname/example"
 }
