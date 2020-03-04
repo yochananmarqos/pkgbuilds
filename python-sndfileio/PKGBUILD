@@ -1,0 +1,30 @@
+pkgname=python-sndfileio
+_name=${pkgname#python-}
+pkgver=0.9.2
+pkgrel=1
+pkgdesc="Simple API for reading and writing soundfiles"
+arch=('any')
+url="https://github.com/gesellkammer/sndfileio"
+license=('MIT')
+depends=('python-scipy')
+makedepends=('python-setuptools')
+optdepends=('python-pysndfile: Extends support to many formats, like .flac, .ogg, etc.'
+            'python-samplerate: Provides efficient and high quality resampling'
+            'python-miniaudio: Provides support for .mp3, very efficient'
+            'python-pydub: Adds support for mp3, not as efficient as miniaudio')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
+        "https://raw.githubusercontent.com/gesellkammer/$_name/master/LICENSE.md")
+sha256sums=('7f2066b83679fdad7356315933607042a901b6712bcc68197b6a16e937fdd2bc'
+            'be360ca98329e250e14bf416c8f859c67f8ca860c5e39a1551f819204461e9c4')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 "$srcdir/LICENSE.md" -t "$pkgdir/usr/share/licenses"
+}
