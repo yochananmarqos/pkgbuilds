@@ -1,0 +1,22 @@
+pkgname=python-ctcsound
+_name=${pkgname#python-}
+pkgver=6.14
+pkgrel=1
+pkgdesc="Python Bindings for Csound using ctypes."
+arch=('any')
+url="https://github.com/csound/ctcsound"
+license=('LGPL')
+depends=('csound' 'python-numpy')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('05e0db5909cd4d57028f985d7c6ba031664857441b45f0e6169adbd07f00a3b0')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
