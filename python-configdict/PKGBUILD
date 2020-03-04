@@ -1,0 +1,21 @@
+pkgname=python-configdict
+_name=${pkgname#python-}
+pkgver=0.1.1
+pkgrel=1
+pkgdesc="A persistent dict used as configuration"
+arch=('any')
+url="https://github.com/gesellkammer/configdict"
+license=('BSD')
+depends=('python-setuptools' 'python-appdirs' 'python-tabulate')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('85cc6c708bb6c068bc991721d4fedf3505a3d6d34fed151c5c6361666586eb94')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
