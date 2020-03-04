@@ -1,0 +1,24 @@
+pkgname=python-emlib
+_name=${pkgname#python-}
+pkgver=0.4.7
+pkgrel=1
+pkgdesc="A set of modules with miscellaneous functionality"
+arch=('any')
+url="https://github.com/gesellkammer/emlib"
+license=('GPL')
+depends=('python-music21' 'python-bpf4' 'python-configdict' 'python-sounddevice'
+         'python-sndfileio' 'python-pillow' 'python-decorator' 'python-cachetools'
+         'python-ctcsound' 'python-abjadtools')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('1704a53783393cc494bc332db28008e3e36276cc4b2aebfc945982957c21eb1e')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
