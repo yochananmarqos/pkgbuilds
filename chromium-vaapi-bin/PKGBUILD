@@ -1,5 +1,5 @@
 pkgname=chromium-vaapi-bin
-pkgver=80.0.3987.100
+pkgver=80.0.3987.132
 _pkgrel=1
 pkgrel=1
 pkgdesc='Chromium with VA-API support to enable hardware acceleration, pre-compiled'
@@ -20,10 +20,10 @@ optdepends=('pepper-flash: support for Flash content'
             'libva-mesa-driver: support HW acceleration on AMD graphics cards'
             'libva-vdpau-driver-chromium: support HW acceleration on Nvidia graphics cards'
             'chromium-widevine: for viewing premium video content')
-source=("https://pkgbuild.com/~maximbaz/repo/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst"{,.sig})
-sha256sums=('7d17031415cb4ad8c73e72002113df4448cfe2d05ec7a02b4c5998d27e32cf46'
-            'SKIP')
-validpgpkeys=('EB4F9E5A60D32232BB52150C12C87A28FEAC6B20') # Maxim Baz <pgp@maximbaz.com>
+source=("https://repo.archlinuxcn.org/x86_64/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst") #{,.sig})
+sha256sums=('b0db955f4597508f3a61842146dd383465e89d3e7fa01e062e21ba4261df2ab8')
+#            'SKIP')
+#validpgpkeys=('83F817213361BF5F02E7E124F9F9FA97A403F63E') # lilac (build machine) <lilac@build.archlinuxcn.org>
 
 # Keep in sync with AUR/chromium-vaapi:
 #
