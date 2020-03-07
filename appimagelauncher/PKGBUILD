@@ -1,13 +1,13 @@
 pkgname=appimagelauncher
-pkgver=2.1.1
+pkgver=2.1.2
 pkgrel=1
 pkgdesc="A Helper application for running and integrating AppImages."
 arch=('x86_64')
 url="https://github.com/TheAssassin/AppImageLauncher"
 license=('MIT')
-depends=('binutils' 'boost' 'cairo' 'desktop-file-utils' 'fuse' 'gtest' 'libarchive' 'libbsd'
-         'qt5-base' 'shared-mime-info')
-makedepends=('git' 'cmake' 'wget' 'xxd' 'qt5-tools')
+depends=('cairo' 'desktop-file-utils' 'gtest' 'hicolor-icon-theme' 'libappimage'
+         'libarchive' 'libbsd' 'libxpm' 'qt5-base' 'shared-mime-info')
+makedepends=('git' 'boost' 'cmake' 'python' 'qt5-tools' 'wget' 'xxd')
 source=("$pkgname::git+$url.git#tag=v$pkgver"
         'appimage-binfmt-remove.hook')
 sha256sums=('SKIP'
@@ -25,16 +25,18 @@ build() {
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DUSE_SYSTEM_GTEST=ON \
 		-DUSE_SYSTEM_XZ=ON \
-		-DUSE_SYSTEM_LIBARCHIVE=ON
+		-DUSE_SYSTEM_LIBARCHIVE=ON \
+		-DUSE_SYSTEM_LIBAPPIMAGE=ON
 	make
+
+	# re-run CMake to populate list of library files to bundle
+	cmake .
 }
 
 package() {
-	install -Dm644 -t "$pkgdir"/usr/share/libalpm/hooks *.hook
-
 	cd "$srcdir/$pkgname"
-	# re-run CMake to populate list of library files to bundle
-	cmake .
 	make DESTDIR="$pkgdir" install
-	install -Dm644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+	install -Dm644 "$srcdir"/*.hook -t "$pkgdir"/usr/share/libalpm/hooks
 }
