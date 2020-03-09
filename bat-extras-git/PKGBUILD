@@ -1,5 +1,5 @@
 pkgname=bat-extras-git
-pkgver=20190117.r8.g765658c
+pkgver=20190117.r19.g6b57f3f
 pkgrel=1
 pkgdesc="Bash scripts that integrate bat with various command line tools."
 arch=('any')
