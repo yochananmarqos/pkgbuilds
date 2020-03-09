@@ -5,7 +5,7 @@ pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
 license=('custom:Unlicense' 'custom:OFL')
-depends=('graphite' 'hicolor-icon-theme' 'libpng' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
+depends=('graphite' 'hicolor-icon-theme' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
 makedepends=('git' 'cmake' 'gcc-libs')
 source=("$pkgname::git+$url.git#tag=$pkgver"
         'DIABDAT.MPQ') # Place in build dir
