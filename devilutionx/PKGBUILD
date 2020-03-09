@@ -33,7 +33,7 @@ package() {
 	install -dm755 "$pkgdir/usr/bin"
 	ln -s "/usr/share/diasurgical/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
 
-	# Install game file
+	# Install game data file
 	install -m644 "$srcdir/DIABDAT.MPQ" \
 		"$pkgdir/usr/share/diasurgical/$pkgname/diabdat.mpq"
 
