@@ -14,14 +14,17 @@ optdepends=('nautilus-sendto: right click to send files')
 options=(!emptydirs)
 _commit=85e891e5faff4c72dc14ef54569a8f09a3f9ed79  # tags/3.34.2^0
 source=("git+https://gitlab.gnome.org/GNOME/nautilus.git#commit=$_commit"
-        nautilus-restore-typeahead.patch)
+        'git+https://gitlab.gnome.org/GNOME/libgd.git'
+        'nautilus-restore-typeahead.patch')
 sha256sums=('SKIP'
+            'SKIP'
             'd3e1a3df1042a412aa23d0a1710c490c117239cd4d9ae9bae2ee32e190c8c03f')
 
 prepare() {
   cd $_pkgbase
 
-  git submodule init
+  git submodule init subprojects/libgd
+  git config submodule.libgd.url $srcdir/libgd
   git submodule update
 
   patch -p1 -i ../nautilus-restore-typeahead.patch
