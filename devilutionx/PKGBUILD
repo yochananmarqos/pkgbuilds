@@ -1,6 +1,6 @@
 pkgname=devilutionx
 pkgver=1.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
@@ -21,7 +21,8 @@ build() {
 	cd "$srcdir/$pkgname/build"
 	cmake .. \
 		-DPIE=ON \
-		-DBINARY_RELEASE=ON
+		-DBINARY_RELEASE=ON \
+		-DTTF_FONT_PATH=\"/usr/share/fonts/truetype/CharisSILB.ttf\"
 	make
 }
 
@@ -38,8 +39,8 @@ package() {
 		"$pkgdir/usr/share/diasurgical/$pkgname/diabdat.mpq"
 
 	# Install font
-	install -m644 Packaging/resources/CharisSILB.ttf -t \
-		"$pkgdir/usr/share/diasurgical/$pkgname"
+	install -Dm644 Packaging/resources/CharisSILB.ttf -t \
+		"$pkgdir/usr/share/fonts/truetype"
 
 	# Install icons
 	install -Dm644 Packaging/resources/16.png \
