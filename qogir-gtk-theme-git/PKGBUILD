@@ -9,6 +9,7 @@ depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
 makedepends=('git')
 optdepends=('kvantum-theme-qogir: Matching Kvantum theme'
             'qogir-icon-theme: Matching icon theme'
+            'qogir-cursors: Matching cursors'
             'tela-icon-theme: Recommended icon theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
