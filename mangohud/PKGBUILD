@@ -1,7 +1,7 @@
 pkgname=('mangohud' 'lib32-mangohud')
 pkgbase=mangohud
-pkgver=0.2.0
-pkgrel=3
+pkgver=0.3.0
+pkgrel=1
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
@@ -16,7 +16,7 @@ sha256sums=('SKIP'
 prepare() {
 	cd "$srcdir/$pkgbase"
 	git submodule init modules/ImGui/src
-	git config submodule.'ImGui'.url "$srcdir/ImGui"
+	git config submodule.imgui.url "$srcdir/imgui"
 	git submodule update
 }
 
@@ -37,11 +37,8 @@ package_mangohud() {
 
 	DESTDIR="$pkgdir" ninja -C build64 install
 
-	mv "$pkgdir/usr/share/vulkan/implicit_layer.d/"mangohud{,64}.json
-	sed -i -e 's|libMangoHud.so|/usr/lib/&|g' \
-		"$pkgdir/usr/share/vulkan/implicit_layer.d/mangohud64.json"
-
-	install -Dm644 "$pkgbase/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+	cd "$pkgbase"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 package_lib32-mangohud() {
@@ -49,9 +46,8 @@ package_lib32-mangohud() {
 
 	DESTDIR="$pkgdir" ninja -C build32 install
 
-	mv "$pkgdir/usr/share/vulkan/implicit_layer.d/"mangohud{,32}.json
-	sed -i -e 's|libMangoHud.so|/usr/lib32/&|g' -e 's|64bit|32bit|g' \
-		"$pkgdir/usr/share/vulkan/implicit_layer.d/mangohud32.json"
+	cd "$pkgbase"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 
-	install -Dm644 "$pkgbase/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+	rm -rf "$pkgdir/usr/share/doc"
 }
