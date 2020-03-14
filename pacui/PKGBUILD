@@ -1,0 +1,24 @@
+pkgname=pacui
+pkgver=1.13
+pkgrel=1
+pkgdesc="Bash script providing advanced Pacman and AUR helper functionality in a simple UI"
+arch=('any')
+url="https://github.com/excalibur1234/pacui"
+license=('GPL3')
+depends=('pacman-contrib' 'expac' 'sudo' 'fzf')
+optdepends=('yay: One AUR helper is needed for AUR support.'
+            'pikaur: One AUR helper is needed for AUR support.'
+            'aurman: One AUR helper is needed for AUR support.'
+            'pakku: One AUR helper is needed for AUR support.'
+            'trizen: One AUR helper is needed for AUR support.'
+            'pacaur: One AUR helper is needed for AUR support.'
+            'pacman-mirrors: Needed for Manjaro mirror support'
+            'reflector: Needed for Arch Linux mirror support'
+            'downgrade: Needed for hidden "downgrade" option.')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('0f471d9e4fc0d5097959b964e86eb7d415a03ac23fe168b6c746e5f1ae714d9c')
+
+package () {
+	cd "$pkgname-$pkgver"
+	install -Dm755 "$pkgname" -t "$pkgdir/usr/bin"
+}
