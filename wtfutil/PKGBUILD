@@ -10,19 +10,19 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/wtfutil/wtf/archive/v$pkgve
 sha256sums=('a46c1d5177772107970e4487aa2ed860a267fd251ffce13648aee92b9e6e2028')
 
 build() {
-    export GOPROXY="https://gocenter.io"
+	export GOPROXY="https://gocenter.io"
 
-    cd "wtf-$pkgver"
-    go build \
-        -trimpath \
-        -ldflags "-extldflags $LDFLAGS" \
-        -o $pkgname .
+	cd "wtf-$pkgver"
+	go build \
+		-trimpath \
+		-ldflags "-extldflags $LDFLAGS" \
+		-o $pkgname .
 }
 
 package(){
-    cd "wtf-$pkgver"
-    install -Dm755 "$pkgname" -t "$pkgdir/usr/bin"
-    install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
+	cd "wtf-$pkgver"
+	install -Dm755 "$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
 	install -Dm644 README.md CHANGELOG.md -t "$pkgdir/usr/share/doc/$pkgname"
 	cp -r _sample_configs "$pkgdir/usr/share/doc/$pkgname/sample_configs"
 }
