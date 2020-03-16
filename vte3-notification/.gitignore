@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!vte291-cntnr-precmd-preexec-scroll.patch-c2f2db14c1a858d79c69f344650c38987a675d09
