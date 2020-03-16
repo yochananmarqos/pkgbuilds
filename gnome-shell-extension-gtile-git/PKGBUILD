@@ -1,5 +1,5 @@
 pkgname=gnome-shell-extension-gtile-git
-pkgver=r203.6d29d15
+pkgver=r203.e7ef0ad
 pkgrel=1
 pkgdesc='A window tiling extension for Gnome'
 arch=('any')
@@ -22,6 +22,8 @@ pkgver() {
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
 	git am "$srcdir/119.patch"
+
+	sed -i 's/"version": 32/"version": 33/g' metadata.json
 }
 
 package() {
