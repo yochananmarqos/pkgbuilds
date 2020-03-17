@@ -1,0 +1,26 @@
+pkgname=fuse-overlayfs
+pkgver=0.7.8
+pkgrel=1
+pkgdesc='FUSE implementation of overlayfs'
+arch=('x86_64')
+url="https://github.com/containers/fuse-overlayfs"
+license=('GPL3')
+depends=('fuse3')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('445153a3f84e52dbc78469223537c35d1a5e60bbe3e93d63cf6067f67e145450')
+
+build () {
+	cd "$pkgname-$pkgver"
+	NOCONFIGURE=1 ./autogen.sh
+
+	./configure \
+		--prefix=/usr \
+		--sbindir=/usr/bin \
+		--mandir=/usr/share/man
+	make
+}
+
+package () {
+	cd "$pkgname-$pkgver"
+	make DESTDIR="$pkgdir/" install
+}
