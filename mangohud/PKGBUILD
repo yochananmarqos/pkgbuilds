@@ -1,7 +1,7 @@
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
-pkgver=0.3.0
-pkgrel=2
+pkgver=0.3.1
+pkgrel=1
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
@@ -23,6 +23,7 @@ prepare() {
 build() {
 	arch-meson \
 		-Duse_system_vulkan=enabled \
+		-Dinclude_doc=false \
 		"$pkgbase" build64
 	ninja -C build64
 
@@ -32,6 +33,7 @@ build() {
 	export LLVM_CONFIG="/usr/bin/llvm-config32"
 	arch-meson \
 		-Duse_system_vulkan=enabled \
+		-Dinclude_doc=false \
 		"$pkgbase" build32 --libdir lib32
 	ninja -C build32
 }
@@ -40,18 +42,12 @@ package_mangohud() {
 	depends=('gcc-libs' 'libx11' 'mangohud-common')
 
 	DESTDIR="$pkgdir" ninja -C build64 install
-
-	# Manually remove docs until include_doc flag is implemented
-	rm -rf "$pkgdir/usr/share/doc"
 }
 
 package_lib32-mangohud() {
 	depends=('lib32-gcc-libs' 'lib32-libx11' 'mangohud-common')
 
 	DESTDIR="$pkgdir" ninja -C build32 install
-
-	# Manually remove docs until include_doc flag is implemented
-	rm -rf "$pkgdir/usr/share/doc"
 }
 
 package_mangohud-common() {
