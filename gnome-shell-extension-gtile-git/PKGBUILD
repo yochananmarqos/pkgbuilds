@@ -1,5 +1,5 @@
 pkgname=gnome-shell-extension-gtile-git
-pkgver=r203.e7ef0ad
+pkgver=r205.9535f8b
 pkgrel=1
 pkgdesc='A window tiling extension for Gnome'
 arch=('any')
@@ -9,10 +9,8 @@ depends=('gnome-shell')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("${pkgname%-git}::git+https://github.com/gTile/gTile.git"
-        '119.patch')
-sha256sums=('SKIP'
-            'aa355b78e5d3b1c36aae91d19c9752e4feedfe5270147411b6db0db6ac98e8f5')
+source=("${pkgname%-git}::git+https://github.com/gTile/gTile.git")
+sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -21,8 +19,6 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-	git am "$srcdir/119.patch"
-
 	sed -i 's/"version": 32/"version": 33/g' metadata.json
 }
 
