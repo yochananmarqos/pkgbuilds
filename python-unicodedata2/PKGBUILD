@@ -1,6 +1,6 @@
 pkgname=python-unicodedata2
 _name=${pkgname#python-}
-pkgver=13.0.0
+pkgver=13.0.0.post2
 pkgrel=1
 pkgdesc="Unicodedata backport updated to the latest Unicode version."
 arch=('x86_64')
@@ -8,9 +8,9 @@ url="https://github.com/mikekap/unicodedata2"
 license=('Apache')
 depends=('python')
 makedepends=('python-setuptools')
-#source=("https://pypi.python.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-source=("https://github.com/mikekap/$_name/archive/$pkgver.tar.gz")
-sha256sums=('149c9d637c44163b42baccd75167c31f76bfcc4809581547d10fc3550be8a814')
+source=("https://pypi.python.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+#source=("https://github.com/mikekap/$_name/archive/$pkgver.tar.gz")
+sha256sums=('a83e504fb0e8ed4757194e61c3f7b69fb3c914856057bea968d0950f80f947fa')
 
 build() {
 	cd "$_name-$pkgver"
