@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/authy-snap
 pkgname=authy
 pkgver=1.8.0
 pkgrel=1
