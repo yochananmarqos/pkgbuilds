@@ -1,0 +1,34 @@
+pkgname=bingwall-git
+pkgver=r21.020d150
+pkgrel=1
+pkgdesc="Bing wallpaper of the day application for GNOME desktop"
+arch=('x86_64')
+url="https://github.com/keshavbhatt/BingWall"
+license=('MIT')
+depends=('qt5-base' 'gsettings-desktop-schemas')
+makedepends=('git' 'qt5-base')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://github.com/keshavbhatt/BingWall.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	qmake
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make INSTALL_ROOT="$pkgdir/" install
+
+	mv "$pkgdir/usr/bin/bing-wall" "$pkgdir/usr/bin/${pkgname%-git}"
+
+	install -Dm644 icons/binfwall.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+}
