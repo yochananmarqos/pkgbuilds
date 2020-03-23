@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/bat-extras-git
 pkgname=bat-extras-git
 pkgver=20190117.r19.g6b57f3f
 pkgrel=1
