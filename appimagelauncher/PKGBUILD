@@ -1,3 +1,5 @@
+# https://gitlab.manjaro.org/packages/community/appimagelauncher
+# https://aur.archlinux.org/packages/appimagelauncher
 pkgname=appimagelauncher
 pkgver=2.1.2
 pkgrel=1
