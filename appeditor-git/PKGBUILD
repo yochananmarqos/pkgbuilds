@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/appeditor-git
 pkgname=appeditor-git
 pkgver=1.1.0.r11.caacf30
 pkgrel=2
