@@ -8,7 +8,7 @@ url="https://github.com/teejee2008/battery-monitor"
 license=('GLGPL')
 depends=('gtk3' 'libgee' 'json-glib')
 makedepends=('vala')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/teejee2008/battery-monitor/archive/v$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('93205480718b8ef6da4aba8169203ecf77055c6d018f520f01c6309630133d8e'
             '8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903')
 
