@@ -1,0 +1,38 @@
+# https://gitlab.manjaro.org/packages/community/i3/conky-i3
+pkgname=conky-i3-git
+_gitname=conkies
+pkgver=r26.131dba3
+pkgrel=1
+pkgdesc="Conkies for manjaro-i3 in grey, green, solarized or 'maia' colors"
+arch=('any')
+url="https://github.com/oberon2007/conkies"
+license=('GPL')
+groups=('i3-manjaro')
+depends=('conky' 'ttf-bitstream-vera')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" 'lua-clock-i3')
+backup=('usr/share/conky/conky_green'
+        'usr/share/conky/conky_grey'
+        'usr/share/conky/conky_maia'
+        'usr/share/conky/conky1.10_shortcuts_green'
+        'usr/share/conky/conky1.10_shortcuts_grey'
+        'usr/share/conky/conky1.10_shortcuts_maia'
+        'usr/share/conky/conky1.10_shortcuts_solarized')
+source=("git+https://github.com/oberon2007/conkies.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$_gitname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+    cd "$srcdir/$_gitname"
+    install -dm755 "$pkgdir/usr/bin"
+    cp start-scripts-i3/* "$pkgdir/usr/bin"
+
+    install -dm755 "$pkgdir/usr/share/conky"
+    cp config_i3/* "$pkgdir/usr/share/conky"
+    chmod 644 "$pkgdir/usr/share/conky/"*
+}
