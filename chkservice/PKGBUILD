@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/chkservice
 pkgname=chkservice
 pkgver=0.3
 pkgrel=1
@@ -11,12 +12,12 @@ sha256sums=('56037fd82be06d6115d0738439c23faa291d036ffe33fe590b484b045d6d180d')
 
 prepare() {
 	cd "$pkgname-$pkgver"
-	mkdir build
+	mkdir -p build
 }
 
 build() {
 	cd "$pkgname-$pkgver/build"
-	cmake -DCMAKE_INSTALL_PREFIX=/usr ../
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 	make
 }
 
