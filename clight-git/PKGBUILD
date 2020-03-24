@@ -1,5 +1,6 @@
+# https://aur.archlinux.org/packages/clight-git
 pkgname=clight-git
-pkgver=4.0.r8.g898f3f9
+pkgver=4.0.r12.g8e4665c
 pkgrel=1
 pkgdesc="A C daemon that turns your webcam into a light sensor. It can also change display
          gamma temperature, dim your screen and set your dpms. Devel version."
