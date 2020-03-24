@@ -1,74 +1,71 @@
+# https://aur.archlinux.org/packages/cheat-git
 pkgname=cheat-git
-pkgver=3.2.1.r0.e2920bd
+pkgver=3.7.1.r0.g521f833
 pkgrel=1
 pkgdesc="Allows you to create and view interactive cheatsheets on the command-line"
-arch=('x86_64')
+arch=('arm' 'armv6h' 'armv7h' 'x86_64')
 url="https://github.com/cheat/cheat"
-license=('MIT')
+license=('MIT' 'CC0 1.0 Universal')
 makedepends=('git' 'go-pie')
 optdepends=('fzf: for Fuzzy Finder integration'
             'bash-completion: for bash completions'
             'fish: for fish completions')
 provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}" 'cheat-bash-git')
-replaces=('python-cheat')
+conflicts=("${pkgname%-git}" "${pkgname%-git}-bash-git" "python-${pkgname%-git}")
 source=('git+https://github.com/cheat/cheat.git'
         'conf.yml'
         'git+https://github.com/cheat/cheatsheets.git')
 sha256sums=('SKIP'
-            '1c3a6ebb65d3a91f9f9711dfaf81463f6b68b9e73fe341720946dd31b311d35b'
+            'efffbe20041efc3d49ffe596ab5abe60a10adf70219c2ddecdf1caf350972212'
             'SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
 
-	# create gopath
-	mkdir -p "$srcdir/gopath"
-	export GOPATH="$srcdir/gopath"
-
-	# fetch dependencies
-	msg "Fetching Go dependencies"
-	cd "$srcdir/gopath"
-	go get -d ./...
+	# Add /etc/cheat/ to config file path
+	cd "$srcdir/${pkgname%-git}"
+	sed -i '43 i\
+			path.Join("/etc/cheat/conf.yml"),' internal/config/paths.go
 }
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
 	GOOS=linux \
-	GOARCH=amd64 \
+	GOARCH=$(go env GOHOSTARCH) \
 	go build \
 		-v \
 		-trimpath \
+		-buildmode=pie \
 		-gcflags "all=-trimpath=$srcdir" \
 		-asmflags "all=-trimpath=$srcdir" \
 		-ldflags "-extldflags $LDFLAGS" \
 		-o "./dist/${pkgname%-git}" "./cmd/${pkgname%-git}"
 
-		# Clean mod cache for makepkg -C
-		go clean -modcache
+	# Clean mod cache for makepkg -C
+	go clean -modcache
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 "dist/${pkgname%-git}" -t "$pkgdir/usr/bin"
-	install -Dm755 scripts/fzf.bash -t "$pkgdir/usr/share/${pkgname%-git}"
-	install -Dm755 "scripts/${pkgname%-git}-autocompletion.bash" \
-		"$pkgdir/usr/share/bash-completion/completions/cheat"
-	install -Dm755 "scripts/${pkgname%-git}-autocompletion.fish" \
-		"$pkgdir/usr/share/fish/completions/cheat.fish"
-	install -Dm644 LICENSE.txt "$pkgdir/usr/share/licenses/${pkgname%-git}/LICENSE"
+	install -Dm755 "scripts/${pkgname%-git}.bash" \
+		"$pkgdir/usr/share/bash-completion/completions/${pkgname%-git}"
+	install -Dm755 "scripts/${pkgname%-git}.fish" -t "$pkgdir/usr/share/fish/completions"
+	install -Dm644 LICENSE.txt "$pkgdir/usr/share/licenses/${pkgname%-git}/${pkgname%-git}-LICENSE"
 
-    install -dm755 "$pkgdir/usr/share/cheat/cheatsheets/community"
-    find "$srcdir/cheatsheets" \
-        -maxdepth 1 \
-        -type f \
-        -perm 644 \
-        -exec \
-            install -m644 "{}" \
-            "$pkgdir/usr/share/${pkgname%-git}/cheatsheets/community/" \;
-	install -Dm644 "$srcdir/conf.yml" -t "$pkgdir/etc/cheat"
+	install -dm755 "$pkgdir/usr/share/${pkgname%-git}/cheatsheets/community"
+	find "$srcdir/cheatsheets" \
+		-maxdepth 1 \
+		-type f \
+		-perm 644 \
+		-exec \
+			install -m644 "{}" \
+			"$pkgdir/usr/share/${pkgname%-git}/cheatsheets/community/" \;
+	install -Dm644 "$srcdir/conf.yml" -t "$pkgdir/etc/${pkgname%-git}"
+	install -Dm644 "$srcdir/LICENSE.txt" \
+		"$pkgdir/usr/share/licenses/${pkgname%-git}/cheatsheets-LICENSE"
 }
