@@ -7,7 +7,7 @@ arch=('any')
 url="https://github.com/google/android-classyshark"
 license=('Apache')
 depends=('java-runtime')
-source=("$url/releases/download/$pkgver/ClassyShark.jar"
+source=("$pkgname-$pkgver.jar::$url/releases/download/$pkgver/ClassyShark.jar"
         "https://raw.githubusercontent.com/google/android-classyshark/master/LICENSE.txt"
         "$pkgname"
         "$pkgname.desktop"
