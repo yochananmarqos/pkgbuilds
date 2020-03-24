@@ -1,0 +1,27 @@
+# https://gitlab.manjaro.org/packages/extra/python-pyparted
+# https://aur.archlinux.org/packages/python-pyparted
+pkgname=python-pyparted
+_name=${pkgname#python-}
+pkgver=3.11.6
+pkgrel=1
+pkgdesc="Python bindings for GNU parted (libparted)"
+arch=('i686' 'x86_64')
+url="https://github.com/dcantrell/pyparted"
+license=('GPL2')
+depends=('python' 'parted')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"{,.asc})
+sha256sums=('727ccdf308c194069aa9797f7a6a973bc95b2e407cdf5d58d6c8bc4c9dec92dc'
+            'SKIP')
+validpgpkeys=('08F7C8B3C621950C138F766162977BB9C841B965')
+              # David Lawrence Cantrell, Jr. <dcantrel@fedoraproject.org>
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
