@@ -1,9 +1,10 @@
+# https://aur.archlinux.org/packages/bsf-git
 pkgname=('bsf-git' 'bsf-docs-git')
 pkgbase=bsf-git
-pkgver=1.1.0.r555.41e122d24
+pkgver=1.1.0.r555.g41e122d24
 pkgrel=1
 pkgdesc="A C++ library that aims to provide a unified foundation for the development of
-        real-time graphical applications, whether games, engines or tools"
+         real-time graphical applications, whether games, engines or tools"
 arch=('x86_64')
 url="https://www.bsframework.io"
 license=('MIT')
@@ -27,7 +28,7 @@ sha256sums=('SKIP'
 
 pkgver() {
 	cd "$srcdir/${pkgbase%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 
@@ -36,38 +37,40 @@ prepare() {
 	cp -r Raw bsf/Data
 	cp -r XShaderCompiler bsf/Dependencies
 
-	rm -rf "${pkgbase%-git}/Dependencies"/{OpenAL,lib*,free*}
+	cd "$srcdir/${pkgbase%-git}"
+	rm -rf Dependencies/{OpenAL,lib*,free*}
 
-	patch -d bsf -p1 < install-dir.patch
+	sed -i 's|local/opt|share|g' CMakeLists.txt
 
 	mkdir -p build
+	mkdir -p Documentation/Generated/{native,csharp}
 }
 
 build() {
-	cd "$srcdir/${pkgbase%-git}"
-	cmake \
-		-DCMAKE_BUILD_TYPE=Release \
+	cd "$srcdir/${pkgbase%-git}/build"
+	cmake ..\
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DUSE_BUNDLED_LIBRARIES=OFF \
 		-G Ninja
-	ninja -C build
+	ninja
 
-	cd Documentation/Doxygen
-	doxygen config.doxyconfig
+	cd ../Documentation/Doxygen
+	doxygen native.doxyconfig
+	doxygen csharp.doxyconfig
 }
 
 package_bsf-git() {
 	depends=('icu' 'libxcursor' 'libxrandr' 'libxi' 'libgl' 'openal' 'flac' 'libvorbis'
              'snappy' 'freeimage' 'freetype2')
-	provides=("${pkgname%-git}")
-	conflicts=("${pkgname%-git}")
+	provides=("${pkgbase%-git}")
+	conflicts=("${pkgbase%-git}")
 
-	cd "$srcdir/${pkgname%-git}"
+	cd "$srcdir/${pkgbase%-git}"
 	DESTDIR="$pkgdir" ninja -C build install
 
 	find "$pkgdir"/usr/lib -name "*.dbg" -delete
 
-	install Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgbase%-git}"
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgbase%-git}"
 }
 
 package_bsf-docs-git() {
@@ -75,8 +78,9 @@ package_bsf-docs-git() {
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}")
 
-	cd "$srcdir/${pkgname%-git}"
-	install -Dm644 "$pkgdir/usr/share/doc/${pkgbase%-git}"
+	cd "$srcdir/${pkgbase%-git}"
+	install -dm644 "$pkgdir/usr/share/doc/${pkgbase%-git}"
 	cp -r Documentation/Generated/{native,csharp}/* "$pkgdir/usr/share/doc/${pkgbase%-git}/"
-	cp -r "$srcdir/SemanticUI" "$pkgdir/usr/share/doc/${pkgbase%-git}/"{native,csharp}/
+	cp -r "$srcdir/SemanticUI" "$pkgdir/usr/share/doc/${pkgbase%-git}/native/"
+	cp -r "$srcdir/SemanticUI" "$pkgdir/usr/share/doc/${pkgbase%-git}/csharp/"
 }
