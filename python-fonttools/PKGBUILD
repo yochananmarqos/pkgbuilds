@@ -1,6 +1,6 @@
 pkgname=python-fonttools
 _name=${pkgname#python-}
-pkgver=4.5.0
+pkgver=4.6.0
 pkgrel=1
 pkgdesc="A library to manipulate font files from Python"
 url="https://github.com/fonttools/fonttools"
@@ -19,7 +19,7 @@ optdepends=('python-lxml: faster backend for XML files reading/writing'
             'python-reportlab: to drawing glyphs as PNG images')
 source=("https://github.com/$_name/$_name/releases/download/$pkgver/$_name-$pkgver.zip")
 #source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('bba1f50899dccd234fb3fa6ddf9ea9c15fe1a5435dfde42cbec9fe2a9c4398af')
+sha256sums=('18ebd83054995509584a542f70202f9fe8f0dacdb6eab3e132e96a067f9b09d7')
 
 build() {
 	cd "$_name-$pkgver"
