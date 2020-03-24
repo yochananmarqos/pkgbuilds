@@ -1,5 +1,6 @@
+# https://aur.archlinux.org/packages/conky-git
 pkgname=conky-git
-pkgver=1.11.5.r22.g8dc04f39
+pkgver=1.11.5.r25.gb2a5a47a
 pkgrel=1
 pkgdesc="Lightweight system monitor for X"
 url="https://github.com/brndnmtthws/conky"
