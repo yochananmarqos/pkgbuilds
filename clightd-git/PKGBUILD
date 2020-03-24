@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/clightd-git
 pkgname=clightd-git
 pkgver=4.0.r10.g6605c0a
 pkgrel=1
