@@ -1,4 +1,5 @@
 # https://aur.archlinux.org/packages/python-notify2
+# https://aur.archlinux.org/packages/python2-notify2
 pkgname=('python-notify2' 'python2-notify2')
 pkgbase=python-notify2
 _name=${pkgbase#python-}
