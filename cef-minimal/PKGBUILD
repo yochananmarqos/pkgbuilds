@@ -10,7 +10,7 @@ url="https://bitbucket.org/chromiumembedded/cef"
 license=('BSD')
 depends=('nss' 'alsa-lib' 'libxss' 'libxtst' 'libglvnd' 'pango' 'libxcursor' 'dbus' 'libxrandr' 'libxcomposite' 'at-spi2-atk')
 makedepends=('cmake')
-provides=('cef' 'cef=76.1.13')
+provides=('cef=76.1.13')
 conflicts=('cef')
 source=("http://opensource.spotify.com/cefbuilds/cef_binary_${_url_pkgver}_linux64_minimal.tar.bz2"{,.sha1})
 sha1sums=('014879a4b9696e91605ef2c135598db8ca15e543'
