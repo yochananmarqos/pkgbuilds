@@ -1,6 +1,7 @@
+# https://aur.archlinux.org/packages/fkill
 pkgname=fkill
 _npmname=fkill-cli
-pkgver=6.0.0
+pkgver=6.0.1
 pkgrel=1
 pkgdesc="Fabulously kill processes. Cross-platform."
 arch=('any')
@@ -10,7 +11,7 @@ depends=('nodejs')
 makedepends=('npm' 'jq')
 source=("https://registry.npmjs.org/$_npmname/-/$_npmname-$pkgver.tgz")
 #noextract=("$_npmname-$pkgver.tgz")
-sha256sums=('386cb56ec54dcac1b12c5f4e0ba736709194a45ff02e1beb40d1991c7820a2a1')
+sha256sums=('d60a19bcfddc9d043c57418cb4440450abdfcf9b407c88d1ec66d3ac9eabc316')
 
 package() {
 	npm install \
