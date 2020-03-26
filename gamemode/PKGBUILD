@@ -1,3 +1,5 @@
+# https://gitlab.manjaro.org/packages/community/gamemode
+# https://aur.archlinux.org/packages/gamemode
 pkgname=gamemode
 pkgver=1.5.1
 pkgrel=2
