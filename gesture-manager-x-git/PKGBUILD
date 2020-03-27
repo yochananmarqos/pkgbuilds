@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/gesture-manager-x-git
 pkgname=gesture-manager-x-git
 pkgver=r5.856d1fd
 pkgrel=1
@@ -41,9 +42,4 @@ package() {
 
 	install -Dm644 icon.svg \
 		"$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
-
-	install -Dm644 README.md screenshot.png -t \
-		"$pkgdir/usr/share/doc/${pkgname%-git}"
-
-	install -Dm644 LICENSE -t "pkgdir/usr/share/licenses/${pkgname%-git}"
 }
