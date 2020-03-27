@@ -5,9 +5,12 @@ pkgdesc="Unofficial Linux client for GOG"
 arch=('i686' 'x86_64')
 url="https://github.com/yancharkin/games_nebula"
 license=('GPL')
-depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
+depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow'
+         'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'xorg-xrandr'
+         'p7zip' 'htmlcxx' 'lgogdownloader')
 makedepends=('git')
-optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks' 'dosbox' 'scummvm' 'megatools')
+optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks'
+            'dosbox' 'scummvm' 'megatools')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/yancharkin/${pkgname%-git}.git"
@@ -45,7 +48,8 @@ prepare() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/opt/${pkgname%-git}"
-	cp -dr --no-preserve=ownership "$srcdir/${pkgname%-git}/." "$pkgdir/opt/${pkgname%-git}/"
+	cp -dr --no-preserve=ownership "$srcdir/${pkgname%-git}/." \
+		"$pkgdir/opt/${pkgname%-git}/"
 
 	cp -r "$srcdir/pygogapi/gogapi/." "$pkgdir/opt/${pkgname%-git}/gogapi/"
 	cp -r "$srcdir/goglib_scripts1/." "$pkgdir/opt/${pkgname%-git}/scripts/goglib/"
