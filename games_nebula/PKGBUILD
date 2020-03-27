@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/games_nebula
 pkgname=games_nebula
 pkgver=20180605
 pkgrel=3
@@ -5,8 +6,11 @@ pkgdesc='Unofficial Linux client for GOG'
 arch=('i686' 'x86_64')
 license=('GPL')
 url='https://github.com/yancharkin/games_nebula'
-depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow' 'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'innoextract' 'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
-optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks' 'dosbox' 'scummvm' 'megatools')
+depends=('python-gobject' 'python-beautifulsoup4' 'python-lxml' 'python-pillow'
+         'python-requests' 'python-pytz' 'python-dateutil' 'webkit2gtk' 'innoextract'
+         'xorg-xrandr' 'curl' 'p7zip' 'htmlcxx' 'lgogdownloader')
+optdepends=('gksu' 'xterm' 'tar' 'cabextract' 'unshield' 'ffmpeg' 'wine' 'winetricks'
+            'dosbox' 'scummvm' 'megatools')
 source=($pkgname-$pkgver.tar.gz::"https://github.com/yancharkin/$pkgname/archive/$pkgver.tar.gz"
 		pygogapi.zip::"https://github.com/yancharkin/pygogapi/archive/master.zip"
 		goglib_scripts1.zip::"https://github.com/yancharkin/${pkgname}_goglib_scripts/archive/master.zip"
@@ -29,16 +33,23 @@ sha256sums=('4803b3e19e2ed7725dc16feeb69a7a96d14a53d521f8c90c154b1dd21ce3902c'
             '8654c91f398c3a84047968404f0029c4143a21f52773ef67dfb3846ba2bb6241')
 
 package() {
+	cd "$pkgname-$pkgver"
 	install -d "$pkgdir/opt/$pkgname"
-	cp -dr --no-preserve=ownership "$srcdir/$pkgname-$pkgver/." "$pkgdir/opt/$pkgname/"
+	cp -dr --no-preserve=ownership . "$pkgdir/opt/$pkgname/"
 
 	cp -r "$srcdir/pygogapi-master/gogapi/." "$pkgdir/opt/$pkgname/gogapi/"
-	cp -r "$srcdir/${pkgname}_goglib_scripts-master/." "$pkgdir/opt/$pkgname/scripts/goglib/"
-	cp -r "$srcdir/yancharkin-${pkgname}_goglib_scripts-c27b3fae043c/." "$pkgdir/opt/$pkgname/scripts/goglib/"
-	cp -r "$srcdir/${pkgname}_mylib_scripts-master/." "$pkgdir/opt/$pkgname/scripts/mylib/"
-	cp -r "$srcdir/yancharkin-${pkgname}_mylib_scripts-2321b93b8189/." "$pkgdir/opt/$pkgname/scripts/mylib/"
-	cp -r "$srcdir/${pkgname}_goglib_images-master/." "$pkgdir/opt/$pkgname/images/goglib/"
-	cp -r "$srcdir/${pkgname}_mylib_images-master/." "$pkgdir/opt/$pkgname/images/mylib/"
+	cp -r "$srcdir/${pkgname}_goglib_scripts-master/." \
+		"$pkgdir/opt/$pkgname/scripts/goglib/"
+	cp -r "$srcdir/yancharkin-${pkgname}_goglib_scripts-c27b3fae043c/." \
+		"$pkgdir/opt/$pkgname/scripts/goglib/"
+	cp -r "$srcdir/${pkgname}_mylib_scripts-master/." \
+		"$pkgdir/opt/$pkgname/scripts/mylib/"
+	cp -r "$srcdir/yancharkin-${pkgname}_mylib_scripts-2321b93b8189/." \
+		"$pkgdir/opt/$pkgname/scripts/mylib/"
+	cp -r "$srcdir/${pkgname}_goglib_images-master/." \
+		"$pkgdir/opt/$pkgname/images/goglib/"
+	cp -r "$srcdir/${pkgname}_mylib_images-master/." \
+		"$pkgdir/opt/$pkgname/images/mylib/"
 
 	install -dm755 "$pkgdir/usr/bin"
 	echo '#!/bin/bash
