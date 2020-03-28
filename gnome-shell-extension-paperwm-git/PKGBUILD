@@ -1,0 +1,35 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-paperwm-git
+pkgname=gnome-shell-extension-paperwm-git
+_pkgname=paperwm
+pkgver=36.0.r11.g1ddad3e
+pkgrel=1
+pkgdesc="A gnome shell extension providing scrollable tiling of windows and per monitor workspaces."
+arch=('any')
+url="https://github.com/paperwm/PaperWM"
+license=('GPL3')
+depends=('gnome-shell')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("$_pkgname::git+https://github.com/paperwm/PaperWM")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$_pkgname"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+
+	_uuid=paperwm@hedning:matrix.org
+
+	cd "$srcdir/$_pkgname"
+	install -d "$pkgdir"/usr/share/{gnome-shell/extensions/${_uuid},doc/${pkgname%-git},\
+		licenses/${pkgname%-git}}
+	cp -a . "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+	rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/.git"
+	mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/README.md" \
+		"$pkgdir/usr/share/doc/${pkgname%-git}"
+	mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/LICENSE" \
+		"$pkgdir/usr/share/licenses/${pkgname%-git}"
+}

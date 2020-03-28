@@ -1,0 +1,126 @@
+ec3b575093ed2032195980a28ea804997f9a4d63	not-for-merge	branch '3.32' of https://github.com/paperwm/PaperWM
+2d65771481919464c22a269f37f4cad927d73db0	not-for-merge	branch 'actually-support-only-on-primary' of https://github.com/paperwm/PaperWM
+ccf8ca88a30cbd879bbac6e65cb123e6a88630f5	not-for-merge	branch 'alt-tab-clone-fix' of https://github.com/paperwm/PaperWM
+9dff65f423eca31a02884b40a82b94d47fdce171	not-for-merge	branch 'animate-maximize' of https://github.com/paperwm/PaperWM
+ffb7d6eaec092d8198dd7ed4cbc5ee292db9ccff	not-for-merge	branch 'class-port' of https://github.com/paperwm/PaperWM
+dda499e3c64ae253618a76a6bd163b39c81a4083	not-for-merge	branch 'clone-sort-stack' of https://github.com/paperwm/PaperWM
+b33f2d859dc0eaced1d338e336928fa78943e32d	not-for-merge	branch 'clutter-dnd' of https://github.com/paperwm/PaperWM
+66692282294c6c9cfea23ebe6f274b4f1076478a	not-for-merge	branch 'debug-keybindings' of https://github.com/paperwm/PaperWM
+1ddad3e845b08711106414c6eecc0c0994869938	not-for-merge	branch 'develop' of https://github.com/paperwm/PaperWM
+39c129f4ad06d5107ff29fea0c16d964a318a061	not-for-merge	branch 'dnd' of https://github.com/paperwm/PaperWM
+dc9923cae0a4529319c648cc005139cf273fbcf9	not-for-merge	branch 'edge-dock' of https://github.com/paperwm/PaperWM
+2620b13f8f4294542607e0947009968026bcb667	not-for-merge	branch 'fix-no-monitors' of https://github.com/paperwm/PaperWM
+2c45577e67768e9d8ea7091cdb0c1371a09fe40f	not-for-merge	branch 'fix-overview' of https://github.com/paperwm/PaperWM
+753ae5ccfb8e294647243bef67b82a59d510f62a	not-for-merge	branch 'fix-workspace-init' of https://github.com/paperwm/PaperWM
+c896eed6a7d672026140535753127f945893eeb5	not-for-merge	branch 'free-resize' of https://github.com/paperwm/PaperWM
+10ad7b3b524b060a12eb285e6703c60d197e46db	not-for-merge	branch 'gnome-shell-3.36' of https://github.com/paperwm/PaperWM
+4708019b98b6877f2d035a389334ff1578e0c3bf	not-for-merge	branch 'hedning-develop' of https://github.com/paperwm/PaperWM
+bb4aed6490fa6d322e965c9394c2c64cf0b83225	not-for-merge	branch 'horizontal-touchpad-scroll' of https://github.com/paperwm/PaperWM
+1dad27da192a8fd3c2b4978c0af89ad66c08d1b8	not-for-merge	branch 'ignore-dock-windows' of https://github.com/paperwm/PaperWM
+2e407554bedc9c35a9633f0bb82ad5e7212473df	not-for-merge	branch 'master' of https://github.com/paperwm/PaperWM
+d4d28e414bdea39175837bfc47573f40a46f694a	not-for-merge	branch 'minimum-workspaces' of https://github.com/paperwm/PaperWM
+a85e5389d6bbcb83984c3cfb2a4b0faf4111bb8d	not-for-merge	branch 'modifier-tracker' of https://github.com/paperwm/PaperWM
+32faeb3f7cf2d6d4712d35243b26a878a41e45b4	not-for-merge	branch 'monitor-barrier' of https://github.com/paperwm/PaperWM
+2d143d1292a28991a8d872997a6675a4f4376aca	not-for-merge	branch 'more-action-examples' of https://github.com/paperwm/PaperWM
+32bee61510767f94ef8d934c827bc21ad96b61a6	not-for-merge	branch 'move-to-src' of https://github.com/paperwm/PaperWM
+5347af5992820123444a7d6d8580cbb8951ddb8a	not-for-merge	branch 'mvp-zen-mode' of https://github.com/paperwm/PaperWM
+b7e1ed178167403f2da3c4dd49ab6c043e5fc953	not-for-merge	branch 'navigator-rewrite' of https://github.com/paperwm/PaperWM
+cb059a5c484203bde952e35a2b7d92f805975328	not-for-merge	branch 'new-workspace' of https://github.com/paperwm/PaperWM
+5fc7de65f79923320356cb4f721ce8e9bace1b57	not-for-merge	branch 'overview' of https://github.com/paperwm/PaperWM
+db6be7791c073e7af6a346c43c066c46048d333f	not-for-merge	branch 'peformance-test' of https://github.com/paperwm/PaperWM
+a3a4b6becc33967ae0cef516881690bb0fd78fd4	not-for-merge	branch 'quick-fix' of https://github.com/paperwm/PaperWM
+4d032dc79dd065f1bf1ae50bc7ee86ea333ef5b8	not-for-merge	branch 'reduce-clone-overhead' of https://github.com/paperwm/PaperWM
+c7573c3636ce8c8873da135a1e6c3b224bd20626	not-for-merge	branch 'respect-workarea' of https://github.com/paperwm/PaperWM
+d753e13fbb5b090f2b69901a658df5098d655f40	not-for-merge	branch 'scratch-overview' of https://github.com/paperwm/PaperWM
+037f81eb0a4b4e45060116496a6555ce9608be81	not-for-merge	branch 'sequencial-workspace-navigation' of https://github.com/paperwm/PaperWM
+3160c1e6e9db12eb3f2a847feedc413be8178f41	not-for-merge	branch 'shell.sh' of https://github.com/paperwm/PaperWM
+fb758b5b42cc8fde8fa618690d69bac9fa2a7a12	not-for-merge	branch 'smart-cycle-width-position' of https://github.com/paperwm/PaperWM
+6a860a7a4a09b79b2dc226a5e3562d10fa46b96d	not-for-merge	branch 'smooth-scroll' of https://github.com/paperwm/PaperWM
+02131fb22cbb66e54b1271f22bbb56f8310c3c50	not-for-merge	branch 'swipe-sensitivity' of https://github.com/paperwm/PaperWM
+4abb9ef504e39b23396af6868b5d86d25eee3980	not-for-merge	branch 'tag-window' of https://github.com/paperwm/PaperWM
+28e05fd271ab864704aafe60c9400aa369d2f281	not-for-merge	branch 'testing' of https://github.com/paperwm/PaperWM
+bc30cd5509c5ccb387a459487f698e737387bb2b	not-for-merge	branch 'tile-on-unminimize' of https://github.com/paperwm/PaperWM
+49781e315f4a3e2ef2c0d5ed93b979943bb349b4	not-for-merge	branch 'undefined-workspace-settings-handling' of https://github.com/paperwm/PaperWM
+0c7fc77eb7f905a756efb23695d2dd1a61813ec7	not-for-merge	branch 'use-signal-tracking-for-startup-complete' of https://github.com/paperwm/PaperWM
+edd5f047d8efbd1587950320ce7168a0e11431f6	not-for-merge	branch 'virtual-tiling-playground' of https://github.com/paperwm/PaperWM
+22f9d46a02e5bbbd95e64085476fa7379c67f593	not-for-merge	branch 'workspace-prefs-button' of https://github.com/paperwm/PaperWM
+3d1b62917124b5f119c85786185d08f6b024edee	not-for-merge	branch 'zen-mode' of https://github.com/paperwm/PaperWM
+e0668b85e3f465ecd684a110ac182cf6d18c9d48	not-for-merge	'refs/pull/101/head' of https://github.com/paperwm/PaperWM
+29409c5b9981e44926785ca1cb6beb06cdbeae86	not-for-merge	'refs/pull/105/head' of https://github.com/paperwm/PaperWM
+3d1b62917124b5f119c85786185d08f6b024edee	not-for-merge	'refs/pull/107/head' of https://github.com/paperwm/PaperWM
+6ea3bacca5782e0e10c2c9a2ac68c11627c763d2	not-for-merge	'refs/pull/115/head' of https://github.com/paperwm/PaperWM
+571b658d71d190a314dbbe60bec3eccd0ac50a52	not-for-merge	'refs/pull/123/head' of https://github.com/paperwm/PaperWM
+a3708786ff59ee21fae705cea53c038a7779538a	not-for-merge	'refs/pull/124/head' of https://github.com/paperwm/PaperWM
+753ae5ccfb8e294647243bef67b82a59d510f62a	not-for-merge	'refs/pull/126/head' of https://github.com/paperwm/PaperWM
+e6ddbdfe4ab5981f125f1b890035e7c73bfeeb3d	not-for-merge	'refs/pull/130/head' of https://github.com/paperwm/PaperWM
+90a8c19be3bb4140e6da4fedbcb4a7c3d41e09e7	not-for-merge	'refs/pull/131/head' of https://github.com/paperwm/PaperWM
+86beb27e04045ce38e4a0da7267ef600a2cfdcfc	not-for-merge	'refs/pull/137/head' of https://github.com/paperwm/PaperWM
+54746e63b9ca6bebf2648789cb0b97b2eb790c9f	not-for-merge	'refs/pull/139/head' of https://github.com/paperwm/PaperWM
+81136e1b444e9763913f10734c5e89a124f58544	not-for-merge	'refs/pull/141/head' of https://github.com/paperwm/PaperWM
+6398d9b13d788b998f46297bfbd03d6e4398f851	not-for-merge	'refs/pull/142/head' of https://github.com/paperwm/PaperWM
+5831f2c08d01bb5821c3cf7e400010a888a0a895	not-for-merge	'refs/pull/148/head' of https://github.com/paperwm/PaperWM
+ada154b618996a86b3f79bee6a2e062dc8668907	not-for-merge	'refs/pull/151/head' of https://github.com/paperwm/PaperWM
+1c34aabdae12c1407b066c9d6c1d4201b206d401	not-for-merge	'refs/pull/152/head' of https://github.com/paperwm/PaperWM
+0c7fc77eb7f905a756efb23695d2dd1a61813ec7	not-for-merge	'refs/pull/153/head' of https://github.com/paperwm/PaperWM
+846120785bc8cc6427b94337ee39620bbade8370	not-for-merge	'refs/pull/155/head' of https://github.com/paperwm/PaperWM
+770f25188d3f3e4af2315f681dda7b919737c13d	not-for-merge	'refs/pull/157/head' of https://github.com/paperwm/PaperWM
+391ae2b5c438b0e46ba9eb2330f0c10bfdf87f2e	not-for-merge	'refs/pull/158/head' of https://github.com/paperwm/PaperWM
+98f4161e95563fb0fddb62b9efdb563b9f05ac3e	not-for-merge	'refs/pull/159/head' of https://github.com/paperwm/PaperWM
+e05373895cd1965e51e817d8854de543bf603bfe	not-for-merge	'refs/pull/160/head' of https://github.com/paperwm/PaperWM
+7fb9f4a0c11f9861cdb9fbdc4df634fba1a58e03	not-for-merge	'refs/pull/167/head' of https://github.com/paperwm/PaperWM
+8daee7ce38b09b67180084476a61fe659f7508ab	not-for-merge	'refs/pull/175/head' of https://github.com/paperwm/PaperWM
+2d6fdf0e11847252dcad2d2329dcb8b35e290470	not-for-merge	'refs/pull/176/head' of https://github.com/paperwm/PaperWM
+d9c59ef50eea3cc2c6dd5e4c888d33f256d3dc34	not-for-merge	'refs/pull/178/head' of https://github.com/paperwm/PaperWM
+501ea8a136ee6b16a846148a7e3d26ca9e9223a5	not-for-merge	'refs/pull/179/head' of https://github.com/paperwm/PaperWM
+5b70afb30df4ee4fcf7f02034fc64f60ac16c4cb	not-for-merge	'refs/pull/181/head' of https://github.com/paperwm/PaperWM
+7d8d30b77a4b9ad8fa702fd535e3b1c0bb5b59cd	not-for-merge	'refs/pull/182/head' of https://github.com/paperwm/PaperWM
+426d44bf11e49aa05d025b1be50cbbc7537629c1	not-for-merge	'refs/pull/185/head' of https://github.com/paperwm/PaperWM
+56845e626781351a5e1eae91f6ce02e115e9d710	not-for-merge	'refs/pull/186/head' of https://github.com/paperwm/PaperWM
+49781e315f4a3e2ef2c0d5ed93b979943bb349b4	not-for-merge	'refs/pull/188/head' of https://github.com/paperwm/PaperWM
+206d48ac1855aee3b8544efc6725025894588e59	not-for-merge	'refs/pull/188/merge' of https://github.com/paperwm/PaperWM
+c896eed6a7d672026140535753127f945893eeb5	not-for-merge	'refs/pull/189/head' of https://github.com/paperwm/PaperWM
+e761602f6321b7ca3f40d95429aea116ec98d8a0	not-for-merge	'refs/pull/189/merge' of https://github.com/paperwm/PaperWM
+2d65771481919464c22a269f37f4cad927d73db0	not-for-merge	'refs/pull/191/head' of https://github.com/paperwm/PaperWM
+1142a5050c2078f05406d0486ff63a5444ae58ff	not-for-merge	'refs/pull/191/merge' of https://github.com/paperwm/PaperWM
+fb758b5b42cc8fde8fa618690d69bac9fa2a7a12	not-for-merge	'refs/pull/193/head' of https://github.com/paperwm/PaperWM
+dfc473fae5053006bfdafbfbd2de3c1217a583a8	not-for-merge	'refs/pull/193/merge' of https://github.com/paperwm/PaperWM
+dc9923cae0a4529319c648cc005139cf273fbcf9	not-for-merge	'refs/pull/194/head' of https://github.com/paperwm/PaperWM
+29675d59ec6d6cb64f27d731486ec0b47a92c536	not-for-merge	'refs/pull/194/merge' of https://github.com/paperwm/PaperWM
+4b04d5c66f9b179a767dce954ab3977ce6cd7c58	not-for-merge	'refs/pull/197/head' of https://github.com/paperwm/PaperWM
+36e0f2e60ca7d69081e63d3bdf00a98148ac2ba5	not-for-merge	'refs/pull/202/head' of https://github.com/paperwm/PaperWM
+d4d28e414bdea39175837bfc47573f40a46f694a	not-for-merge	'refs/pull/207/head' of https://github.com/paperwm/PaperWM
+1078864cc377e3ae9d22f235af0752b125ab92fc	not-for-merge	'refs/pull/211/head' of https://github.com/paperwm/PaperWM
+4384e45a06f886e7dbddc423f6f8bf849504203d	not-for-merge	'refs/pull/222/head' of https://github.com/paperwm/PaperWM
+39c129f4ad06d5107ff29fea0c16d964a318a061	not-for-merge	'refs/pull/225/head' of https://github.com/paperwm/PaperWM
+e36ed41cb8cf22ee14273652b3503ef0859a46e6	not-for-merge	'refs/pull/231/head' of https://github.com/paperwm/PaperWM
+5879e63105a6a275c2444ac90c75dc677e87fb9e	not-for-merge	'refs/pull/234/head' of https://github.com/paperwm/PaperWM
+0756651e7eacdfccaa39cf7eeb360afe0cdcdf4d	not-for-merge	'refs/pull/236/head' of https://github.com/paperwm/PaperWM
+ecd355115ce0dfba65f793123778d7ad660c52bb	not-for-merge	'refs/pull/253/head' of https://github.com/paperwm/PaperWM
+806e304fe4c0197046d924ce1b176b477bb48ed0	not-for-merge	'refs/pull/254/head' of https://github.com/paperwm/PaperWM
+58e862695de4fbc08cdcc4a45f46331e37bf3c83	not-for-merge	'refs/pull/255/head' of https://github.com/paperwm/PaperWM
+b33f2d859dc0eaced1d338e336928fa78943e32d	not-for-merge	'refs/pull/259/head' of https://github.com/paperwm/PaperWM
+339a4e5aa4ee4e3c71102a2dd8a79286594c8a4b	not-for-merge	'refs/pull/259/merge' of https://github.com/paperwm/PaperWM
+f0bc12a80c9fed9f7370fc06b0c6453b78edb9c6	not-for-merge	'refs/pull/264/head' of https://github.com/paperwm/PaperWM
+cf3505b2aba9f3cbd902a34b9480509b6051505c	not-for-merge	'refs/pull/272/head' of https://github.com/paperwm/PaperWM
+70c1da2e83a1afdaece3625b0c98ef1f1d1d5908	not-for-merge	'refs/pull/272/merge' of https://github.com/paperwm/PaperWM
+6766bec71a8649eb883b2f796e8dda01cd2d004c	not-for-merge	'refs/pull/279/head' of https://github.com/paperwm/PaperWM
+8a381c2a02c1aab76c7feda47389d9a4314e095b	not-for-merge	'refs/pull/279/merge' of https://github.com/paperwm/PaperWM
+8ab21b9b55b83c2536b3efb360c5b580e5b75dba	not-for-merge	'refs/pull/42/head' of https://github.com/paperwm/PaperWM
+b42adca37c547d1cd4867433a3c1dfa84cc737c4	not-for-merge	'refs/pull/43/head' of https://github.com/paperwm/PaperWM
+e0e036bf35c0dbf4f4bf314fdc6b39cd9f68efa1	not-for-merge	'refs/pull/49/head' of https://github.com/paperwm/PaperWM
+53c1d62cfef8821373e799fc1cb27a4bbb854187	not-for-merge	'refs/pull/52/head' of https://github.com/paperwm/PaperWM
+9dc591e697077f814e2659d02c849b4e8adc115b	not-for-merge	'refs/pull/59/head' of https://github.com/paperwm/PaperWM
+7a104588b28e2cbc82d88a68c41126d0dca4e935	not-for-merge	'refs/pull/60/head' of https://github.com/paperwm/PaperWM
+acf06bae4eef42859ae43c284b4bc6e0adae639c	not-for-merge	'refs/pull/63/head' of https://github.com/paperwm/PaperWM
+4ce41ab54b9781ae5e35ab9e0ecaf880f73058e7	not-for-merge	'refs/pull/65/head' of https://github.com/paperwm/PaperWM
+80dcddbc4b03026389fc9d57a414df309f8b648a	not-for-merge	'refs/pull/69/head' of https://github.com/paperwm/PaperWM
+7a17a59b71b9ccb63e6f0ffb86cd2fd5c43d96f4	not-for-merge	'refs/pull/76/head' of https://github.com/paperwm/PaperWM
+9ad6ee605d2b156cb1ec0c7d8fb243c10a6edf2c	not-for-merge	'refs/pull/87/head' of https://github.com/paperwm/PaperWM
+29c17dc73e247b0ae539160956ea96478c485f13	not-for-merge	'refs/pull/89/head' of https://github.com/paperwm/PaperWM
+ce9416a55d141e6e5fabadae646e2a5975764414	not-for-merge	'refs/pull/96/head' of https://github.com/paperwm/PaperWM
+9f70e23ebc6a72fd9e79f4b099e9d87c2291140f	not-for-merge	'refs/pull/98/head' of https://github.com/paperwm/PaperWM
+13729b7a61723232f3f2c778d9fe75a0adf04e13	not-for-merge	tag '34.0' of https://github.com/paperwm/PaperWM
+0d2e41ceaedfee495843ce61b1a5a83a0d2af3a6	not-for-merge	tag '34.1' of https://github.com/paperwm/PaperWM
+49fe4a39f71077c09703bac3a0da3f7c0f10cab8	not-for-merge	tag '34.2' of https://github.com/paperwm/PaperWM
+e629cde2ccb15ca012d28a2d365fd86ab00b5661	not-for-merge	tag '34.3' of https://github.com/paperwm/PaperWM
+2e407554bedc9c35a9633f0bb82ad5e7212473df	not-for-merge	tag '36.0' of https://github.com/paperwm/PaperWM
