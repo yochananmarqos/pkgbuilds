@@ -1,6 +1,7 @@
+# http://aur.archlinux.org/packages/gnome-shell-extension-dash-to-dock-git
 pkgname=gnome-shell-extension-dash-to-dock-git
 _gitname=dash-to-dock
-pkgver=67.r64.g800dc0a
+pkgver=67.r72.gc580048
 pkgrel=1
 pkgdesc="Move the dash out of the overview transforming it in a dock"
 arch=('any')
