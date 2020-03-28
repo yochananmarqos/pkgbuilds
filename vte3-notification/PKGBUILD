@@ -1,7 +1,9 @@
+# https://gitlab.manjaro.org/packages/community/vte3-notification
+# https://aur.archlinux.org/packages/vte3-notification
 pkgname=('vte3-notification' 'vte-notification-common')
 pkgbase=vte3-notification
-pkgver=0.60.0
-pkgrel=2
+pkgver=0.60.1
+pkgrel=1
 pkgdesc='Virtual Terminal Emulator widget for use with GTK3 with Fedora patches'
 arch=('i686' 'x86_64')
 url='https://wiki.gnome.org/Apps/Terminal/VTE'
