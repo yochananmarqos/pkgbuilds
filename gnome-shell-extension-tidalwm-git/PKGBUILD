@@ -1,0 +1,30 @@
+pkgname=gnome-shell-extension-tidalwm-git
+pkgver=r41.4f48679
+pkgrel=1
+pkgdesc="Simple and sane tiling window manager for Gnome Shell"
+arch=('any')
+url="https://github.com/rustysec/tidalwm"
+license=('GPL')
+depends=('gnome-shell')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/rustysec/tidalwm.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/tidalwm"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+
+	_uuid=tidalwm@rustysec.github.io
+
+	cd "$srcdir/tidalwm"
+	install -d "$pkgdir"/usr/share/{gnome-shell/extensions/${_uuid},doc/${pkgname%-git}}
+	cp -a . "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+	rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/.git"
+	mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/README.md" \
+		"$pkgdir/usr/share/doc/${pkgname%-git}"
+}
