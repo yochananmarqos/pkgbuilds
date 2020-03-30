@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/multibootusb-git
 pkgname=multibootusb-git
-pkgver=9.2.0.r153.cd3864a
+pkgver=9.2.0.r159.gfa89b28
 pkgrel=1
 pkgdesc="Boot multiple live Linux distros from a usb flash drive."
 arch=('any')
@@ -14,7 +15,7 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd "$srcdir/${pkgname%-git}"
-    printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
