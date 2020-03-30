@@ -23,7 +23,7 @@ prepare() {
 
 build() {
 	cd "$srcdir/cef_binary_${_pkgver}_linux64_minimal/build"
-	cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+	cmake -G "Unix Makefiles" ..
 	make
 }
 package() {
