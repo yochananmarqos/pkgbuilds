@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/nerd-fonts-hack
 pkgname=nerd-fonts-hack
 _name=Hack
 pkgver=2.1.0
@@ -16,7 +17,7 @@ sha256sums=('70852e59fcffbe31d401f615625bcb9ebb6af72732c2f1fe9b9d5370c2565514'
             'd2a29823384e9194a87936ccad495c764c2ef733b29bfa6f72a1d65803ce02e5')
 
 package() {
-	install -dm755 "$pkgdir/usr/share/fonts/TTF"
+	install -d "$pkgdir/usr/share/fonts/TTF"
 	find . -iname "*.ttf" -not -iname "*Windows Compatible.ttf" \
 		-execdir install -m644 {} "$pkgdir/usr/share/fonts/TTF/{}" \;
 
