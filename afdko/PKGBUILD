@@ -1,14 +1,14 @@
 # https://aur.archlinux.org/packages/afdko
 pkgname=afdko
 pkgver=3.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Adobe Font Development Kit for OpenType"
 arch=('x86_64')
 url="https://adobe-type-tools.github.io/afdko"
 license=('Apache')
-depends=('python-lxml' 'python-brotli' 'python-zopfli' 'python-booleanoperations'
-         'python-cu2qu' 'python-mutatormath' 'psautohint' 'python-ufonormalizer'
-         'python-ufoprocessor')
+depends=('python-lxml' 'python-brotli' 'python-zopfli' 'python-unicodedata2'
+         'python-booleanoperations' 'python-cu2qu' 'python-mutatormath'
+         'psautohint' 'python-ufonormalizer' 'python-ufoprocessor')
 makedepends=('python-setuptools-scm' 'python-wheel')
 checkdepends=('python-pytest')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
