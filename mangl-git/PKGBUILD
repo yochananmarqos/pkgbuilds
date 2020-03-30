@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/mangl-git
 pkgname=mangl-git
 pkgver=1.0.2.r4.gb4d00ce
 pkgrel=1
