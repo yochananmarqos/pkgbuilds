@@ -12,7 +12,7 @@ optdepends=('mesa-demos: view OpenGL config'
             'gksu: for root shell commands')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/yochananmarqos/inxi-gui')
+source=('git+https://github.com/yochananmarqos/inxi-gui.git')
 sha256sums=('SKIP')
 
 pkgver() {
@@ -22,7 +22,7 @@ pkgver() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -Dm644 inxi-gui.desktop -t "$pkgdir/usr/share/applications"
+	install -Dm644 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 	install -d "$pkgdir/usr/share/locale"
 	cp -a locale/* "$pkgdir/usr/share/locale"
 	install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
