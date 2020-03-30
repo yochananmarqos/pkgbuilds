@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/mangohud
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
 pkgver=0.3.1
