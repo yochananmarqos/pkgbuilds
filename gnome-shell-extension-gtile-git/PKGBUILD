@@ -1,6 +1,6 @@
 # http://aur.archlinux.org/packages/gnome-shell-extension-gtile-git
 pkgname=gnome-shell-extension-gtile-git
-pkgver=r210.20afc66
+pkgver=34.r1.g52ce01e
 pkgrel=1
 pkgdesc='A window tiling extension for GNOME'
 arch=('any')
@@ -15,7 +15,7 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	git describe --long --tags | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
