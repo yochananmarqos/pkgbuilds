@@ -1,4 +1,0 @@
-post_remove() {
-	# Delete binary added to system PATH
-	rm -f '/usr/local/bin/ipfs'
-}
