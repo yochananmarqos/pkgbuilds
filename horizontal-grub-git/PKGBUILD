@@ -9,7 +9,7 @@ depends=('bash' 'grub')
 optdepends=('polkit: for saving the new configuration to system')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/petsam/horizontal-grub')
+source=('git+https://github.com/petsam/horizontal-grub.git')
 sha256sums=('SKIP')
 
 pkgver() {
