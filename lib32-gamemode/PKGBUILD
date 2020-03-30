@@ -1,3 +1,5 @@
+# https://gitlab.manjaro.org/packages/multilib/lib32-gamemode
+# http://aur.archlinux.org/packages/lib32-gamemode
 pkgname=lib32-gamemode
 _pkgname=${pkgname#lib32-}
 pkgver=1.5.1
