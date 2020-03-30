@@ -1,6 +1,6 @@
 pkgname=python-ufonormalizer
 _name=${pkgname#python-}
-pkgver=0.3.6
+pkgver=0.4.0
 pkgrel=1
 pkgdesc="A tool that will normalize XML and other data inside of a UFO."
 arch=('any')
@@ -10,20 +10,20 @@ depends=('python')
 makedepends=('python-setuptools')
 #checkdepends=()
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('e41978fa581feb31ff9aec10f6e52aff27ccdd1ce242529cbc51bfe862687acf')
+sha256sums=('457dff74dfde2a9733b4e90fa7f012990bee1b39d5b76ffe99fe29e222a3a13b')
 
 build() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	python setup.py build
 }
 
 #check() {
-	#cd "$_pkgname-$pkgver"
+	#cd "$_name-$pkgver"
 	#python setup.py test
 #}
 
 package() {
-	cd "$_pkgname-$pkgver"
+	cd "$_name-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
 	# somehow the files end up with 640 permissions
