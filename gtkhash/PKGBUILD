@@ -1,5 +1,7 @@
+# https://aur.archlinux.org/packages/gtkhash
+
 # Only for Nautilus. For other file mangers, see
-#  https://gitlab.manjaro.org/packages/community/gtkhash/blob/master/PKGBUILD
+#  https://gitlab.manjaro.org/packages/community/gtkhash
 
 pkgname=('gtkhash' 'gtkhash-nautilus')
 pkgbase=gtkhash
