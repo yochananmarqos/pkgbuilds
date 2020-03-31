@@ -1,13 +1,13 @@
 pkgname=nutty-git
-pkgver=1.1.1.r27.14229d8
+pkgver=1.1.1.r29.g56f5996
 pkgrel=1
 pkgdesc='A network utility that monitors the devices on your network,
          checks bandwidth and speed details.'
 arch=('i686' 'x86_64')
 url='https://github.com/babluboy/nutty'
 license=('GPL3')
-depends=('granite' 'sqlite' 'libxml2' 'libnotify' 'net-tools' 'nethogs' 'nmap' 'traceroute'
-         'vnstat' 'wireless_tools')
+depends=('granite' 'libnotify' 'libxml2' 'libgee' 'sqlite' 'net-tools' 'nethogs'
+         'nmap' 'traceroute' 'vnstat' 'wireless_tools' 'iproute2' 'pciutils')
 makedepends=('git' 'meson' 'vala' 'appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -17,7 +17,7 @@ md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -29,4 +29,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	DESTDIR="$pkgdir" ninja -C build install
+
+	ln -s /usr/bin/com.github.babluboy.nutty "$pkgdir/usr/bin/${pkgname%-git}"
 }
