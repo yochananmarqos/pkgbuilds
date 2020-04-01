@@ -1,15 +1,18 @@
+# http://aur.archlinux.org/packages/protonfixes-git
 pkgname=protonfixes-git
-pkgver=1.0.15.r69.f56984e
+pkgver=1.0.15.r98.g71da369
 pkgrel=1
 pkgdesc="A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files"
 arch=('any')
 url="https://simons-public.github.io/protonfixes"
 license=('BSD')
+depends=('python')
 makedepends=('git' 'python-setuptools')
 optdepends=('wine: win32 proton prefix support'
             'winetricks: winetricks support'
-            'cefpython3: splash dialog support'
-            'zenity: splash dialog support')
+            'python-kivy: Progress Dialog / Splashscreen'
+            'kdialog: Progress Dialog / Splashscreen'
+            'zenity: Progress Dialog / Splashscreen')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/simons-public/protonfixes.git')
@@ -17,7 +20,7 @@ md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -29,9 +32,5 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
-	_pyver="$(python -c 'import sys; print("%s.%s" %sys.version_info[0:2])')"
-
-	mv "$pkgdir/usr/static" "$pkgdir/usr/lib/python$_pyver/site-packages/${pkgname%-git}"
-	rm -rf "$pkgdir/usr/lib/python$_pyver/site-packages/tests"
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
