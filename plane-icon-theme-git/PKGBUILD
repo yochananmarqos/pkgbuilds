@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/plane-icon-theme-git
 pkgname=plane-icon-theme-git
-pkgver=r188.3c3e892
+pkgver=r191.3e94c25
 pkgrel=1
 pkgdesc="A simple and beautiful SVG perfect pixel iconset for GNOME made in Inkscape."
 arch=('any')
