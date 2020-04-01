@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/bat-extras-git
 pkgname=bat-extras-git
-pkgver=20190117.r19.g6b57f3f
+pkgver=20200401.r0.g47c15dd
 pkgrel=1
 pkgdesc="Bash scripts that integrate bat with various command line tools."
 arch=('any')
@@ -27,5 +27,6 @@ build() {
 package() {
     cd "$srcdir/${pkgname%-git}"
     install -Dm755 bin/* -t "$pkgdir/usr/bin"
+    install -Dm644 doc/* -t "$pkgdir/usr/share/doc/${pkgname%-git}"
     install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
