@@ -13,25 +13,25 @@ optdepends=('quodlibet: import / edit a QuodLibet library'
             'chromaprint: for AcoustID support')
 provides=("${pkgname%-git}" "${pkgname%-qt5-git}")
 conflicts=("${pkgname%-git}" "${pkgname%-qt5-git}")
-source=("${pkgname%-git}::git+https://github.com/keithgg/puddletag#branch=pyqt5")
+source=('git+https://github.com/keithgg/puddletag#branch=pyqt5')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
+	cd "$srcdir/${pkgname%-*-*}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-	cd "$srcdir/${pkgname%-git}/source"
+	cd "$srcdir/${pkgname%-*-*}/source"
 	sed -i 's|^#!.*python$|#!/usr/bin/python2|' $(grep -rl '^#!.*python')
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}/source"
+	cd "$srcdir/${pkgname%-*-*}/source"
 	python2 setup.py config
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}/source"
+	cd "$srcdir/${pkgname%-*-*}/source"
 	python2 setup.py install --root="$pkgdir" --optimize=1
 }
