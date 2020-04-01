@@ -1,5 +1,5 @@
 pkgname=ooniprobe-desktop-git
-pkgver=3.0.0.rc.3.r15.gb447a6f
+pkgver=3.0.0.rc.6.r1.gebc193f
 pkgrel=1
 pkgdesc="The next generation OONI Probe desktop app"
 arch=('x86_64')
@@ -9,7 +9,6 @@ depends=('libnotify' 'libappindicator-gtk3' 'libxtst' 'nss' 'libxss')
 makedepends=('git' 'yarn')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-replaces=("${pkgname%-desktop-git}")
 source=("${pkgname%-git}::git+https://github.com/ooni/probe-desktop.git"
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
