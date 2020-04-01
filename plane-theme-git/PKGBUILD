@@ -1,5 +1,6 @@
+# https://gitlab.manjaro.org/packages/community/themes/plane-theme
 pkgname=plane-theme-git
-pkgver=r162.0d90247
+pkgver=r166.c503632
 pkgrel=1
 pkgdesc='A beautiful GTK theme for GNOME and Xfce'
 arch=('any')
