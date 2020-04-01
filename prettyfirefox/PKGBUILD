@@ -1,7 +1,5 @@
 pkgname=prettyfirefox
-_pkgver=0.0.1
-_channel=beta
-pkgver="$_pkgver.$_channel"
+pkgver=0.1.0
 pkgrel=1
 pkgdesc="Using existing projects for Firefox modifications easily"
 arch=('any')
@@ -10,8 +8,8 @@ license=('GPL3')
 depends=('firefox' 'dos2unix')
 optdepends=('wget: fetch new versions from web source'
             'git: fetch new versions from web source')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$_pkgver-$_channel.tar.gz")
-sha256sums=('0aa1451a906a1025223d387b79fbc792933c938660888cc6f574bca096096541')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('5fd10e0b478c485d5608d2d2568a0348f5e84751367d35b37ec72eee20541966')
 
 package() {
 	cd "$pkgname-$_pkgver-$_channel"
