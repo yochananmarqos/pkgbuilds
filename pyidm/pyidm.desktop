@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Icon=pyidm
-Name=pyIDM
-Exec=python /usr/bin/pyidm
-Terminal=false
-Hidden=false
