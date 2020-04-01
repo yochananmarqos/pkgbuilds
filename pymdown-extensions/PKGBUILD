@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/pymdown-extensions
 pkgname=pymdown-extensions
 pkgver=6.3
 pkgrel=1
@@ -26,4 +27,6 @@ build() {
 package() {
     cd "$pkgname-$pkgver"
     python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+    install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
 }
