@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/play-with-mpv-git
 pkgname=play-with-mpv-git
-pkgver=0.1.0.r3.0c27cd4
+pkgver=0.1.0.r3.g0c27cd4
 pkgrel=1
 pkgdesc='Chrome extension and Python server that allows you to play videos in webpages with MPV instead.'
 arch=('any')
@@ -16,7 +17,7 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
