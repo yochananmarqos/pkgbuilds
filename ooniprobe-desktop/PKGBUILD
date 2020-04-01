@@ -1,6 +1,6 @@
 pkgname=ooniprobe-desktop
-_pkgver=3.0.0-rc.3
-pkgver=3.0.0.rc.3
+_pkgver=3.0.0-rc.6
+pkgver=3.0.0.rc.6
 pkgrel=1
 pkgdesc="The next generation OONI Probe desktop app"
 arch=('x86_64')
@@ -8,10 +8,11 @@ url="https://ooni.org"
 license=('MIT')
 depends=('libnotify' 'libappindicator-gtk3' 'libxtst' 'nss' 'libxss')
 makedepends=('yarn')
+conflicts=("${pkgname%-desktop}")
 replaces=("${pkgname%-desktop}")
 source=("$pkgname-$pkgver.tar.gz::https://github.com/ooni/probe-desktop/archive/v$_pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('aaba76ed19b370df97c44325d0f073bbb779fc99c2b1096e095d5242ef45adaa'
+sha256sums=('9d82dec783c0e9b44c3e33151a3686d711aa1ecfc69918d4c4e9cf2d107eb1ff'
             'baaf4f3cca079dddc0b4e048c8778c6cc84786bb88fd9d218424b7b9f04f1135')
 
 prepare() {
@@ -25,7 +26,6 @@ prepare() {
 build() {
 	cd "probe-desktop-$_pkgver"
 	yarn install --cache-folder "$srcdir/yarn-cache"
-	yarn install
 	yarn run probe-cli
 	yarn run pack:linux
 }
