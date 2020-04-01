@@ -1,3 +1,4 @@
+# https://www.archlinux.org/packages/community/x86_64/nnn
 pkgname=nnn
 pkgver=3.0
 pkgrel=1
