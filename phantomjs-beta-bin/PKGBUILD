@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/phantomjs-beta-bin
 pkgname=phantomjs-beta-bin
 pkgver=2.5.0
 pkgrel=3
