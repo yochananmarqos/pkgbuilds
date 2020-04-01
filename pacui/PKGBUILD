@@ -1,3 +1,4 @@
+# https://gitlab.manjaro.org/packages/community/pacui
 pkgname=pacui
 pkgver=1.13
 pkgrel=1
@@ -5,7 +6,7 @@ pkgdesc="Bash script providing advanced Pacman and AUR helper functionality in a
 arch=('any')
 url="https://github.com/excalibur1234/pacui"
 license=('GPL3')
-depends=('pacman-contrib' 'expac' 'sudo' 'fzf')
+depends=('expac' 'sudo' 'fzf')
 optdepends=('yay: One AUR helper is needed for AUR support.'
             'pikaur: One AUR helper is needed for AUR support.'
             'aurman: One AUR helper is needed for AUR support.'
