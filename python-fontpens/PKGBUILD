@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-fontpens
 pkgname=python-fontpens
 _name=fontPens
 pkgver=0.2.4
