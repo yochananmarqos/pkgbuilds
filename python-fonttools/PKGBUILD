@@ -22,7 +22,7 @@ optdepends=('python-lxml: faster backend for XML files reading/writing'
 	    'python-lz4: for graphite type tables in ttLib/tables')
 source=("https://github.com/$_name/$_name/releases/download/$pkgver/$_name-$pkgver.zip")
 #source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('18ebd83054995509584a542f70202f9fe8f0dacdb6eab3e132e96a067f9b09d7')
+sha256sums=('ce977f10f070752301e2d49ed822cfc860c881046d81c376fade1e6529b2046c')
 
 build() {
 	cd "$_name-$pkgver"
