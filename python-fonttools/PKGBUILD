@@ -27,6 +27,7 @@ sha256sums=('ce977f10f070752301e2d49ed822cfc860c881046d81c376fade1e6529b2046c')
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build_ext --inplace
+	python setup.py build
 }
 
 package() {
