@@ -1,14 +1,14 @@
 # https://www.archlinux.org/packages/community/any/python-fonttools
 pkgname=python-fonttools
 _name=${pkgname#python-}
-pkgver=4.6.0
-pkgrel=2
+pkgver=4.7.0
+pkgrel=1
 pkgdesc="A library to manipulate font files from Python"
 url="https://github.com/fonttools/fonttools"
 license=('MIT')
-arch=('any')
+arch=('x86_64')
 depends=('python')
-makedepends=('python-setuptools')
+makedepends=('cython')
 optdepends=('python-lxml: faster backend for XML files reading/writing'
 	    'python-fs: to read/write UFO source files'
 	    'python-brotli: to compress/decompress WOFF 2.0 web fonts'
@@ -18,14 +18,15 @@ optdepends=('python-lxml: faster backend for XML files reading/writing'
 	    'python-unicodedata2: for displaying the Unicode character names when dumping the cmap table with ttx'
 	    'python-sympy: for symbolic font statistics analysis'
 	    'python-pyqt5: for drawing glyphs with Qt QPainterPath'
-	    'python-reportlab: to drawing glyphs as PNG images')
+	    'python-reportlab: to drawing glyphs as PNG images'
+	    'python-lz4: for graphite type tables in ttLib/tables')
 source=("https://github.com/$_name/$_name/releases/download/$pkgver/$_name-$pkgver.zip")
 #source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
 sha256sums=('18ebd83054995509584a542f70202f9fe8f0dacdb6eab3e132e96a067f9b09d7')
 
 build() {
 	cd "$_name-$pkgver"
-	python setup.py build
+	python setup.py build_ext --inplace
 }
 
 package() {
