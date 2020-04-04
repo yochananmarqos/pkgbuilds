@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 license=('MIT')
 depends=('python')
 makedepends=('python-setuptools-scm' 'cython')
-checkdepends=('python-pytest-runner')
+#checkdepends=('python-pytest-runner')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.zip")
 sha256sums=('f1acd74bdb8c114fea2eab0bcf76460d1ef4b4120953e410fc7c638eb79e9e98')
 
@@ -17,10 +17,10 @@ build() {
 	python setup.py build
 }
 
-check() {
-	cd "$_name-$pkgver"
-	python setup.py test
-}
+#check() {
+#	cd "$_name-$pkgver"
+#	python setup.py test
+#}
 
 package() {
 	cd "$_name-$pkgver"
