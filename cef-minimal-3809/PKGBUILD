@@ -1,5 +1,5 @@
 # https://aur.archlinux.org/packages/cef-minimal
-pkgname=cef-minimal
+pkgname=cef-minimal-3809
 pkgver=76.1.13
 _pkgver=76.1.13+gf19c584+chromium-76.0.3809.132
 _url_pkgver=76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132
