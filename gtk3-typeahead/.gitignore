@@ -9,3 +9,5 @@
 !gtk-query-immodules-3.0.hook
 !settings.ini
 !typeahead.patch
+!1633.patch
+!1634.patch
