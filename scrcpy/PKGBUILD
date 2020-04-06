@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/scrcpy
 pkgname=scrcpy
 pkgver=1.12.1
 pkgrel=1
@@ -13,15 +14,6 @@ noextract=("$pkgname-server"*)
 sha256sums=('7692664e1bd703421eb9659cc9956d9f0ac64eb14abddab7b2ade37625f0243d'
             '63e569c8a1d0c1df31d48c4214871c479a601782945fed50c1e61167d78266ea')
 
-prepare() {
-	cd "$pkgname-$pkgver"
-	# Remove old build directory if present to ensure clean build
-	if [ -d build ]
-	then
-		rm -rf build
-	fi
-}
-
 build() {
     cd "$pkgname-$pkgver"
     arch-meson \
@@ -33,5 +25,6 @@ build() {
 package() {
 	cd "$pkgname-$pkgver"
 	DESTDIR="$pkgdir" ninja -C build install
+
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
