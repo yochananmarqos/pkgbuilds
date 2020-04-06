@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-pystray
 pkgname=python-pystray
 _name=${pkgname#python-}
 pkgver=0.15.0
