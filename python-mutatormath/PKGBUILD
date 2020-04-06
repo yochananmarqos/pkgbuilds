@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-mutatormath
 pkgname=python-mutatormath
 _name=MutatorMath
 pkgver=3.0
