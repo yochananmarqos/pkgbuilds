@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/qogir-gtk-theme-git
 pkgname=qogir-gtk-theme-git
-pkgver=2020.02.26.r4.gd689233
+pkgver=2020.02.26.r11.ga896ea6
 pkgrel=1
 pkgdesc="A flat design theme for GTK 3, GTK 2 and Gnome-Shell"
 arch=('any')
