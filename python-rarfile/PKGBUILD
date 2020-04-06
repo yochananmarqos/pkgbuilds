@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-rarfile
 pkgname=python-rarfile
 _name=${pkgname#python-}
 pkgver=3.1
@@ -9,6 +10,7 @@ url="https://github.com/markokr/rarfile"
 license=('ISC')
 depends=('python')
 makedepends=('python-setuptools')
+#makedepends+=('python-docutils' 'python-sphinx')
 optdepends=('unrar: Decompressing compressed files'
             'libarchive: Alternative to "unrar"'
             'python-crypto: Parsing encrypted headers')
@@ -19,6 +21,10 @@ sha256sums=('dc1062176c529f417522af7da1291a35b85c8017464e665aabce048cfe2659b6')
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build
+
+	# Build docs
+#	cd doc
+#	make html
 }
 
 package() {
@@ -26,4 +32,6 @@ package() {
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+#	install -dm644 "$pkgdir/usr/share/doc/$pkgname"
+#	cp -a doc/_build/html "$pkgdir/usr/share/doc/$pkgname"
 }
