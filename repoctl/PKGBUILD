@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/repoctl
 pkgname=repoctl
 pkgver=0.19
 pkgrel=1
