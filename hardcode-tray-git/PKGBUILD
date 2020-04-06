@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/hardcode-tray-git
 pkgname=hardcode-tray-git
-pkgver=4.3.r79.gdac49a6
+pkgver=4.3.r88.g336c755
 pkgrel=1
 pkgdesc="Fixes Hardcoded Tray Icons"
 arch=('i686' 'x86_64')
@@ -21,12 +21,10 @@ pkgver() {
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	arch-meson builddir
+	arch-meson "${pkgname%-git}" builddir
 	ninja -C builddir
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
 	DESTDIR="$pkgdir" ninja -C builddir install
 }
