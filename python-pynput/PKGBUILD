@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-pynput
 pkgname=python-pynput
 _name=${pkgname#python-}
 pkgver=1.6.8
