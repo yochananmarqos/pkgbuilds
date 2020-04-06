@@ -1,3 +1,4 @@
+# https://www.archlinux.org/packages/community/any/python-gitpython
 pkgname=python-gitpython
 _name=GitPython
 pkgver=3.1.0
