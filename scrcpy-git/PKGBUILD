@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/scrcpy-git
 pkgname=scrcpy-git
-pkgver=1.12.1.r1.g31bd950
+pkgver=1.12.1.r12.g2afbfc2
 pkgrel=1
 pkgdesc='Display and control your Android device'
 arch=('i686' 'x86_64')
@@ -20,15 +21,6 @@ pkgver() {
 	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
 }
 
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-	# Remove old build directory if present to ensure clean build
-	if [ -d build ]
-	then
-		rm -rf build
-	fi
-}
-
 build() {
     cd "$srcdir/${pkgname%-git}"
     arch-meson \
@@ -40,5 +32,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	DESTDIR="$pkgdir" ninja -C build install
+
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
