@@ -1,3 +1,4 @@
+# https://www.archlinux.org/packages/community/any/python-smmap
 pkgname=python-smmap
 _name=${pkgname#python-}
 pkgver=3.0.1
@@ -31,6 +32,6 @@ package() {
 		--optimize=1 \
 		--prefix=/usr \
 		--root="$pkgdir"
-	install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
-	install -vDm 644 README.md -t "$pkgdir}/usr/share/doc/$pkgname/"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 README.md -t "$pkgdir}/usr/share/doc/$pkgname"
 }
