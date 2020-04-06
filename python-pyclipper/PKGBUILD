@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-pyclipper
 pkgname=python-pyclipper
 _name=${pkgname#python-}
 pkgver=1.1.0.post3
