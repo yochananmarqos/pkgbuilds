@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/repoctl-devel-git
 pkgname=repoctl-devel-git
-pkgver=0.18.r16.g717a4e1
+pkgver=0.19.r0.g717a4e1
 pkgrel=1
 pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
 arch=('i686' 'x86_64' 'armv7h')
