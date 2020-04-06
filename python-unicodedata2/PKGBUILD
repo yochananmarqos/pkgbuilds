@@ -1,3 +1,4 @@
+# https://www.archlinux.org/packages/community/x86_64/python-unicodedata2
 pkgname=python-unicodedata2
 _name=${pkgname#python-}
 pkgver=13.0.0.post2
