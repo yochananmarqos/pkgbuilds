@@ -16,12 +16,10 @@ source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('5f64c5a1083b8cefc07ba3a218bb0258f7846d9c0d04dae6f91c2478e288f0e1')
 
 build() {
-	cd "Hardcode-Tray-$pkgver"
-	arch-meson builddir
+	arch-meson "Hardcode-Tray-$pkgver" builddir
 	ninja -C builddir
 }
 
 package() {
-	cd "Hardcode-Tray-$pkgver"
 	DESTDIR="$pkgdir" ninja -C builddir install
 }
