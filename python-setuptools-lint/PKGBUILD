@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/python-setuptools-lint
 pkgname=python-setuptools-lint
 _name=${pkgname#python-}
 pkgver=0.6.0
