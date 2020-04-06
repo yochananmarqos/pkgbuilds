@@ -1,3 +1,4 @@
+# https://aur.archlinux.org/packages/python-ufonormalizer
 pkgname=python-ufonormalizer
 _name=${pkgname#python-}
 pkgver=0.4.0
@@ -27,7 +28,11 @@ package() {
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
 	# somehow the files end up with 640 permissions
-	find "$pkgdir/usr/lib/python3.8/site-packages/ufonormalizer-$pkgver-py3.8.egg-info" \
+
+	local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+	find "$pkgdir/$site_packages/$_name-$pkgver-py${python_version}.egg-info" \
 		-type f -exec chmod 644 {} \;
 
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
