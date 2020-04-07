@@ -1,18 +1,18 @@
 # http://aur.archlinux.org/packages/pymdown-extensions
 pkgname=pymdown-extensions
-pkgver=6.3
+pkgver=7.0
 pkgrel=1
 pkgdesc="Extensions for Python Markdown"
 arch=('any')
 url="http://facelessuser.github.io/pymdown-extensions"
 license=('MIT')
-depends=('python')
+depends=('python-markdown')
 makedepends=('python-setuptools')
-#checkdepends=('python-pyaml' 'python-pytest-cov' 'python-pep562')
+#checkdepends=('python-pyaml' 'python-pytest-cov')
 optdepends=('python-pygments')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
-#source=("https://github.com/facelessuser/$pkgname/archive/$pkgver.tar.gz")
-sha256sums=('cb879686a586b22292899771f5e5bc3382808e92aa938f71b550ecdea709419f')
+#source=("$pkgname-$pkgver.tar.gz::https://github.com/facelessuser/$pkgname/archive/$pkgver.tar.gz")
+sha256sums=('d27a8bc8bb7ecac589e832465dbefe24d7fedd9792636c6d0ac521e5045bedc0')
 
 build() {
     cd "$pkgname-$pkgver"
