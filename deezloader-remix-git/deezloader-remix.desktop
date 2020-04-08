@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Deezloader Remix
-Comment=Download music from Deezer
-Exec=deezloader-remix
-Terminal=false
-Type=Application
-Icon=deezloader-remix
-StartupWMClass=Deezloader Remix
-Categories=Network;
