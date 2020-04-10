@@ -7,7 +7,7 @@ url="https://pypi.org/project/simplegtd"
 license=('GPL3')
 depends=('gobject-introspection' 'gtk3' 'python-gobject' 'python-xdg')
 makedepends=('python-setuptools')
-source=("https://files.pythonhosted.org/packages/source/${pkgname::1}/$pkgname/$pkgname-$pkgver.tar.gz")
+source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
 sha256sums=('fdfe5fb0e1e7996362e3a0d4311197943956b9cc2564404c6a1710110bd9872f')
 
 build() {
