@@ -1,12 +1,13 @@
+# http://aur.archlinux.org/packages/sonata-git
 pkgname=sonata-git
-pkgver=1.7a2.r100.gcee3555
+pkgver=1.7b1.r29.g0c807e5
 pkgrel=1
-pkgdesc='Elegant GTK+3 music client for MPD (Git Version)'
-url='https://github.com/multani/sonata'
+pkgdesc="GTK 3 client for the Music Player Daemon"
+url="https://github.com/multani/sonata"
 license=('GPL3')
 arch=('i686' 'x86_64')
 depends=('python-gobject' 'gtk3' 'python-mpd2')
-makedepends=('git')
+makedepends=('git' 'python-setuptools')
 optdepends=('python-tagpy: metadata editing support'
             'python-dbus: multimedia keys support')
 provides=("${pkgname%-git}")
@@ -16,7 +17,7 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
