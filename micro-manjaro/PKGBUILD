@@ -1,6 +1,6 @@
 # https://gitlab.manjaro.org/packages/community/micro-manjaro
 pkgname=micro-manjaro
-pkgver=2.0.2
+pkgver=2.0.3
 pkgrel=1
 pkgdesc="A modern and intuitive terminal-based text editor"
 arch=('x86_64' 'i686')
@@ -25,8 +25,8 @@ sha256sums=('9413f6c831985888bf3ee52a5c0d6ff90c894c3cfa0b0e74d4117f1d60b50d0b'
             'bc651a7b3f6ca6b3e8652a2d20da1fa1c56bf7a92a2c7c6beb1b7ea9d4199d96'
             '25ec4626dd99caad38040db308d5b7aa2afac73e50f212f9f1ee90963e2a77d5'
             '2cbe3bb64551720a055c5efbd5758fb39af7e9e6ef1de46087b74295df78cb26')
-sha256sums_x86_64=('ff5c2afcfb9accfbfca76a445fd0fdabf3499df9090bb90f39ca16fb017d9f1e')
-sha256sums_i686=('18af557dd40707b63db08663f666ff9524eb04230cc44dea879a98f0972ccaf0')
+sha256sums_x86_64=('bf078e88e47e4717cad6e1728f8f1e711ace973714f6b79e524836781f42ace9')
+sha256sums_i686=('3ed577adfb0ba46d63446ed222c688926075b2851d8d8a15ea7524c189d2bd5e')
 
 package() {
 	cd "${pkgname%-*}-$pkgver"
