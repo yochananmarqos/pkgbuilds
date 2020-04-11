@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/python-gitdb
 pkgname=python-gitdb
 _name=${pkgname#python-}
-pkgver=4.0.2
+pkgver=4.0.4
 pkgrel=1
 pkgdesc="A pure-Python git object database"
 arch=('any')
@@ -11,7 +11,7 @@ depends=('git' 'python-smmap')
 makedepends=('python-setuptools')
 checkdepends=('python-nose')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz") #{,.asc})
-sha256sums=('598e0096bb3175a0aab3a0b5aedaa18a9a25c6707e0eca0695ba1a0baf1b2150')
+sha256sums=('6f0ecd46f99bb4874e5678d628c3a198e2b4ef38daea2756a2bfd8df7dd5c1a5')
 #            'SKIP')
 #validpgpkeys=('2CF6E0B51AAF73F09B1C21174D1DA68C88710E60')
               # Sebastian Thiel (In Rust I trust!) <byronimo@gmail.com>

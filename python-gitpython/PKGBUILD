@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/python-gitpython
 pkgname=python-gitpython
 _name=GitPython
-pkgver=3.1.0
+pkgver=3.1.1
 pkgrel=1
 pkgdesc="A python library used to interact with Git repositories"
 arch=('any')
@@ -11,7 +11,7 @@ depends=('git' 'python-gitdb')
 makedepends=('python-setuptools')
 checkdepends=('python-ddt' 'python-nose')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz") #{,.asc})
-sha256sums=('e426c3b587bd58c482f0b7fe6145ff4ac7ae6c82673fc656f489719abca6f4cb')
+sha256sums=('6d4f10e2aaad1864bb0f17ec06a2c2831534140e5883c350d58b4e85189dab74')
 #            'SKIP')
 #validpgpkeys=('2CF6E0B51AAF73F09B1C21174D1DA68C88710E60')
                # Sebastian Thiel (I do trust in Rust!) <byronimo@gmail.com>

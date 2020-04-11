@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/python-smmap
 pkgname=python-smmap
 _name=${pkgname#python-}
-pkgver=3.0.1
+pkgver=3.0.2
 pkgrel=1
 pkgdesc="A pure git implementation of a sliding window memory map manager"
 arch=('any')
@@ -9,12 +9,12 @@ url="https://github.com/gitpython-developers/smmap"
 license=('BSD')
 depends=('python')
 makedepends=('python-setuptools')
-checkdepends=('python-nose')
+checkdepends=('python-pytest')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz") #{,.asc})
-sha256sums=('171484fe62793e3626c8b05dd752eb2ca01854b0c55a1efc0dc4210fccb65446')
+sha256sums=('b46d3fc69ba5f367df96d91f8271e8ad667a198d5a28e215a6c3d9acd133a911')
 #            'SKIP')
 #validpgpkeys=('2CF6E0B51AAF73F09B1C21174D1DA68C88710E60')
-#              # Sebastian Thiel (In Rust I trust!) <byronimo@gmail.com>
+              # Sebastian Thiel (In Rust I trust!) <byronimo@gmail.com>
 
 build() {
 	cd "$_name-$pkgver"
@@ -23,7 +23,7 @@ build() {
 
 check() {
 	cd "$_name-$pkgver"
-	nosetests
+	pytest -v
 }
 
 package() {
