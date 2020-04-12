@@ -47,6 +47,7 @@ package() {
 	install -Dm644 i8kmon.conf -t "$pkgdir/etc/${pkgname%-git}"
 	install -Dm644 dell-smm-hwmon.conf -t "$pkgdir/etc/modprobe.d"
 	install -Dm644 modules-load.d-dell-smm-hwmon.conf -t "$pkgdir/etc/modules-load.d"
-	install -Dm644 debian/i8kmon.service -t "$pkgdir/usr/lib/systemd/system"
+	install -Dm644 "$srcdir/i8kmon.service" -t "$pkgdir/usr/lib/systemd/system"
+	install -Dm644 "README.${pkgname%-git}" "$pkgdir/usr/share/doc/${pkgname%-git}/README"
 	# rmmod dell-smm-hwmon && modprobe dell-smm-hwmon
 }
