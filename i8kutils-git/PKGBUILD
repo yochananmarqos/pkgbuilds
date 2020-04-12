@@ -15,7 +15,7 @@ backup=("etc/${pkgname%-git}/i8kmon.conf")
 source=('git+https://github.com/vitorafsr/i8kutils.git'
         'i8kmon.service')
 sha256sums=('SKIP'
-            '71d1112f0f3b74a5b84923b9da19b168b6559c3a128406305b2550d944f32bb6')
+            '00bc2d2724805f7ed40c9d3f4c03a68b98bf58c0b92452c48d5ef90fe086fb16')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
