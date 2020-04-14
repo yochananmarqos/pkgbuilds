@@ -2,7 +2,7 @@
 pkgname=appeditor-git
 pkgver=1.1.0.r15.9c642d4
 pkgrel=1
-pkgdesc="AppEditor allows you to edit application entries in the application menu."
+pkgdesc="Allows you to edit application entries in the application menu."
 arch=('i686' 'x86_64')
 url="https://github.com/donadigo/appeditor"
 license=('GPL3')
@@ -19,13 +19,11 @@ pkgver() {
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	arch-meson build
+	arch-meson "${pkgname%-git}" build
 	ninja -C build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
 	DESTDIR="$pkgdir" ninja -C build install
 
 	ln -s /usr/bin/com.github.donadigo.appeditor "$pkgdir/usr/bin/${pkgname%-git}"
