@@ -1,5 +1,4 @@
-# Maintainer: Sam S. <smls75@gmail.com>
-
+# http://aur.archlinux.org/packages/torchlight-hib
 pkgname=torchlight-hib
 pkgver=1.15+h20130521
 _hibver=2013-05-21
@@ -8,8 +7,7 @@ pkgdesc='A hack and slash action role-playing game (Humble Bundle version)'
 url='http://www.torchlightgame.com/'
 arch=('i686' 'x86_64')
 license=('custom:commercial')
-depends=('mesa' 'glu' 'freeglut' 'libxaw' 'libxft' 'freeimage' 'util-linux'
-         'zziplib' 'pcre')
+depends=('mesa' 'glu' 'freeglut' 'libxaw' 'libxft' 'freeimage' 'zziplib' 'pcre' 'libtxc_dxtn')
 options=('!strip')
 PKGEXT='.pkg.tar'
 DLAGENTS+=('hib::/usr/bin/echo "Could not find %u. Manually download it to \"$(pwd)\", or set up a hib:// DLAGENT in /etc/makepkg.conf."; exit 1')
