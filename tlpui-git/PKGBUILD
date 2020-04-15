@@ -1,3 +1,5 @@
+# https://gitlab.manjaro.org/packages/community/tlpui
+# http://aur.archlinux.org/packages/tlpui-git
 pkgname=tlpui-git
 pkgver=1.2.r6.g945ff46
 pkgrel=1
@@ -12,7 +14,7 @@ conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/d4nj1/TLPUI.git"
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
-            'fdcc1e054b1a603258cb92bdb9625b2a9ba5371c5b3f7578cb5549d705e855d3')
+            '2ec91789e630deed90f57e38706cd31b61e3c938b0aedf046612e9f49cedb1d3')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -28,5 +30,6 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
-	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
+		"$pkgdir/usr/share/applications"
 }

@@ -6,6 +6,6 @@ Exec=tlpui
 Terminal=false
 X-MultipleArgs=false
 Type=Application
-Icon=battery-good-charging
+Icon=preferences-system-power-management
 Categories=Application;Utility;
 StartupNotify=true
