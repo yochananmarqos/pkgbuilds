@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/tdrop-git
 pkgname=tdrop-git
 pkgver=0.3.0.r0.g2b15530
 pkgrel=1
