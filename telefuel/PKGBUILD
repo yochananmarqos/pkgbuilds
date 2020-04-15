@@ -7,7 +7,7 @@ arch=("x86_64")
 url="https://telefuel.com"
 license=('ISC')
 depends=('gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'libappindicator-gtk3' 'libsecret')
-source=("Telefuel-linux-$pkgver.deb::https://desktop-downloads.s3.amazonaws.com/Telefuel-linux.deb")
+source=("Telefuel-$pkgver.deb::https://desktop-downloads.s3.amazonaws.com/Telefuel-linux.deb")
 sha256sums=('48e1f2effc3385f9ebbcee09e45cab28a6c879470ca50c67e8d28f4ebb3aca29')
 
 package() {
