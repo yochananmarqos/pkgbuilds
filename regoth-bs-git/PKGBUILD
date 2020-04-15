@@ -69,17 +69,13 @@ build() {
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}/build/bin"
-	for i in *; do
-		install -Dm755 $i "$pkgdir/usr/bin/$i"
-	done
-	install -d "$pkgdir/"usr/{lib,include}
-	cp -r ../lib/{*.so,*.so.*} "$pkgdir/usr/lib"
-	cp -r ../lib/*.a "$pkgdir/usr/include"
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/"usr/{bin,lib,include}
+	cp -r build/bin/* "$pkgdir/usr/bin"
+	cp -r build/lib/{*.so,*.so.*} "$pkgdir/usr/lib"
+	cp -r build/lib/*.a "$pkgdir/usr/include"
 	rm "$pkgdir"/usr/lib/libphysfs.*
 	rm "$pkgdir"/usr/include/{libphysfs.*,libsquish.a}
-
-	cd "$srcdir/${pkgname%-git}"
 	cp -r lib/bsf/Dependencies/PhysX/lib/*.so "$pkgdir/usr/lib"
 	cp -r lib/bsf/Dependencies/PhysX/lib/*.a "$pkgdir/usr/include"
 	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
