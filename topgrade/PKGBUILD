@@ -1,3 +1,4 @@
+# http://aur.archlinux.org/packages/topgrade
 pkgname=topgrade
 pkgver=4.3.1
 pkgrel=1
@@ -6,43 +7,6 @@ arch=('x86_64' 'aarch64' 'armv7')
 url='https://github.com/r-darwish/topgrade'
 license=('GPL3')
 makedepends=('rust')
-#optdepends=('yay: Run yay or fall back to pacman'
-            #'etc-update: Run etc-update'
-            #'linuxbrew: Run brew update && brew upgrade'
-            #'nix: Run nix upgrade-nix && nix --upgrade'
-            #'pearl: Run pearl update'
-            #'git: Check if dotfiles are tracked by Git. If so, pull them'
-            #'zr-git: Run zr update'
-            #'zplug: Run zplug update'
-            #'oh-my-zsh-git: Run oh-my-zsh update'
-            #'antigen-git: Run antigen update'
-            #'fisher: Run fisher'
-            #'rustup: Run rustup update'
-            #'cargo: Run Cargo install-update'
-            #'emacs: Upgrade Emacs packages'
-            #'opam: Upgrade OCaml packages'
-            #'vcpkg: Upgrade vcpkg globally installed packages'
-            #'myrepos: Upgrade myrepos managed sourcecode repositories'
-            #'python-pipx: Upgrade Python packages installed using pipx'
-            ##'?: Upgrade R globally installed packages'
-            #'stack: Upgrade stack'
-            #'neobundle-git: Upgrade Vim/Neovim packages'
-            #'vundle: Upgrade Vim/Neovim packages'
-            #'vim-plug: Upgrade Vim/Neovim packages'
-            #'vim-dein-git: Upgrade Vim/Neovim packages'
-            ##'vim-voom: Upgrade Vim/Neovim packages'
-            #'yarn: Run yarn global update'
-            #'npm: Run npm update -g and npm root -g'
-            #'composer: Run composer global update, run valet install after.'
-            #'atom: Upgrade Atom packages'
-            #'rubygems: Run gem upgrade --user-install if ~/.gem exists'
-            #'flatpak: Update Flatpak packages'
-            #'snapd: Update snap packages'
-            #'fwupd: Run fwupdmgr to show firmware upgrade'
-            ##'?: Run pihole updater'
-            #'needrestart: Run needrestart')
-            #'tldr'
-            #'asdf-vm: Update ASDF plugins'
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('549b2fe1b807256ec42a16fe5507b115fcd9c75a59a17de46dc3151ae28a1337')
 
