@@ -1,5 +1,6 @@
+# http://aur.archlinux.org/packages/tmm-git
 pkgname=tmm-git
-pkgver=20180930.r3.5c45582
+pkgver=20180930.r3.g5c45582
 pkgrel=1
 pkgdesc="Tiny Mod Manager: A simple console based mod manager for Linux."
 arch=('any')
@@ -13,7 +14,7 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
