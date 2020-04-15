@@ -1,5 +1,5 @@
 # http://aur.archlinux.org/packages/telefuel-desktop
-pkgname=telefuel-desktop
+pkgname=telefuel
 pkgver=0.2.15
 pkgrel=1
 pkgdesc="The new Telegram chat app for professionals & power users."
