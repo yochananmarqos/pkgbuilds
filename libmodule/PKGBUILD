@@ -7,6 +7,7 @@ arch=('any')
 url="https://github.com/FedeDP/libmodule"
 license=('MIT')
 makedepends=('git' 'cmake')
+provides=('libmodule.so=5-64')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
 sha256sums=('fa82567c56313b69bea589f7a1a027217b722b9c885c2d645a826d8af307a6c9')
 
