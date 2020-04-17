@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/python-ufonormalizer
 pkgname=python-ufonormalizer
 _name=${pkgname#python-}
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=1
 pkgdesc="A tool that will normalize XML and other data inside of a UFO."
 arch=('any')
@@ -11,7 +11,7 @@ depends=('python')
 makedepends=('python-setuptools')
 #checkdepends=()
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('457dff74dfde2a9733b4e90fa7f012990bee1b39d5b76ffe99fe29e222a3a13b')
+sha256sums=('44d7367fc639dcbee24393f07925955f2e9347d23a4de73f2fcaeb434f07685b')
 
 build() {
 	cd "$_name-$pkgver"
