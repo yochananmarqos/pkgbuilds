@@ -66,14 +66,11 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/"usr/{bin,lib,include}
+	install -d "$pkgdir/"usr/{bin,lib}
 	cp -r build/bin/* "$pkgdir/usr/bin"
 	cp -r build/lib/{*.so,*.so.*} "$pkgdir/usr/lib"
-	cp -r build/lib/*.a "$pkgdir/usr/include"
 	rm "$pkgdir"/usr/lib/libphysfs.*
-	rm "$pkgdir"/usr/include/{libphysfs.*,libsquish.a}
 	cp -r lib/bsf/Dependencies/PhysX/lib/*.so "$pkgdir/usr/lib"
-	cp -r lib/bsf/Dependencies/PhysX/lib/*.a "$pkgdir/usr/include"
 	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
