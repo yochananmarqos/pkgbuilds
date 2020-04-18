@@ -58,11 +58,7 @@ prepare() {
 build() {
 	cd "$srcdir/${pkgname%-git}/build"
 	cmake
-
-	# If you want to use less cores than available, replace $(nproc) with the
-	# desired number. You might want to do this if you have little RAM,
-	# expect up to 2GB of RAM usage per core
-	cmake --build . --parallel $(nproc)
+	cmake --build . --parallel
 
 	# Build documentation
 	#cmake --build . --target REGoth_docs
