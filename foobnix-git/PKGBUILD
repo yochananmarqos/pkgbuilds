@@ -11,6 +11,7 @@ depends=('python-chardet' 'python-simplejson' 'python-mutagen'
          'libkeybinder3' 'fuseiso' 'python-notify2' 'python3-keybinder'
          'lame' 'faac' 'ffmpeg' 'python-dbus' 'python-pylast')
 makedepends=('git' 'python-setuptools')
+provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/foobnix/foobnix.git')
 sha256sums=('SKIP')
