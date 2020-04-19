@@ -1,5 +1,5 @@
 pkgname=chromium-vaapi-bin
-pkgver=81.0.4044.92
+pkgver=81.0.4044.113
 _pkgrel=1
 pkgrel=1
 pkgdesc='Chromium with VA-API support to enable hardware acceleration, pre-compiled'
@@ -17,7 +17,7 @@ optdepends=('pepper-flash: support for Flash content'
             'org.freedesktop.secrets: password storage backend on GNOME / Xfce'
             'kwallet: for storing passwords in KWallet on KDE desktops')
 source=("https://repo.archlinuxcn.org/x86_64/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst") #{,.sig})
-sha256sums=('94b9b9f93b61b4884e86e66902803483a526ba36752815d32308215323990b0d')
+sha256sums=('f9330d1c6e44b6328c33a7e9a9347078db666e0a164e80b63d53e5af006b1df1')
 #            'SKIP')
 #validpgpkeys=('83F817213361BF5F02E7E124F9F9FA97A403F63E') # lilac (build machine) <lilac@build.archlinuxcn.org>
 
