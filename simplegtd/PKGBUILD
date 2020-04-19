@@ -1,5 +1,5 @@
 pkgname=simplegtd
-pkgver=0.0.12
+pkgver=0.0.17
 pkgrel=1
 pkgdesc="Manage your to-do list using the Getting Things Done system."
 arch=('any')
@@ -8,7 +8,7 @@ license=('GPL3')
 depends=('gobject-introspection' 'gtk3' 'python-gobject' 'python-xdg')
 makedepends=('python-setuptools')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
-sha256sums=('fdfe5fb0e1e7996362e3a0d4311197943956b9cc2564404c6a1710110bd9872f')
+sha256sums=('6404d945c2ab0f55cd5c8c4d87ba7eb95cec0c295fbee0f7aec1e74697f98e36')
 
 build() {
 	cd "$pkgname-$pkgver"
