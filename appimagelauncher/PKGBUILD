@@ -1,7 +1,7 @@
 # https://gitlab.manjaro.org/packages/community/appimagelauncher
 # https://aur.archlinux.org/packages/appimagelauncher
 pkgname=appimagelauncher
-pkgver=2.1.2
+pkgver=2.1.3
 pkgrel=1
 pkgdesc="A Helper application for running and integrating AppImages."
 arch=('x86_64')
