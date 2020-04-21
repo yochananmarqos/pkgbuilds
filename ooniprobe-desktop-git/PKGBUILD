@@ -1,11 +1,11 @@
 pkgname=ooniprobe-desktop-git
-pkgver=3.0.0.rc.6.r1.gebc193f
+pkgver=3.0.0.r0.ge09fa6f
 pkgrel=1
 pkgdesc="The next generation OONI Probe desktop app"
 arch=('x86_64')
 url="https://ooni.org"
 license=('MIT')
-depends=('libnotify' 'libappindicator-gtk3' 'libxtst' 'nss' 'libxss')
+depends=('libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'libappindicator-gtk3' 'libsecret')
 makedepends=('git' 'yarn')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
