@@ -1,13 +1,15 @@
 # https://gitlab.manjaro.org/packages/community/micro-manjaro
 pkgname=micro-manjaro
 pkgver=2.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="A modern and intuitive terminal-based text editor"
 arch=('x86_64')
 url="https://micro-editor.github.io"
 license=('MIT')
 depends=('st-manjaro')
-optdepends=('xclip: Required for copying/pasting text')
+optdepends=('xclip: Option for copying/pasting text on X11'
+            'xsel: Option for copying/pasting text on X11'
+            'wl-clipboard: Required for copying/pasting text on Wayland')
 provides=("${pkgname%-*}")
 conflicts=("${pkgname%-*}")
 source=("https://github.com/zyedidia/micro/releases/download/v$pkgver/${pkgname%-*}-$pkgver-linux64.tar.gz"
