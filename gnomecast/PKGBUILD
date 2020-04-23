@@ -1,0 +1,22 @@
+pkgname=gnomecast
+pkgver=1.9.7
+pkgrel=1
+pkgdesc="A native Linux GUI for casting local files to Chromecast devices"
+arch=('any')
+url="https://github.com/keredson/gnomecast"
+license=('GPL3')
+depends=('ffmpeg' 'python-html5lib' 'python-pychromecast' 'python-bottle'
+         'python-pycaption' 'python-paste' 'python-gobject' 'python-dbus')
+makedpends=('python-setuptools')
+source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
+sha256sums=('1b1bb0c6a4abd631c56a653e00a7ff840f709d8d64f13c34d9ef263693bc11e6')
+
+build() {
+	cd "$pkgname-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
