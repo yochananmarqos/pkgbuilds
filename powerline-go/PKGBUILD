@@ -14,9 +14,9 @@ sha256sums=('3c9ba9265ae3c53eeb08cd0ee4324961f0a6b1f99cd0059318180796959bf5df')
 build() {
 	cd "$pkgname-$pkgver"
 	go build \
-    -trimpath \
-    -ldflags "-extldflags ${LDFLAGS}" \
-    .
+	-trimpath \
+	-ldflags "-extldflags ${LDFLAGS}" \
+	.
 }
 
 package() {
