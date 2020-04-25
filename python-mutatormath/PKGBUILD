@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-mutatormath
 pkgname=python-mutatormath
 _name=MutatorMath
-pkgver=3.0
+pkgver=3.0.1
 pkgrel=1
 pkgdesc="A library for the calculation of piecewise linear interpolations in n-dimensions with any number of masters."
 arch=('any')
@@ -12,7 +12,7 @@ makedepends=('python-setuptools')
 #options=(!emptydirs)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
 #source=("https://pypi.org/packages/source/${_name:0:1}/${_name}/${_name}-$pkgver.zip")
-sha256sums=('07fe44ca63ce51354ebd5ec8688301a11a5f6ebda0280980689add6333462c47')
+sha256sums=('f05ab756fede722f7b5705c9f97bed14210cf417f4254aeab7b9c712cc24acd4')
 
 build() {
 	cd "$_name-$pkgver"
