@@ -1,8 +1,7 @@
 # https://aur.archlinux.org/packages/gtk3-typeahead
 pkgname=gtk3-typeahead
-pkgver=3.24.18
+pkgver=3.24.20
 pkgrel=1
-epoch=1
 pkgdesc="GTK+ 3 with typeahead feature enabled for the file chooser widget"
 arch=(x86_64)
 url="https://www.gtk.org/"
@@ -16,7 +15,7 @@ provides=("gtk3=$pkgver" gtk3-print-backends libgtk-3.so libgdk-3.so libgailutil
 conflicts=(gtk3 gtk3-print-backends)
 replaces=("gtk3-print-backends<=3.22.26-1")
 install=gtk3.install
-_commit=f9decb0cd61f7102af6b5d1f70493bfe6dacb3d1  # tags/3.24.18^0
+_commit=db39ce2b1699acaf5d0ba160cf7cc68ccf6e16d6  # tags/3.24.20^0
 source=("git+https://gitlab.gnome.org/GNOME/gtk.git#commit=$_commit"
         settings.ini
         gtk-query-immodules-3.0.hook
