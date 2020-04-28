@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/bat-extras-git
 pkgname=bat-extras-git
-pkgver=20200401.r0.g47c15dd
+pkgver=20200408.r22.gbad5ab1
 pkgrel=1
 pkgdesc="Bash scripts that integrate bat with various command line tools."
 arch=('any')
@@ -8,7 +8,11 @@ url="https://github.com/eth-p/bat-extras"
 license=('MIT')
 depends=('bat')
 makedepends=('git')
-optdepends=('ripgrep: for batgrep script')
+optdepends=('ripgrep: required for batgrep script'
+            'entr: optional for batwatch script'
+            'ncurses: optional for batdiff script'
+            'prettier: various formatting for prettybat'
+            'shfmt: bash formatting for prettybat')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/eth-p/bat-extras.git')
