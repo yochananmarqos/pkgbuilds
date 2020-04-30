@@ -28,7 +28,7 @@ build() {
 package() {
 	cd "$pkgname-$pkgver"
 	make PKGDIR="$pkgdir/" install
-	make CUSTOMPATH=PKGDIR/usr/share PKGDIR="$pkgdir/" install
+	make PKGDIR="$pkgdir/" CUSTOMPATH=PKGDIR/usr/share install
 
 	rm -rf "$pkgdir/usr/share/glib-2.0/schemas/gschemas.compiled"
 
