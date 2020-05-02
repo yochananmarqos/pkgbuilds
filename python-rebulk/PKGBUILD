@@ -1,8 +1,8 @@
 # http://aur.archlinux.org/packages/python-rebulk
 pkgname=python-rebulk
 _name=${pkgname#python-}
-pkgver=2.0.0
-pkgrel=2
+pkgver=2.0.1
+pkgrel=3
 pkgdesc="Define simple search patterns in bulk to perform advanced matching on any string."
 arch=('any')
 url="https://github.com/Toilal/rebulk"
@@ -10,15 +10,8 @@ license=('MIT')
 depends=('python-six' 'python-regex')
 makedepends=('python-setuptools')
 checkdepends=('python-pytest-runner')
-source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
-        "$_name.patch")
-sha256sums=('1b0d526859ef3e8647f37c606d7ae7c32259e370b3f1519e4219a3ba72740aec'
-            '5859151050192fd62f5160914f39e0faf2f8347ab013a4848b106056f79eed1a')
-
-prepare() {
-	cd "$_name-$pkgver"
-	patch "$_name/loose.py" "$srcdir/$_name.patch"
-}
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('320ded3cc456347d828f95e9aa5f8bab77ac01943cad024c06012069fe19690a')
 
 build() {
 	cd "$_name-$pkgver"
