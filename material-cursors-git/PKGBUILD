@@ -1,0 +1,37 @@
+pkgname=material-cursors-git
+pkgver=r36.f5133be
+pkgrel=1
+pkgdesc="Material cursors with three color variants"
+arch=('any')
+url="https://www.pling.com/p/1346778"
+license=('GPL2')
+makedepends=('git' 'gtk-engine-murrine' 'inkscape' 'xorg-xcursorgen')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+options=('!strip')
+source=('git+https://github.com/varlesh/material-cursors.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+
+	# Fix for inkscape 1.0
+	sed -i 's/inkscape -z -e/inkscape -o/g' build.sh
+
+	make clean
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	make build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir/" install
+}
