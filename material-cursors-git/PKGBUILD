@@ -1,5 +1,5 @@
 pkgname=material-cursors-git
-pkgver=r36.f5133be
+pkgver=r37.ef55db0
 pkgrel=1
 pkgdesc="Material cursors with three color variants"
 arch=('any')
@@ -19,10 +19,6 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-
-	# Fix for inkscape 1.0
-	sed -i 's/inkscape -z -e/inkscape -o/g' build.sh
-
 	make clean
 }
 
