@@ -6,14 +6,8 @@ pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/autokey/autokey"
 license=('GPL3')
-source=("$_pkgname-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz"
-        "$_pkgname.patch")
-sha256sums=('e622ca04b3340f1ca0999bf03f05c9071a9f8aa3bc91c26c45c35509d63ff23d'
-            '9959643c90b51f4734da70afecb891ad4671ab9f277cc3abf9506421a98acb98')
-
-prepare() {
-	patch -p1 -i "../autokey.patch"
-}
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
+sha256sums=('e622ca04b3340f1ca0999bf03f05c9071a9f8aa3bc91c26c45c35509d63ff23d')
 
 build() {
 	cd "$_pkgname-$pkgver"
