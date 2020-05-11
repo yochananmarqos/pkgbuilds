@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/python-markdown
 pkgname=python-markdown
 _name=Markdown
-pkgver=3.2.1
+pkgver=3.2.2
 pkgrel=1
 pkgdesc="Python implementation of John Gruber's Markdown."
 arch=('any')
@@ -11,7 +11,7 @@ depends=('python')
 makedepends=('python-setuptools')
 checkdepends=('python-yaml')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('90fee683eeabe1a92e149f7ba74e5ccdc81cd397bd6c516d93a8da0ef90b6902')
+sha256sums=('1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17')
 
 
 prepare() {
