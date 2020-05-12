@@ -20,19 +20,19 @@ pkgver() {
 }
 
 build() {
-	export npm_config_cache="$srcdir/npm_cache"
+	export npm_config_cache="$srcdir/npm-cache"
 	npm config delete prefix
 	source /usr/share/nvm/init-nvm.sh
-	_npm_prefix=$(npm config get prefix)
-	_nodeversion='8.16.2'
-	nvm install ${_nodeversion} && nvm use ${_nodeversion}
+	local npm_prefix=$(npm config get prefix)
+	local nodeversion='8.16.2'
+	nvm install "$nodeversion" && nvm use "$nodeversion"
 
 	cd "$srcdir/${pkgname%-git}"
-	npm install --cache "$srcdir/npm-cache"
+	npm install
 	npm start
 
 	# Restore node config from nvm
-	npm config set prefix ${_npm_prefix}
+	npm config set prefix "$npm_prefix"
 	nvm unalias default
 }
 
