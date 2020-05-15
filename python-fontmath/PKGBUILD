@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-fontmath
 pkgname=python-fontmath
 _name=fontMath
-pkgver=0.5.2
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="A set of objects for performing math operations on font data."
 arch=('any')
@@ -11,7 +11,7 @@ depends=('python-fonttools')
 makedepends=('python-setuptools')
 checkdepends=('python-pytest-runner')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('9f7934f85859f057f8e6ff3fc2e80c1cd3ba8c9021e71a7794efdf74c6a49ce2')
+sha256sums=('5a93002bfdcacd16b117b498f6e5ffa5d8fd263ccd8c587d9aa553e965c3ad27')
 
 build() {
 	cd "$_name-$pkgver"
