@@ -6,18 +6,13 @@ arch=('any')
 url="https://github.com/Philippe734/Snippets/tree/master/GUI-for-ventoy"
 license=('GPL')
 depends=('ventoy' 'yad' 'exfat-utils')
-source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh'
-        'https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/background.png')
-sha256sums=('c06d2234817290082e65e83b4c0e348afa9623836a4ef6f219e704d2e0ad8a81'
-            'a708d8498dee7af72647027a9f7596cabe07ec6f0dc64afc1092aeb66108c9a9')
+source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh')
+sha256sums=('c06d2234817290082e65e83b4c0e348afa9623836a4ef6f219e704d2e0ad8a81')
 
 pkgver() {
 	date +%Y%m%d
 }
 
 package() {
-	install -d "$pkgdir"/{opt/"$pkgname",usr/bin}
-	cp background.png VentoyMultibootusbGUI.sh "$pkgdir/opt/$pkgname"
-	chmod +x "$pkgdir/opt/$pkgname/VentoyMultibootusbGUI.sh"
-	ln -s "/opt/$pkgname/VentoyMultibootusbGUI.sh" "$pkgdir/usr/bin/$pkgname"
+	install -Dm755 VentoyMultibootusbGUI.sh "$pkgdir/usr/bin/$pkgname"
 }
