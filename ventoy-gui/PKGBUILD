@@ -6,8 +6,12 @@ arch=('any')
 url="https://github.com/Philippe734/Snippets/tree/master/GUI-for-ventoy"
 license=('GPL')
 depends=('ventoy' 'yad' 'exfat-utils')
-source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh')
-sha256sums=('c06d2234817290082e65e83b4c0e348afa9623836a4ef6f219e704d2e0ad8a81')
+source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh'
+        "$pkgname.desktop"
+        "$pkgname.png")
+sha256sums=('c06d2234817290082e65e83b4c0e348afa9623836a4ef6f219e704d2e0ad8a81'
+            '37e7971cdce99ebf280762019182b425b8fc15597dbd158c8168119af455b8ca'
+            'b4c916a85695174026237f5c3012918f8d51e236c34305cae293ca88632545f2')
 
 pkgver() {
 	date +%Y%m%d
@@ -15,4 +19,6 @@ pkgver() {
 
 package() {
 	install -Dm755 VentoyMultibootusbGUI.sh "$pkgdir/usr/bin/$pkgname"
+	install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$pkgname.png" -t "$pkgdir/usr/share/pixmaps"
 }
