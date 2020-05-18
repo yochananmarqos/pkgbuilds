@@ -5,7 +5,7 @@ pkgdesc="GUI for Ventoy Multiboot USB"
 arch=('any')
 url="https://github.com/Philippe734/Snippets/tree/master/GUI-for-ventoy"
 license=('GPL')
-depends=('ventoy' 'yad' 'exfat-utils')
+depends=('ventoy' 'yad' 'exfat-utils' 'xterm')
 source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh'
         "$pkgname.desktop"
         "$pkgname.png")
