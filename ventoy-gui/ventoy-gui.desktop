@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Icon=ventoy-gui
+Name=Ventoy GUI
+Exec=ventoy-gui
+Terminal=false
+Hidden=false
+Categories=Utility
+Comment=GUI for Ventoy Multiboot USB
