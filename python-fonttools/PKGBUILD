@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/python-fonttools
 pkgname=python-fonttools
 _name=${pkgname#python-}
-pkgver=4.10.0
+pkgver=4.10.1
 pkgrel=1
 pkgdesc="A library to manipulate font files from Python"
 url="https://github.com/fonttools/fonttools"
@@ -22,7 +22,7 @@ optdepends=('python-lxml: faster backend for XML files reading/writing'
 	    'python-lz4: for graphite type tables in ttLib/tables')
 source=("https://github.com/$_name/$_name/releases/download/$pkgver/$_name-$pkgver.zip")
 #source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('59c58444267685335ad5a347cf45dea119244be34a9e86adb63354b703549749')
+sha256sums=('145a99f66ef58b5f6ab16410f6bd32d89a8c6c4411b68210362c80364adf1a07')
 
 build() {
 	cd "$_name-$pkgver"
