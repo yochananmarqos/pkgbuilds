@@ -1,17 +1,17 @@
 # https://aur.archlinux.org/packages/aura
 pkgname=aura
-pkgver=2.2.1
+pkgver=3.0.0
 pkgrel=1
 pkgdesc="A secure package manager for Arch Linux and the AUR"
 arch=('x86_64')
 url="https://github.com/fosskers/aura"
 license=('GPL3')
+depends=('gmp')
 makedepends=('stack')
 optdepends=('bash-completion: for bash completions'
-            'zsh: for zsh completions'
             'cronie: automatic package record backups with cron')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('0b975bf3b8bf24778750bb54902ec7efc7f1af23fcde7b82ed48afee6e2e144d')
+sha256sums=('486123b3c12fa52cd1e1d74e2dfbb9c722fe69e462db774a9f82d7cd5146c5ba')
 
 build() {
 	cd "$pkgname-$pkgver"
@@ -23,18 +23,21 @@ package() {
 	cd "$pkgname-$pkgver"
 	stack install --local-bin-path="$pkgdir/usr/bin" "$pkgname"
 
-	# Installing man page
+	# Install man page
 	install -Dm644 "$pkgname/doc/$pkgname.8" -t "$pkgdir/usr/share/man/man8"
 
-	# Installing docs
+	# Install docs
 	install -Dm644 "$pkgname/doc/backups-with-cron.rst" -t \
 		"$pkgdir/usr/share/doc/$pkgname"
 
-	# Installing bash completions
+	# Install conf file
+    install -Dm644 "$pkgname/doc/$pkgname.conf" -t "$pkgdir/etc"
+
+	# Install bash completions
 	install -Dm644 "$pkgname/doc/completions/bashcompletion.sh" \
 		"$pkgdir/usr/share/bash-completion/completions/$pkgname"
 
-	# Installing zsh completions
+	# Install zsh completions
 	install -Dm644 "$pkgname/doc/completions/_$pkgname" -t \
 		"$pkgdir/usr/share/zsh/site-functions"
 
