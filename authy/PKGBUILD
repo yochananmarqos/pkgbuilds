@@ -6,15 +6,14 @@ pkgdesc="Two factor authentication desktop application"
 arch=('x86_64')
 url="https://authy.com"
 license=('unknown')
-depends=('electron')
+depends=('nss' 'gtk3' 'libxss' 'libdbusmenu-glib')
 makedepends=('squashfs-tools')
-optdepends=('libappindicator-gtk3: tray icon support')
+conflicts=("$pkgname-snap")
+replaces=("$pkgname-snap")
 _snapid="H8ZpNgIoPyvmkgxOWw5MSzsXK1wRZiHn"
-_snaprev="1"
-source=("$pkgname-$pkgver.snap::https://api.snapcraft.io/api/v1/snaps/download/${_snapid}_${_snaprev}.snap"
-        "$pkgname.sh")
-sha256sums=('6189c2439fbddae802b1f7f86132ffdeeed6f8e911108c41cd353ef1a70858d9'
-            '1a9313361f4cde5e8b7883e8a3fc8f0edd7626776ab63f9428beddbf7de45b96')
+_snaprev="3"
+source=("$pkgname-$pkgver.snap::https://api.snapcraft.io/api/v1/snaps/download/${_snapid}_${_snaprev}.snap")
+sha256sums=('6189c2439fbddae802b1f7f86132ffdeeed6f8e911108c41cd353ef1a70858d9')
 
 prepare() {
     unsquashfs -f -d "$srcdir/$pkgname" "$pkgname-$pkgver.snap"
@@ -25,9 +24,10 @@ prepare() {
 
 package() {
 	cd "$srcdir/$pkgname"
-    install -d "$pkgdir/usr/lib/$pkgname"
-    cp -r resources "$pkgdir/usr/lib/$pkgname"
-    install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+    install -d "$pkgdir/opt/$pkgname"
+    cp -r * "$pkgdir/opt/$pkgname"
     install -Dm644 "meta/gui/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
     install -Dm644 meta/gui/icon.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
+    install -d "$pkgdir/usr/bin"
+    ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
 }
