@@ -30,5 +30,5 @@ package() {
 	cd "$pkgname-$pkgver/build"
 	make DESTDIR="$pkgdir" install
 
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 ../LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
