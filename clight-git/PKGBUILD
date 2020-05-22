@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/clight-git
 pkgname=clight-git
-pkgver=4.0.r14.g6015190
+pkgver=4.0.r65.g21250bb
 pkgrel=1
 pkgdesc="A C daemon that turns your webcam into a light sensor. It can also change display
          gamma temperature, dim your screen and set your dpms. Devel version."
@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="https://github.com/FedeDP/Clight"
 license=('GPL')
 depends=('clightd-git' 'gsl' 'hicolor-icon-theme' 'libconfig' 'libmodule>=5.0.0' 'popt'
-         'systemd-libs>=221')
+         'systemd-libs>=237')
 makedepends=('git' 'cmake' 'bash-completion')
 optdepends=('geoclue: to retrieve user location through geoclue.'
             'upower: to save energy by increasing timeouts between captures while on battery
