@@ -9,7 +9,6 @@ arch=('x86_64')
 makedepends=('git' 'cmake' 'docbook2x' 'docbook-xml' 'man-db' 'libxnvctrl')
 depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
          'imlib2' 'libxml2' 'libpulse')
-optdepends=('libxnvctrl: NVIDIA support')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip' 'debug')
