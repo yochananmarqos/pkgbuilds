@@ -1,6 +1,6 @@
 post_install() {
 	# Execute wg-quick without asking for a password
-	echo 'ALL ALL=NOPASSWD: /usr/bin/wg-quick' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/wg-quick
+	echo "ALL ALL=NOPASSWD: /usr/bin/wg-quick" | (sudo su -c 'EDITOR="tee -a" visudo -f /etc/sudoers.d/wg-quick')
 }
 
 post_upgrade() {
