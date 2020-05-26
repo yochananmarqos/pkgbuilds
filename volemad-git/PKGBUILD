@@ -1,0 +1,57 @@
+pkgname=volemad-git
+pkgver=r22.e39fdde
+pkgrel=1
+pkgdesc="Common Lisp interface for Mullvad's Wireguard servers"
+arch=('any')
+url="https://gitlab.com/emacsomancer/volemad"
+license=('GPL3')
+depends=('sbcl' 'libnotify' 'wireguard-tools' 'yad')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+install="${pkgname%-git}.install"
+source=('git+https://gitlab.com/emacsomancer/volemad.git'
+        'https://beta.quicklisp.org/quicklisp.lisp')
+noextract=()
+sha256sums=('SKIP'
+            '4a7a5c2aebe0716417047854267397e24a44d0cce096127411e9ce9ccfeb2c17')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+
+	# Remove precompiled binary
+	rm "${pkgname%-git}"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	sbcl --noinform --disable-debugger --no-userinit \
+		--load "$srcdir/quicklisp.lisp" \
+		--eval '(quicklisp-quickstart:install :path "../quicklisp")' \
+		--quit
+
+	cp -r "$srcdir/${pkgname%-git}" "$srcdir/quicklisp/local-projects"
+
+	cd "$srcdir/quicklisp/local-projects/${pkgname%-git}"
+	sbcl --noinform --disable-debugger --no-userinit \
+		--load "../../setup.lisp" \
+		--eval "(ql:quickload :volemad)" \
+		--eval "(progn (in-package :volemad)
+			(sb-ext:save-lisp-and-die
+			\"volemad\" :toplevel
+			#'volemad:launch :executable t :purify t))" \
+		--quit
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/usr/share/${pkgname%-git}/icons"
+	cp icons/* "$pkgdir/usr/share/${pkgname%-git}/icons"
+	install -Dm755 "$srcdir/quicklisp/local-projects/${pkgname%-git}/${pkgname%-git}" -t \
+		"$pkgdir/usr/bin"
+}
