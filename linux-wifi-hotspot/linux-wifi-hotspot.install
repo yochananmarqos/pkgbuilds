@@ -5,4 +5,7 @@ post_install() {
 
 post_remove() {
 	sudo rm /etc/sudoers.d/create_ap
+
+	echo "Optionally remove config file:"
+	echo "sudo rm /etc/wh.config"
 }
