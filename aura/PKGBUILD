@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://github.com/fosskers/aura"
 license=('GPL3')
 depends=('gmp')
-makedepends=('stack')
+makedepends=('stack' 'ghc')
 optdepends=('bash-completion: for bash completions'
             'cronie: automatic package record backups with cron')
 backup=("etc/$pkgname.conf")
@@ -17,7 +17,7 @@ sha256sums=('ca6ac764a5e2599d8c214978ad1a41eb8b1329c75d7aa604e8caa8c98fe9721b')
 build() {
 	cd "$pkgname-$pkgver"
 	stack clean "$pkgname"
-	stack build --pedantic "$pkgname"
+	stack build --system-ghc --pedantic "$pkgname"
 }
 
 package() {
