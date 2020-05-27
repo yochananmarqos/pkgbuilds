@@ -41,17 +41,15 @@ prepare() {
 	git config submodule.mullvadvpn-app-binaries.url "$srcdir/mullvadvpn-app-binaries"
 	git submodule update
 
-	if $CARCH='x86_64'; then
+	if [ $CARCH = 'x86_64' ]; then
 
 		# Disable building of rpm
 		sed -i "s/'deb', 'rpm'/'deb'/g" gui/tasks/distribution.js
 
-	else
-		if $CARCH='aarch64'; then
+	elif [ $CARCH = 'aarch64' ]; then
 
 			# Disable building of rpm & deb
 			sed -i "s/'deb', 'rpm'/'dir'/g" gui/tasks/distribution.js
-		fi
 	fi
 
 	mkdir -p dist-assets/shell-completions
@@ -128,7 +126,7 @@ package() {
 	cd "$srcdir/mullvadvpn-app"
 	install -dm755 "$pkgdir/opt/Mullvad VPN"
 
-	if $CARCH='x86_64'; then
+	if [ $CARCH = 'x86_64' ]; then
 
 		# Install main files
 		cp -a dist/linux-unpacked/* "$pkgdir/opt/Mullvad VPN"
@@ -150,8 +148,7 @@ package() {
 			install -m644 $icons_dir/${pkgname%-beta}.png -t $pkgdir/$icons_dir
 		done
 
-	else
-		if $CARCH='aarch64'; then
+	elif [ $CARCH = 'aarch64' ]; then
 
 			# Install main files
 			cp -a dist/linux-arm64-unpacked/* "$pkgdir/opt/Mullvad VPN"
@@ -165,7 +162,6 @@ package() {
 				"$pkgdir/usr/share/applications"
 			install -Dm644 "$srcdir/$pkgname.png" -t \
 				"$pkgdir/usr/share/pixmaps"
-		fi
 	fi
 
 	#install CLI binary
