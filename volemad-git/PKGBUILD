@@ -72,7 +72,8 @@ package_volemad-argos-git() {
 	make PREFIX=/usr DESTDIR="$pkgdir/" install
 
 	install -d "$pkgdir/usr/bin"
-	mv "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
+	mv "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}" \
+		"$pkgdir/usr/bin/${pkgname%-git}"
 	rm -rf "$pkgdir/usr/share/${pkgname%-git}"
 }
 
