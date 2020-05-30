@@ -52,7 +52,7 @@ package_volemad-cli-git() {
 
 package_volemad-yad-git() {
 	pkgdesc+=" (yad GUI)"
-	depends=("${pkgbase%-git}-daemon" 'yad')
+	depends=("${pkgbase%-git}-daemon" 'libnotify' 'yad')
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}""${pkgbase%-git}-argos")
 
@@ -70,5 +70,9 @@ package_volemad-argos-git() {
 
 	cd "$srcdir/${pkgbase%-git}/${pkgname%-git}"
 	make PREFIX=/usr DESTDIR="$pkgdir/" install
+
+	install -d "$pkgdir/usr/bin"
+	mv "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
+	rm -rf "$pkgdir/usr/share/${pkgname%-git}"
 }
 
