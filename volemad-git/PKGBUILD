@@ -1,46 +1,74 @@
-pkgname=volemad-git
-pkgver=r23.79e7fcc
+pkgname=('volemad-daemon-git' 'volemad-cli-git' 'volemad-yad-git' 'volemad-argos-git')
+pkgbase=volemad-git
+pkgver=r28.d4c03ac
 pkgrel=1
 pkgdesc="Common Lisp interface for Mullvad's Wireguard servers"
 arch=('any')
 url="https://gitlab.com/emacsomancer/volemad"
 license=('GPL3')
-depends=('sbcl' 'libnotify' 'wireguard-tools' 'yad')
-makedepends=('git')
-provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}")
-install="${pkgname%-git}.install"
+makedepends=('git' 'sbcl')
 source=('git+https://gitlab.com/emacsomancer/volemad.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
+	cd "$srcdir/${pkgbase%-git}"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-
-	# Remove precompiled binary
-	rm "${pkgname%-git}"
-
-	make clean
-}
-
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	make all
+	cd "$srcdir/${pkgbase%-git}/${pkgbase%-git}-cli"
+	make
+
+	cd "$srcdir/${pkgbase%-git}/${pkgbase%-git}-yad"
+	make
+
+	cd "$srcdir/${pkgbase%-git}/${pkgbase%-git}-argos"
+	make
 }
 
-#check() {
-#	cd "$srcdir/${pkgname%-git}"
-#	make -k check
-#}
+package_volemad-daemon-git() {
+	pkgdesc+=" (Daemon)"
+	depends=('systemd' 'wireguard-tools')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
 
-package() {
-	cd "$srcdir/${pkgname%-git}"
+	cd "$srcdir/${pkgbase%-git}/${pkgbase%-git}-daemon"
+	install -Dm755 "${pkgbase%-git}-daemon" -t "$pkgdir/usr/bin"
+	install -Dm644 "service/${pkgbase%-git}-daemon.service" -t \
+		"$pkgdir/usr/lib/systemd/system"
+}
+
+package_volemad-cli-git() {
+	pkgdesc+=" (CLI version)"
+	depends=("${pkgbase%-git}-daemon" 'sbcl' 'libnotify')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	cd "$srcdir/${pkgbase%-git}/${pkgname%-git}"
 	make PREFIX=/usr DESTDIR="$pkgdir/" install
 
-#	install -dm644 "$pkgdir/usr/share/${pkgname%-git}/icons"
-#	cp icons/* "$pkgdir/usr/share/${pkgname%-git}/icons"
+	rm "$pkgdir/usr/bin/${pkgbase%-git}-daemon"
 }
+
+package_volemad-yad-git() {
+	pkgdesc+=" (yad GUI)"
+	depends=("${pkgbase%-git}-daemon" 'yad')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}""${pkgbase%-git}-argos")
+
+	cd "$srcdir/${pkgbase%-git}/${pkgname%-git}"
+	make PREFIX=/usr DESTDIR="$pkgdir/" install
+
+	rm "$pkgdir/usr/bin/${pkgbase%-git}-daemon"
+}
+
+package_volemad-argos-git() {
+	pkgdesc+=" (Argos GUI)"
+	depends=("${pkgbase%-git}-cli" 'gnome-shell-extension-argos')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}" "${pkgbase%-git}-yad")
+
+	cd "$srcdir/${pkgbase%-git}/${pkgname%-git}"
+	make PREFIX=/usr DESTDIR="$pkgdir/" install
+}
+
