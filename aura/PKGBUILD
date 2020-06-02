@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/aura
 pkgname=aura
-pkgver=3.1.0
+pkgver=3.1.1
 pkgrel=1
 pkgdesc="A secure package manager for Arch Linux and the AUR"
 arch=('x86_64')
@@ -12,7 +12,7 @@ optdepends=('bash-completion: for bash completions'
             'cronie: automatic package record backups with cron')
 backup=("etc/$pkgname.conf")
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('ca6ac764a5e2599d8c214978ad1a41eb8b1329c75d7aa604e8caa8c98fe9721b')
+sha256sums=('93feda2c6f783ba1ab4d2869f76deaa1c9a622231aa25d10e8b0ac8a6935a42d')
 
 build() {
 	cd "$pkgname-$pkgver"
