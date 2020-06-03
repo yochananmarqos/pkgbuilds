@@ -1,5 +1,5 @@
 pkgname=chromium-vaapi-bin
-pkgver=81.0.4044.138
+pkgver=83.0.4103.61
 _pkgrel=1
 pkgrel=1
 pkgdesc='Chromium with VA-API support to enable hardware acceleration, pre-compiled'
@@ -17,7 +17,7 @@ optdepends=('pepper-flash: support for Flash content'
             'org.freedesktop.secrets: password storage backend on GNOME / Xfce'
             'kwallet: for storing passwords in KWallet on KDE desktops')
 source=("https://cdn.repo.archlinuxcn.org/x86_64/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst") #{,.sig})
-sha256sums=('feb8f63d24318290179a1ab7f66bd944358f2d6cc86a81ef84a80af52766ac96')
+sha256sums=('a3e8a2d5dc36fa6b6b38668a1787a9315b5dce8bbfa42d4abf1ba86529db97f1')
 #            'SKIP')
 #validpgpkeys=('83F817213361BF5F02E7E124F9F9FA97A403F63E') # lilac (build machine) <lilac@build.archlinuxcn.org>
 
@@ -44,6 +44,9 @@ declare -gA _system_libs=(
 	[snappy]=snappy
 	[yasm]=
 	[zlib]=minizip
+)
+_unwanted_bundled_libs=(
+	$(printf "%s\n" ${!_system_libs[@]} | sed 's/^libjpeg$/&_turbo/')
 )
 depends+=(${_system_libs[@]})
 
