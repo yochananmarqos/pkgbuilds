@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Web Software Center Installer
+Comment=Install Software from Manjaro discover service
+Icon=system-software-install
+NoDisplay=true
+Categories=System;
+Exec=/usr/share/webapps/software-center-web-jak/web-installer-url-handler %u
+Terminal=false
+MimeType=x-scheme-handler/web-pamac;
+X-Desktop-File-Install-Version=0.1
+

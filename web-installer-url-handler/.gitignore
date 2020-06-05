@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!web-installer-url-handler
+!web-installer-url-handler.desktop
+!web-installer-url-handler.install
