@@ -1,6 +1,6 @@
 # https://gitlab.manjaro.org/packages/community/pacui
 pkgname=pacui
-pkgver=1.13
+pkgver=1.14
 pkgrel=1
 pkgdesc="Bash script providing advanced Pacman and AUR helper functionality in a simple UI"
 arch=('any')
@@ -13,11 +13,12 @@ optdepends=('yay: One AUR helper is needed for AUR support.'
             'pakku: One AUR helper is needed for AUR support.'
             'trizen: One AUR helper is needed for AUR support.'
             'pacaur: One AUR helper is needed for AUR support.'
+            'pamac-cli: One AUR helper is needed for AUR support.'
             'pacman-mirrors: Needed for Manjaro mirror support'
             'reflector: Needed for Arch Linux mirror support'
             'downgrade: Needed for hidden "downgrade" option.')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('0f471d9e4fc0d5097959b964e86eb7d415a03ac23fe168b6c746e5f1ae714d9c')
+sha256sums=('7b1a3a4d4e5585dffc6f1d268f0c9f03e448af464a954ed0bd351c545f04a8e8')
 
 package () {
 	cd "$pkgname-$pkgver"
