@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/mangohud
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
-pkgver=0.3.5
+pkgver=0.4.1
 pkgrel=1
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
