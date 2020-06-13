@@ -1,4 +1,5 @@
 # http://aur.archlinux.org/packages/mp3tag
+# https://gitlab.com/n4r3n/pkgbuilds/-/tree/master/mp3tag
 pkgname=mp3tag
 pkgver=3.01
 pkgrel=1
@@ -6,7 +7,7 @@ pkgdesc="The universal tag editor."
 arch=('i686' 'x86_64')
 url="https://www.mp3tag.de"
 license=('custom')
-depends=('wine' 'fuse-overlayfs')
+depends=('wine-mono-bin' 'fuse-overlayfs')
 makedepends=('p7zip')
 options=('!strip')
 source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
