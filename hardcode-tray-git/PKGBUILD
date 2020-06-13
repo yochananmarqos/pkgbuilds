@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/hardcode-tray-git
 pkgname=hardcode-tray-git
-pkgver=4.3.r88.g336c755
+pkgver=4.3.r101.gbedee82
 pkgrel=1
 pkgdesc="Fixes Hardcoded Tray Icons"
 arch=('i686' 'x86_64')
@@ -12,8 +12,12 @@ makedepends=('git' 'meson')
 depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
 optdepends=('inkscape: convert svg to png'
             'imagemagick: convert svg to png')
-source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git")
-sha256sums=('SKIP')
+source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git"
+        "90-${pkgname%-git}.hook"
+        "hook.py")
+sha256sums=('SKIP'
+            'c16ba6a82d4fe523cb91bf472b44296db82ff301866e3bce18bb4149d0aae5ea'
+            '6bbb987b02ff9cd412566b2d0536eb33997015a49d3eab1bb4c551d8203e4989')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -27,4 +31,9 @@ build() {
 
 package() {
 	DESTDIR="$pkgdir" ninja -C builddir install
+
+	# Add pacman hook
+	# https://github.com/bilelmoussaoui/Hardcode-Tray/issues/454
+	install -Dm644 "$srcdir/90-${pkgname%-git}.hook" -t "$pkgdir/etc/pacman.d/hooks"
+	install -Dm644 "$srcdir/hook.py" -t "$pkgdir/usr/share/${pkgname%-git}"
 }

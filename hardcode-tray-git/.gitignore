@@ -5,3 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!90-hardcode-tray.hook
+!hook.py
