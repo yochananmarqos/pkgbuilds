@@ -1,0 +1,33 @@
+pkgname=bllocdesk
+pkgver=0.7.9
+pkgrel=1
+pkgdesc="Refine your smartphone experience."
+arch=('x86_64')
+url="https://www.blloc.com/"
+license=('GPL')
+depends=('electron')
+makedepends=('p7zip')
+options=('!strip')
+source=("$pkgname-$pkgver.exe::https://downloads.blloc.com/bllocdesk/latest/win/BllocDesk.exe"
+        "$pkgname"
+        "$pkgname.desktop")
+sha256sums=('e886697f097659234681fd00ca39cd796193ccb969949aa84a807ad90caf8559'
+            'dca564212892ae5f99ef11fc82bfb4982629b11fce3a0002ec7055729b6e36dc'
+            '5e3e544b0590ebb4b63e37aa14d92f7b89db680e4250bda44c8b927745264526')
+
+prepare() {
+	7z -y -o"$srcdir/$pkgname-$pkgver" x "$pkgname-$pkgver.exe"
+	7z -y -o"$srcdir/$pkgname-$pkgver/app-64" x "$pkgname-$pkgver/\$PLUGINSDIR/app-64.7z"
+}
+
+package() {
+	cd "$pkgname-$pkgver/app-64"
+	install -d "$pkgdir/usr/lib/$pkgname"
+	cp -a resources "$pkgdir/usr/lib/$pkgname"
+	find "$pkgdir/usr/lib/$pkgname" -type d -exec chmod 755 "{}" \;
+	find "$pkgdir/usr/lib/$pkgname" -type f -exec chmod 644 "{}" \;
+
+	install -Dm755 "$srcdir/$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 resources/icon_128x128.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
+}

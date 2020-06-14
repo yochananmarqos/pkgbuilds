@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Categories=AudioVideo
+Name=BllocDesk
+Comment=Refine your smartphone experience
+Icon=bllocdesk
+Exec=bllocdesk
+Terminal=false
+Type=Application
+
