@@ -15,7 +15,7 @@ optdepends=('freetype2: for the ImageFont module'
             'python-olefile: OLE2 file support'
             'python-pyqt5: for the ImageQt module')
 makedepends=('python-setuptools' 'freetype2' 'libraqm' 'libwebp' 'tk')
-#checkdepends=('python-pytest')
+checkdepends=('python-pytest')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('a0b49960110bc6ff5fead46013bcb8825d101026d466f3a4de3476defe0fb0dd')
 
@@ -29,9 +29,9 @@ check() {
 
 	local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
 
-#	PYTHONPATH="$PWD/build/lib.linux-$CARCH-${python_version}"
-#	python selftest.py
-#	pytest
+	export PYTHONPATH="$PWD/build/lib.linux-$CARCH-${python_version}"
+	python selftest.py
+	pytest -k 'not test_complex_unicode_text and not TestImageFont'
 }
 
 package() {
