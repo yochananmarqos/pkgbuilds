@@ -26,7 +26,6 @@ pkgver() {
 build() {
 	arch-meson "${pkgname%-git}" build
 	ninja -C build
-
 }
 
 check() {
