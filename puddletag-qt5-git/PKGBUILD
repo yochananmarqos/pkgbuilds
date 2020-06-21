@@ -1,10 +1,11 @@
 # http://aur.archlinux.org/packages/puddletag-qt5-git
 pkgname=puddletag-qt5-git
-pkgver=1.2.0.r119.g3c5e2dc
+pkgver=1.2.0.r122.gb9db445
 pkgrel=1
 pkgdesc="An audio tag editor for GNU/Linux."
 arch=('i686' 'x86_64')
-url="http://docs.puddletag.net"
+#url="http://docs.puddletag.net"
+url="https://github.com/sandrotosi/puddletag"
 license=('GPL')
 depends=('python-pyqt5' 'python-pyparsing' 'python-mutagen' 'python-configobj'
          'python-pillow' 'qt5-svg')
