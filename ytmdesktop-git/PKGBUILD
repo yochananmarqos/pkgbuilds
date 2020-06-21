@@ -1,0 +1,49 @@
+# https://aur.archlinux.org/packages/ytmdesktop-git
+pkgname=ytmdesktop-git
+pkgver=1.11.0.r0.g1fde745
+pkgrel=1
+pkgdesc="A desktop app for YouTube Music"
+arch=('x86_64')
+url="https://ytmdesktop.app"
+license=('CC0 1.0 Universal')
+depends=('gtk3' 'nss' 'libxss')
+makedepends=('git' 'yarn')
+optdepends=('gnome-keyring' 'lsb-release' 'avahi' 'nss-mdns')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/ytmdesktop/ytmdesktop.git'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            '3ed0c519e62483bb411e258df6d100463b8a417930ea67b34844bde8464e143d')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	yarn --cache-folder "$srcdir/yarn-cache"
+	yarn run publish:lin
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -dm755 "$pkgdir/opt/${pkgname%-git}"
+	cp -r dist/linux-unpacked/* "$pkgdir/opt/${pkgname%-git}"
+
+	install -dm755 "$pkgdir/usr/bin"
+	ln -s "/opt/${pkgname%-git}/youtube-music-desktop-app" \
+		"$pkgdir/usr/bin/${pkgname%-git}"
+
+	for icon_size in 16 256 512; do
+		icons_dir=usr/share/icons/hicolor/${icon_size}x${icon_size}/apps
+		install -d $pkgdir/$icons_dir
+		install -m644 src/assets/favicon.${icon_size}x${icon_size}.png \
+			$pkgdir/$icons_dir/${pkgname%-git}.png
+	done
+
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
+		"$pkgdir/usr/share/applications"
+}
