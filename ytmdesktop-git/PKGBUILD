@@ -25,6 +25,8 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
+
+	# avoid resolution inconsistencies caused by unsynchronized lock files
 	rm package-lock.json
 }
 
