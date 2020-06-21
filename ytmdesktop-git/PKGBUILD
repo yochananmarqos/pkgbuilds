@@ -8,9 +8,9 @@ url="https://ytmdesktop.app"
 license=('CC0 1.0 Universal')
 depends=('gtk3' 'nss' 'libxss')
 makedepends=('git' 'npm')
-optdepends=('gnome-keyring' 'lsb-release' 'avahi' 'nss-mdns'
-            'libnotify: for desktop notifications'
-            'libappindicator-gtk3: for tray icon')
+optdepends=('libnotify: for desktop notifications'
+            'libappindicator-gtk3: for tray icon'
+            'nss-mdns: for companion server')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/ytmdesktop/ytmdesktop.git'
