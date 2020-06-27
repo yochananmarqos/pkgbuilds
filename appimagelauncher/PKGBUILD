@@ -76,7 +76,8 @@ build() {
 		-DUSE_SYSTEM_XZ=ON \
 		-DUSE_SYSTEM_LIBARCHIVE=ON \
 		-DUSE_SYSTEM_LIBAPPIMAGE=ON \
-		-DBUILD_TESTING=OFF
+		-DBUILD_TESTING=OFF \
+		-Wno-dev
 
 	# Dependencies need to be made before cmake to resolve path limitations in cmake
 	make libappimageupdate libappimageupdate-qt
