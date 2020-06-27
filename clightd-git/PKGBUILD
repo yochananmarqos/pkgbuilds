@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/clightd-git
 pkgname=clightd-git
-pkgver=4.0.r10.g6605c0a
+pkgver=4.2.r0.gb03e52b
 pkgrel=1
 pkgdesc="Bus interface to change screen brightness and capture frames from webcam.
          Devel version."
@@ -22,23 +22,18 @@ pkgver() {
     git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
-prepare() {
-    cd "$srcdir/${pkgname%-git}"
-    mkdir -p build
-}
-
 build() {
-    cd "$srcdir/${pkgname%-git}/build"
-    cmake \
+    cd "$srcdir/${pkgname%-git}"
+    cmake -B build -S . \
         -G "Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
         -DENABLE_DDC=1 -DENABLE_GAMMA=1 -DENABLE_DPMS=1 -DENABLE_SCREEN=1 \
-        ..
-    make
+        -Wno-dev
+    make -C build
 }
 
 package() {
-    cd "$srcdir/${pkgname%-git}/build"
-    make DESTDIR="$pkgdir" install
+    cd "$srcdir/${pkgname%-git}"
+    make -C build DESTDIR="$pkgdir" install
 }

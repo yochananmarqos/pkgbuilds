@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/clight-git
 pkgname=clight-git
-pkgver=4.0.r65.g21250bb
+pkgver=4.0.r72.g767e184
 pkgrel=1
 pkgdesc="A C daemon that turns your webcam into a light sensor. It can also change display
          gamma temperature, dim your screen and set your dpms. Devel version."
@@ -26,22 +26,17 @@ pkgver() {
     git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
-prepare() {
-    cd "$srcdir/${pkgname%-git}"
-    mkdir -p build
-}
-
 build() {
-    cd "$srcdir/${pkgname%-git}/build"
-    cmake \
+    cd "$srcdir/${pkgname%-git}"
+    cmake -B build -S . \
         -G "Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
-        ..
-    make
+        -Wno-dev
+    make -C build
 }
 
 package() {
-    cd "$srcdir/${pkgname%-git}/build"
-    make DESTDIR="$pkgdir" install
+    cd "$srcdir/${pkgname%-git}"
+    make -C build DESTDIR="$pkgdir" install
 }
