@@ -10,15 +10,12 @@ makedepends=('cmake')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
 sha256sums=('56037fd82be06d6115d0738439c23faa291d036ffe33fe590b484b045d6d180d')
 
-prepare() {
-	cd "$pkgname-$pkgver"
-	mkdir -p build
-}
-
 build() {
-	cd "$pkgname-$pkgver/build"
-	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-	make
+	cd "$pkgname-$pkgver"
+	cmake -B build -S . \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
+	make -C build
 }
 
 package() {
