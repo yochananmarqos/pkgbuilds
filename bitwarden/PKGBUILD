@@ -1,0 +1,80 @@
+# https://aur.archlinux.org/packages/bitwarden
+pkgname=bitwarden
+pkgver=1.19.0
+pkgrel=1
+pkgdesc='A secure and free password manager for all of your devices.'
+arch=('x86_64')
+url="https://bitwarden.com"
+license=('GPL3')
+depends=('electron' 'libnotify' 'libsecret' 'libxtst')
+makedepends=('expac' 'git' 'npm' 'python' 'nvm' 'jq')
+optdepends=('libappindicator-gtk3: for tray icon')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/bitwarden/desktop/archive/v$pkgver.tar.gz"
+        'git+https://github.com/bitwarden/jslib.git'
+        "package.json.patch"
+        "$pkgname.sh"
+        "$pkgname.desktop")
+sha256sums=('a347712ad6b37a50661736a3d15fdfa48c2bd752e4a0b5e18f85ba261b3bd5b4'
+            'SKIP'
+            '90f6fc45619d1c76e4f999d6e256e72a590aed6a352272d85607783b2ab61ab8'
+            '95fe8ad154c5715c0422e77a7fef1b16b3fb4ef594894f126c6a1e2d728ca5ce'
+            '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
+
+prepare() {
+	cd "desktop-$pkgver"
+	# Link jslib
+	rmdir jslib
+	git submodule init
+	git config submodule.jslib.url "$srcdir/jslib"
+	git submodule update
+	ln -s "$srcdir/jslib" jslib
+
+	# Patch out postinstall routines
+	patch --strip=1 package.json "$srcdir/package.json.patch"
+
+	# Patch build to make it work with system electron
+	SYSTEM_ELECTRON_VERSION=$(expac %v electron | cut -d'-' -f1)
+	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
+	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
+	> package.json.patched
+	mv package.json.patched package.json
+}
+
+build() {
+	export npm_config_cache="$srcdir/npm_cache"
+	local nodeversion='12.18.1'
+	local npm_prefix=$(npm config get prefix)
+	npm config delete prefix
+	source /usr/share/nvm/init-nvm.sh
+	nvm install "$nodeversion" && nvm use "$nodeversion"
+
+	cd "desktop-$pkgver/jslib"
+	npm install
+
+	cd "$srcdir/desktop-$pkgver"
+	npm install
+	npm run build
+	npm run clean:dist
+	npx electron-builder --dir build
+
+	# Restore node config from nvm
+	npm config set prefix "$npm_prefix"
+	nvm unalias default
+}
+
+package() {
+	cd "desktop-$pkgver"
+	install -d "$pkgdir/usr/lib/$pkgname"
+	cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
+
+	for i in 16 32 48 64 128 256 512; do
+		install -Dm644 resources/icons/${i}x${i}.png \
+			"$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
+	install -Dm644 resources/icon.png \
+		"$pkgdir/usr/share/icons/hicolor/1024x1024/apps/$pkgname.png"
+	done
+
+	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/bitwarden-desktop"
+
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+}
