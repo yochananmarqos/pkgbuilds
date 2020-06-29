@@ -9,25 +9,23 @@ license=('GPL3')
 depends=('electron' 'libnotify' 'libsecret' 'libxtst')
 makedepends=('expac' 'git' 'npm' 'python' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/bitwarden/desktop/archive/v$pkgver.tar.gz"
+source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
         "package.json.patch"
         "$pkgname.sh"
         "$pkgname.desktop")
-sha256sums=('a347712ad6b37a50661736a3d15fdfa48c2bd752e4a0b5e18f85ba261b3bd5b4'
+sha256sums=('SKIP'
             'SKIP'
             '90f6fc45619d1c76e4f999d6e256e72a590aed6a352272d85607783b2ab61ab8'
             '95fe8ad154c5715c0422e77a7fef1b16b3fb4ef594894f126c6a1e2d728ca5ce'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 prepare() {
-	cd "desktop-$pkgver"
+	cd "$srcdir/desktop"
 	# Link jslib
-	rmdir jslib
-	git submodule init
+	git submodule init jslib
 	git config submodule.jslib.url "$srcdir/jslib"
 	git submodule update
-	ln -s "$srcdir/jslib" jslib
 
 	# Patch out postinstall routines
 	patch --strip=1 package.json "$srcdir/package.json.patch"
@@ -48,10 +46,10 @@ build() {
 	source /usr/share/nvm/init-nvm.sh
 	nvm install "$nodeversion" && nvm use "$nodeversion"
 
-	cd "desktop-$pkgver/jslib"
+	cd "$srcdir/desktop/jslib"
 	npm install
 
-	cd "$srcdir/desktop-$pkgver"
+	cd "$srcdir/desktop"
 	npm install
 	npm run build
 	npm run clean:dist
@@ -63,7 +61,7 @@ build() {
 }
 
 package() {
-	cd "desktop-$pkgver"
+	cd "$srcdir/desktop"
 	install -d "$pkgdir/usr/lib/$pkgname"
 	cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
 
