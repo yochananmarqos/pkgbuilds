@@ -1,8 +1,8 @@
 # https://www.archlinux.org/packages/community/x86_64/python-pillow
 pkgname=python-pillow
 _name=Pillow
-pkgver=7.1.2
-pkgrel=2
+pkgver=7.2.0
+pkgrel=1
 pkgdesc="The friendly PIL fork (Python Imaging Library)"
 arch=('x86_64')
 url="https://python-pillow.github.io"
@@ -17,7 +17,7 @@ optdepends=('freetype2: for the ImageFont module'
 makedepends=('python-setuptools' 'freetype2' 'libraqm' 'libwebp' 'tk')
 checkdepends=('python-pytest')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('a0b49960110bc6ff5fead46013bcb8825d101026d466f3a4de3476defe0fb0dd')
+sha256sums=('97f9e7953a77d5a70f49b9a48da7776dc51e9b738151b22dacf101641594a626')
 
 build() {
 	cd "$_name-$pkgver"
