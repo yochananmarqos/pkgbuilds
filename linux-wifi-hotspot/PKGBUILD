@@ -18,6 +18,10 @@ sha256sums=('c364b3ac184f7939a8ed2d545e958791cfabc94ea9d5dcc077ca8625ef9b96c0')
 
 prepare() {
 	cd "$pkgname-$pkgver"
+
+	# Cannot use visudo in fakeroot environment, move to install file
+	sed -i '15d' src/scripts/Makefile
+
 	sed -i "s|running_info|h_running_info|g" src/ui/h_prop.c
 	sed -i "s|running_info|h_running_info|g" src/ui/h_prop.h
 	sed -i "566s|get_running_info|get_h_running_info|" src/ui/ui.c
@@ -33,10 +37,6 @@ build() {
 
 package() {
 	cd "$pkgname-$pkgver"
-
-	# Cannot use visudo in fakeroot environment, move to install file
-	sed -i '15d' src/scripts/Makefile
-
 	make DESTDIR="$pkgdir" install
 
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
