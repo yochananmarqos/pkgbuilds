@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/pkgbuild-assistant
 pkgname=pkgbuild-assistant
-pkgver=1.1.0
+pkgver=2.0.0
 pkgrel=1
 pkgdesc="An auxiliary tool for writing PKGBUILD files"
 arch=('x86_64')
@@ -9,7 +9,7 @@ license=('none')
 depends=('qt5-base' 'harfbuzz')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('69ac0a9512673a71bc97aa570f0728dc4155f7a479326a6c5a6f68e188a1e0ec'
+sha256sums=('84e40477a70e087438017e34f27e9fd27347c301496a3f878f05769dd5d7b741'
             '2b50e9d38a6380962751a63aa16487cb4cd9533b5bfae34e61a72a4ca02ef30d')
 
 build() {
