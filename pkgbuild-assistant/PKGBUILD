@@ -1,0 +1,26 @@
+# https://aur.archlinux.org/packages/pkgbuild-assistant
+pkgname=pkgbuild-assistant
+pkgver=1.1.0
+pkgrel=1
+pkgdesc="An auxiliary tool for writing PKGBUILD files"
+arch=('x86_64')
+url="https://github.com/skykeyjoker/PKGBUILD-Assistant"
+license=('none')
+depends=('qt5-base' 'harfbuzz')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha256sums=('69ac0a9512673a71bc97aa570f0728dc4155f7a479326a6c5a6f68e188a1e0ec'
+            '2b50e9d38a6380962751a63aa16487cb4cd9533b5bfae34e61a72a4ca02ef30d')
+
+build() {
+	cd "PKGBUILD-Assistant-$pkgver"
+	qmake
+	make
+}
+
+package() {
+	cd "PKGBUILD-Assistant-$pkgver"
+	install -Dm755 PKGBUILD_ASSISTANT "$pkgdir/usr/bin/$pkgname"
+	install -Dm644 ico.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+}
