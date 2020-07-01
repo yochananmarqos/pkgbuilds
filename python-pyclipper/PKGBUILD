@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-pyclipper
 pkgname=python-pyclipper
 _name=${pkgname#python-}
-pkgver=1.1.0.post3
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Cython wrapper for the C++ translation of the Angus Johnson's Clipper library"
 url="https://github.com/greginvm/pyclipper"
@@ -9,19 +9,19 @@ arch=('i686' 'x86_64')
 license=('MIT')
 depends=('python')
 makedepends=('python-setuptools-scm' 'cython')
-#checkdepends=('python-pytest-runner')
+checkdepends=('python-pytest-runner')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.zip")
-sha256sums=('f1acd74bdb8c114fea2eab0bcf76460d1ef4b4120953e410fc7c638eb79e9e98')
+sha256sums=('7a9035ca6732dcef3ef33f98d9a844bb5f2be16bd659300c38ef366aac2e3a47')
 
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build
 }
 
-#check() {
-#	cd "$_name-$pkgver"
-#	python setup.py test
-#}
+check() {
+	cd "$_name-$pkgver"
+	python setup.py test
+}
 
 package() {
 	cd "$_name-$pkgver"
