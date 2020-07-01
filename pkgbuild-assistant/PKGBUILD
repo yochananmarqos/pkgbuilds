@@ -1,16 +1,14 @@
 # https://aur.archlinux.org/packages/pkgbuild-assistant
 pkgname=pkgbuild-assistant
-pkgver=2.0.0
+pkgver=2.2.0
 pkgrel=1
 pkgdesc="An auxiliary tool for writing PKGBUILD files"
 arch=('x86_64')
 url="https://github.com/skykeyjoker/PKGBUILD-Assistant"
 license=('none')
-depends=('qt5-base' 'harfbuzz')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
-        "$pkgname.desktop")
-sha256sums=('84e40477a70e087438017e34f27e9fd27347c301496a3f878f05769dd5d7b741'
-            '2b50e9d38a6380962751a63aa16487cb4cd9533b5bfae34e61a72a4ca02ef30d')
+depends=('qt5-base' 'harfbuzz' 'tree' 'pacman-contrib')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('5b955681172b74f44bbb70afd11ea815673717669e7a0401ede67d0be5937ef7')
 
 build() {
 	cd "PKGBUILD-Assistant-$pkgver"
@@ -22,5 +20,5 @@ package() {
 	cd "PKGBUILD-Assistant-$pkgver"
 	install -Dm755 PKGBUILD_ASSISTANT "$pkgdir/usr/bin/$pkgname"
 	install -Dm644 ico.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
-	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
