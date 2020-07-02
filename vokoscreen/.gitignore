@@ -5,3 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!install.pri
+!qt515fix.diff
