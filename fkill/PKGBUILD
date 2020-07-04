@@ -15,11 +15,11 @@ sha256sums=('d60a19bcfddc9d043c57418cb4440450abdfcf9b407c88d1ec66d3ac9eabc316')
 
 package() {
 	npm install \
-	--cache "$srcdir/npm-cache" \
-	-g \
-	--user root \
-	--prefix "$pkgdir"/usr \
-	"$srcdir"/$_npmname-$pkgver.tgz
+		--cache "$srcdir/npm-cache" \
+		-g \
+		--user root \
+		--prefix "$pkgdir"/usr \
+		"$srcdir"/$_npmname-$pkgver.tgz
 
 	# Non-deterministic race in npm gives 777 permissions to random directories.
 	# See https://github.com/npm/npm/issues/9359 for details.
