@@ -1,6 +1,6 @@
 # http://aur.archlinux.org/packages/topgrade
 pkgname=topgrade
-pkgver=5.0.0
+pkgver=5.1.0
 pkgrel=1
 pkgdesc='Invoke the upgrade proceadure of multiple package managers'
 arch=('x86_64' 'aarch64' 'armv7')
@@ -8,16 +8,16 @@ url='https://github.com/r-darwish/topgrade'
 license=('GPL3')
 makedepends=('rust')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('fc3ae25c550b66270457c11778bddcbb3b664638f5181f388262bf40e8811124')
+sha256sums=('39c667e868715a79b1904326709856ea3b1724200f471fb4d4c09b67c959a998')
 
 build() {
 	cd "$pkgname-$pkgver"
-	cargo build --release --all-features
+	cargo build --release --locked --all-features
 }
 
 check() {
 	cd "$pkgname-$pkgver"
-	cargo test --release
+	cargo test --release --locked
 }
 
 package() {
