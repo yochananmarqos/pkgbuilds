@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!thedarkmod.desktop
+!thedarkmod.install
+!thedarkmod.png
+!thedarkmod.sh
