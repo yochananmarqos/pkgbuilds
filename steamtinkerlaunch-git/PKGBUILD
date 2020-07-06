@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/steamtinkerlaunch
 pkgname=steamtinkerlaunch-git
-pkgver=0.91.r32.c1f6d09
+pkgver=0.92.r33.806f915
 pkgrel=1
 pkgdesc="Wrapper script for Steam custom launch options"
 arch=('any')
