@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/steamtinkerlaunch
 pkgname=steamtinkerlaunch
-pkgver=0.92
+pkgver=0.94
 pkgrel=1
 pkgdesc="Wrapper script for Steam custom launch options"
 arch=('any')
@@ -21,7 +21,7 @@ optdepends=('strace'
             'xorg-xwininfo: for playing regular games side-by-side in VR'
             'vr-video-player: for playing regular games side-by-side in VR'
             'xdg-utils: for opening the ProtonDB URL of started game')
-_commit='806f915facabeef1a6e72d4647995123df2b6daf'
+_commit='d5a1788f21ec9165bd1cf73b2d78213f5ab43d01'
 source=("git+https://github.com/frostworx/steamtinkerlaunch.git#commit=$_commit")
 sha1sums=('SKIP')
 
@@ -31,9 +31,11 @@ pkgver() {
 }
 
 package() {
-	cd "$pkgname"
+	cd "$srcdir/$pkgname"
 	install -Dm755 stl -t "$pkgdir/usr/bin"
 
-	install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
-	cp -r *.md sbs tweaks "$pkgdir/usr/share/doc/${pkgname%-git}"
+	install -d "$pkgdir/usr/share/$pkgname"
+	cp -r sbs tweaks "$pkgdir/usr/share/$pkgname"
+
+	install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
 }

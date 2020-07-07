@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/steamtinkerlaunch
 pkgname=steamtinkerlaunch-git
-pkgver=0.92.r33.806f915
+pkgver=0.94.r39.d5a1788
 pkgrel=1
 pkgdesc="Wrapper script for Steam custom launch options"
 arch=('any')
@@ -37,6 +37,8 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 stl -t "$pkgdir/usr/bin"
 
-	install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
-	cp -r *.md sbs tweaks "$pkgdir/usr/share/doc/${pkgname%-git}"
+	install -d "$pkgdir/usr/share/${pkgname%-git}"
+	cp -r sbs tweaks "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
