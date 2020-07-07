@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/gtg-git
 pkgname=gtg-git
-pkgver=0.3.1.r889.gabe2a911
+pkgver=0.4.r0.gb381aa03
 pkgrel=1
 pkgdesc="Personal GTD like organizer for the GNOME desktop environment."
 url="https://wiki.gnome.org/Apps/GTG"
@@ -25,7 +25,7 @@ pkgver() {
 
 build() {
 	arch-meson "${pkgname%-git}" build
-	ninja -C build
+	meson compile -C build
 }
 
 check() {
@@ -34,6 +34,6 @@ check() {
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 }
 
