@@ -23,7 +23,8 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-	git config submodule.src/libnica.url $srcdir/libnica
+	git submodule init src/libnica
+	git config submodule.libnica.url "$srcdir/libnica"
 	git submodule update
 }
 
@@ -34,8 +35,7 @@ build() {
 		-Dwith-frontend=true \
 		-Dwith-steam-binary=/usr/bin/steam \
 		-Dwith-new-libcxx-abi=true
-
-	ninja -C build
+	meson compile -C build
 
 	# 32-bit build
 	export CC="gcc -m32"
@@ -46,12 +46,11 @@ build() {
 		-Dwith-shim=none \
 		--libexecdir /usr/lib32 \
 		--libdir /usr/lib32
-
-	ninja -C build32
+	meson compile -C build32
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
-	DESTDIR="$pkgdir" ninja -C build32 install
+	DESTDIR="$pkgdir" meson install -C build
+	DESTDIR="$pkgdir" meson install -C build32
 }
 
