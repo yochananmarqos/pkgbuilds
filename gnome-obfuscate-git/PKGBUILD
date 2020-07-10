@@ -1,13 +1,14 @@
 # http://aur.archlinux.org/packages/gnome-obfuscate-git
 pkgname=gnome-obfuscate-git
-pkgver=0.0.2.r7.g8561dae
+pkgver=0.0.2.r13.g9238e6b
 pkgrel=1
 pkgdesc="Censor private information."
 arch=('x86_64')
 url="https://gitlab.gnome.org/World/obfuscate"
 license=('GPL')
 depends=('gtk3')
-makedepends=('git' 'meson' 'rust' 'cmake' 'appstream-glib')
+makedepends=('git' 'meson' 'rust')
+checkdepends=('appstream')
 provides=(${pkgname%-git})
 conflicts=(${pkgname%-git})
 source=('git+https://gitlab.gnome.org/World/obfuscate.git')
@@ -20,9 +21,13 @@ pkgver() {
 
 build() {
 	arch-meson obfuscate build
-	ninja -C build
+	meson compile -C build
+}
+
+check() {
+	meson test -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 }
