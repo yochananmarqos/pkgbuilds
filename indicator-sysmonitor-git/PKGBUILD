@@ -33,6 +33,7 @@ package_indicator-sysmonitor-git() {
 
 package_budgie-sysmonitor-applet-git() {
 	pkgdesc="Display CPU and memory usage as percents in a Budgie desktop applet."
+	depends+=('budgie-desktop')
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}" "${pkgbase%-git}-budgie")
 
