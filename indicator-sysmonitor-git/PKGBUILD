@@ -13,7 +13,7 @@ source=('git+https://github.com/fossfreedom/indicator-sysmonitor.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
+	cd "$srcdir/${pkgbase%-git}"
 	printf "%s.r%s.%s" "$(grep 'VERSION = ' preferences.py | head -n1 | cut -d\' -f2)" \
 		"$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
