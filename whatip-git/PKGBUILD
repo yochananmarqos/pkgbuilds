@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/whatip-git
 pkgname=whatip-git
-pkgver=0.1.1.r37.g7812396
+pkgver=0.1.2.r4.g50e1bd2
 pkgrel=1
 pkgdesc="Info on your IP"
 arch=('any')
@@ -8,7 +8,8 @@ url="https://gabmus.gitlab.io/whatip"
 license=('GPL3')
 depends=('libhandy' 'python-requests' 'python-netaddr' 'python-gobject'
          'gobject-introspection')
-makedepends=('git' 'meson' 'appstream')
+makedepends=('git' 'meson')
+checkdepends=('appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://gitlab.gnome.org/gabmus/whatip.git')
@@ -21,9 +22,13 @@ pkgver() {
 
 build() {
 	arch-meson "${pkgname%-git}" build
-	ninja -C build
+	meson compile -C build
+}
+
+check() {
+	meson test -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 }
