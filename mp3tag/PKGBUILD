@@ -33,7 +33,7 @@ package() {
 	find "$pkgdir/usr/share/$pkgname" -type d -exec chmod 755 "{}" \;
 	find "$pkgdir/usr/share/$pkgname" -type f -exec chmod 644 "{}" \;
 
-	install -Dm644 "$srcdir/license-$pkgver.html" -t \
+	install -Dm644 "$srcdir/license-$pkgver.html" \
 		"$pkgdir/usr/share/licenses/$pkgname/license.html"
 	install -Dm755 "$srcdir/$pkgname" -t "$pkgdir/usr/bin"
 	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
