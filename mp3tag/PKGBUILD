@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/mp3tag
 # https://gitlab.com/n4r3n/pkgbuilds/-/tree/master/mp3tag
 pkgname=mp3tag
-pkgver=3.01
+pkgver=3.02
 pkgrel=1
 pkgdesc="The universal tag editor."
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
         "$pkgname"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('f9f53211d07fe230df64e8351afcfab4394ebbb4468d899a3de6249b5a8668ba'
+sha256sums=('059cb10ad1a7ed163f84d851c60ef612479f58c02b10f9d85bc619ec0a275650'
             '858f8deae1c450165e8614dbeb913bc33345bda37ccaf458f20deac4b6951f15'
             '7bc6616d22adb32c360bedd888d5a0371170f52ee428889aaa85c6218c8659e0'
             'bc0c7b8a7a9f9ee92dfe2f1880ef5d91920473713b5d60e4afa361d69a446798'
