@@ -35,7 +35,7 @@ build() {
 		-buildmode=pie \
 		-mod=readonly \
 		-modcacherw \
-		-ldflags "-extldflags \"${LDFLAGS}\"" \
+		-ldflags "-extldflags \"${LDFLAGS}\" -s -w -X 'main.version=$pkgver' -X 'main.date=$(date)'" \
 		-v -o $pkgname .
 
 	# Clean now to ensure makepkg --clean works
