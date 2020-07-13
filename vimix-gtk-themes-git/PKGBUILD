@@ -27,6 +27,8 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
+
+	# Fix -a flag in install.sh
 	git apply -3 "$srcdir/183.patch"
 }
 
