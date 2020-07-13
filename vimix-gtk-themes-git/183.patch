@@ -1,0 +1,22 @@
+From afc12247b97487e4198b053c43ef36c3488c7f0f Mon Sep 17 00:00:00 2001
+From: rouhannb <rouhannb@gmail.com>
+Date: Mon, 13 Jul 2020 13:41:17 -0400
+Subject: [PATCH] Fix -a flag in install.sh
+
+Stops from silently hanging
+---
+ install.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/install.sh b/install.sh
+index f28b026..0ddb34f 100755
+--- a/install.sh
++++ b/install.sh
+@@ -239,6 +239,7 @@ while [ $# -gt 0 ]; do
+       ;;
+     -a|--all)
+       themes=("${THEME_VARIANTS[@]}")
++      shift 1
+       ;;
+     -f|--flat)
+       flat="true"
