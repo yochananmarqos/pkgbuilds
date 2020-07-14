@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/vimix-gtk-themes-git
 pkgname=vimix-gtk-themes-git
-pkgver=2020.02.24.r24.g9970d40
+pkgver=2020.02.24.r26.gd0975fd
 pkgrel=1
 pkgdesc="A flat Material Design theme for GTK 3, GTK 2, GNOME Shell, etc."
 arch=('any')
@@ -15,21 +15,12 @@ optdepends=('kvantum-theme-vimix: Matching Kvantum theme'
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
-source=('git+https://github.com/vinceliuice/vimix-gtk-themes.git'
-        '183.patch')
-sha256sums=('SKIP'
-            '52d0619549de68043bbd1d9baeaf4bb3f6d63b14746a21ef89e910cf1ee66260')
+source=('git+https://github.com/vinceliuice/vimix-gtk-themes.git')
+sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-
-	# Fix -a flag in install.sh
-	git apply -3 "$srcdir/183.patch"
 }
 
 package() {
