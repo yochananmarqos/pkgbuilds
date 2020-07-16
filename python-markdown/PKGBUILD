@@ -13,15 +13,6 @@ checkdepends=('python-yaml')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17')
 
-
-prepare() {
-	# bug in 2.4, some DOS line endings slipped in
-	find "$_name-$pkgver/" -name '*py' -exec sed -i 's|\r||g' {} +
-
-	# ImportError: No module named pkg_resources
-	sed -i 's/^from pkg_resources.*$/import packaging.version/' "$_name-$pkgver/markdown/__init__.py"
-}
-
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build
