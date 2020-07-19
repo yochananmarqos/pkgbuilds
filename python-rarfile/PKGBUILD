@@ -9,9 +9,11 @@ url="https://github.com/markokr/rarfile"
 license=('ISC')
 depends=('python')
 makedepends=('python-setuptools')
-optdepends=('unrar: Decompressing compressed files'
-            'libarchive: Alternative to "unrar"'
-            'python-crypto: Parsing encrypted headers')
+optdepends=('unrar: default decompression tool'
+            'unarchiver: alternative decompression tool'
+            'libarchive: alternative decompression tool'
+            'python-cryptography: process archives with password-protected headers (choose one)'
+            'python-pycryptodome: process archives with password-protected headers (chooose one)')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('422cbf788c5fed87ed0d55aff88951f54378ec84749eb05cc0584d87f2637545')
 
