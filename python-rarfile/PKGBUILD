@@ -1,8 +1,7 @@
 # http://aur.archlinux.org/packages/python-rarfile
 pkgname=python-rarfile
 _name=${pkgname#python-}
-pkgver=3.1
-#_pkgver=3_1
+pkgver=3.2
 pkgrel=1
 pkgdesc="Python module for RAR archive reading"
 arch=('any')
@@ -10,21 +9,15 @@ url="https://github.com/markokr/rarfile"
 license=('ISC')
 depends=('python')
 makedepends=('python-setuptools')
-#makedepends+=('python-docutils' 'python-sphinx')
 optdepends=('unrar: Decompressing compressed files'
             'libarchive: Alternative to "unrar"'
             'python-crypto: Parsing encrypted headers')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-#source=("https://github.com/markokr/rarfile/archive/${_name}_${_pkgver}.tar.gz")
-sha256sums=('dc1062176c529f417522af7da1291a35b85c8017464e665aabce048cfe2659b6')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('422cbf788c5fed87ed0d55aff88951f54378ec84749eb05cc0584d87f2637545')
 
 build() {
 	cd "$_name-$pkgver"
 	python setup.py build
-
-	# Build docs
-#	cd doc
-#	make html
 }
 
 package() {
@@ -32,6 +25,4 @@ package() {
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
-#	install -dm644 "$pkgdir/usr/share/doc/$pkgname"
-#	cp -a doc/_build/html "$pkgdir/usr/share/doc/$pkgname"
 }
