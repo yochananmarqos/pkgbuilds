@@ -1,5 +1,5 @@
 # http://aur.archlinux.org/packages/mangohud
-pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
+pkgname=('mangohud' 'lib32-mangohud')
 pkgbase=mangohud
 pkgver=0.4.1
 pkgrel=2
@@ -16,15 +16,14 @@ sha256sums=('SKIP'
 
 prepare() {
 	cd "$srcdir/$pkgbase"
-	git submodule init modules/ImGui/src
-	git config submodule.imgui.url "$srcdir/imgui"
+	git submodule init
+	git config submodule.modules/ImGui/src.url "$srcdir/imgui"
 	git submodule update
 }
 
 build() {
 	arch-meson \
 		-Duse_system_vulkan=enabled \
-		-Dinclude_doc=false \
 		"$pkgbase" build64
 	meson compile -C build64
 
@@ -40,23 +39,21 @@ build() {
 }
 
 package_mangohud() {
-	depends=('gcc-libs' 'libx11' 'vulkan-icd-loader' 'mangohud-common')
+	depends=('gcc-libs' 'libx11' 'vulkan-icd-loader')
 	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
 
 	DESTDIR="$pkgdir" meson install -C build64
+
+	cd "$srcdir/$pkgbase"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
 
 package_lib32-mangohud() {
-	depends=('lib32-gcc-libs' 'lib32-libx11' 'lib32-vulkan-icd-loader'
-	         'mangohud-common')
+	depends=('lib32-gcc-libs' 'lib32-libx11' 'lib32-vulkan-icd-loader')
 	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
 
 	DESTDIR="$pkgdir" meson install -C build32
-}
 
-package_mangohud-common() {
 	cd "$srcdir/$pkgbase"
-	install -Dm664 bin/MangoHud.conf \
-		"$pkgdir/usr/share/doc/$pkgbase/MangoHud.conf.example"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
