@@ -2,7 +2,7 @@
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
 pkgver=0.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
@@ -26,7 +26,7 @@ build() {
 		-Duse_system_vulkan=enabled \
 		-Dinclude_doc=false \
 		"$pkgbase" build64
-	ninja -C build64
+	meson compile -C build64
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
@@ -36,25 +36,27 @@ build() {
 		-Duse_system_vulkan=enabled \
 		-Dinclude_doc=false \
 		"$pkgbase" build32 --libdir lib32
-	ninja -C build32
+	meson compile -C build32
 }
 
 package_mangohud() {
 	depends=('gcc-libs' 'libx11' 'vulkan-icd-loader' 'mangohud-common')
+	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
 
-	DESTDIR="$pkgdir" ninja -C build64 install
+	DESTDIR="$pkgdir" meson install -C build64
 }
 
 package_lib32-mangohud() {
 	depends=('lib32-gcc-libs' 'lib32-libx11' 'lib32-vulkan-icd-loader'
 	         'mangohud-common')
+	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
 
-	DESTDIR="$pkgdir" ninja -C build32 install
+	DESTDIR="$pkgdir" meson install -C build32
 }
 
 package_mangohud-common() {
 	cd "$srcdir/$pkgbase"
 	install -Dm664 bin/MangoHud.conf \
 		"$pkgdir/usr/share/doc/$pkgbase/MangoHud.conf.example"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
 }
