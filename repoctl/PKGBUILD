@@ -1,35 +1,44 @@
 # http://aur.archlinux.org/packages/repoctl
 pkgname=repoctl
-pkgver=0.19
+pkgver=0.20
 pkgrel=1
 pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
 license=('MIT')
-makedepends=('go-pie')
+makedepends=('go')
 source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('1c7b0ee078db9fa5b845329dad7a5603e678df9f39281dc3f0228c257734d58f')
+sha256sums=('f7c354e58d37178079e64c8b359ea374baa78e675c06e17f139ede9fae5af0f4')
 
 prepare() {
 	mkdir -p gopath/src/github.com/cassava
 	ln -rTsf "$pkgname-$pkgver" \
 		"gopath/src/github.com/cassava/$pkgname"
+
+	# Prevent creation of a `go` directory in one's home.
+	# Sometimes this directory cannot be removed with even `rm -rf` unless
+	# one becomes root or changes the write permissions.
+	export GOPATH="$srcdir/gopath"
+	go clean -modcache
 }
 
 build() {
-	export GOPATH="$srcdir"/gopath
-
 	cd "gopath/src/github.com/cassava/$pkgname/cmd/$pkgname"
 	go build \
 		-trimpath \
-		-ldflags "-extldflags ${LDFLAGS}" \
-		.
+		-buildmode=pie \
+		-ldflags "-extldflags \"${LDFLAGS}\"" \
+		-v .
 
 	cd "$srcdir/gopath/src/github.com/cassava/$pkgname/cmd/repols"
 	go build \
 		-trimpath \
-		-ldflags "-extldflags ${LDFLAGS}" \
-		.
+		-buildmode=pie \
+		-ldflags "-extldflags \"${LDFLAGS}\"" \
+		-v .
+
+	# Clean now to ensure makepkg --clean works
+	go clean -modcache
 }
 
 package() {
