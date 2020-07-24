@@ -1,0 +1,26 @@
+# https://aur.archlinux.org/packages/elflibviewer
+pkgname=elflibviewer
+_pkgname="mpyne-$pkgname-73f04bda4d61"
+pkgver=0.20
+pkgrel=3
+pkgdesc="Lists recursive library dependencies for an ELF executable"
+arch=('x86_64')
+url="https://bitbucket.org/mpyne/elflibviewer"
+license=('GPL2')
+depends=('qt5-base')
+makedepends=('cmake' 'qt5-tools')
+source=("$pkgname-$pkgver.tar.gz::$url/get/$pkgver.tar.gz")
+sha256sums=('6cf723329023b49a96f964d3780ebbb6c5a84247ca0e9c06c2fd6e8791726e18')
+
+build() {
+	cmake -B build -S "$srcdir/$_pkgname" \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	make -C build
+}
+package() {
+	make -C build DESTDIR="$pkgdir" install
+
+	cd "$srcdir/$_pkgname"
+	install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$pkgname.png" -t "$pkgdir/usr/share/pixmaps"
+}
