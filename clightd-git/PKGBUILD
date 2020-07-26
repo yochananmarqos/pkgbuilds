@@ -23,8 +23,7 @@ pkgver() {
 }
 
 build() {
-    cd "$srcdir/${pkgname%-git}"
-    cmake -B build -S . \
+    cmake -B build -S "${pkgname%-git}" \
         -G "Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -34,6 +33,5 @@ build() {
 }
 
 package() {
-    cd "$srcdir/${pkgname%-git}"
     make -C build DESTDIR="$pkgdir" install
 }
