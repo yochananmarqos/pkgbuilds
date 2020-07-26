@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-rarfile
 pkgname=python-rarfile
 _name=${pkgname#python-}
-pkgver=3.2
+pkgver=3.3
 pkgrel=1
 pkgdesc="Python module for RAR archive reading"
 arch=('any')
@@ -15,7 +15,7 @@ optdepends=('unrar: default decompression tool'
             'python-cryptography: process archives with password-protected headers (choose one)'
             'python-pycryptodome: process archives with password-protected headers (chooose one)')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('422cbf788c5fed87ed0d55aff88951f54378ec84749eb05cc0584d87f2637545')
+sha256sums=('1bd2cf08f1f07e5040dcb58d0e60f50448f6e87723754eef6cc4d1c1c8e719d4')
 
 build() {
 	cd "$_name-$pkgver"
