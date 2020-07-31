@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/ytmdesktop-git
 pkgname=ytmdesktop-git
-pkgver=1.12.0.beta.r0.g14812e6
+pkgver=1.12.0.beta.r6.g5df2906
 pkgrel=1
 pkgdesc="A desktop app for YouTube Music"
 arch=('x86_64')
@@ -16,7 +16,7 @@ conflicts=("${pkgname%-git}")
 source=('git+https://github.com/ytmdesktop/ytmdesktop.git#branch=development'
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
-            '3ed0c519e62483bb411e258df6d100463b8a417930ea67b34844bde8464e143d')
+            '3f937b477845f9b0391731a4e7b7cf3a52101c03f48eb34d29124b4664eb59a1')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
