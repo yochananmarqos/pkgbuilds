@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-rarfile
 pkgname=python-rarfile
 _name=${pkgname#python-}
-pkgver=3.3
+pkgver=4.0
 pkgrel=1
 pkgdesc="Python module for RAR archive reading"
 arch=('any')
@@ -9,13 +9,11 @@ url="https://github.com/markokr/rarfile"
 license=('ISC')
 depends=('python')
 makedepends=('python-setuptools')
-optdepends=('unrar: default decompression tool'
-            'unarchiver: alternative decompression tool'
-            'libarchive: alternative decompression tool'
-            'python-cryptography: process archives with password-protected headers (choose one)'
-            'python-pycryptodome: process archives with password-protected headers (chooose one)')
+optdepends=('unarchiver: alternative decompression backend'
+            'libarchive: alternative decompression backend'
+            'python-crypto: process archives with password-protected headers')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('1bd2cf08f1f07e5040dcb58d0e60f50448f6e87723754eef6cc4d1c1c8e719d4')
+sha256sums=('67548769229c5bda0827c1663dce3f54644f9dbfba4ae86d4da2b2afd3e602a1')
 
 build() {
 	cd "$_name-$pkgver"
