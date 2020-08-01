@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/needrestart
 pkgname=needrestart
 pkgver=3.5
-pkgrel=1
+pkgrel=2
 pkgdesc='Restart daemons after library updates.'
 arch=('any')
 url="https://github.com/liske/needrestart"
@@ -9,7 +9,6 @@ license=('GPL')
 depends=('perl-module-find' 'perl-term-readkey' 'perl-proc-processtable'
          'perl-sort-naturally' 'perl-module-scandeps' 'perl-libintl-perl')
 optdepends=('iucode-tool: for outdated microcode detection')
-options=(!emptydirs)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('e9453efde9a0ebaefa5cb3af241382203d14abcc7091bee1249b60039348597e')
 
@@ -20,11 +19,13 @@ prepare() {
 
 build() {
 	cd "$pkgname-$pkgver"
+	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
+	export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
 	make
 }
 
 package() {
 	cd "$pkgname-$pkgver"
 	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
-	make INSTALLDIRS=vendor DESTDIR="$pkgdir/" install
+	make DESTDIR="$pkgdir/" install
 }
