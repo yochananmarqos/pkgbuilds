@@ -1,32 +1,32 @@
 # https://aur.archlinux.org/packages/arronax
 pkgname=arronax
-pkgver=0.7.1
-pkgrel=4
+pkgver=0.7.2
+pkgrel=1
 pkgdesc='A program to create and modify desktop files.'
 arch=('any')
 license=('GPL3')
-url="http://www.florian-diesch.de/software/arronax"
+url="https://www.florian-diesch.de/software/arronax"
 depends=('gtk3' 'python-gobject' 'python-xdg')
 makedepends=('python-setuptools')
 optdepends=('python-nautilus: for the Nautilus plugin'
             'nemo-python: for the Nemo plugin'
             'python-caja: for the Caja plugin')
-source=("http://www.florian-diesch.de/software/$pkgname/dist/$pkgname-$pkgver.tar.gz")
-sha256sums=('2f914401ce822ec34a828efb4bbf815304765751a90d18468a4477a2bf231eec')
+source=("https://launchpad.net/~diesch/+archive/ubuntu/stable/+sourcefiles/arronax/$pkgver/${pkgname}_${pkgver}.tar.xz")
+sha256sums=('c582123536f85e62d48f35ebfaeb41925a105d93247c57c0139447178e098092')
 
 prepare() {
 	# Fix icon location
-	cd "$pkgname-$pkgver"
+	cd trunk
 	sed -i 's|{s}x{s}|{s}x{s}/apps|g' setup.py
 }
 
 build() {
-	cd "$pkgname-$pkgver"
+	cd trunk
 	python setup.py build
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd trunk
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
 
