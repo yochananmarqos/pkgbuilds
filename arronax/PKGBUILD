@@ -6,7 +6,7 @@ pkgdesc='A program to create and modify desktop files.'
 arch=('any')
 license=('GPL3')
 url="https://www.florian-diesch.de/software/arronax"
-depends=('gtk3' 'python-gobject' 'python-xdg')
+depends=('gtk3' 'python-gobject' 'python-pyxdg')
 makedepends=('python-setuptools')
 optdepends=('python-nautilus: for the Nautilus plugin'
             'nemo-python: for the Nemo plugin'
