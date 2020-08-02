@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/qt-scrcpy
 pkgname=qtscrcpy
-_name=QtScrcpy
-pkgver=1.4.1
+_pkgname=QtScrcpy
+pkgver=1.4.2
 pkgrel=1
 pkgdesc="Android real-time screencast control tool"
 arch=('x86_64')
@@ -10,31 +10,31 @@ license=('Apache')
 depends=('qt5-x11extras' 'scrcpy')
 backup=("etc/$pkgname/config.ini")
 conflicts=('qt-scrcpy')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
+source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
         'binaries.patch'
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('0acf4355a4ba05c1f55711188d98e52ced249ff5bc3f8fc1859ff20ecf5b4a18'
+sha256sums=('75769514335e37e5b5674a8dd67c22db11fb0e27e23d55d4eaddf395a228f77b'
             '1fa61a24bf59a62db1b29a3d3ec49186ef6f539ff8d09dd04534d939cb30aedd'
             '0dc5b08698162c8a0172a9c2e92b18fa7cd9df4b295bd350329b1e4dbd892a6e'
             '26335d1e208c47ddfc4abaabce3f32734788a80a6663577b3ff462346d8dec6f')
 
 prepare() {
-	cd "$_name-$pkgver/$_name"
+	cd "$_pkgname-$pkgver/$_pkgname"
 	patch < "$srcdir/binaries.patch"
 }
 
 build() {
-	cd "$_name-$pkgver"
+	cd "$_pkgname-$pkgver"
 	qmake CONFIG+=qtquickcompiler
 	make
 }
 
 package() {
-	cd "$_name-$pkgver"
+	cd "$_pkgname-$pkgver"
 	install -Dm755 output/linux/release/QtScrcpy -t "$pkgdir/opt/$pkgname"
 	install -Dm644 backup/logo.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
-	install -Dm644 config/config.ini -t "$pkgdir/etc/$pkgname"
+	install -Dm777 config/config.ini -t "$pkgdir/etc/$pkgname"
 	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
 	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
