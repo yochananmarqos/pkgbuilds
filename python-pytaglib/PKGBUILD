@@ -1,0 +1,23 @@
+# https://aur.archlinux.org/packages/python-pytaglib
+pkgname=python-pytaglib
+_name=${pkgname#python-}
+pkgver=1.4.6
+pkgrel=1
+pkgdesc="Python audio tagging library"
+arch=('x86_64')
+url="https://github.com/supermihi/pytaglib"
+license=('GPL3')
+depends=('python' 'taglib')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('16daf54e78fb56442293d20d7659097470ecac9031f33037f9d53baa31382952')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
