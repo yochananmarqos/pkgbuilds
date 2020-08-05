@@ -18,8 +18,15 @@ optdepends=('anoise-community-extension1: Sounds and icons from the users'
             'anoise-community-extension5: Sounds and icons from the users'
             'anoise-gui: GUI for anoise'
             'libappindicator-gtk3: tray icon')
-source=("https://launchpad.net/~costales/+archive/ubuntu/$pkgname/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
-sha256sums=('cd6e2e1e8691b950c503b4319f7f9ecf6e66c745e5194724be0c3e026e9dd3ac')
+source=("https://launchpad.net/~costales/+archive/ubuntu/$pkgname/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz"
+        'setup.patch')
+sha256sums=('cd6e2e1e8691b950c503b4319f7f9ecf6e66c745e5194724be0c3e026e9dd3ac'
+            'e561b2513e791c29d097e7eea7c83f9bbe3d993ead398e7dd0352bbb55ce451a')
+
+prepare() {
+	cd "$srcdir/$pkgname "
+	patch --forward --strip=1 --input="$srcdir/setup.patch"
+}
 
 build() {
 	cd "$srcdir/$pkgname "
@@ -30,20 +37,14 @@ package() {
 	cd "$srcdir/$pkgname "
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	# Files setup.py does not install
-
-	install -Dm644 "$pkgname"/* "$pkgdir/usr/share/$pkgname"
 	# This file is included in anoise-gui
-	rm "$pkgdir/usr/share/$pkgname/$pkgname.ui"
+	rm "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
 
-	install -d "$pkgdir/usr/share/icons"
-	cp -r icons/hicolor "$pkgdir/usr/share/icons"
+	# Files setup.py does not install
 
 	install -d "$pkgdir/usr/locale"
 	cp -r locale "$pkgdir/usr/locale"
 
-	sed -i 's/anoise.desktop.in/Ambient Noise/g' \
-		"build/share/applications/$pkgname.desktop"
-	install -Dm644 "build/share/applications/$pkgname.desktop" -t \
+	install -Dm644 "build/share/applications/${pkgname%-git}.desktop" -t \
 		"$pkgdir/usr/share/applications"
 }
