@@ -27,7 +27,6 @@ package() {
 	cd "$srcdir/$pkgname "
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-
 	# Files setup.py does not install
 
 	install -Dm644 "$pkgname"/* "$pkgdir/usr/share/$pkgname"
