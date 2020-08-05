@@ -1,4 +1,7 @@
 # https://aur.archlinux.org/packages/anoise
+
+# Copy your OGG|MP3|WAV noises into ~/ANoise or ~/.ANoise
+
 pkgname=anoise
 pkgver=0.0.36
 pkgrel=1
