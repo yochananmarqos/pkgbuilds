@@ -1,0 +1,21 @@
+# https://aur.archlinux.org/packages/anoise-community-extension4
+pkgname=anoise-community-extension4
+pkgver=0.0.1
+pkgrel=3
+pkgdesc="Ambient Noise Community Library Package 4"
+arch=('any')
+url="https://costales.github.io/projects/anoise"
+license=('GPL3')
+makedepends=('python-distutils-extra')
+source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
+sha256sums=('4705dfba1ebe16aee5a8f72f0841585069e0dd2fbb12f589c6231c2be655cece')
+
+build() {
+	cd "$srcdir/${pkgname#anoise-}"
+	python setup.py build
+}
+
+package() {
+	cd "$srcdir/${pkgname#anoise-}"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}

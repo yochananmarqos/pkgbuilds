@@ -1,0 +1,21 @@
+# https://aur.archlinux.org/packages/anoise-media
+pkgname=anoise-media
+pkgver=0.0.17
+pkgrel=2
+pkgdesc="Ambient Noise Library. Sounds and icons for Anoise Player"
+arch=('any')
+url="https://costales.github.io/projects/anoise"
+license=('GPL3')
+makedepends=('python-distutils-extra')
+source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
+sha256sums=('7ad6b20438687107d850fd4bad760f103e7f2eb5ec7b1b45296ad29433cc0f36')
+
+build() {
+	cd "$srcdir/media"
+	python setup.py build
+}
+
+package() {
+	cd "$srcdir/media"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
