@@ -1,12 +1,12 @@
 # https://aur.archlinux.org/packages/auto-cpufreq-git
 pkgname=auto-cpufreq-git
-pkgver=1.1.2.r3.gabb66ed
+pkgver=1.1.2.r9.g4dc3189
 pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
 url="https://foolcontrol.org/?p=3124"
 license=('LGPL3')
-depends=('python-distro' 'python-psutil' 'python-click' 'python-power')
+depends=('python-distro' 'python-psutil' 'python-click')
 makedepends=('git' 'python-setuptools')
 optdepends=('cpufreqctl: CPU Power Manager'
             'gnome-shell-extension-cpufreq: CPU Power Manager for GNOME Shell')
@@ -23,7 +23,7 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-	sed -i 's|usr/local|usr|g' "scripts/${pkgname%-git}.service"
+	sed -i 's|usr/local|usr|g' "scripts/${pkgname%-git}.service" source/core.py
 }
 
 build() {
@@ -35,7 +35,7 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	install -Dm755 scripts/cpufreqctl.sh "$pkgdir/usr/bin/cpufreqctl"
+	install -Dm755 scripts/cpufreqctl.sh -t "$pkgdir/usr/share/${pkgname%-git}/scripts"
 	install -Dm644 "scripts/${pkgname%-git}.service" -t \
 		"$pkgdir/usr/lib/systemd/system"
 }
