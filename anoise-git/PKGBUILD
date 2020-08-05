@@ -1,0 +1,49 @@
+# Copy your OGG|MP3|WAV noises into ~/ANoise or ~/.ANoise
+
+pkgname=anoise-git
+pkgver=0.0.36.r9.c9ba926
+pkgrel=1
+pkgdesc="Ambient Noise Player. Relax or concentrate with a noise"
+arch=('any')
+url="https://costales.github.io/projects/anoise"
+license=('GPL3')
+depends=('gst-python' 'webkit2gtk' 'anoise-media')
+makedepends=('python-distutils-extra')
+optdepends=('anoise-community-extension1: Sounds and icons from the users'
+            'anoise-community-extension2: Sounds and icons from the users'
+            'anoise-community-extension3: Sounds and icons from the users'
+            'anoise-community-extension4: Sounds and icons from the users'
+            'anoise-community-extension5: Sounds and icons from the users'
+            'anoise-gui: GUI for anoise'
+            'libappindicator-gtk3: tray icon')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/costales/anoise.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
+		sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	# This file is included in anoise-gui
+	rm "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
+
+	# Files setup.py does not install
+
+	install -d "$pkgdir/usr/locale"
+	cp -r locale "$pkgdir/usr/locale"
+
+	install -Dm644 "build/share/applications/${pkgname%-git}.desktop" -t \
+		"$pkgdir/usr/share/applications"
+}
