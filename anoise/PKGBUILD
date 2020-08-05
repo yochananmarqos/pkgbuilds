@@ -27,12 +27,12 @@ package() {
 	cd "$srcdir/$pkgname "
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	# This file is included in anoise-gui
-	rm "$pkgdir/usr/share/$pkgname/$pkgname.ui"
 
 	# Files setup.py does not install
 
 	install -Dm644 "$pkgname"/* "$pkgdir/usr/share/$pkgname"
+	# This file is included in anoise-gui
+	rm "$pkgdir/usr/share/$pkgname/$pkgname.ui"
 
 	install -d "$pkgdir/usr/share/icons"
 	cp -r icons/hicolor "$pkgdir/usr/share/icons"
