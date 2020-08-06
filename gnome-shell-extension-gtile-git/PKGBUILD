@@ -26,6 +26,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
-	tar -xzf bazel-bin/install-extension.runfiles/gtile/dist.tar.gz --directory \
+	tar -xzf bazel-bin/install-extension.runfiles/gtile/dist.tar.gz -C \
 		"$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
 }
