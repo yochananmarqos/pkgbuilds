@@ -1,13 +1,13 @@
 # http://aur.archlinux.org/packages/gnome-shell-extension-gtile-git
 pkgname=gnome-shell-extension-gtile-git
-pkgver=34.r1.g52ce01e
+pkgver=35.r15.g8549b00
 pkgrel=1
 pkgdesc='A window tiling extension for GNOME'
 arch=('any')
 url="https://github.com/gTile/gTile"
 license=('GPL')
 depends=('gnome-shell')
-makedepends=('git')
+makedepends=('git' 'bazel' 'yarn')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/gTile/gTile.git")
@@ -18,8 +18,14 @@ pkgver() {
 	git describe --long --tags | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	bazel build :install-extension --disk_cache="$srcdir/bazel-cache"
+}
+
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
-	cp -r . "$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
+	tar -xzf bazel-bin/install-extension.runfiles/gtile/dist.tar.gz --directory \
+		"$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
 }
