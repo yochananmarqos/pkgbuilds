@@ -1,0 +1,24 @@
+# https://aur.archlinux.org/packages/python-coveralls
+pkgname=python-coveralls
+_name=${pkgname#python-}
+pkgver=2.1.1
+pkgrel=1
+pkgdesc="Provide Seemless integration with coveralls.io"
+arch=('any')
+url="https://github.com/coveralls-clients/coveralls-python"
+license=('MIT')
+depends=('python-coverage' 'python-docopt' 'python-requests' 'python-yaml')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('afe359cd5b350e1b3895372bda32af8f0260638c7c4a31a5c0f15aa6a96f40d9')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
+
