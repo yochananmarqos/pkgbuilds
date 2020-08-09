@@ -1,6 +1,6 @@
 # http://aur.archlinux.org/packages/gnome-shell-extension-gtile-git
 pkgname=gnome-shell-extension-gtile-git
-pkgver=35.r15.g8549b00
+pkgver=35.r21.gd7aa9ff
 pkgrel=1
 pkgdesc='A window tiling extension for GNOME'
 arch=('any')
@@ -20,7 +20,7 @@ pkgver() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	bazel build :install-extension --disk_cache="$srcdir/bazel-cache"
+	bazel build :install-extension
 }
 
 package() {
