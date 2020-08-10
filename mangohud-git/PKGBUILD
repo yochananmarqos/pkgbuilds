@@ -1,0 +1,69 @@
+# http://aur.archlinux.org/packages/mangohud-git
+pkgname=('mangohud-git' 'lib32-mangohud-git' 'mangohud-common-git')
+pkgbase=mangohud-git
+pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
+pkgver=0.4.1.r107.g5f51f3f
+pkgrel=1
+arch=('x86_64')
+url="https://github.com/flightlessmango/MangoHud"
+license=('MIT')
+makedepends=('git' 'meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
+             'libxnvctrl' 'vulkan-headers')
+source=("${pkgbase%-git}::git+https://github.com/flightlessmango/MangoHud.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgbase%-git}"
+	git describe --tags | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+build() {
+	arch-meson \
+		-Duse_system_vulkan=enabled \
+		-Dinclude_doc=false \
+		"${pkgbase%-git}" build64
+	meson compile -C build64
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export LLVM_CONFIG="/usr/bin/llvm-config32"
+
+	arch-meson \
+		--libdir lib32 \
+		-Duse_system_vulkan=enabled \
+		-Dinclude_doc=false \
+		"${pkgbase%-git}" build32
+	meson compile -C build32
+}
+
+package_mangohud-git() {
+	depends=('mangohud-common' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
+	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	DESTDIR="$pkgdir" meson install -C build64
+}
+
+package_lib32-mangohud-git() {
+	depends=('mangohud-common' 'lib32-gcc-libs' 'lib32-libx11'
+             'lib32-vulkan-icd-loader')
+	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	DESTDIR="$pkgdir" meson install -C build32
+
+	rm -rf "$pkgdir/usr/share/man"
+}
+
+package_mangohud-common-git() {
+	provides=("${pkgname%-git}")
+	conflicts=("${pkgname%-git}")
+
+	cd "$srcdir/${pkgbase%-git}"
+	install -Dm664 bin/MangoHud.conf -t \
+		"$pkgdir/usr/share/doc/${pkgbase%-git}/MangoHud.conf.example"
+	install -Dm664 LICENSE -t "$pkgdir/usr/share/licenses/${pkgbase%-git}"
+}
