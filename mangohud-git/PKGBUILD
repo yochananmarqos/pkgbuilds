@@ -59,6 +59,7 @@ package_lib32-mangohud-git() {
 }
 
 package_mangohud-common-git() {
+	pkgdesc="Common files for MangoHud"
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}")
 
