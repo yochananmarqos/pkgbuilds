@@ -1,14 +1,14 @@
 # http://aur.archlinux.org/packages/mangohud
-pkgname=('mangohud' 'lib32-mangohud')
+pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
 pkgver=0.4.1
-pkgrel=2
+pkgrel=3
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
 license=('MIT')
 makedepends=('git' 'meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
-             'vulkan-headers' 'libxnvctrl')
+             'libxnvctrl' 'vulkan-headers')
 source=("$pkgbase::git+https://github.com/flightlessmango/MangoHud.git#tag=v$pkgver"
         'git+https://github.com/flightlessmango/imgui.git')
 sha256sums=('SKIP'
@@ -24,6 +24,7 @@ prepare() {
 build() {
 	arch-meson \
 		-Duse_system_vulkan=enabled \
+		-Dinclude_doc=false \
 		"$pkgbase" build64
 	meson compile -C build64
 
@@ -31,29 +32,35 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config32"
+
 	arch-meson \
+		--libdir lib32 \
 		-Duse_system_vulkan=enabled \
 		-Dinclude_doc=false \
-		"$pkgbase" build32 --libdir lib32
+		"$pkgbase" build32
 	meson compile -C build32
 }
 
 package_mangohud() {
-	depends=('gcc-libs' 'libx11' 'vulkan-icd-loader')
+	depends=('mangohud-common' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
 	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
 
 	DESTDIR="$pkgdir" meson install -C build64
 
-	cd "$srcdir/$pkgbase"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	rm -rf "$pkgdir/usr/share/man"
 }
 
 package_lib32-mangohud() {
-	depends=('lib32-gcc-libs' 'lib32-libx11' 'lib32-vulkan-icd-loader')
+	depends=('mangohud-common' 'lib32-gcc-libs' 'lib32-libx11'
+	         'lib32-vulkan-icd-loader')
 	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
 
 	DESTDIR="$pkgdir" meson install -C build32
+}
 
+package_mangohud-common() {
 	cd "$srcdir/$pkgbase"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm664 bin/MangoHud.conf -t \
+		"$pkgdir/usr/share/doc/$pkgbase/MangoHud.conf.example"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
 }
