@@ -60,6 +60,7 @@ package_lib32-mangohud() {
 
 package_mangohud-common() {
 	pkgdesc="Common files for MangoHud"
+
 	cd "$srcdir/$pkgbase"
 	install -Dm664 bin/MangoHud.conf -t \
 		"$pkgdir/usr/share/doc/$pkgbase/MangoHud.conf.example"
