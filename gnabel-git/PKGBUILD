@@ -1,0 +1,26 @@
+pkgname=gnabel-git
+pkgver=r46.53b1973
+pkgrel=1
+pkgdesc="A translation app for GTK environments based on Google Translate"
+arch=('any')
+url="https://github.com/gi-lom/gnabel"
+license=('GPL3')
+depends=('python-pyperclip' 'python-gobject' 'python-googletrans'
+         'python-gtts' 'python-pydub')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/gi-lom/gnabel.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm644 icon.svg \
+  	"$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.png"
+}
