@@ -18,9 +18,9 @@ pkgver() {
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
-  install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
-  install -Dm755 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-  install -Dm644 icon.svg \
-  	"$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
+	install -Dm755 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 icon.svg \
+		"$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
 }
