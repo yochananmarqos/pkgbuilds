@@ -1,11 +1,11 @@
 pkgname=gnabel-git
-pkgver=r83.eb82334
+pkgver=r94.f663530
 pkgrel=1
 pkgdesc="A translation app for GTK environments based on Google Translate"
 arch=('any')
 url="https://github.com/gi-lom/gnabel"
 license=('GPL3')
-depends=('gtk3' 'python-googletrans' 'python-gtts' 'python-pydub')
+depends=('gtk3' 'python-gobject' 'python-googletrans' 'python-gtts' 'python-pydub')
 makedepends=('meson' 'git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
