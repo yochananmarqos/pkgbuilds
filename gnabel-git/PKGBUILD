@@ -1,11 +1,12 @@
 pkgname=gnabel-git
-pkgver=r73.13b4592
+pkgver=r83.eb82334
 pkgrel=1
 pkgdesc="A translation app for GTK environments based on Google Translate"
 arch=('any')
 url="https://github.com/gi-lom/gnabel"
 license=('GPL3')
 depends=('gtk3' 'python-googletrans' 'python-gtts' 'python-pydub')
+makedepends=('meson' 'git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/gi-lom/gnabel.git')
@@ -16,10 +17,11 @@ pkgver() {
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
+build() {
+	arch-meson "${pkgname%-git}" build
+	meson compile -C build
+}
+
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm755 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-	install -Dm644 icon.svg \
-		"$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
+	DESTDIR="$pkgdir" meson install -C build
 }
