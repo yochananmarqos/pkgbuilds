@@ -1,17 +1,18 @@
 # https://aur.archlinux.org/packages/whatip-git
 pkgname=whatip-git
-pkgver=0.1.2.r4.g50e1bd2
+pkgver=0.1.2.r26.g43dab6c
 pkgrel=1
 pkgdesc="Info on your IP"
 arch=('any')
 url="https://gabmus.gitlab.io/whatip"
 license=('GPL3')
 depends=('libhandy1' 'python-requests' 'python-netaddr' 'python-gobject'
-         'gobject-introspection')
+         'gobject-introspection' 'avahi')
 makedepends=('git' 'meson')
 checkdepends=('appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
+install="${pkgname%-git}.install"
 source=('git+https://gitlab.gnome.org/gabmus/whatip.git')
 sha256sums=('SKIP')
 

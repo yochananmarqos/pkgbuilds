@@ -1,0 +1,7 @@
+post_install() {
+	echo ""
+	echo "Start the DBus service:"
+	echo ""
+	echo "whatip --gapplication-service"
+	echo ""
+}
