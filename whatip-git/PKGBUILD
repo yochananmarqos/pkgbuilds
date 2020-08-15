@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/whatip-git
 pkgname=whatip-git
-pkgver=0.1.2.r26.g43dab6c
+pkgver=0.1.2.r28.ga56dfcf
 pkgrel=1
 pkgdesc="Info on your IP"
 arch=('any')
