@@ -60,8 +60,7 @@ package() {
 		"$pkgdir/opt/${pkgname%-git}/sparrowwifiagent.cfg"
 	cp -r *.py scripts "$pkgdir/opt/${pkgname%-git}"
 
-	install -Dm644 docs/* -t "${pkgdir}/usr/share/doc/${pkgname%-git}"
-	install -Dm644 README.md -t "${pkgdir}/usr/share/doc/${pkgname%-git}"
+	install -Dm644 docs/* README.md -t "${pkgdir}/usr/share/doc/${pkgname%-git}"
 	install -Dm644 wifi_icon.png "${pkgdir}/usr/share/pixmaps/${pkgname%-git}.png"
 
 	install -Dm755 "$srcdir/${pkgname%-git}-launcher" -t "$pkgdir/usr/bin"
