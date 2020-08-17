@@ -20,8 +20,6 @@ pkgver() {
 build() {
 	arch-meson \
 		-Duse_system_vulkan=enabled \
-		-Dld_libdir_prefix=true \
-		-Dinclude_doc=false \
 		"${pkgbase%-git}" build64
 	meson compile -C build64
 
@@ -33,7 +31,6 @@ build() {
 	arch-meson \
 		--libdir lib32 \
 		-Duse_system_vulkan=enabled \
-		-Dld_libdir_prefix=true \
 		-Dinclude_doc=false \
 		"${pkgbase%-git}" build32
 	meson compile -C build32
@@ -47,7 +44,7 @@ package_mangohud-git() {
 
 	DESTDIR="$pkgdir" meson install -C build64
 
-	rm -rf "$pkgdir/usr/share/man"
+	rm -rf "$pkgdir"/usr/share/{doc,man}
 }
 
 package_lib32-mangohud-git() {
@@ -74,7 +71,5 @@ package_mangohud-common-git() {
 	rm -rf "$pkgdir"/usr/{bin,lib,share/vulkan}
 
 	cd "$srcdir/${pkgbase%-git}"
-	install -Dm664 bin/MangoHud.conf \
-		"$pkgdir/usr/share/doc/${pkgbase%-git}/MangoHud.conf.example"
 	install -Dm664 LICENSE -t "$pkgdir/usr/share/licenses/${pkgbase%-git}"
 }
