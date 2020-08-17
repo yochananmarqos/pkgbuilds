@@ -5,11 +5,11 @@ post_install() {
 	echo "To use GPS capabilities, start the GPSD service & Sparrow agent:"
 	echo ""
 	echo "systemctl start gpsd.service"
-	echo "/opt/sparrow-wifi/scripts/rpi.sparrowagentstart.sh"
+	echo "sudo /opt/sparrow-wifi/scripts/rpi.sparrowagentstart.sh"
 	echo ""
 	echo "To stop GPSD service & Sparrow agent:"
 	echo ""
-	echo "/opt/sparrow-wifi/scripts/rpi.sparrowagentstop.sh"
+	echo "sudo /opt/sparrow-wifi/scripts/rpi.sparrowagentstop.sh"
 	echo "systemctl stop gpsd.service"
 	echo ""
 }
