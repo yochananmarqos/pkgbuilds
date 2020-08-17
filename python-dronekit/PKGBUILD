@@ -1,0 +1,24 @@
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=python-dronekit
+_name=${pkgname#python-}
+pkgver=2.9.2
+pkgrel=1
+pkgdesc="DroneKit-Python library for communicating with Drones via MAVLink."
+arch=('any')
+url="https://github.com/dronekit/dronekit-python"
+license=('APACHE')
+depends=('python-pymavlink' 'python-monotonic')
+makedepends=('python-setuptools')
+optdepends=('python-dronekit-sitl')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('53d037241a86bf366a385c5bad7949536a4715e49111204d78d936c11fac4b51')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
