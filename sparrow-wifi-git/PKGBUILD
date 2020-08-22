@@ -1,12 +1,13 @@
 # https://aur.archlinux.org/packages/sparrow-wifi-git
 pkgname=sparrow-wifi-git
-pkgver=r147.a97885f
+pkgver=r154.c388206
 pkgrel=1
 pkgdesc="Next-Gen GUI-based WiFi and Bluetooth Analyzer for Linux"
 arch=('any')
 url="https://github.com/ghostop14/sparrow-wifi"
 license=('GPL3')
-depends=('tk'
+depends=('iw'
+         'tk'
          'python-matplotlib'
          'python-qscintilla-qt5'
          'python-pyqt5'
@@ -31,11 +32,9 @@ conflicts=("${pkgname%-git}")
 backup=("opt/${pkgname%-git}/sparrowwifiagent.cfg")
 install="${pkgname%-git}.install"
 source=('git+https://github.com/ghostop14/sparrow-wifi.git'
-        '37.patch'
         "${pkgname%-git}.desktop"
         "${pkgname%-git}-launcher")
 sha256sums=('SKIP'
-            'bb8a29014ac5f5b57f88f47e4d8de7ab2305cc8ddee45b0e3d0d7ee511dd0869'
             'dc37448598fae71601e3707f4be569d4858b155ecdc0ccc3927f3e5b97cce8fd'
             'dbe7e4bf50abb15d8685a32fdb74971a4b2f47353830dbf5236bd674f2cec5a3')
 
@@ -46,10 +45,6 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-
-	# https://github.com/ghostop14/sparrow-wifi/pull/37
-	git apply -3 "$srcdir/37.patch"
-
 	sed -i 's|service gpsd status|systemctl status gpsd|g' scripts/*.sh
 	sed -i 's|service gpsd stop|systemctl stop gpsd|g' scripts/*.sh
 }
