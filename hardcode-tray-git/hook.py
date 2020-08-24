@@ -78,7 +78,7 @@ class Hook:
 
     def run_hadcode_tray(self, packages = None):
         """ Hardcode tray bit execution """
-    
+
         args = ["hardcode-tray"]
 
         if CONVERSION_TOOL != None:
@@ -99,7 +99,7 @@ class Hook:
         )
 
         return (proc.returncode == 0)
-        
+
     def execute(self):
         """ Execution method running hardcode-tray for supported apps"""
 
@@ -111,7 +111,7 @@ class Hook:
                 else:
                     print("Packages update failed.")
                     return False
-            
+
         packages_for_update = self.get_supported_scripts()
 
         if len(packages_for_update) == 0:
@@ -132,4 +132,4 @@ packages = [x for x in input_str.split('\n') if x]
 hook = Hook(packages)
 
 if not hook.execute():
-    sys.exitsys.exit('Hook failed')
+    sys.exit('Hook failed')

@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/hardcode-tray-git
 pkgname=hardcode-tray-git
-pkgver=4.3.r105.g7e87673
+pkgver=4.3.r121.gf2f739b
 pkgrel=1
 pkgdesc="Fixes hardcoded tray icons"
 arch=('i686' 'x86_64')
@@ -17,7 +17,7 @@ source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.g
         "hook.py")
 sha256sums=('SKIP'
             'c16ba6a82d4fe523cb91bf472b44296db82ff301866e3bce18bb4149d0aae5ea'
-            '6bbb987b02ff9cd412566b2d0536eb33997015a49d3eab1bb4c551d8203e4989')
+            '64a9907f74c5c04fb9f32b2b0684a3ce040d3bc2baacabb3ca1e914d70f24c81')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
