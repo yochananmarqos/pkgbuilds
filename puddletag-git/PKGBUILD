@@ -1,4 +1,4 @@
-# http://aur.archlinux.org/packages/puddletag-qt5-git
+# http://aur.archlinux.org/packages/puddletag-git
 pkgname=puddletag-git
 pkgver=1.2.0.r150.g66636fc
 pkgrel=1
