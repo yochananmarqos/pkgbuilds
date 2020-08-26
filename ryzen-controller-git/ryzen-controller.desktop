@@ -1,8 +1,9 @@
 [Desktop Entry]
-Type=Application
-Icon=/opt/ryzen-controller/resources/app/assets/icon.png
 Name=Ryzen Controller
-Exec=/opt/ryzen-controller/ryzencontroller
+Comment=A minimal Electron application to use ryzenAdj through a friendly interface.
+Exec=/opt/ryzen-controller/ryzen-controller %U
 Terminal=false
-Hidden=false
-Categories=Utility
+Type=Application
+Icon=ryzen-controller
+StartupWMClass=Ryzen Controller
+Categories=Utility;

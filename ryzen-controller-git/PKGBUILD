@@ -1,18 +1,20 @@
 pkgname=ryzen-controller-git
-pkgver=2.2.0.r0.6581c13
+pkgver=2.2.2.r0.0c44a67
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
 url="https://gitlab.com/le.storm1er/ryzen-controller"
-license=('CC0 1.0 Universal')
-depends=('ryzenadj' 'nss' 'nodejs' 'gtk3' 'libxss')
-makedepends=('git' 'npm')
+license=('CC0-1.0')
+depends=('ryzenadj' 'nss' 'gtk3' 'libxss')
+makedepends=('git' 'yarn')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'ryzencontroller')
 source=('git+https://gitlab.com/le.storm1er/ryzen-controller.git'
-	"${pkgname%-git}.desktop")
+        "${pkgname%-git}.desktop"
+        "${pkgname%-git}.png")
 sha256sums=('SKIP'
-            'e1c7d2d4cfa10da7bc284c0fe4b94f5592ea2b5ab92854d74f23b70a98d8db7c')
+            'b639208df8be054d41d6e7d7e697a955cfb23c713875ef5be5cfd07716f2ad48'
+            '2a2d035008beb7c623e208bf5b6bf06c270157838c40d7375aefa9aee8f5f77f')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -21,15 +23,21 @@ pkgver() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}"
-	npm install --cache "$srcdir/npm-cache"
-	npm run-script package-linux
+	yarn install --cache "$srcdir/yarn-cache"
+	yarn run dist-unpack
+	yarn run dist-unpack:build
+	yarn run dist-unpack:electron
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/"{opt/"${pkgname%-git}",usr/bin}
-	cp -a release-builds/ryzencontroller-linux-x64/. "$pkgdir/opt/${pkgname%-git}"
+	install -d "$pkgdir/opt/${pkgname%-git}"
+	cp -r dist/linux-unpacked/. "$pkgdir/opt/${pkgname%-git}"
 
-	ln -s "/opt/${pkgname%-git}/ryzencontroller" "$pkgdir/usr/bin/${pkgname%-git}"
+	install -d "$pkgdir/usr/bin"
+	ln -s "/opt/${pkgname%-git}/${pkgname%-git}" -t "$pkgdir/usr/bin"
+
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$srcdir/${pkgname%-git}.png" -t "$pkgdir/usr/share/pixmaps"
 }
