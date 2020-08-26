@@ -31,6 +31,8 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
+	rm -rf dist/linux-unpacked/resources/app.asar.unpacked/build
+
 	install -d "$pkgdir/opt/${pkgname%-git}"
 	cp -r dist/linux-unpacked/. "$pkgdir/opt/${pkgname%-git}"
 
