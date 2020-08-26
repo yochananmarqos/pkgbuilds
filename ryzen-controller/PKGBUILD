@@ -1,5 +1,5 @@
 pkgname=ryzen-controller
-pkgver=2.2.2
+pkgver=2.2.3
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
@@ -11,7 +11,7 @@ conflicts=('ryzencontroller')
 source=("https://gitlab.com/le.storm1er/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('a0cb6a3e0bb3fb81de3ea43cdf6dbd7808410aff958877ddd6bfa7f463c2aae9'
+sha256sums=('bb8839d81b8e845c4e8f5d42703c63b2b1f7303a5794b6c41c915e948a051270'
             'b639208df8be054d41d6e7d7e697a955cfb23c713875ef5be5cfd07716f2ad48'
             '2a2d035008beb7c623e208bf5b6bf06c270157838c40d7375aefa9aee8f5f77f')
 

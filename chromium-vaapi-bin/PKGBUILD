@@ -1,5 +1,5 @@
 pkgname=chromium-vaapi-bin
-pkgver=84.0.4147.125
+pkgver=85.0.4183.83
 _pkgrel=1
 pkgrel=1
 pkgdesc="Chromium with VA-API support to enable hardware acceleration, pre-compiled"
@@ -20,7 +20,7 @@ conflicts=("${pkgname%-vaapi-bin}" "${pkgname%-bin}")
 install="${pkgname%-vaapi-bin}.install"
 #source=("https://cdn.repo.archlinuxcn.org/x86_64/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst")
 source=("https://download.opensuse.org/repositories/home:/kjliew/Arch/$arch/${pkgname%-bin}-${pkgver}-${_pkgrel}-${arch}.pkg.tar.zst")
-sha256sums=('9ac70313a3dcaf7ea30dc0335f6ff6ef54ae51f65085f3fe78983bfa63f90aa7')
+sha256sums=('d1e695ffbc72af0679b8667a680a2d5f217d4e2b3ab18d19d11413dd870f5859')
 
 # Keep in sync with AUR/chromium-vaapi:
 #
@@ -36,7 +36,7 @@ declare -gA _system_libs=(
 	[libdrm]=
 	[libjpeg]=libjpeg
 	[libpng]=libpng
-	[libvpx]=libvpx
+	#[libvpx]=libvpx
 	[libwebp]=libwebp
 	[libxml]=libxml2
 	[libxslt]=libxslt
