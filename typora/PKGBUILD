@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/typora
 pkgname=typora
-pkgver=0.9.93
+pkgver=0.9.94
 pkgrel=1
 pkgdesc="A minimal Markdown reading & writing app"
 arch=('x86_64')
@@ -14,7 +14,7 @@ source=("$pkgname-$pkgver.tar.gz::https://typora.io/linux/Typora-linux-x64.tar.g
         "$pkgname.desktop"
         "$pkgname.js"
         "$pkgname.png")
-sha256sums=('4ed014bc5440a9be19d4bea651207b5d1bd19cf8a072b1b5055effd4eba213be'
+sha256sums=('3e3a474448bb587d05f48461cc43ece3b6ad029b6039a59d6c21fed3a6ddf5d1'
             'b32d0347b505604c4d297a9b8e2aa60c6d73b8cd88c25bcd0ab6ff1724d80979'
             '994058363cc5eda0121902360bc67ded59293faa12416cbe5431c2a0c74577a1'
             '047b1aa632e572e1802d823459e0a7d1a4fecc2f21f28f82d78b469d739278fe'
