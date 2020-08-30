@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/qt-scrcpy
 pkgname=qtscrcpy
 _pkgname=QtScrcpy
-pkgver=1.4.2
+pkgver=1.4.3
 pkgrel=1
 pkgdesc="Android real-time screencast control tool"
 arch=('x86_64')
@@ -14,7 +14,7 @@ source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
         'binaries.patch'
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('75769514335e37e5b5674a8dd67c22db11fb0e27e23d55d4eaddf395a228f77b'
+sha256sums=('108e88a7ddcbea7452e4991a7fdfa2ad5892fd4bf14fc5eb1118ac03bc27071f'
             '1fa61a24bf59a62db1b29a3d3ec49186ef6f539ff8d09dd04534d939cb30aedd'
             '0dc5b08698162c8a0172a9c2e92b18fa7cd9df4b295bd350329b1e4dbd892a6e'
             '26335d1e208c47ddfc4abaabce3f32734788a80a6663577b3ff462346d8dec6f')
