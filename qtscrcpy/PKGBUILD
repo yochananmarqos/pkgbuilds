@@ -7,7 +7,7 @@ pkgdesc="Android real-time screencast control tool"
 arch=('x86_64')
 url="https://github.com/barry-ran/QtScrcpy"
 license=('Apache')
-depends=('qt5-x11extras' 'scrcpy')
+depends=('qt5-x11extras' 'scrcpy=1.14')
 backup=("etc/$pkgname/config.ini")
 conflicts=('qt-scrcpy')
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
