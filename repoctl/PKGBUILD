@@ -1,41 +1,33 @@
 # http://aur.archlinux.org/packages/repoctl
 pkgname=repoctl
-pkgver=0.20
+pkgver=0.21
 pkgrel=1
-pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
+pkgdesc="Make it easy to manage your local Arch Linux repository."
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
 license=('MIT')
 makedepends=('go')
 source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('f7c354e58d37178079e64c8b359ea374baa78e675c06e17f139ede9fae5af0f4')
+sha256sums=('b6abb00c57475c6bbef48d1a6831fa30e82950fe1f5a599cc7aff6d6f86435e9')
 
 prepare() {
-	mkdir -p gopath/src/github.com/cassava
-	ln -rTsf "$pkgname-$pkgver" \
-		"gopath/src/github.com/cassava/$pkgname"
-
-	# Prevent creation of a `go` directory in one's home.
-	# Sometimes this directory cannot be removed with even `rm -rf` unless
-	# one becomes root or changes the write permissions.
 	export GOPATH="$srcdir/gopath"
 	go clean -modcache
 }
 
 build() {
-	cd "gopath/src/github.com/cassava/$pkgname/cmd/$pkgname"
-	go build \
-		-trimpath \
-		-buildmode=pie \
-		-ldflags "-extldflags \"${LDFLAGS}\"" \
-		-v .
+	cd "$pkgname-$pkgver"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+	go build -v -o "$pkgname"
 
-	cd "$srcdir/gopath/src/github.com/cassava/$pkgname/cmd/repols"
-	go build \
-		-trimpath \
-		-buildmode=pie \
-		-ldflags "-extldflags \"${LDFLAGS}\"" \
-		-v .
+	# Generate the completion files
+	./repoctl completion zsh > completion.zsh
+	./repoctl completion bash > completion.bash
+	./repoctl completion fish > completion.fish
 
 	# Clean now to ensure makepkg --clean works
 	go clean -modcache
@@ -43,20 +35,13 @@ build() {
 
 package() {
 	cd "$pkgname-$pkgver"
-
-	# Install binaries
-	install -Dm755 "cmd/$pkgname/$pkgname" cmd/repols/repols -t \
-		"$pkgdir/usr/bin"
-
-	# Install documentation
-	install -Dm644 README.md NEWS.md -t \
-		"$pkgdir/usr/share/doc/$pkgname"
-	install -Dm644 LICENSE -t \
-		"$pkgdir/usr/share/licenses/$pkgname"
-
-	# Install completion files
-	install -Dm644 "contrib/${pkgname}_completion.zsh" \
-		"$pkgdir/usr/share/zsh/site-functions/_${pkgname}"
-	install -Dm644 "contrib/${pkgname}_completion.bash" \
+	install -Dm755 "$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/$pkgname"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 completion.zsh \
+		"$pkgdir/usr/share/zsh/site-functions/_$pkgname"
+	install -Dm644 completion.bash \
 		"$pkgdir/usr/share/bash-completion/completions/$pkgname"
+	install -Dm644 completion.fish \
+		"$pkgdir/usr/share/fish/vendor_completions.d/$pkgname.fish"
 }

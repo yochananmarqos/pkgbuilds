@@ -1,12 +1,12 @@
 # http://aur.archlinux.org/packages/repoctl-devel-git
 pkgname=repoctl-devel-git
-pkgver=0.19.r0.g717a4e1
+pkgver=0.21.r0.g92ed55f
 pkgrel=1
-pkgdesc="A supplement to repo-add and repo-remove which simplifies managing local repositories"
+pkgdesc="Make it easy to manage your local Arch Linux repository."
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
 license=('MIT')
-makedepends=('git' 'go-pie')
+makedepends=('git' 'go')
 provides=("${pkgname%-git}" "${pkgname%-devel-git}")
 conflicts=("${pkgname%-git}" "${pkgname%-devel-git}")
 source=("${pkgname%-devel-git}::git+$url.git#branch=devel")
@@ -18,43 +18,37 @@ pkgver() {
 }
 
 prepare() {
-	mkdir -p gopath/src/github.com/cassava
-	ln -rTsf "$srcdir/${pkgname%-devel-git}" \
-		"gopath/src/github.com/cassava/${pkgname%-devel-git}"
+	export GOPATH="$srcdir/gopath"
+	go clean -modcache
 }
 
 build() {
-	export GOPATH="$srcdir"/gopath
+	cd "$srcdir/${pkgname%-devel-git}"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+	go build -v -o "${pkgname%-devel-git}"
 
-	cd "gopath/src/github.com/cassava/${pkgname%-devel-git}/cmd/${pkgname%-devel-git}"
-	go build \
-		-trimpath \
-		-ldflags "-extldflags ${LDFLAGS}" \
-		.
+	# Generate the completion files
+	./repoctl completion zsh > completion.zsh
+	./repoctl completion bash > completion.bash
+	./repoctl completion fish > completion.fish
 
-	cd "$srcdir/gopath/src/github.com/cassava/${pkgname%-devel-git}/cmd/repols"
-	go build \
-		-trimpath \
-		-ldflags "-extldflags ${LDFLAGS}" \
-		.
+	# Clean now to ensure makepkg --clean works
+	go clean -modcache
 }
 
 package() {
 	cd "$srcdir/${pkgname%-devel-git}"
-
-	# Install binaries
-	install -Dm755 "cmd/${pkgname%-devel-git}/${pkgname%-devel-git}" cmd/repols/repols -t \
-		"$pkgdir/usr/bin"
-
-	# Install documentation
-	install -Dm644 README.md NEWS.md -t \
-		"$pkgdir/usr/share/doc/${pkgname%-devel-git}"
-	install -Dm644 LICENSE -t \
-		"$pkgdir/usr/share/licenses/${pkgname%-devel-git}"
-
-	# Install completion files
-	install -Dm644 "contrib/${pkgname%-devel-git}_completion.zsh" \
+	install -Dm755 "${pkgname%-devel-git}" -t "$pkgdir/usr/bin"
+	install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/${pkgname%-devel-git}"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-devel-git}"
+	install -Dm644 completion.zsh \
 		"$pkgdir/usr/share/zsh/site-functions/_${pkgname%-devel-git}"
-	install -Dm644 "contrib/${pkgname%-devel-git}_completion.bash" \
+	install -Dm644 completion.bash \
 		"$pkgdir/usr/share/bash-completion/completions/${pkgname%-devel-git}"
+	install -Dm644 completion.fish \
+		"$pkgdir/usr/share/fish/vendor_completions.d/${pkgname%-devel-git}.fish"
 }
