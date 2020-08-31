@@ -9,7 +9,6 @@ url="https://github.com/unified-font-object/ufoNormalizer"
 license=('BSD')
 depends=('python')
 makedepends=('python-setuptools')
-#checkdepends=()
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
 sha256sums=('f2739eaa8df3cd4e60894b22679a882505252b93f12657a0993894108122c6e6')
 
