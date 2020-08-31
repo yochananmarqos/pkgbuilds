@@ -1,6 +1,6 @@
 # http://aur.archlinux.org/packages/gnome-obfuscate-git
 pkgname=gnome-obfuscate-git
-pkgver=0.0.2.r13.g9238e6b
+pkgver=0.0.2.r16.gadab581
 pkgrel=1
 pkgdesc="Censor private information."
 arch=('x86_64')
@@ -15,7 +15,7 @@ source=('git+https://gitlab.gnome.org/World/obfuscate.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd obfuscate
+	cd "$srcdir/obfuscate"
 	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
@@ -26,6 +26,9 @@ build() {
 
 check() {
 	meson test -C build
+
+	cd "$srcdir/obfuscate"
+	cargo test --release
 }
 
 package() {
