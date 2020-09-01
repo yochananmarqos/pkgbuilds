@@ -1,11 +1,11 @@
 # https://aur.archlinux.org/packages/auto-cpufreq-git
 pkgname=auto-cpufreq-git
-pkgver=1.2.1.r0.g0b253a2
+pkgver=1.2.2.r0.g998da77
 pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
 url="https://github.com/AdnanHodzic/auto-cpufreq"
-license=('LGPL-3.0')
+license=('LGPL3')
 depends=('python-distro' 'python-psutil' 'python-click' 'inxi' 'lm_sensors')
 makedepends=('git' 'python-setuptools')
 optdepends=('cpufreqctl: CPU Power Manager'
