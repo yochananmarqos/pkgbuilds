@@ -1,0 +1,29 @@
+# https://gitlab.manjaro.org/packages/community/gnome/pop-shell-shortcuts
+# http://aur.archlinux.org/packages/pop-shell-shortcuts-git
+pkgname=pop-shell-shortcuts
+pkgver=0.1.0.r36.069276a
+pkgrel=1
+pkgdesc="Application for displaying and demoing Pop Shell shortcuts"
+arch=('i686' 'x86_64')
+url="https://github.com/pop-os/shell-shortcuts"
+license=('GPL')
+depends=('gnome-shell')
+makedepends=('git' 'cargo')
+source=('git+https://github.com/pop-os/shell-shortcuts.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname#pop-}"
+	printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
+		sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir/${pkgname#pop-}"
+	make prefix=/usr
+}
+
+package() {
+	cd "$srcdir/${pkgname#pop-}"
+	make prefix=/usr DESTDIR="$pkgdir" install
+}
