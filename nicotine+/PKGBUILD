@@ -7,8 +7,7 @@ arch=('any')
 url="https://github.com/Nicotine-Plus/nicotine-plus"
 license=('GPL')
 depends=('python-mutagen' 'python-gobject' 'gtk3' 'libnotify')
-optdepends=('miniupnpc: UPnP support'
-            'python-miniupnpc: Python bindings for miniupnpc'
+optdepends=('python-miniupnpc: UPnP support'
             'python-feedparser: for Reddit plugin'
             'gspell: for spell checking in chat'
             'nuspell: for spell checking in chat'
@@ -23,6 +22,6 @@ build() {
 }
 
 package() {
-  cd nicotine-$pkgver
-  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+	cd nicotine-$pkgver
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
