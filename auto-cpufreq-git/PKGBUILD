@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/auto-cpufreq-git
 pkgname=auto-cpufreq-git
-pkgver=1.2.2.r136.4c2670c
+pkgver=1.2.4.r0.ga9d2961
 pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
@@ -18,8 +18,9 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	local srcversion="$(grep "version: '" snap/snapcraft.yaml | cut -d "'" -f 2)"
-	printf "%s.r%s.%s" $srcversion "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+#	local srcversion="$(grep "version: '" snap/snapcraft.yaml | cut -d "'" -f 2)"
+#	printf "%s.r%s.%s" $srcversion "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
