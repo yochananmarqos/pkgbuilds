@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-fontparts
 pkgname=python-fontparts
 _name=fontParts
-pkgver=0.9.4
+pkgver=0.9.5
 pkgrel=1
 pkgdesc="The replacement for RoboFab."
 arch=('any')
@@ -11,7 +11,7 @@ depends=('python-fontmath' 'python-defcon' 'python-booleanoperations' 'python-fs
 makedepends=('python-setuptools')
 checkdepends=('python-fontpens')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.zip")
-sha256sums=('a7ed8a93f77d672c5e549a417b9527e0a9b5c54b5b91b5097cd6fd13c6901b23')
+sha256sums=('5dbeadda5917ea98d358b81c1c2ea874b047d12e01a47e211cda3cb99a1f2414')
 
 build() {
 	cd "$_name-$pkgver"
