@@ -1,12 +1,12 @@
 pkgname=ryzen-controller-git
-pkgver=2.2.2.r0.0c44a67
+pkgver=2.2.5.r0.38cc510
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
 url="https://gitlab.com/le.storm1er/ryzen-controller"
 license=('CC0-1.0')
 depends=('ryzenadj' 'nss' 'gtk3' 'libxss')
-makedepends=('git' 'yarn')
+makedepends=('git' 'yarn' 'python2')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'ryzencontroller')
 source=('git+https://gitlab.com/le.storm1er/ryzen-controller.git'

@@ -1,17 +1,17 @@
 pkgname=ryzen-controller
-pkgver=2.2.4
+pkgver=2.2.5
 pkgrel=1
 pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
 arch=('x86_64')
 url="https://gitlab.com/le.storm1er/ryzen-controller"
 license=('CC0-1.0')
 depends=('ryzenadj' 'nss' 'gtk3' 'libxss')
-makedepends=('yarn')
+makedepends=('yarn' 'python2')
 conflicts=('ryzencontroller')
 source=("https://gitlab.com/le.storm1er/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('de610ddb8a187d50cbd0c1d185e0dd8832bd7913da45b23f167fe3b6e0530601'
+sha256sums=('34569b4cd92e96c2b47f936221c5fd8a8726350709eae9fd0e0915b6a0d1240a'
             'b639208df8be054d41d6e7d7e697a955cfb23c713875ef5be5cfd07716f2ad48'
             '2a2d035008beb7c623e208bf5b6bf06c270157838c40d7375aefa9aee8f5f77f')
 
