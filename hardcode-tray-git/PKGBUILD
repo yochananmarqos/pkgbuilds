@@ -1,12 +1,12 @@
 # https://aur.archlinux.org/packages/hardcode-tray-git
 pkgname=hardcode-tray-git
-pkgver=4.3.r121.gf2f739b
+pkgver=4.3.r122.gc705bff
 pkgrel=1
 pkgdesc="Fixes hardcoded tray icons"
 arch=('i686' 'x86_64')
 url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
 license=('GPL3')
-depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3' 'gobject-introspection')
+depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3')
 makedepends=('git' 'meson')
 optdepends=('inkscape: convert svg to png'
             'imagemagick: convert svg to png')
