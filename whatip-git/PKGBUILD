@@ -6,8 +6,7 @@ pkgdesc="Info on your IP"
 arch=('any')
 url="https://gabmus.gitlab.io/whatip"
 license=('GPL3')
-depends=('libhandy1' 'python-requests' 'python-netaddr' 'python-gobject'
-         'gobject-introspection' 'avahi')
+depends=('libhandy1' 'python-requests' 'python-netaddr' 'python-gobject' 'avahi')
 makedepends=('git' 'meson')
 checkdepends=('appstream')
 provides=("${pkgname%-git}")
