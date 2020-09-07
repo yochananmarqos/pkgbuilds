@@ -1,8 +1,7 @@
 post_install() {
 	echo ""
-	echo "Start Avahi daemon & WhatIP DBus services:"
+	echo "Start Avahi daemon for hostname resolution:"
 	echo ""
 	echo "systemctl start avahi-daemon.service"
-	echo "whatip --gapplication-service"
 	echo ""
 }
