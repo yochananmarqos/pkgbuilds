@@ -1,0 +1,35 @@
+# https://github.com/pop-os/shell#overridden-gnome-shortcuts
+
+post_install() {
+	# Close window
+	gsettings set org.gnome.desktop.wm.keybindings close "['<Super>q']"
+
+	# Maximize the focused window
+	gsettings set org.gnome.desktop.wm.keybindings maximize "['<Super>m']"
+
+	# Minimize the focused window
+	gsettings set org.gnome.desktop.wm.keybindings minimize "['<Super>comma']"
+
+	# Lock screen
+	gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Super>Escape']"
+
+	# Files
+	gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>f']"
+
+	# Email
+	gsettings set org.gnome.settings-daemon.plugins.media-keys email "['<Super>e']"
+
+	# Web browser
+	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>b']"
+}
+
+post_remove() {
+	# Reset shortcuts to default
+	gsettings reset org.gnome.desktop.wm.keybindings close
+	gsettings reset org.gnome.desktop.wm.keybindings maximize
+	gsettings reset org.gnome.desktop.wm.keybindings minimize
+	gsettings reset org.gnome.settings-daemon.plugins.media-keys screensaver
+	gsettings reset org.gnome.settings-daemon.plugins.media-keys home
+	gsettings reset org.gnome.settings-daemon.plugins.media-keys email
+	gsettings reset org.gnome.settings-daemon.plugins.media-keys www
+}
