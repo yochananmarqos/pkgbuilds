@@ -6,11 +6,12 @@ pkgdesc='A beautiful GTK theme for GNOME and Xfce'
 arch=('any')
 url="https://www.pling.com/p/1198768"
 license=('GPL')
-makedepends=('git' 'npm' 'nvm')
+makedepends=('git' 'npm' 'nvm' 'gulp')
 optdepends=('plane-icon-theme: matching icon theme'
             'breeze-snow-cursor-theme: recommended cursor theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
+options=('!strip')
 source=("git+https://github.com/wfpaisa/plane-theme.git")
 sha256sums=('SKIP')
 
@@ -24,12 +25,12 @@ build() {
 	npm config delete prefix
 	source /usr/share/nvm/init-nvm.sh
 	local npm_prefix=$(npm config get prefix)
-	local nodeversion='8.16.2'
+	local nodeversion='8.17.0'
 	nvm install "$nodeversion" && nvm use "$nodeversion"
 
 	cd "$srcdir/${pkgname%-git}"
 	npm install
-	npm start
+	gulp
 
 	# Restore node config from nvm
 	npm config set prefix "$npm_prefix"
@@ -37,9 +38,8 @@ build() {
 }
 
 package() {
-	install -dm755 "$pkgdir/usr/share/themes"
+	install -d "$pkgdir/usr/share/themes"
 
 	cd "$srcdir/${pkgname%-git}/build"
-	cp -r Plane "$pkgdir/usr/share/themes/Plane"
-	cp -r Plane-dark "$pkgdir/usr/share/themes/Plane-dark"
+	cp -r Plane Plane-dark "$pkgdir/usr/share/themes"
 }
