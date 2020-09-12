@@ -17,7 +17,6 @@ sha256sums=('4fec5a0900e8f559b37cf1711ca7dcea7e1cebfe1237ce314001f65c1e346a5d')
 build() {
 	arch-meson "$pkgname-$pkgver" build \
 		--libexecdir lib/gamemode \
-		--force-fallback-for=inih \
 		-Dwith-pam-group=gamemode \
 		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user
 	meson compile -C build
