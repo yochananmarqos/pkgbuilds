@@ -2,16 +2,16 @@
 # http://aur.archlinux.org/packages/lib32-gamemode
 pkgname=lib32-gamemode
 _pkgname=${pkgname#lib32-}
-pkgver=1.5.1
-pkgrel=2
+pkgver=1.6
+pkgrel=1
 pkgdesc="Optimise Linux system performance on demand"
 arch=('x86_64')
 url="https://github.com/FeralInteractive/gamemode"
 license=('BSD 3-Clause')
-depends=('polkit' 'gamemode' 'lib32-glibc' 'lib32-systemd' 'lib32-dbus')
-makedepends=('git' 'meson')
+depends=('gamemode' 'lib32-glibc' 'lib32-dbus')
+makedepends=('meson' 'ninja' 'pkg-config' 'lib32-systemd')
 source=("$url/releases/download/$pkgver/$_pkgname-$pkgver.tar.xz")
-sha256sums=('3a5ea5aafe1b7ec69ac2c054198e9aa6b6fd4dd8ee7a8bcfb71d0b0a40313101')
+sha256sums=('4fec5a0900e8f559b37cf1711ca7dcea7e1cebfe1237ce314001f65c1e346a5d')
 
 build() {
 	export CFLAGS=-m32
@@ -20,15 +20,15 @@ build() {
 
 	arch-meson "$_pkgname-$pkgver" build  \
 		--libdir lib32 \
-		-Dwith-daemon=false \
+		-Dwith-sd-bus-provider=no-daemon \
 		-Dwith-examples=false \
 		-Dwith-systemd=false \
 		-Dwith-util=false
-	ninja -C build
+	meson compile -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 
 	rm -rf "$pkgdir/usr/include"
 

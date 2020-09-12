@@ -1,8 +1,8 @@
 # https://gitlab.manjaro.org/packages/community/gamemode
 # https://aur.archlinux.org/packages/gamemode
 pkgname=gamemode
-pkgver=1.5.1
-pkgrel=2
+pkgver=1.6
+pkgrel=1
 pkgdesc="Optimise Linux system performance on demand"
 arch=('x86_64')
 url="https://github.com/FeralInteractive/gamemode"
@@ -12,17 +12,18 @@ optdepends=('systemd')
 makedepends=('git' 'meson')
 install="$pkgname.install"
 source=("$url/releases/download/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('3a5ea5aafe1b7ec69ac2c054198e9aa6b6fd4dd8ee7a8bcfb71d0b0a40313101')
+sha256sums=('4fec5a0900e8f559b37cf1711ca7dcea7e1cebfe1237ce314001f65c1e346a5d')
 
 build() {
 	arch-meson "$pkgname-$pkgver" build \
 		--libexecdir lib/gamemode \
+		--force-fallback-for=inih \
 		-Dwith-systemd-user-unit-dir=/usr/lib/systemd/user
-	ninja -C build
+	meson compile -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 
 	cd "$pkgname-$pkgver"
 	install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
