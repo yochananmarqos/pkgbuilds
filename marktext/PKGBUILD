@@ -42,7 +42,7 @@ prepare() {
     nvm install "$nodeversion" && nvm use "$nodeversion"
 
     # Set local Yarn cache folder
-    yarn config set cache-folder "$srcdir/node_modules"
+    export YARN_CACHE_FOLDER="$srcdir/node_modules"
 
     cd "$pkgname-$pkgver"
     jq 'del(.devDependencies["electron"], .scripts["preinstall", "postinstall"])' \
