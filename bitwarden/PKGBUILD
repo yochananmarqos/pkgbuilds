@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://bitwarden.com"
 license=('GPL3')
 depends=('electron' 'libnotify' 'libsecret' 'libxtst')
-makedepends=('expac' 'git' 'npm' 'python' 'nvm' 'jq')
+makedepends=('git' 'npm' 'python' 'nodejs-lts-erbium' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
@@ -31,7 +31,7 @@ prepare() {
 	patch --strip=1 package.json "$srcdir/package.json.patch"
 
 	# Patch build to make it work with system electron
-	SYSTEM_ELECTRON_VERSION=$(expac %v electron | cut -d'-' -f1)
+	SYSTEM_ELECTRON_VERSION=$(pacman -Q electron | cut -d' ' -f2 | cut -d'-' -f1)
 	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
 	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
 	> package.json.patched
@@ -39,12 +39,7 @@ prepare() {
 }
 
 build() {
-	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='12.18.4'
-	local npm_prefix=$(npm config get prefix)
-	npm config delete prefix
-	source /usr/share/nvm/init-nvm.sh
-	nvm install "$nodeversion" && nvm use "$nodeversion"
+	export npm_config_cache="${SRCDEST:-$srcdir}/npm_cache"
 
 	cd "$srcdir/desktop/jslib"
 	npm install
@@ -54,10 +49,6 @@ build() {
 	npm run build
 	npm run clean:dist
 	npx electron-builder --dir build
-
-	# Restore node config from nvm
-	npm config set prefix "$npm_prefix"
-	nvm unalias default
 }
 
 package() {
