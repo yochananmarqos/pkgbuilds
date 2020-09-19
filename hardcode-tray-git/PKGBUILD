@@ -8,8 +8,9 @@ url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
 license=('GPL3')
 depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3')
 makedepends=('git' 'meson' 'gobject-introspection')
-optdepends=('inkscape: convert svg to png'
-            'imagemagick: convert svg to png')
+optdepends=('inkscape: option to convert svg to png'
+            'imagemagick: option to convert svg to png'
+            'nodejs-svgexport: option to convert svg to png')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git"
