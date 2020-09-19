@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://bitwarden.com"
 license=('GPL3')
 depends=('electron' 'libnotify' 'libsecret' 'libxtst')
-makedepends=('expac' 'git' 'npm' 'python' 'nvm' 'jq')
+makedepends=('git' 'npm' 'python' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
@@ -31,7 +31,7 @@ prepare() {
 	patch --strip=1 package.json "$srcdir/package.json.patch"
 
 	# Patch build to make it work with system electron
-	SYSTEM_ELECTRON_VERSION=$(expac %v electron | cut -d'-' -f1)
+	SYSTEM_ELECTRON_VERSION=$(pacman -Q electron | cut -d' ' -f2 | cut -d'-' -f1)
 	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
 	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
 	> package.json.patched
