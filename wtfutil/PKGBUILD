@@ -1,14 +1,14 @@
 # https://aur.archlinux.org/packages/wtfutil
 pkgname=wtfutil
-pkgver=0.31.0
+pkgver=0.32.0
 pkgrel=1
 pkgdesc="Personal information dashboard for your terminal"
-arch=('i686' 'x86_64' 'aarch64' 'armv6h')
+arch=('x86_64' 'aarch64' 'armv6h')
 url="https://wtfutil.com"
 license=('MPL2')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/wtfutil/wtf/archive/v$pkgver.tar.gz")
-sha256sums=('ecfe75d8096a25b65c26da675444e867988211526f81824ec70ff3f68cd1273b')
+sha256sums=('4dd3287cd539d503c8d244efd37a4a69d806bdb90c4db0955822e081877cf5e5')
 
 prepare() {
 	export GOPATH="$srcdir/gopath"
