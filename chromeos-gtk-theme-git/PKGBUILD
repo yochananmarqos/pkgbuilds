@@ -1,5 +1,5 @@
 pkgname=chromeos-gtk-theme-git
-pkgver=2020.01.18.r10.g0cd4e52
+pkgver=2020.01.18.r43.gbd5a9f8
 pkgrel=1
 pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
 arch=('any')
@@ -22,4 +22,7 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/themes"
 	./install.sh -d "$pkgdir/usr/share/themes"
+	install -Dm755 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/ChromeOS"
+	install -d "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
+	cp -r src/firefox/* "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
 }
