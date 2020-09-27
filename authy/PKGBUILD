@@ -1,4 +1,4 @@
-# https://aur.archlinux.org/packages/authy-snap
+# https://aur.archlinux.org/packages/authy
 pkgname=authy
 pkgver=1.8.3
 pkgrel=1
@@ -6,14 +6,16 @@ pkgdesc="Two factor authentication desktop application"
 arch=('x86_64')
 url="https://authy.com"
 license=('unknown')
-depends=('nss' 'gtk3' 'libxss')
+depends=('electron')
 makedepends=('squashfs-tools')
 conflicts=("$pkgname-snap")
 replaces=("$pkgname-snap")
 _snapid='H8ZpNgIoPyvmkgxOWw5MSzsXK1wRZiHn'
 _snaprev='5'
-source=("$pkgname-$pkgver-$_snaprev.snap::https://api.snapcraft.io/api/v1/snaps/download/${_snapid}_${_snaprev}.snap")
-sha256sums=('f6be2a19b96a23c626f15f6baa1b51674b84d4f4215495ac6a8155327c9ddbf9')
+source=("$pkgname-$pkgver-$_snaprev.snap::https://api.snapcraft.io/api/v1/snaps/download/${_snapid}_${_snaprev}.snap"
+        "$pkgname.sh")
+sha256sums=('f6be2a19b96a23c626f15f6baa1b51674b84d4f4215495ac6a8155327c9ddbf9'
+            '1a9313361f4cde5e8b7883e8a3fc8f0edd7626776ab63f9428beddbf7de45b96')
 
 prepare() {
     unsquashfs -f -d "$srcdir/$pkgname" "$pkgname-$pkgver-$_snaprev.snap"
@@ -24,13 +26,10 @@ prepare() {
 
 package() {
 	cd "$srcdir/$pkgname"
-    install -d "$pkgdir/opt/$pkgname"
-    cp -r * "$pkgdir/opt/$pkgname"
-    rm -rf "$pkgdir/opt/$pkgname"/{data-dir,gnome-platform,lib,meta,scripts,usr,*.sh}
+    install -d "$pkgdir/usr/lib/$pkgname"
+    cp -r resources "$pkgdir/usr/lib/$pkgname"
 
     install -Dm644 "meta/gui/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
     install -Dm644 meta/gui/icon.png "$pkgdir/usr/share/pixmaps/$pkgname.png"
-
-    install -d "$pkgdir/usr/bin"
-    ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
+	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
 }
