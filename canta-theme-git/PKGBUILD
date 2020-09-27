@@ -42,5 +42,5 @@ package_canta-icon-theme-git() {
 
 	cd "$srcdir/${pkgbase%-git}"
     install -d "$pkgdir/usr/share/icons"
-    ./install.sh -i -d "$pkgdir/usr/share/icons"
+    cp -r icons/Canta "$pkgdir/usr/share/icons"
 }
