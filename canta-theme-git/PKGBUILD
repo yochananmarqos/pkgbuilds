@@ -31,7 +31,7 @@ package_canta-gtk-theme-git() {
 	./install.sh -d "$pkgdir/usr/share/themes"
 
 	# Install theme without Nautilus background image
-	# ./install.sh -o -d "$pkgdir/usr/share/themes"
+	#./install.sh -o -d "$pkgdir/usr/share/themes"
 }
 
 package_canta-icon-theme-git() {
