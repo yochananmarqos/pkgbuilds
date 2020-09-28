@@ -1,14 +1,14 @@
 # https://gitlab.manjaro.org/packages/community/gnome/pop-shell-shortcuts
 # http://aur.archlinux.org/packages/pop-shell-shortcuts-git
 pkgname=pop-shell-shortcuts
-pkgver=0.1.0.r36.069276a
+pkgver=0.1.0.r37.9280535
 pkgrel=1
 pkgdesc="Application for displaying and demoing Pop Shell shortcuts"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="https://github.com/pop-os/shell-shortcuts"
 license=('GPL')
 depends=('gnome-shell')
-makedepends=('git' 'cargo')
+makedepends=('git' 'rust')
 source=('git+https://github.com/pop-os/shell-shortcuts.git')
 sha256sums=('SKIP')
 
