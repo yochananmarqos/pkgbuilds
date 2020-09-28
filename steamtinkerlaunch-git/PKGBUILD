@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/steamtinkerlaunch
 pkgname=steamtinkerlaunch-git
-pkgver=0.94.r39.d5a1788
+pkgver=2.0.6.r1.ge564f44
 pkgrel=1
 pkgdesc="Wrapper script for Steam custom launch options"
 arch=('any')
@@ -8,19 +8,33 @@ url="https://github.com/frostworx/steamtinkerlaunch"
 license=('GPL3')
 depends=('bash')
 makedepends=('git')
-optdepends=('strace'
-            'zenity'
-            'gamemode'
-            'mangohud'
-            'vkbasalt'
-            'winetricks'
-            'wget: for optional reshade download'
-            'unzip: for optional reshade download'
-            'git: for pulling optional shaders'
-            'xdotool: for playing regular games side-by-side in VR'
-            'xorg-xwininfo: for playing regular games side-by-side in VR'
-            'vr-video-player: for playing regular games side-by-side in VR'
-            'xdg-utils: for opening the ProtonDB URL of started game')
+optdepends=(
+    'strace: write a strace log of the launched game'
+    'gamemode: for using GameMode per game'
+    'mangohud: for using MangoHUD per game'
+    'vkbasalt: for using vkBasalt per game'
+    'winetricks: winetricks support'
+    'wget: for optional reshade download'
+    'unzip: for optional reshade download'
+    'git: for pulling optional shaders'
+    'xdotool: for playing regular games side-by-side in VR'
+    'xorg-xwininfo: for playing regular games side-by-side in VR'
+    'vr-video-player: for playing regular games side-by-side in VR'
+    'nyrna: for using Nyrna per game'
+    'replay-sorcery: for using Replay-Sorcery per game'
+    'wmctrl: for optional minimize/maximize of all open windows on game start/stop'
+    'net-tools: for optional network monitoring'
+    'boxtron: for optional Boxtron support'
+    'scummvm: for optional ScummVM support via Roberta'
+    'wine: for optional Vortex Mod Manager support'
+    'gameconqueror: for optional cheating'
+    'xorg-xprop: for optional window toggle and side-by-side VR'
+    'gamescope: for optional GameScope support'
+    'libnotify: for optional Notifier'
+    'yad: for the optional Settings Menu'
+    'zenity: optional for the Editor Dialog'
+    'xorg-xrandr: optional for automatic resolution detection'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/frostworx/steamtinkerlaunch.git')
@@ -28,17 +42,15 @@ sha1sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-	printf "%s.r%s.%s" \
-		"$(grep 'PROGVERS=' stl | head -n1 | cut -d\" -f2 | sed 's/^v//')" \
-		"$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -Dm755 stl -t "$pkgdir/usr/bin"
 
-	install -d "$pkgdir/usr/share/${pkgname%-git}"
-	cp -r sbs tweaks "$pkgdir/usr/share/doc/${pkgname%-git}"
+	install -d "$pkgdir/usr/share/stl"
+	cp -r categories misc regs tweaks "$pkgdir/usr/share/stl"
 
 	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
