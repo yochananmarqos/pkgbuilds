@@ -1,7 +1,7 @@
 # https://gitlab.manjaro.org/packages/community/gnome/gnome-shell-extension/-/tree/master/gnome-shell-extension-pop-shell
 # https://aur.archlinux.org/packages/gnome-shell-extension-pop-shell-git
 pkgname=gnome-shell-extension-pop-shell-git
-pkgver=0.1.0.r541.cc00d2f
+pkgver=r541.cc00d2f
 pkgrel=1
 pkgdesc="Pop Shell - Tiling window management in Gnome (WIP)"
 arch=('any')
@@ -23,9 +23,8 @@ elif [[ $(echo $XDG_SESSION_TYPE) = wayland ]]; then
 fi
 
 pkgver() {
-	cd "$srcdir/shell"
-	printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
-		sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    cd "$srcdir/shell"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
