@@ -11,8 +11,7 @@ optdepends=('python-miniupnpc: UPnP support'
             'python-feedparser: for Reddit plugin'
             'gspell: for spell checking in chat'
             'nuspell: for spell checking in chat'
-            'libappindicator-gtk3: for tray icon'
-            'gsound: for sound effects')
+            'libappindicator-gtk3: for tray icon')
 source=("$url/archive/$pkgver/nicotine-$pkgver.tar.gz")
 sha256sums=('311ef0dea8c4a8d2df3e362befd1ea6a37bc0b272f74b81d416130fc0bd45560')
 
