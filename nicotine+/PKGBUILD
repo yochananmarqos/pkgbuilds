@@ -1,7 +1,7 @@
 # https://www.archlinux.org/packages/community/any/nicotine+
 pkgname=nicotine+
 pkgver=2.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Soulseek music-sharing client, written in Python"
 arch=('any')
 url="https://github.com/Nicotine-Plus/nicotine-plus"
