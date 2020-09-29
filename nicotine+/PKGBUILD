@@ -6,9 +6,8 @@ pkgdesc="Soulseek music-sharing client, written in Python"
 arch=('any')
 url="https://github.com/Nicotine-Plus/nicotine-plus"
 license=('GPL')
-depends=('python-pytaglib' 'python-gobject' 'gtk3' 'libnotify')
-optdepends=('python-miniupnpc: UPnP support'
-            'python-feedparser: for Reddit plugin'
+depends=('python-miniupnpc' 'python-pytaglib' 'python-gobject' 'gtk3' 'libnotify')
+optdepends=('python-feedparser: for Reddit plugin'
             'gspell: for spell checking in chat'
             'nuspell: for spell checking in chat'
             'libappindicator-gtk3: for tray icon')
