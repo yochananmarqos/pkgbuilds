@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/touchegg
 pkgname=touchegg
-pkgver=2.0.0
+pkgver=2.0.0+3+gc1773dc
 pkgrel=1
 pkgdesc="Multitouch gesture recognizer"
 arch=('i686' 'x86_64')
@@ -9,15 +9,26 @@ license=('GPL')
 depends=('systemd-libs' 'libinput' 'pugixml' 'cairo' 'libx11' 'libxtst' 'libxrandr')
 makedepends=('cmake')
 install="$pkgname.install"
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('b8aeca3f4337ec3f24bdc995ba4c2b8cdfcd4d7c237b603a68f27f4d57050625')
+_commit=c1773dc946019291795e75348a15a2e01b6a2ef6
+source=("git+$url.git#commit=$_commit")
+#source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+#sha256sums=('b8aeca3f4337ec3f24bdc995ba4c2b8cdfcd4d7c237b603a68f27f4d57050625')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$pkgname"
+	git describe --tags | sed 's/-/+/g'
+}
 
 build() {
-	cmake -B build -S "$pkgname-$pkgver" \
-		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake -B build -S "$pkgname" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
 	make -C build
 }
 
 package() {
-	make -C build INSTALL_ROOT="$pkgdir" install
+	make -C build DESTDIR="$pkgdir" install
+
+	mv "$pkgdir/lib" "$pkgdir/usr"
 }
