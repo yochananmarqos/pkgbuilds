@@ -30,5 +30,5 @@ build() {
 package() {
 	make -C build DESTDIR="$pkgdir" install
 
-	mv "$pkgdir/lib" "$pkgdir/usr"
+	[ -d "$pkgdir/lib" ] && mv "$pkgdir/lib" "$pkgdir/usr/lib"
 }
