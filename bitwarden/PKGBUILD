@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/bitwarden
 pkgname=bitwarden
-pkgver=1.22.1
+pkgver=1.22.2
 pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
@@ -31,7 +31,7 @@ prepare() {
 	patch --strip=1 package.json "$srcdir/package.json.patch"
 
 	# Patch build to make it work with system electron
-	SYSTEM_ELECTRON_VERSION=$(pacman -Q electron | cut -d' ' -f2 | cut -d'-' -f1)
+	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron/version | cut -d '%' -f1)
 	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
 	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
 	> package.json.patched
@@ -53,7 +53,7 @@ build() {
 	npm install
 	npm run build
 	npm run clean:dist
-	npx electron-builder --dir build
+	npx electron-builder --dir
 
 	# Restore node config from nvm
 	npm config set prefix "$npm_prefix"
