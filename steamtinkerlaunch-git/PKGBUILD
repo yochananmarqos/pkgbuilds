@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/steamtinkerlaunch
 pkgname=steamtinkerlaunch-git
-pkgver=2.0.6.r1.ge564f44
+pkgver=2.0.7.r0.gc10beea
 pkgrel=1
 pkgdesc="Wrapper script for Steam custom launch options"
 arch=('any')
@@ -18,7 +18,7 @@ optdepends=(
     'unzip: for optional reshade download'
     'git: for pulling optional shaders'
     'xdotool: for playing regular games side-by-side in VR'
-    'xorg-xwininfo: for playing regular games side-by-side in VR'
+    'xorg-xwininfo: for playing regular games side-by-side in VR and for automatic resolution detection'
     'vr-video-player: for playing regular games side-by-side in VR'
     'nyrna: for using Nyrna per game'
     'replay-sorcery: for using Replay-Sorcery per game'
