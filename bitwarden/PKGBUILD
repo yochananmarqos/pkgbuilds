@@ -46,6 +46,7 @@ build() {
 	source /usr/share/nvm/init-nvm.sh
 	nvm install "$nodeversion" && nvm use "$nodeversion"
 
+	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
 	cd "$srcdir/desktop/jslib"
 	npm install
 
@@ -53,7 +54,7 @@ build() {
 	npm install
 	npm run build
 	npm run clean:dist
-	npx electron-builder --dir
+	npx electron-builder build --dir
 
 	# Restore node config from nvm
 	npm config set prefix "$npm_prefix"
