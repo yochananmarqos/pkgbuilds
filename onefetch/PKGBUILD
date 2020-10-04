@@ -1,0 +1,28 @@
+# https://github.com/o2sh/onefetch
+pkgname=onefetch
+pkgver=2.4.0
+pkgrel=1
+pkgdesc="Git repository summary on your terminal"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://github.com/o2sh/onefetch"
+license=('MIT')
+depends=('libgit2')
+makedepends=('rust')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('ea7b2c0a3742a110a60528df7fb05647ea87d41fe22de1de3be61d310486ae0d')
+
+build() {
+	cd "$pkgname-$pkgver"
+	cargo build --release --all-features --target-dir=target
+}
+
+check() {
+	cd "$pkgname-$pkgver"
+	cargo test --release --target-dir=target
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
+}
