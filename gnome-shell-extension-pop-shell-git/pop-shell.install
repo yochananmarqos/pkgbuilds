@@ -69,7 +69,7 @@ post_install() {
 
     # Close Window
     dconf write ${KEYS_GNOME_WM}/close "['<Super>q']"
-}
+	}
 
 set_keybindings
 
