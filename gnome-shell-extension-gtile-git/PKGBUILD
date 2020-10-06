@@ -1,8 +1,8 @@
 # http://aur.archlinux.org/packages/gnome-shell-extension-gtile-git
 pkgname=gnome-shell-extension-gtile-git
-pkgver=35.r21.gd7aa9ff
+pkgver=35.r24.g345e051
 pkgrel=1
-pkgdesc='A window tiling extension for GNOME'
+pkgdesc="A window tiling extension for GNOME"
 arch=('any')
 url="https://github.com/gTile/gTile"
 license=('GPL')
@@ -26,6 +26,6 @@ build() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	install -d "$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
-	tar -xzf bazel-bin/install-extension.runfiles/gtile/dist.tar.gz -C \
+	bsdtar -xvf bazel-bin/install-extension.runfiles/gtile/dist.tar.gz -C \
 		"$pkgdir/usr/share/gnome-shell/extensions/gTile@vibou"
 }
