@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/powerline-go
 pkgname=powerline-go
-pkgver=1.17.0
-pkgrel=2
+pkgver=1.18.0
+pkgrel=1
 pkgdesc="A beautiful, useful and fast prompt for your shell"
 arch=('x86_64')
 url="https://github.com/justjanne/powerline-go"
@@ -9,8 +9,7 @@ license=('GPL3')
 makedepends=('go' 'git')
 optdepends=('powerline-fonts')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('d7825168044159dfdd3983519ea26cf8753f24c3d8c0600ce494c4a6db7a015f'
-            '99c3d8d790a972943e3dd008288546b3c5d16983ad6258372ef68a2b31b5a1aa')
+sha256sums=('f7418109e89a8280f2181c675a7790669ba0b0ba5c0eae2bca13879257f96d57')
 
 prepare() {
 	export GOPATH="$srcdir/gopath"
@@ -19,13 +18,15 @@ prepare() {
 
 build() {
 	cd "$pkgname-$pkgver"
-	go build \
-		-trimpath \
-		-buildmode=pie \
-		-mod=readonly \
-		-modcacherw \
-		-ldflags "-extldflags \"${LDFLAGS}\"" \
-	-v -o .
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+	go build -v -o .
+
+	# Clean mod cache for makepkg -C
+	go clean -modcache
 }
 
 package() {
