@@ -1,26 +1,29 @@
 # https://aur.archlinux.org/packages/gtk3-typeahead
 pkgname=gtk3-typeahead
-pkgver=3.24.21
-pkgrel=1
-pkgdesc="GTK+ 3 with typeahead feature enabled for the file chooser widget"
+pkgver=3.24.23
+pkgrel=4
+pkgdesc="GObject-based multi-platform GUI toolkit - Typeahead feature enabled for file chooser widget"
 arch=(x86_64)
 url="https://www.gtk.org/"
 license=(LGPL)
-depends=(atk cairo libxcursor libxinerama libxrandr libxi libepoxy gdk-pixbuf2 dconf
-         libxcomposite libxdamage pango shared-mime-info at-spi2-atk wayland libxkbcommon
-         adwaita-icon-theme json-glib librsvg wayland-protocols desktop-file-utils mesa
-         cantarell-fonts colord rest libcups libcanberra fribidi iso-codes)
+depends=(atk cairo libxcursor libxinerama libxrandr libxi libepoxy gdk-pixbuf2
+         dconf libxcomposite libxdamage pango shared-mime-info at-spi2-atk
+         wayland libxkbcommon adwaita-icon-theme json-glib librsvg
+         wayland-protocols desktop-file-utils mesa cantarell-fonts colord rest
+         libcups libcanberra fribidi iso-codes tracker3 libcloudproviders)
 makedepends=(gobject-introspection gtk-doc git glib2-docs sassc meson)
 provides=("gtk3=$pkgver" gtk3-print-backends libgtk-3.so libgdk-3.so libgailutil-3.so)
 conflicts=(gtk3 gtk3-print-backends)
 replaces=("gtk3-print-backends<=3.22.26-1")
 install=gtk3.install
-_commit=ab4b85f88cf822d6dbb9cda9c4d71fd10a5d3d99  # tags/3.24.21^0
+_commit=016e8c55ab924c9ef4d32c8cb06253b1dc1be60d  # tags/3.24.23^0
 source=("git+https://gitlab.gnome.org/GNOME/gtk.git#commit=$_commit"
+        0001-gtkplacessidebar-Disconnect-and-unref-cloud_manager-.patch
         settings.ini
         gtk-query-immodules-3.0.hook
         typeahead.patch)
 sha256sums=('SKIP'
+            'd6f6bf347482553bc20a1640c1619f674520b853a5b2ade9fd56bb77bfdfe170'
             '01fc1d81dc82c4a052ac6e25bf9a04e7647267cc3017bc91f9ce3e63e5eb9202'
             'a0319b6795410f06d38de1e8695a9bf9636ff2169f40701671580e60a108e229'
             '3b94b53ee720e24e999e6fe40de269ec5b6ddfcbab64fb1a14e7d89256651607')
@@ -28,18 +31,22 @@ sha256sums=('SKIP'
 prepare() {
     cd gtk
 
+    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2669
+    git apply -3 ../0001-gtkplacessidebar-Disconnect-and-unref-cloud_manager-.patch
+
     # Typeahead-specific changes
     patch gtk/gtkfilechooserwidget.c -i $srcdir/typeahead.patch
 }
 
 build() {
-    CFLAGS+=" -DG_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
-    arch-meson gtk build \
-        -D broadway_backend=true \
-        -D colord=yes \
-        -D gtk_doc=true \
-        -D man=true
-    meson compile -C build
+	CFLAGS+=" -DG_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
+	arch-meson gtk build \
+		-D broadway_backend=true \
+		-D cloudproviders=true \
+		-D colord=yes \
+		-D gtk_doc=true \
+		-D man=true
+	meson compile -C build
 }
 
 package() {
