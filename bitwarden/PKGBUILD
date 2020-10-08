@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/bitwarden
 pkgname=bitwarden
 pkgver=1.22.2
-pkgrel=1
+pkgrel=2
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -40,7 +40,7 @@ prepare() {
 
 build() {
 	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='12.18.4'
+	local nodeversion='12.19.0'
 	local npm_prefix=$(npm config get prefix)
 	npm config delete prefix
 	source /usr/share/nvm/init-nvm.sh
