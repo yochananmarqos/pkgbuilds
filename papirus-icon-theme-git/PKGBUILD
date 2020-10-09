@@ -1,0 +1,30 @@
+# https://aur.archlinux.org/packages/papirus-icon-theme-git
+pkgname=papirus-icon-theme-git
+pkgver=20200102.r62.gb7fc53b171
+pkgrel=1
+epoch=1
+pkgdesc="Papirus icon theme"
+arch=('any')
+url="https://git.io/papirus-icon-theme"
+license=('LGPL3')
+depends=('gtk-update-icon-cache')
+makedepends=('git')
+optdepends=('hardcode-fixer-git: To deal with hardcoded application icons'
+            'hardcode-tray-git: To fix hardcoded tray icons'
+            'sif-git: To fix icons of running Steam games'
+            'gnome-shell-extension-appindicator: Integrates AppIndicators on GNOME')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+options=('!strip')
+source=('git+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$pkgname"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+	make DESTDIR="$pkgdir/" install
+}

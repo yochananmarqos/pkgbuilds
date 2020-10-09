@@ -1,0 +1,28 @@
+pkgname=sif-git
+pkgver=r65.d306376
+pkgrel=1
+pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
+arch=('any')
+url="https://github.com/BlueManCZ/SIF"
+license=('APACHE')
+depends=('python-urllib3' 'python-vdf' 'xorg-xprop')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://github.com/BlueManCZ/SIF.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm755 fix-wm-class.sh "${pkgname%-git}.py" -t \
+		"$pkgdir/opt/${pkgname%-git}"
+	install -Dm644 wm-class-database.json -t "$pkgdir/opt/${pkgname%-git}"
+
+	install -d "$pkgdir/usr/bin"
+	ln -s "/opt/${pkgname%-git}/${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
+}
