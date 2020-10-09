@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/papirus-icon-theme-git
 pkgname=papirus-icon-theme-git
-pkgver=20200102.r62.gb7fc53b171
+pkgver=20201001.r2.g9f82dc4e3d
 pkgrel=1
 epoch=1
 pkgdesc="Papirus icon theme"
@@ -20,11 +20,11 @@ source=('git+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-git}"
 	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-git}"
 	make DESTDIR="$pkgdir/" install
 }
