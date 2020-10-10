@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/noisetorch-git
 pkgname=noisetorch-git
-pkgver=0.6.1.beta.r0.g371b3e3
+pkgver=0.7.2.beta.r0.g02665f1
 pkgrel=1
 pkgdesc='Real-time microphone noise suppression on Linux.'
 arch=('x86_64')
@@ -41,7 +41,7 @@ build() {
 	export CGO_CFLAGS="${CFLAGS}"
 	export CGO_CXXFLAGS="${CXXFLAGS}"
 	export CGO_LDFLAGS="${LDFLAGS}"
-	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
 	make
 
 	# Clean mod cache for makepkg -C
