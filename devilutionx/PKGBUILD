@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
 license=('Unlicense' 'OFL')
 depends=('graphite' 'hicolor-icon-theme' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
-makedepends=('cmake' 'gcc-libs')
+makedepends=('cmake')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'DIABDAT.MPQ') # Place in build dir
 sha256sums=('f9f99d2bbe59261a1f7f657a3a2f820ca893ee03723c5feb4953a33a1ca7daf3'
