@@ -1,38 +1,33 @@
 # https://aur.archlinux.org/packages/devilutionx
 pkgname=devilutionx
-pkgver=1.0.1
-pkgrel=2
+pkgver=1.0.2
+pkgrel=1
 pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
-license=('custom:Unlicense' 'custom:OFL')
+license=('Unlicense' 'OFL')
 depends=('graphite' 'hicolor-icon-theme' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
-makedepends=('git' 'cmake' 'gcc-libs')
-source=("$pkgname::git+$url.git#tag=$pkgver"
+makedepends=('cmake' 'gcc-libs')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'DIABDAT.MPQ') # Place in build dir
-sha256sums=('SKIP'
+sha256sums=('f9f99d2bbe59261a1f7f657a3a2f820ca893ee03723c5feb4953a33a1ca7daf3'
             '63fb47d9c76484024c7640d90ab6b7ec5e13f567a7e1a917b6c03a6631d3f2b0')
 
-prepare() {
-	cd "$srcdir/$pkgname"
-	mkdir -p build
-}
-
 build() {
-	cd "$srcdir/$pkgname/build"
-	cmake .. \
+	cmake -B build -S devilutionX-$pkgver \
 		-DPIE=ON \
 		-DBINARY_RELEASE=ON \
-		-DTTF_FONT_PATH=\"/usr/share/fonts/truetype/CharisSILB.ttf\"
-	make
+		-DTTF_FONT_PATH=\"/usr/share/fonts/truetype/CharisSILB.ttf\" \
+		-Wno-dev
+	make -C build
 }
 
 package() {
-	cd "$srcdir/$pkgname"
+	cd devilutionX-$pkgver
 
 	# Install and link binary
-	install -Dm755 "build/$pkgname" -t "$pkgdir/usr/share/diasurgical/$pkgname"
-	install -dm755 "$pkgdir/usr/bin"
+	install -Dm755 "../build/$pkgname" -t "$pkgdir/usr/share/diasurgical/$pkgname"
+	install -d "$pkgdir/usr/bin"
 	ln -s "/usr/share/diasurgical/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
 
 	# Install game data file
