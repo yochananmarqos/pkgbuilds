@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r-linux
 pkgname=r-linux
 pkgver=5.6.175721
-pkgrel=3
+pkgrel=2
 pkgdesc="A free file recovery utility for the Ext2/Ext3/Ext4 FS file system"
 arch=('x86_64')
 url="https://www.r-studio.com/free-linux-recovery"
