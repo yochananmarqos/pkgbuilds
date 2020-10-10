@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/appeditor-git
 pkgname=appeditor-git
-pkgver=1.1.0.r15.9c642d4
+pkgver=1.1.1.r0.41176cf
 pkgrel=1
 pkgdesc="Allows you to edit application entries in the application menu."
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ depends=('granite')
 makedepends=('git' 'meson' 'vala')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("git://github.com/donadigo/appeditor.git")
-md5sums=('SKIP')
+source=('git+https://github.com/donadigo/appeditor.git')
+sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -20,11 +20,11 @@ pkgver() {
 
 build() {
 	arch-meson "${pkgname%-git}" build
-	ninja -C build
+	meson compile -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" meson install -C build
 
 	ln -s /usr/bin/com.github.donadigo.appeditor "$pkgdir/usr/bin/${pkgname%-git}"
 }
