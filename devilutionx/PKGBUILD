@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/devilutionx
 pkgname=devilutionx
-pkgver=1.0.2
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
