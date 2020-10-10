@@ -11,7 +11,7 @@ makedepends=('patchelf')
 source=("RLinux-${pkgver}_x64.deb::https://www.r-studio.com/downloads/RLinux5_x64.deb"
         'LICENSE')
 sha256sums=('62b8f65deca693829b8135aab342ad35277ea4d780abc8b6cc7a5285ed2a824f'
-            'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
+            '2a6e6812e2327f85fe71de1a91daf782548f320f2dcb84e0b62f41ea4268de89')
 
 package() {
 	bsdtar -xvf data.tar.gz -C "$pkgdir"
