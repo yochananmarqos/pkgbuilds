@@ -1,0 +1,17 @@
+_uuid='dash-to-dock@micxgx.gmail.com'
+_extname='org.gnome.shell.extensions.dash-to-dock'
+
+post_install() {
+
+	# rebuild compiled schemas if missimg
+	if [[ ! -f /usr/share/gnome-shell/extensions/${_uuid}/schemas/gschemas.compiled ]]; then
+		mkdir -p /usr/share/gnome-shell/extensions/${_uuid}/schemas
+		cp /usr/share/glib-2.0/schemas/${_extname}.gschema.xml \
+			/usr/share/gnome-shell/extensions/${_uuid}/schemas
+		glib-compile-schemas /usr/share/gnome-shell/extensions/${_uuid}/schemas
+	fi
+}
+
+post_upgrade() {
+	post_install
+}
