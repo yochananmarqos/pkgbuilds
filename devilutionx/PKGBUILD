@@ -33,7 +33,4 @@ package() {
 	mv "$pkgdir/usr/share/diasurgical/$pkgname/README.txt" \
 		"$pkgdir/usr/share/doc/$pkgname"
 	rm -rf "$pkgdir/usr/share/diasurgical"
-
-	# Install license
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
