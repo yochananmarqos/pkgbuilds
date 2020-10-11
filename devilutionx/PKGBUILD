@@ -1,64 +1,39 @@
 # https://aur.archlinux.org/packages/devilutionx
 pkgname=devilutionx
 pkgver=1.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
-license=('Unlicense' 'OFL')
+license=('Unlicense')
 depends=('graphite' 'hicolor-icon-theme' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
 makedepends=('cmake')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
-        'DIABDAT.MPQ') # Place in build dir
-sha256sums=('f9f99d2bbe59261a1f7f657a3a2f820ca893ee03723c5feb4953a33a1ca7daf3'
-            '63fb47d9c76484024c7640d90ab6b7ec5e13f567a7e1a917b6c03a6631d3f2b0')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('395ec298df5383abe60550d45adba5e5811984589ccb1e504891b267b3c467c1')
 
 build() {
 	cmake -B build -S devilutionX-$pkgver \
+		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DPIE=ON \
 		-DBINARY_RELEASE=ON \
-		-DTTF_FONT_PATH=\"/usr/share/fonts/truetype/CharisSILB.ttf\" \
 		-Wno-dev
 	make -C build
 }
 
 package() {
+	make -C build DESTDIR="$pkgdir" install
+
 	cd devilutionX-$pkgver
-
-	# Install and link binary
-	install -Dm755 "../build/$pkgname" -t "$pkgdir/usr/share/diasurgical/$pkgname"
-	install -d "$pkgdir/usr/bin"
-	ln -s "/usr/share/diasurgical/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
-
-	# Install game data file
-	install -m644 "$srcdir/DIABDAT.MPQ" \
-		"$pkgdir/usr/share/diasurgical/$pkgname/diabdat.mpq"
-
-	# Install font
-	install -Dm644 Packaging/resources/CharisSILB.ttf -t \
-		"$pkgdir/usr/share/fonts/truetype"
-
-	# Install icons
-	install -Dm644 Packaging/resources/16.png \
-		"$pkgdir/usr/share/icons/hicolor/16x16/apps/$pkgname.png"
-	install -Dm644 Packaging/resources/Diablo_32.png \
-		"$pkgdir/usr/share/icons/hicolor/32x32/apps/$pkgname.png"
-	install -Dm644 Packaging/resources/Diablo_48.png \
-		"$pkgdir/usr/share/icons/hicolor/48x48/apps/$pkgname.png"
-	install -Dm644 Packaging/cpi-gamesh/Devilution.png \
-		"$pkgdir/usr/share/icons/hicolor/256x256/apps/$pkgname.png"
-
-	# Install desktop file
-	install -Dm664 Packaging/fedora/$pkgname.desktop -t \
-		"$pkgdir/usr/share/applications"
 
 	# Install docs
 	install -Dm644 docs/*.md -t "$pkgdir/usr/share/doc/$pkgname"
+	install -Dm644 docs/manual/platforms/*.md -t \
+		"$pkgdir/usr/share/doc/$pkgname/manual/platforms"
+
+	mv "$pkgdir/usr/share/diasurgical/$pkgname/README.txt" \
+		"$pkgdir/usr/share/doc/$pkgname"
+	rm -rf "$pkgdir/usr/share/diasurgical"
 
 	# Install license
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
-
-	# Install font license
-	install -Dm644 Packaging/resources/LICENSE.CharisSILB.txt -t \
-		"$pkgdir/usr/share/licenses/$pkgname"
 }
