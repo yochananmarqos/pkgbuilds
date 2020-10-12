@@ -5,7 +5,7 @@ pkgdesc="Refine your smartphone experience."
 arch=('x86_64')
 url="https://www.blloc.com/"
 license=('GPL')
-depends=('electron')
+depends=('electron' 'android-tools')
 makedepends=('p7zip')
 options=('!strip')
 source=("$pkgname-$pkgver.exe::https://downloads.blloc.com/bllocdesk/latest/win/BllocDesk.exe"
@@ -22,8 +22,20 @@ prepare() {
 
 package() {
 	cd "$pkgname-$pkgver/app-64"
+
+	# Removed files for other platforms
+	rm -rf resources/scripts/{mac,preparebllocsync,win32}
+
+	# Removed bundled adb & fastboot
+	rm resources/scripts/linux/*
+
 	install -d "$pkgdir/usr/lib/$pkgname"
 	cp -a resources "$pkgdir/usr/lib/$pkgname"
+
+	# Symlink system adb & fastboot
+	ln -s /usr/bin/adb "$pkgdir/usr/lib/$pkgname/resources/scripts/linux/adb"
+	ln -s /usr/bin/fastboot "$pkgdir/usr/lib/$pkgname/resources/scripts/linux/fastboot"
+
 	find "$pkgdir/usr/lib/$pkgname" -type d -exec chmod 755 "{}" \;
 	find "$pkgdir/usr/lib/$pkgname" -type f -exec chmod 644 "{}" \;
 
