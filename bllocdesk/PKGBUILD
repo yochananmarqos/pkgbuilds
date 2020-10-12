@@ -23,8 +23,9 @@ prepare() {
 package() {
 	cd "$pkgname-$pkgver/app-64"
 
-	# Removed files for other platforms
+	# Remove files for other platforms
 	rm -rf resources/scripts/{mac,preparebllocsync,win32}
+	rm resources/elevate.exe
 
 	# Remove bundled adb & fastboot
 	rm resources/scripts/linux/*
