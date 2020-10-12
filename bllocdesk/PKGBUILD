@@ -26,7 +26,7 @@ package() {
 	# Removed files for other platforms
 	rm -rf resources/scripts/{mac,preparebllocsync,win32}
 
-	# Removed bundled adb & fastboot
+	# Remove bundled adb & fastboot
 	rm resources/scripts/linux/*
 
 	install -d "$pkgdir/usr/lib/$pkgname"
