@@ -1,0 +1,24 @@
+pkgname=cloudy-gtk-theme-git
+pkgver=r63.c2dbb40
+pkgrel=1
+pkgdesc="GTK 3 and GTK 2 themes base on Arc-Theme."
+arch=('any')
+url="https://www.gnome-look.org/p/1242416"
+license=('none')
+depends=('gtk3')
+optdepends=('gnome-themes-extra: GTK2 theme'
+            'gtk-engine-murrine: GTK2 theme')
+options=('!strip')
+source=('git+https://github.com/i-mint/Cloudy.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/Cloudy"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/Cloudy"
+	install -d "$pkgdir/usr/share/themes"
+	cp -r Cloudy* "$pkgdir/usr/share/themes"
+}
