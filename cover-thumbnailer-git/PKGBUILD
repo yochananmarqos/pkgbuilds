@@ -1,13 +1,13 @@
 # https://aur.archlinux.org/packages/cover-thumbnailer-git
 pkgname=cover-thumbnailer-git
-pkgver=0.10.0.r2.ge4b62d1
+pkgver=0.10.0.r8.gefb375d
 pkgrel=1
-pkgdesc="Generates thumbnails for Nautilus folders (music album covers,...)."
+pkgdesc="Generates folder thumbnails for various file browsers"
 arch=('x86_64')
 url="https://github.com/flozz/cover-thumbnailer"
 license=('GPL3')
-depends=('python-pillow' 'python-gobject' 'gobject-introspection')
-makedepends=('git')
+depends=('python-pillow' 'python-gobject')
+makedepends=('git' 'gobject-introspection')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/flozz/cover-thumbnailer.git')
