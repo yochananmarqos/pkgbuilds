@@ -1,0 +1,53 @@
+pkgbase=msm-ng
+pkgname=('msm-ng-core-git' 'msm-ng-qt-git' 'msm-ng-gtk-git')
+pkgver=r18.5ef0335
+pkgrel=1
+pkgdesc="Manjaro Settings"
+arch=('x86_64')
+url="https://gitlab.com/LordTermor/msm-ng"
+license=('GPL3')
+depends=('libsigc++' 'nlohmann-json' 'pamac-common' 'linux-driver-management'
+         'qt5-base>=5.15.0' 'qt5-quickcontrols2' 'qqc2-desktop-style'
+         'qt5-webengine' 'gtkmm3')
+makedepends=('git' 'cmake')
+#options=('!emptydirs')
+source=('git+https://gitlab.com/LordTermor/msm-ng.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd msm-ng
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cmake -B build -S msm-ng \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  make -C build
+}
+
+package_msm-ng-core-git() {
+  pkgdesc="Manjaro Settings - core library"
+  depends=('libsigc++' 'nlohmann-json' 'pamac-common' 'linux-driver-management')
+  provides=("${pkgname%-git}" 'libmsm.so=libmsm.so-64')
+  conflicts=("${pkgname%-git}")
+
+  make -C build/libmsm DESTDIR="$pkgdir" install
+}
+package_msm-ng-qt-git() {
+  pkgdesc="Manjaro Settings - Qt GUI"
+  depends=('qt5-base>=5.15.0' 'qt5-quickcontrols2' 'qqc2-desktop-style'
+           'qt5-webengine' 'msm-ng-core-git')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
+
+  make -C build/msm-qt DESTDIR="$pkgdir" install
+}
+
+package_msm-ng-gtk-git() {
+  pkgdesc="Manjaro Settings - GTK GUI"
+  depends=('gtkmm3' 'msm-ng-core-git')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
+
+  make -C build/msm-gtk DESTDIR="$pkgdir" install
+}
