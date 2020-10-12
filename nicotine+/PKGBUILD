@@ -1,18 +1,17 @@
 # https://www.archlinux.org/packages/community/any/nicotine+
 pkgname=nicotine+
-pkgver=2.1.1
-pkgrel=3
+pkgver=2.1.2
+pkgrel=1
 pkgdesc="Soulseek music-sharing client, written in Python"
 arch=('any')
 url="https://github.com/Nicotine-Plus/nicotine-plus"
 license=('GPL')
 depends=('python-miniupnpc' 'python-pytaglib' 'python-gobject' 'gtk3' 'libnotify')
-optdepends=('python-feedparser: for Reddit plugin'
-            'gspell: for spell checking in chat'
+optdepends=('gspell: for spell checking in chat'
             'nuspell: for spell checking in chat'
             'libappindicator-gtk3: for tray icon')
 source=("$url/archive/$pkgver/nicotine-$pkgver.tar.gz")
-sha256sums=('311ef0dea8c4a8d2df3e362befd1ea6a37bc0b272f74b81d416130fc0bd45560')
+sha256sums=('3ed18ade97183c632836eb8e304a515fc19a35babb46cc6e6747bcfd8205dcdf')
 
 build() {
 	cd nicotine-plus-$pkgver
