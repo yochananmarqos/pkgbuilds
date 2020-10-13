@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/wtfutil
 pkgname=wtfutil
-pkgver=0.32.0
+pkgver=0.33.0
 pkgrel=1
 pkgdesc="Personal information dashboard for your terminal"
 arch=('x86_64' 'aarch64' 'armv6h')
@@ -8,7 +8,7 @@ url="https://wtfutil.com"
 license=('MPL2')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/wtfutil/wtf/archive/v$pkgver.tar.gz")
-sha256sums=('4dd3287cd539d503c8d244efd37a4a69d806bdb90c4db0955822e081877cf5e5')
+sha256sums=('95a9946fce916ab7ad579a9daa0709b82c821ee3a43d50a4eec8ff58865aa1e8')
 
 prepare() {
 	export GOPATH="$srcdir/gopath"
@@ -26,12 +26,13 @@ prepare() {
 
 build() {
 	cd "wtf-$pkgver"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
 	go build \
-		-trimpath \
-		-buildmode=pie \
-		-mod=readonly \
-		-modcacherw \
-		-ldflags "-extldflags \"${LDFLAGS}\" -s -w -X 'main.version=$pkgver' -X 'main.date=$(date)'" \
+		-ldflags "-X 'main.version=$pkgver' -X 'main.date=$(date)'" \
 		-v -o $pkgname .
 
 	# Clean now to ensure makepkg --clean works
