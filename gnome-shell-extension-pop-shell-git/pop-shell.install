@@ -38,7 +38,7 @@ post_remove() {
 	dconf reset ${KEYS_GNOME_WM}/move-to-workspace-left
 	dconf reset ${KEYS_GNOME_WM}/move-to-workspace-right
 	dconf reset ${KEYS_MUTTER}/toggle-tiled-left
-	dconf reset ${KEYS_MUTTER}/toggle-tiled-right}
+	dconf reset ${KEYS_MUTTER}/toggle-tiled-right
 	dconf reset ${KEYS_GNOME_WM}/toggle-maximized
 	dconf reset ${KEYS_MEDIA}/screensaver
 	dconf reset ${KEYS_MEDIA}/home
