@@ -14,6 +14,12 @@ post_upgrade() {
 post_remove() {
 	# Restore keyboard shortcuts to default
 
+	KEYS_GNOME_WM=/org/gnome/desktop/wm/keybindings
+	KEYS_GNOME_SHELL=/org/gnome/shell/keybindings
+	KEYS_MUTTER=/org/gnome/mutter/keybindings
+	KEYS_MEDIA=/org/gnome/settings-daemon/plugins/media-keys
+	KEYS_MUTTER_WAYLAND_RESTORE=/org/gnome/mutter/wayland/keybindings/restore-shortcuts
+
 	left="h"
 	down="j"
 	up="k"
