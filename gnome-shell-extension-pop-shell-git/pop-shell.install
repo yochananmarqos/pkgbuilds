@@ -15,9 +15,9 @@ post_remove() {
 	# Restore keyboard shortcuts to default
 
 	left="h"
-    down="j"
-    up="k"
-    right="l"
+	down="j"
+	up="k"
+	right="l"
 
 	dconf reset /org/gnome/mutter/wayland/keybindings/restore-shortcuts
 	dconf reset ${KEYS_GNOME_WM}/minimize
