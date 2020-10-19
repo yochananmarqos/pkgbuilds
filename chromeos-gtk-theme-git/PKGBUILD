@@ -1,5 +1,6 @@
+# https://aur.archlinux.org/packages/chromeos-gtk-theme-git
 pkgname=chromeos-gtk-theme-git
-pkgver=2020.01.18.r43.gbd5a9f8
+pkgver=2020.01.18.r44.g7bf97f1
 pkgrel=1
 pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
 arch=('any')
