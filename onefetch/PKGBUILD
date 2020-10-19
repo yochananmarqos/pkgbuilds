@@ -1,6 +1,6 @@
-# https://github.com/o2sh/onefetch
+# https://aur.archlinux.org/packages/onefetch
 pkgname=onefetch
-pkgver=2.4.0
+pkgver=2.5.0
 pkgrel=1
 pkgdesc="Git repository summary on your terminal"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -9,16 +9,16 @@ license=('MIT')
 depends=('libgit2')
 makedepends=('rust')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('ea7b2c0a3742a110a60528df7fb05647ea87d41fe22de1de3be61d310486ae0d')
+sha256sums=('1f4d34f70fc38d453f875c40852c535a5c5b011563262209976ecaf028a664c6')
 
 build() {
 	cd "$pkgname-$pkgver"
-	cargo build --release --all-features --target-dir=target
+	cargo build --release --locked --all-features --target-dir=target
 }
 
 check() {
 	cd "$pkgname-$pkgver"
-	cargo test --release --target-dir=target
+	cargo test --release --locked --target-dir=target
 }
 
 package() {
