@@ -1,7 +1,7 @@
 # https://gitlab.manjaro.org/packages/community/gnome/gnome-shell-extension/-/tree/master/gnome-shell-extension-pop-shell
 # https://aur.archlinux.org/packages/gnome-shell-extension-pop-shell-git
 pkgname=gnome-shell-extension-pop-shell-git
-pkgver=r576.fd2380c
+pkgver=r578.a11d3c3
 pkgrel=1
 pkgdesc="Pop Shell - Tiling window management in Gnome (WIP)"
 arch=('any')
@@ -17,11 +17,11 @@ source=('git+https://github.com/pop-os/shell.git')
 sha256sums=('SKIP')
 
 # Fix dbus-launch error on X11 running install file commands
-if [[ $(echo $XDG_SESSION_TYPE) = x11 ]]; then
-	depends+=('dbus-x11')
-elif [[ $(echo $XDG_SESSION_TYPE) = wayland ]]; then
-	depends+=('dbus')
-fi
+#if [[ $(echo $XDG_SESSION_TYPE) = x11 ]]; then
+#	depends+=('dbus-x11')
+#elif [[ $(echo $XDG_SESSION_TYPE) = wayland ]]; then
+#	depends+=('dbus')
+#fi
 
 pkgver() {
     cd "$srcdir/shell"
