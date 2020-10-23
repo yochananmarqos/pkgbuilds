@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Ryzen Controller
-Comment=A minimal Electron application to use ryzenAdj through a friendly interface.
+Comment=Unlock the true performance of your Ryzen Mobile Processor
 Exec=/opt/ryzen-controller/ryzen-controller %U
 Terminal=false
 Type=Application

@@ -1,7 +1,7 @@
 pkgname=ryzen-controller-git
 pkgver=2.2.5.r0.38cc510
 pkgrel=1
-pkgdesc="A minimal Electron application to use ryzenAdj through a friendly interface"
+pkgdesc="Unlock the true performance of your Ryzen Mobile Processor"
 arch=('x86_64')
 url="https://www.ryzencontroller.com"
 license=('CC0-1.0')
