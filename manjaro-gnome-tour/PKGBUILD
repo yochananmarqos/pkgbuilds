@@ -1,0 +1,41 @@
+pkgname=manjaro-gnome-tour
+_pkgname=${pkgname#manjaro-}
+pkgver=3.38.0
+pkgrel=1
+pkgdesc="A guided tour and greeter for GNOME"
+arch=('x86_64')
+url="https://gitlab.gnome.org/GNOME/gnome-tour"
+license=('GPL')
+depends=('libhandy')
+makedepends=('rust' 'meson' 'git')
+checkdepends=('appstream-glib')
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+_commit=258d5c1f40ca10976c1910d3c3640a1aab10f83d
+source=("git+$url.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$_pkgname"
+	git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+	cd "$srcdir/$_pkgname"
+
+	# GNOME blue > Manjaro teal
+	sed -i 's/4a86cf/3c8d7d/g' data/resources/style.css
+}
+
+build() {
+	arch-meson "$_pkgname" build
+	meson compile -C build
+}
+
+check() {
+	meson test -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+}
