@@ -12,8 +12,10 @@ checkdepends=('appstream-glib')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 _commit=258d5c1f40ca10976c1910d3c3640a1aab10f83d
-source=("git+$url.git#commit=$_commit")
-sha256sums=('SKIP')
+source=("git+$url.git#commit=$_commit"
+        "$_pkgname.patch")
+sha256sums=('SKIP'
+            'bc85dd8d05553b1ff7391d90453c5368027b2b1c89a98907a4675f1c266981c5')
 
 pkgver() {
 	cd "$srcdir/$_pkgname"
@@ -22,9 +24,7 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/$_pkgname"
-
-	# GNOME blue > Manjaro teal
-	sed -i 's/4a86cf/3c8d7d/g' data/resources/style.css
+	patch --strip=1 < ../"$_pkgname.patch"
 }
 
 build() {
