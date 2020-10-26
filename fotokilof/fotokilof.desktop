@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Icon=image-auto-adjust
-Name=FotoKilof
-Exec=fotokilof
-Terminal=false
-Hidden=false
-Categories=Graphics
-Comment=GUI for ImageMagick
