@@ -1,0 +1,78 @@
+# http://aur.archlinux.org/packages/ferdi
+pkgname=ferdi
+_pkgver=5.6.0-beta.3
+pkgver=${_pkgver//-/.}
+pkgrel=1
+pkgdesc="Community fork of Franz. Allows you to combine your favorite messaging services into one application"
+arch=('x86_64')
+url="https://getferdi.com"
+license=('Apache')
+depends=('electron9' 'libxkbfile')
+makedepends=('git' 'npm' 'python')
+source=("git+https://github.com/getferdi/ferdi.git#tag=$_pkgver"
+        'git+https://github.com/getferdi/recipes.git'
+        'git+https://github.com/getferdi/internal-server.git'
+#        'fix-autostart-path.diff'
+        'electron-9.patch'
+        "$pkgname.desktop"
+        "$pkgname.sh"
+)
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            '720566dc7dab47ce5d919c1c3cc7acaa4cd9ba888102deed1efdecbf72530b4e'
+            'e30920cfebd70d86e8cfcf39e70a4b9a4281add21ee6caebb12db67424fe4425'
+            '233fa4777f2df9fc95ac1f8d278f267591762226f32f468ee594e3d1bfd16627')
+
+prepare() {
+	cd "$srcdir/$pkgname"
+	git submodule init
+	git config submodule.recipes.url "$srcdir/recipes"
+	git config submodule.src/internal-server.url "$srcdir/internal-server"
+	git submodule update
+
+	# Thanks @yuyichao for this! :)
+	patch -Np1 -i "$srcdir/electron-9.patch"
+
+	# Specify path for autostart file
+#	patch --forward -p1 < '../fix-autostart-path.diff'
+
+	# Adjust the electron version to use when building
+	electron_version=$(tail /usr/lib/electron/version | cut -d '%' -f1)
+	sed -i "s|\(\s\+\"electron\":\).*,|\1 \"$electron_version\",|" package.json
+
+	# Set node-sass version for node 14 compatibility
+	sed -E -i 's|("node-sass": ").*"|\14.14.0"|' 'package.json'
+
+	# Prevent Ferdi from being launched in dev mode
+	sed -i "s|import isDevMode from 'electron-is-dev'|const isDevMode = false|g" 'src/index.js' 'src/config.js'
+	sed -i "s|import isDev from 'electron-is-dev'|const isDev = false|g" 'src/environment.js'
+}
+
+build() {
+	cd "$srcdir/$pkgname"
+	export npm_config_cache="$srcdir/npm-cache"
+
+	# Prepare dependencies
+	HOME="$srcdir/$pkgname-home" npx lerna bootstrap
+
+	npx gulp build
+	npx electron-builder --linux dir
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+	install -d "$pkgdir/usr/lib/$pkgname"
+	cp -r \
+		--no-preserve=ownership \
+		--preserve=mode out/linux-unpacked/resources \
+		"$pkgdir/usr/lib/$pkgname"
+
+	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+
+	for _size in 16 24 32 48 64 96 128 256 512 1024; do
+		install -Dm644 "build-helpers/images/icons/${_size}x${_size}.png" \
+			"$pkgdir/usr/share/icons/hicolor/${_size}x${_size}/apps/$pkgname.png"
+	done
+}
