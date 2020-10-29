@@ -1,7 +1,7 @@
 # https://gitlab.manjaro.org/packages/community/gnome/gnome-shell-extension/-/tree/master/gnome-shell-extension-pop-shell
 # https://aur.archlinux.org/packages/gnome-shell-extension-pop-shell-git
 pkgname=gnome-shell-extension-pop-shell-git
-pkgver=r578.a11d3c3
+pkgver=1.0.0.r0.g18243a2
 pkgrel=1
 pkgdesc="Pop Shell - Tiling window management in Gnome (WIP)"
 arch=('any')
@@ -25,7 +25,7 @@ sha256sums=('SKIP')
 
 pkgver() {
     cd "$srcdir/shell"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
