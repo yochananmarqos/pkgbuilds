@@ -38,7 +38,8 @@ package() {
 	cd "$srcdir/shell"
 	make DESTDIR="$pkgdir" install
 
-	install -Dm644 schemas/*.xml -t "$pkgdir/usr/share/glib-2.0/schemas"
+	install -Dm644 schemas/org.gnome.shell.extensions.pop-shell.gschema.xml -t \
+		"$pkgdir/usr/share/glib-2.0/schemas"
 	install -Dm755 scripts/configure.sh -t \
 		"$pkgdir/usr/share/gnome-shell/extensions/pop-shell@system76.com/scripts"
 }
