@@ -1,7 +1,7 @@
 # https://gitlab.manjaro.org/packages/community/gnome/gnome-shell-extension/-/tree/master/gnome-shell-extension-pop-shell
 # https://aur.archlinux.org/packages/gnome-shell-extension-pop-shell-git
 pkgname=gnome-shell-extension-pop-shell-git
-pkgver=1.0.0.r0.g18243a2
+pkgver=1.0.0.r1.gecc9b38
 pkgrel=1
 pkgdesc="Pop Shell - Tiling window management in Gnome (WIP)"
 arch=('any')
@@ -38,6 +38,7 @@ package() {
 	cd "$srcdir/shell"
 	make DESTDIR="$pkgdir" install
 
+	install -Dm644 schemas/*.xml -t "$pkgdir/usr/share/glib-2.0/schemas"
 	install -Dm755 scripts/configure.sh -t \
 		"$pkgdir/usr/share/gnome-shell/extensions/pop-shell@system76.com/scripts"
 }
