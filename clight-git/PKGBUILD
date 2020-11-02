@@ -1,14 +1,13 @@
 # https://aur.archlinux.org/packages/clight-git
 pkgname=clight-git
-pkgver=4.1.r1.gacf04c2
+pkgver=4.1.r22.g4f362fc
 pkgrel=1
 pkgdesc="A C daemon that turns your webcam into a light sensor. It can also change display
-         gamma temperature, dim your screen and set your dpms. Devel version."
+         gamma temperature, dim your screen and set your dpms."
 arch=('i686' 'x86_64')
 url="https://github.com/FedeDP/Clight"
 license=('GPL')
-depends=('clightd-git' 'gsl' 'hicolor-icon-theme' 'libconfig' 'libmodule>=5.0.0' 'popt'
-         'systemd-libs>=237')
+depends=('clightd-git' 'gsl' 'hicolor-icon-theme' 'libconfig' 'popt')
 makedepends=('git' 'cmake' 'bash-completion')
 optdepends=('geoclue: to retrieve user location through geoclue.'
             'upower: to save energy by increasing timeouts between captures while on battery
@@ -16,7 +15,7 @@ optdepends=('geoclue: to retrieve user location through geoclue.'
             'bash-completion: to add support for bash automatic completion.')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-backup=('etc/default/clight.conf')
+backup=("etc/default/${pkgname%-git}.conf")
 install="${pkgname%-git}.install"
 source=("${pkgname%-git}::git+https://github.com/FedeDP/Clight.git")
 sha256sums=('SKIP')
@@ -30,7 +29,6 @@ build() {
     cmake -B build -S "${pkgname%-git}" \
         -G "Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib \
         -Wno-dev
     make -C build
 }
