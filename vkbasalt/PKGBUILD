@@ -1,25 +1,20 @@
 # https://aur.archlinux.org/packages/vkbasalt
 pkgname=('vkbasalt' 'lib32-vkbasalt')
 pkgbase=vkbasalt
-pkgver=0.3.2.2+2+g7cd22a1
+pkgver=0.3.2.3
 pkgrel=1
-pkgdesc="A Vulkan post-processing layer"
+pkgdesc="A Vulkan post processing layer to enhance the visual graphics of games"
 arch=('x86_64')
 url="https://github.com/DadSchoorse/vkBasalt"
 license=('zlib')
 makedepends=('meson' 'glslang')
-install="$pkgname.install"
-_commit='7cd22a16120d39e8f7d734dacd5dc8f43a4ffeee'
-source=("$pkgname::git+https://github.com/DadSchoorse/vkBasalt.git#commit=$_commit")
-sha256sums=('SKIP')
-
-pkgver() {
-	cd "$srcdir/$pkgname"
-	git describe --tags | sed 's/^v//;s/-/+/g'
-}
+backup=(etc/vkBasalt/vkBasalt.conf)
+_commit=ca921c88f17c154d27583edc0240c172a66da445
+source=("$pkgbase-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('8cc65a69a20ac16802a8ff46629efa6540dee22daeef9db4ad0a22b63d2a4368')
 
 prepare() {
-	cd "$srcdir/$pkgbase"
+	cd vkBasalt-$pkgver
 	sed -i 's|/path/to/reshade-shaders/Textures|/usr/share/reshade/textures|g' \
 		config/vkBasalt.conf
 	sed -i 's|/path/to/reshade-shaders/Shaders|/usr/share/reshade/shaders|g' \
@@ -29,7 +24,7 @@ prepare() {
 build() {
 	arch-meson \
 		-Dappend_libdir_vkbasalt=true \
-		"$srcdir/$pkgbase" build64 --libdir=lib/vkbasalt
+		vkBasalt-$pkgver build64
 	meson compile -C build64
 
 	export ASFLAGS=--32
@@ -38,8 +33,9 @@ build() {
 	export PKG_CONFIG_PATH=/usr/lib32/pkgconfig
 	arch-meson \
 		-Dappend_libdir_vkbasalt=true \
+		--libdir=lib32 \
 		-Dwith_json=false \
-		"$srcdir/$pkgbase" build32 --libdir=lib32/vkbasalt
+		vkBasalt-$pkgver build32
 	meson compile -C build32
 }
 
@@ -49,17 +45,13 @@ package_vkbasalt() {
 
 	DESTDIR="$pkgdir" meson install -C build64
 
-	cd "$srcdir/$pkgbase"
-	install -Dm644 config/vkBasalt.conf \
-		"$pkgdir/usr/share/doc/$pkgname/vkBasalt.conf.example"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	cd vkBasalt-$pkgver
+	install -Dm644 config/vkBasalt.conf -t "$pkgdir/etc/vkBasalt"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
 }
 
 package_lib32-vkbasalt() {
-	depends=('lib32-gcc-libs' 'lib32-libx11')
+	depends=('vkbasalt' 'lib32-gcc-libs' 'lib32-libx11')
 
 	DESTDIR="$pkgdir" meson install -C build32
-
-	cd "$srcdir/$pkgbase"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
