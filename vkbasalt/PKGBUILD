@@ -2,14 +2,14 @@
 pkgname=('vkbasalt' 'lib32-vkbasalt')
 pkgbase=vkbasalt
 pkgver=0.3.2.3
-pkgrel=1
+pkgrel=2
 pkgdesc="A Vulkan post processing layer to enhance the visual graphics of games"
 arch=('x86_64')
 url="https://github.com/DadSchoorse/vkBasalt"
 license=('zlib')
+depends=('gcc-libs' 'libx11' 'lib32-gcc-libs' 'lib32-libx11')
 makedepends=('meson' 'glslang')
 backup=(etc/vkBasalt/vkBasalt.conf)
-_commit=ca921c88f17c154d27583edc0240c172a66da445
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('8cc65a69a20ac16802a8ff46629efa6540dee22daeef9db4ad0a22b63d2a4368')
 
