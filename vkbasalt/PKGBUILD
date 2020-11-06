@@ -29,7 +29,7 @@ build() {
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build64
+	DESTDIR="$pkgdir" meson install -C build
 
 	cd vkBasalt-$pkgver
 	install -Dm644 config/vkBasalt.conf -t "$pkgdir/etc/vkBasalt"
