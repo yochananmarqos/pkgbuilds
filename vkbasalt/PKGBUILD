@@ -1,16 +1,16 @@
 # https://aur.archlinux.org/packages/vkbasalt
-pkgname=('vkbasalt' 'lib32-vkbasalt')
-pkgbase=vkbasalt
+pkgname=vkbasalt
 pkgver=0.3.2.3
-pkgrel=2
+pkgrel=4
 pkgdesc="A Vulkan post processing layer to enhance the visual graphics of games"
 arch=('x86_64')
 url="https://github.com/DadSchoorse/vkBasalt"
 license=('zlib')
-depends=('gcc-libs' 'libx11' 'lib32-gcc-libs' 'lib32-libx11')
+depends=('gcc-libs' 'libx11')
 makedepends=('meson' 'glslang')
+optdepends=('reshade-shaders-git')
 backup=(etc/vkBasalt/vkBasalt.conf)
-source=("$pkgbase-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('8cc65a69a20ac16802a8ff46629efa6540dee22daeef9db4ad0a22b63d2a4368')
 
 prepare() {
@@ -24,34 +24,14 @@ prepare() {
 build() {
 	arch-meson \
 		-Dappend_libdir_vkbasalt=true \
-		vkBasalt-$pkgver build64
-	meson compile -C build64
-
-	export ASFLAGS=--32
-	export CFLAGS=-m32
-	export CXXFLAGS=-m32
-	export PKG_CONFIG_PATH=/usr/lib32/pkgconfig
-	arch-meson \
-		-Dappend_libdir_vkbasalt=true \
-		--libdir=lib32 \
-		-Dwith_json=false \
-		vkBasalt-$pkgver build32
-	meson compile -C build32
+		vkBasalt-$pkgver build
+	meson compile -C build
 }
 
-package_vkbasalt() {
-	depends=('gcc-libs' 'libx11')
-	optdepends=('reshade-shaders-git')
-
+package() {
 	DESTDIR="$pkgdir" meson install -C build64
 
 	cd vkBasalt-$pkgver
 	install -Dm644 config/vkBasalt.conf -t "$pkgdir/etc/vkBasalt"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
-}
-
-package_lib32-vkbasalt() {
-	depends=('vkbasalt' 'lib32-gcc-libs' 'lib32-libx11')
-
-	DESTDIR="$pkgdir" meson install -C build32
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
