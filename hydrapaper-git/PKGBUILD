@@ -1,16 +1,17 @@
 # https://aur.archlinux.org/packages/hydrapaper-git
 pkgname=hydrapaper-git
-pkgver=2.0.2.r1.g1deb325
+pkgver=2.0.2.r6.g02a3f4f
 pkgrel=1
 pkgdesc="A Gtk utility to set different backgrounds for each monitor on GNOME"
 arch=('any')
-url="https://gitlab.gnome.org/gabmus/hydrapaper"
+url="https://gitlab.gnome.org/GabMus/HydraPaper"
 license=('GPL3')
 depends=('gtk3' 'python-pillow' 'libhandy' 'python-gobject')
 makedepends=('git' 'meson' 'gobject-introspection' 'pandoc')
+checkdepends=('appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://gitlab.gnome.org/gabmus/hydrapaper.git')
+source=("${pkgname%-git}::git+https://gitlab.gnome.org/GabMus/HydraPaper.git")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -21,6 +22,10 @@ pkgver() {
 build() {
 	arch-meson "${pkgname%-git}" build
 	meson compile -C build
+}
+
+check() {
+	meson test -C build
 }
 
 package() {
