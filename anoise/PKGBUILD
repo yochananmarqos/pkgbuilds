@@ -4,7 +4,7 @@
 
 pkgname=anoise
 pkgver=0.0.36
-pkgrel=1
+pkgrel=2
 pkgdesc="Ambient Noise Player. Relax or concentrate with a noise"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
@@ -42,8 +42,7 @@ package() {
 
 	# Files setup.py does not install
 
-	install -d "$pkgdir/usr/locale"
-	cp -r locale "$pkgdir/usr/locale"
+	cp -r locale "$pkgdir/usr/share/locale"
 
 	install -Dm644 "build/share/applications/$pkgname.desktop" -t \
 		"$pkgdir/usr/share/applications"
