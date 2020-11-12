@@ -1,11 +1,14 @@
 # https://aur.archlinux.org/packages/autokey
+groups=('modified')
+
 pkgname=('autokey-common' 'autokey-gtk' 'autokey-qt')
 pkgbase=autokey
 pkgver=0.95.10
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="https://github.com/autokey/autokey"
 license=('GPL3')
+makedepends=('python-setuptools' 'python-pyqt5')
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/autokey/autokey/archive/v$pkgver.tar.gz")
 sha256sums=('e622ca04b3340f1ca0999bf03f05c9071a9f8aa3bc91c26c45c35509d63ff23d')
 
@@ -14,17 +17,18 @@ build() {
 	python setup.py build
 }
 
-local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-
 package_autokey-common() {
 	pkgdesc="A desktop automation utility for Linux and X11 - common data"
-	depends=('python-pyinotify' 'python-xlib' 'python-dbus' 'python-setuptools' 'wmctrl'
+	depends=('python-pyinotify' 'python-xlib' 'python-dbus' 'wmctrl'
 	         'gtk-update-icon-cache' 'xautomation' 'imagemagick' 'xorg-xwd')
 	provides=("$pkgbase")
 	conflicts=("$pkgbase")
 
 	cd "$pkgbase-$pkgver"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
 	rm "$pkgdir/usr/bin/$pkgbase"{-qt,-gtk}
 	rm "$pkgdir$site_packages/$pkgbase/"{gtkapp.py,qtapp.py}
@@ -42,7 +46,10 @@ package_autokey-gtk() {
 	conflicts=("$pkgbase-qt")
 
 	cd "$pkgbase-$pkgver"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
 	rm "$pkgdir/usr/bin/$pkgbase"{-qt,-run,-shell}
 	rm "$pkgdir$site_packages/$pkgbase/"{common*,config*,__init__*,interface*,macro*,model*,monitor*,qtapp*,scripting*,service*}
@@ -61,7 +68,10 @@ package_autokey-qt() {
 	conflicts=("$pkgbase-gtk")
 
 	cd "$pkgbase-$pkgver"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip build
+
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
 	rm "$pkgdir/usr/bin/$pkgbase"{-gtk,-run,-shell}
 	rm "$pkgdir$site_packages/$pkgbase/"{common*,config*,gtkapp*,__init__*,interface*,macro*,model*,monitor*,scripting*,service*}
