@@ -1,7 +1,0 @@
-post_install() {
-	echo ""
-	echo "Start Avahi daemon for hostname resolution:"
-	echo ""
-	echo "systemctl start avahi-daemon.service"
-	echo ""
-}
