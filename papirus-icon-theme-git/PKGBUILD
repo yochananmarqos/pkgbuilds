@@ -1,9 +1,11 @@
 # https://aur.archlinux.org/packages/papirus-icon-theme-git
+groups=('modified')
+
 pkgname=papirus-icon-theme-git
-pkgver=20201001.r2.g9f82dc4e3d
+pkgver=20201031.r49.g9ad1d6d72f
 pkgrel=1
 epoch=1
-pkgdesc="Papirus icon theme"
+pkgdesc="A free and open source SVG icon theme based on Paper Icon Set"
 arch=('any')
 url="https://git.io/papirus-icon-theme"
 license=('LGPL3')
