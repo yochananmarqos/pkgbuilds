@@ -1,6 +1,8 @@
 # https://aur.archlinux.org/packages/clightd-git
+groups=('modified')
+
 pkgname=clightd-git
-pkgver=4.2.r27.g494fa87
+pkgver=4.2.r28.g3df1386
 pkgrel=1
 pkgdesc="Bus interface to change screen brightness and capture frames from webcam."
 arch=('i686' 'x86_64')
@@ -29,7 +31,7 @@ build() {
         -DENABLE_GAMMA=1 \
         -DENABLE_DPMS=1 \
         -DENABLE_SCREEN=1 \
-        -DENABLE_YOCTOLIGHT=1
+        -DENABLE_YOCTOLIGHT=1 \
         -Wno-dev
     make -C build
 }
