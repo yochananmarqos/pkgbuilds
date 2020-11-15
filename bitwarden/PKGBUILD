@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/bitwarden
 pkgname=bitwarden
-pkgver=1.22.2
-pkgrel=2
+pkgver=1.23.0
+pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -11,13 +11,13 @@ makedepends=('git' 'npm' 'python' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
-        "package.json.patch"
+        'package.json.patch'
         "$pkgname.sh"
         "$pkgname.desktop")
 sha256sums=('SKIP'
             'SKIP'
             '90f6fc45619d1c76e4f999d6e256e72a590aed6a352272d85607783b2ab61ab8'
-            '95fe8ad154c5715c0422e77a7fef1b16b3fb4ef594894f126c6a1e2d728ca5ce'
+            'f8c65fc3e29d44e41092b25694ea63c01b00b65a7687b3b1b64d348227beab7f'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 prepare() {
