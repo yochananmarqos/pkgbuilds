@@ -1,0 +1,32 @@
+# http://aur.archlinux.org/packages/python-gtts
+groups=('modified')
+
+pkgname=python-gtts
+_name=gTTS
+pkgver=2.2.1
+pkgrel=1
+pkgdesc="Python library and CLI tool to interface with Google Translate's text-to-speech API"
+arch=('any')
+url="https://github.com/pndurette/gTTS"
+license=('MIT')
+depends=('python-six' 'python-click' 'python-gtts-token')
+makedepends=('python-setuptools')
+checkdepends=('python-pytest' 'python-mock' 'python-testfixtures')
+source=("$_name-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('a92cc3ecbff83e8c291607deedbeb73c3d1089aeeb8da11132e5357a26e89daf')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+check() {
+	cd "$_name-$pkgver"
+	pytest
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}

@@ -1,0 +1,31 @@
+# https://aur.archlinux.org/packages/python-googletrans
+groups=('modified')
+
+pkgname=python-googletrans
+_name=${pkgname#python-}
+pkgver=3.0.0
+pkgrel=2
+pkgdesc="Free Google Translate API for Python."
+arch=('any')
+url="https://github.com/ssut/py-googletrans"
+license=('MIT')
+depends=('python-httpx')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
+        "https://raw.githubusercontent.com/ssut/py-googletrans/master/LICENSE")
+sha512sums=('1a31c52e1fc72ab45131c95ff3649d1d679e3c082adc2b43ba1e5d9bbc57bf740c9e14575c6416e406e6e6e1796cac57330fbb1a639ad96841464e042ef70981'
+            'e34c0ed62e8c4e5125c24895910f8237e49d4b0c505e736c912baff60d822304ed5ee48c0ce3376292c4faa3adc2011f8c3f605c1e2b0d28d95073dcbf95d76f')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
