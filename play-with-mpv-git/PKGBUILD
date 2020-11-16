@@ -1,13 +1,15 @@
 # http://aur.archlinux.org/packages/play-with-mpv-git
+groups=('modified')
+
 pkgname=play-with-mpv-git
-pkgver=0.1.0.r3.g0c27cd4
+pkgver=0.1.0.r6.gd842aae
 pkgrel=1
 pkgdesc='Chrome extension and Python server that allows you to play videos in webpages with MPV instead.'
 arch=('any')
 url="https://github.com/Thann/play-with-mpv"
 license=('MIT')
 depends=('python-wheel' 'youtube-dl' 'mpv')
-makedepends=('git' 'python-setuptools' 'python-wheel')
+makedepends=('git' 'python-setuptools')
 optdepends=('peerflix: stream torrents'
             'mkchromecast: Cast to network device')
 provides=("${pkgname%-git}")
