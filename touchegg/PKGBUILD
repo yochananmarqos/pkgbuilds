@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/touchegg
 pkgname=touchegg
-pkgver=2.0.2
+pkgver=2.0.3
 pkgrel=1
 pkgdesc="Multitouch gesture recognizer"
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ depends=('systemd-libs' 'libinput' 'pugixml' 'cairo' 'libx11' 'libxtst' 'libxran
 makedepends=('cmake')
 install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('d5a5b251a9cf540b1a7b2b3a88df9ddf1119a953b722979ae44006493e6ff527')
+sha256sums=('0cece713c181fceb1346c737700ef6f195c1dc245f5aa580fda0f878864e13e5')
 
 build() {
 	cmake -B build -S "$pkgname-$pkgver" \
