@@ -1,0 +1,48 @@
+# https://www.archlinux.org/packages/community-staging/any/lutris
+
+# FS#54356 - [python-magic] Replace python-magic from darwinsys with ahupp implementation
+# https://bugs.archlinux.org/task/54356
+groups=('modified')
+
+pkgname=lutris
+pkgver=0.5.8
+pkgrel=1
+pkgdesc='Open Gaming Platform'
+arch=('any')
+url='https://lutris.net'
+license=('GPL3')
+depends=('python-gobject' 'python-yaml' 'python-evdev' 'gtk3' 'glib2' 'psmisc'
+         'cabextract' 'unzip' 'p7zip' 'curl' 'xorg-xrandr' 'python-pillow'
+         'python-requests' 'gnome-desktop' 'webkit2gtk' 'mesa-demos' 'python-dbus'
+         'python-distro' 'python-magic-ahupp')
+makedepends=('python-setuptools')
+checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm')
+optdepends=('wine: Windows support'
+            'vulkan-icd-loader: Vulkan support'
+            'lib32-vulkan-icd-loader: Vulkan support'
+            'vkd3d: Vulkan 3D support'
+            'lib32-vkd3d: Vulkan 3D support'
+            'gvfs: GVFS backend'
+            'gamemode: Allows games to request a temporary set of optimisations'
+            'mangohud: FPS counter')
+makedepends=('python-setuptools')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/$pkgver.tar.gz")
+sha512sums=('dceb7708c98feb713d2e57cbf05cd37300cb32948d54275c3df4dbfc3260261b1baae0a13f6acf0bf3bd314b1ea437cd810a055d9ba6a767d27124cac65221e9')
+
+build() {
+  cd $pkgname-$pkgver
+
+  python setup.py build
+}
+
+check() {
+  cd $pkgname-$pkgver
+
+  xvfb-run nosetests --cover-erase --with-xunit --xunit-file=nosetests.xml --with-coverage --cover-package=lutris --cover-xml-file=coverage.xml
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
