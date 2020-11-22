@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=wl-gammactl
+Comment=Set contrast, brightness and gamma for wayland compositors
+Exec=wl-gammactl
+Icon=display-brightness
+Terminal=false
+Categories=Settings;HardwareSettings;
+Hidden=false

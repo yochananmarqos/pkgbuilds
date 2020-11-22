@@ -1,0 +1,42 @@
+# https://aur.archlinux.org/packages/wl-gammactl
+pkgname=wl-gammactl
+pkgver=r6.611846c
+pkgrel=1
+pkgdesc="Small GTK GUI application to set contrast, brightness and gamma for
+         Wayland compositors which support the wlr-gamma-control protocol extension."
+arch=('x86_64')
+url="https://github.com/mischw/wl-gammactl"
+license=('MIT')
+depends=('gtk3' 'wayland' 'wlroots')
+makedepends=('git' 'meson')
+source=('git+https://github.com/mischw/wl-gammactl.git'
+        'git+https://github.com/swaywm/wlr-protocols.git'
+        "$pkgname.desktop")
+sha256sums=('SKIP'
+            'SKIP'
+            '4ceee4b868e1e64b854ea4aab935853075dbc857e7cf65c3579852091a938209')
+
+pkgver() {
+	cd "$srcdir/$pkgname"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/$pkgname"
+	git submodule init
+	git config submodule.wlr-protocols.url "$srcdir/wlr-protocols"
+	git submodule update
+}
+
+build() {
+	arch-meson "$pkgname" build
+	meson compile -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+
+	cd "$srcdir/$pkgname"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+}
