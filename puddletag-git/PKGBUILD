@@ -1,6 +1,6 @@
 # http://aur.archlinux.org/packages/puddletag-git
 pkgname=puddletag-git
-pkgver=1.2.0.r150.g66636fc
+pkgver=2.0.1.r24.gfe54639
 pkgrel=1
 pkgdesc="An audio tag editor for GNU/Linux."
 arch=('i686' 'x86_64')
@@ -29,5 +29,6 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}/source"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir" --optimize=1
 }
