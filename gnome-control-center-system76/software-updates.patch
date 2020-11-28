@@ -1,0 +1,52 @@
+--- panels/info-overview/cc-info-overview-panel.orig.c	2020-07-09 15:04:12.215588524 -0600
++++ panels/info-overview/cc-info-overview-panel.new.c	2020-07-09 15:15:54.326349000 -0600
+@@ -720,6 +720,12 @@
+ }
+
+ static gboolean
++does_pamac_manager_exist (void)
++{
++  return g_file_test (BINDIR "/pamac-manager", G_FILE_TEST_EXISTS);
++}
++
++static gboolean
+ does_gnome_software_exist (void)
+ {
+   return g_file_test (BINDIR "/gnome-software", G_FILE_TEST_EXISTS);
+@@ -739,15 +745,20 @@
+   g_auto(GStrv) argv = NULL;
+
+   argv = g_new0 (gchar *, 3);
+-  if (does_gnome_software_exist ())
+-    {
+-      argv[0] = g_build_filename (BINDIR, "gnome-software", NULL);
+-      argv[1] = g_strdup_printf ("--mode=updates");
+-    }
+-  else
++  if (does_pamac_manager_exist ())
+     {
+-      argv[0] = g_build_filename (BINDIR, "gpk-update-viewer", NULL);
++      argv[0] = g_build_filename (BINDIR, "pamac-manager", NULL);
++      argv[1] = g_strdup_printf ("--updates");
+     }
++    else if (does_gnome_software_exist ())
++      {
++        argv[0] = g_build_filename (BINDIR, "gnome-software", NULL);
++        argv[1] = g_strdup_printf ("--mode=updates");
++      }
++    else
++      {
++        argv[0] = g_build_filename (BINDIR, "gpk-update-viewer", NULL);
++      }
+   ret = g_spawn_async (NULL, argv, NULL, 0, NULL, NULL, NULL, &error);
+   if (!ret)
+       g_warning ("Failed to spawn %s: %s", argv[0], error->message);
+@@ -849,7 +860,7 @@
+
+   g_resources_register (cc_info_overview_get_resource ());
+
+-  if (!does_gnome_software_exist () && !does_gpk_update_viewer_exist ())
++  if (!does_pamac_manager_exist () && (!does_gnome_software_exist () && !does_gpk_update_viewer_exist ()))
+     gtk_widget_hide (GTK_WIDGET (self->software_updates_row));
+
+   info_overview_panel_setup_overview (self);

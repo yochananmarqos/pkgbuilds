@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!aboutmanjarognome.svg
+!distro-logo.patch
+!pop-hidpi.patch
+!software-updates.patch
+!system76-firmware.patch

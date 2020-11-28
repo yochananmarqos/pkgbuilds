@@ -1,0 +1,30 @@
+From 2e98b899f600b393fe538f61455670ad20ab57ff Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 3 Feb 2020 14:46:15 +0100
+Subject: [PATCH] info-overview: Use the Manjaro logo prominently
+
+This removes GNOME branding in favour of Manjaro branding. We don't
+make changes to the text information as the distribution/OS is clearly
+visible above the GNOME version.
+
+See https://bugzilla.gnome.org/show_bug.cgi?id=695691
+---
+ panels/info-overview/cc-info-overview-panel.ui | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/panels/info-overview/cc-info-overview-panel.ui b/panels/info-overview/cc-info-overview-panel.ui
+index bd43be8c9..e5d63149b 100644
+--- a/panels/info-overview/cc-info-overview-panel.ui
++++ b/panels/info-overview/cc-info-overview-panel.ui
+@@ -30,7 +30,8 @@
+                   <object class="GtkImage">
+                     <property name="visible">True</property>
+                     <property name="can_focus">False</property>
+-                    <property name="resource">/org/gnome/control-center/info-overview/GnomeLogoVerticalMedium.svg</property>
++                    <property name="pixel_size">125</property>
++                    <property name="pixbuf">/usr/share/icons/manjaro/aboutmanjarognome.svg</property>
+                   </object>
+                   <packing>
+                     <property name="expand">False</property>
+-- 
+2.24.1
