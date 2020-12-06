@@ -4,15 +4,17 @@ groups=('modified')
 
 pkgname=auto-cpufreq-git
 pkgver=1.3.4.r3.gd0aeb8c
-pkgrel=1
+pkgrel=2
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
 url="https://github.com/AdnanHodzic/auto-cpufreq"
 license=('LGPL3')
 depends=('python-distro' 'python-psutil' 'python-click' 'lm_sensors')
 makedepends=('git' 'python-setuptools')
+optdepends=('cpufreqctl: CPU Power Manager'
+            'gnome-shell-extension-cpufreq: CPU Power Manager for GNOME Shell')
 provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}" 'cpufreqctl' 'gnome-shell-extension-cpufreq')
+conflicts=("${pkgname%-git}")
 install="${pkgname%-git}.install"
 source=('git+https://github.com/AdnanHodzic/auto-cpufreq.git')
 sha256sums=('SKIP')
