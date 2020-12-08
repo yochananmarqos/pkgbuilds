@@ -1,0 +1,48 @@
+pkgname=avvie-git
+_app_id=com.github.taiko2k.avvie
+pkgver=1.7.r84.dda3f95
+pkgrel=1
+pkgdesc="A GTK app for quick image cropping"
+arch=('any')
+url="https://github.com/Taiko2k/avvie"
+license=('GPL3')
+depends=('gtk3' 'python-cairo' 'python-gobject' 'python-piexif' 'python-pillow' 'libnotify')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/Taiko2k/avvie.git'
+        "${pkgname%-git}.sh")
+sha256sums=('SKIP'
+            '2631bd81c05d33bac91c01a2bc0bc242ad03cfdbe3eca14e434ccb4cec044b1e')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "$(awk -F[\"-] '/^version/ { print $2; exit;}' main.py).r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	sed -i "s/main.py/${pkgname%-git}/g" "$_app_id.desktop"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -d "$pkgdir/opt/${pkgname%-git}"
+	cp -r * "$pkgdir/opt/${pkgname%-git}"
+
+	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
+	
+	install -d "$pkgdir"/usr/share/{metainfo,applications,icons/hicolor/{scalable/apps,symbolic,128x128/apps,256x256/apps}}
+	ln -s "/opt/${pkgname%-git}/$_app_id.appdata.xml" \
+		"$pkgdir/usr/share/metainfo/$_app_id.appdata.xml"
+	ln -s "/opt/${pkgname%-git}/$_app_id.desktop" \
+		"$pkgdir/usr/share/applications/$_app_id.desktop"
+	ln -s "/opt/${pkgname%-git}/$_app_id.svg" \
+		"$pkgdir/usr/share/icons/hicolor/scalable/apps/$_app_id.svg"
+	ln -s "/opt/${pkgname%-git}/$_app_id-symbolic.svg" \
+		"$pkgdir/usr/share/icons/hicolor/symbolic/$_app_id-symbolic.svg"
+	ln -s "/opt/${pkgname%-git}/icon128.png" \
+		"$pkgdir/usr/share/icons/hicolor/128x128/apps/$_app_id.png"
+	ln -s "/opt/${pkgname%-git}/icon256.png" \
+		"$pkgdir/usr/share/icons/hicolor/256x256/apps/$_app_id.png"
+}
