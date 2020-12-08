@@ -1,0 +1,24 @@
+pkgname=adaptive-gtksourceview-style-scheme-git
+pkgver=r3.7543663
+pkgrel=1
+pkgdesc="Adaptive color scheme based on the Tango palette"
+arch=('any')
+url="https://gitlab.com/rmnvgr/adaptive-gtksourceview-style-scheme"
+license=('GPL')
+depends=('gtksourceview3' 'gtksourceview4')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://gitlab.com/rmnvgr/adaptive-gtksourceview-style-scheme.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	install -Dm644 adaptive.xml -t "$pkgdir/usr/share/gtksourceview-3.0/styles"
+	install -Dm644 adaptive.xml -t "$pkgdir/usr/share/gtksourceview-4/styles"
+}
