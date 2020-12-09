@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/pkgbase/indicator-sysmonitor-git
 pkgname=('indicator-sysmonitor-git' 'budgie-sysmonitor-applet-git')
 pkgbase=indicator-sysmonitor-git
-pkgver=0.8.3.r108.5062118
+pkgver=0.9.0.r117.b99cc39
 pkgrel=1
 arch=('any')
 url="https://launchpad.net/indicator-sysmonitor"
