@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/python-liblarch-git
 pkgname=python-liblarch-git
 _name=liblarch
-pkgver=3.0.1.r0.g17bf0bd
+pkgver=3.0.1.r3.g8c90053
 pkgrel=1
 pkgdesc="Python library to easily handle data structure, with a GTK binding"
 arch=('any')
@@ -32,5 +32,6 @@ check() {
 
 package() {
 	cd "$srcdir/$_name"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
