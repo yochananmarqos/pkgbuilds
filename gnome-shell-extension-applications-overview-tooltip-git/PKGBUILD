@@ -1,6 +1,9 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-applications-overview-tooltip-git/
+groups=('modified')
+
 pkgname=gnome-shell-extension-applications-overview-tooltip-git
 _pkgname=applications-overview-tooltip
-pkgver=10.r0.g4404f67
+pkgver=10.r2.g2e81270
 pkgrel=1
 pkgdesc="Shows a tooltip over applications icons on applications overview."
 arch=('any')
