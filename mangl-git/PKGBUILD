@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/mangl-git
 pkgname=mangl-git
-pkgver=1.0.2.r4.gb4d00ce
+pkgver=1.0.2.r8.g3b9a0cd
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
@@ -11,13 +11,20 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/zigalenarcic/mangl.git'
-        "${pkgname%-git}.desktop")
-sha1sums=('SKIP'
-          '68a39c576a302c55c7dadb86697f8d880e394b9c')
+        "${pkgname%-git}.desktop"
+        "https://github.com/zigalenarcic/mangl/pull/13.patch")
+sha256sums=('SKIP'
+            '370e454df24a2bf0bf185988d92083c0ec5bd72548a5fba9c44867e76a1d8d91'
+            '88d91f594c04dd326b044c84a5e6f563c6054e7ca9a05560ad79167333481dec')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+	git apply -3 "$srcdir/13.patch"
 }
 
 build() {
