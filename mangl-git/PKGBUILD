@@ -30,7 +30,7 @@ prepare() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}/mandoc"
-	./configure LFLAGS="${LDFLAGS}" --prefix=/usr
+	./configure --prefix=/usr
 	make -C ..
 }
 
