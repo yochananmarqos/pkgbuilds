@@ -6,7 +6,7 @@ pkgdesc="Graphical man page viewer"
 arch=('x86_64')
 url="https://github.com/zigalenarcic/mangl"
 license=('BSD 2-Clause')
-depends=('zlib' 'freeglut' 'libgl' 'glu' 'freetype2')
+depends=('freeglut' 'freetype2')
 makedepends=('git')
 optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
@@ -30,7 +30,7 @@ prepare() {
 
 build() {
 	cd "$srcdir/${pkgname%-git}/mandoc"
-	./configure --prefix=/usr #--exec_prefix=/usr
+	./configure LFLAGS="${LDFLAGS}" --prefix=/usr
 	make -C ..
 }
 
