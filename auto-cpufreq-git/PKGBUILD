@@ -3,8 +3,8 @@
 groups=('modified')
 
 pkgname=auto-cpufreq-git
-pkgver=1.3.4.r3.gd0aeb8c
-pkgrel=2
+pkgver=1.5.1.r1.g070103d
+pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
 url="https://github.com/AdnanHodzic/auto-cpufreq"
@@ -39,6 +39,7 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
 	install -Dm755 scripts/cpufreqctl.sh -t \
