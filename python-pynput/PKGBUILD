@@ -1,7 +1,7 @@
 # http://aur.archlinux.org/packages/python-pynput
 pkgname=python-pynput
 _name=${pkgname#python-}
-pkgver=1.7.1
+pkgver=1.7.2
 pkgrel=1
 pkgdesc="Python library to monitor and control user input devices"
 arch=('any')
@@ -12,7 +12,7 @@ makedepends=('python-setuptools-lint')
 optdepends=('python-sphinx: build online documentation')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
         "$pkgname.patch")
-sha256sums=('5a5598bfb14322eff980ac6ca820635fce9028faa4f64a8e1581243aaf6785ee'
+sha256sums=('dd8b1ff2451e2b76c753e115ab20b6cfa73801c395f22987474f942726558fec'
             'b2e10f5baf1501e8365b1a95fd756cde5a8510107d89557ab764a47c3ef47226')
 
 prepare() {
@@ -27,5 +27,6 @@ build() {
 
 package() {
 	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
