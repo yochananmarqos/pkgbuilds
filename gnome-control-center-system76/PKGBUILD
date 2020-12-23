@@ -28,19 +28,19 @@ _commit=0ae321b67d1c31d9bc209807aa6103d01a95e726  # tags/3.38.2^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         'git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git'
         'git+https://gitlab.gnome.org/GNOME/libhandy.git'
+        'pop-hidpi.patch'
+        'system76-firmware.patch'
         'distro-logo.patch'
         'software-updates.patch'
-        'aboutmanjarognome.svg'
-        'pop-hidpi.patch'
-        'system76-firmware.patch')
+        'aboutmanjarognome.svg')
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
+            '62869e1d309e6e488bc8c94b5df1053712c4fc108736e455a926bfa090f919d7'
+            '33fc2be90935fa9b913cccde12677d7234763821d47d71edf3586034d7eece2d'
             'd127c89872163a6a0f3d2b848951e58883cabfea37d0b9780c79b7a03d2d4c9a'
             '7657b9f8ac5b4b90a007ccea104e32fcf0fbb737f578ba69f0c0bcb7fc6fe388'
-            '9b5dcfe039ef3101c84a5903782c1ec4291a3db5b777bf8546278a095cd87475'
-            '62869e1d309e6e488bc8c94b5df1053712c4fc108736e455a926bfa090f919d7'
-            '33fc2be90935fa9b913cccde12677d7234763821d47d71edf3586034d7eece2d')
+            '9b5dcfe039ef3101c84a5903782c1ec4291a3db5b777bf8546278a095cd87475')
 
 pkgver() {
   cd $_pkgname
@@ -54,9 +54,9 @@ prepare() {
   git config --local submodule.subprojects/libhandy.url "$srcdir/libhandy"
   git submodule update
 
-  patch -Np1 -i ../distro-logo.patch
   patch -Np1 -i ../pop-hidpi.patch
   patch -Np1 -i ../system76-firmware.patch
+  patch -Np1 -i ../distro-logo.patch
   patch --strip=1 panels/info-overview/cc-info-overview-panel.c < ../software-updates.patch
 }
 
