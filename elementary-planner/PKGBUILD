@@ -1,17 +1,17 @@
 pkgname=elementary-planner
-pkgver=2.5.7
+pkgver=2.6.1
 pkgrel=1
 pkgdesc="Task manager with Todoist support"
 arch=('x86_64')
 url="https://planner-todo.web.app"
 license=('GPL3')
 depends=('libsoup' 'granite' 'webkit2gtk' 'evolution-data-server'
-         'gtk-theme-elementary' 'elementary-icon-theme')
-makedepends=('meson' 'vala')
+         'libpeas' 'gtk-theme-elementary' 'elementary-icon-theme')
+makedepends=('meson' 'vala' 'gobject-introspection')
 provides=('planner')
 conflicts=('planner')
 source=("planner-$pkgver.tar.gz::https://github.com/alainm23/planner/archive/$pkgver.tar.gz")
-sha256sums=('57076a742f6d08fac8bbfe4bf9ed3686d9138d5e41a41c19de3702202278796a')
+sha256sums=('6467c02284c414bbe358b481d20c7b86a5b07ca763d8c6fa433c3e32ae08fb3d')
 
 build() {
 	arch-meson planner-$pkgver build
