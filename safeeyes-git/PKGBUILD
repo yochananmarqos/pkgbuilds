@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/safeeyes-git
 pkgname=safeeyes-git
-pkgver=2.1.0.r0.g40349dc
+pkgver=2.1.1.r0.g41464e4
 pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
@@ -10,7 +10,6 @@ depends=('alsa-utils'
          'hicolor-icon-theme'
          'libappindicator-gtk3'
          'python-babel'
-         'python-croniter'
          'python-dbus'
          'python-gobject'
          'python-psutil'
@@ -18,6 +17,7 @@ depends=('alsa-utils'
          'xorg-xprop')
 makedepends=('python-setuptools' 'git')
 optdepends=('xprintidle: for Smart Pause plugin'
+            'python-croniter: for Health Stats plugin'
             'python-pyowm: for weather plugin')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
