@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/fkill
 pkgname=fkill
 _npmname=fkill-cli
-pkgver=6.0.1
+pkgver=6.1.0
 pkgrel=1
 pkgdesc="Fabulously kill processes. Cross-platform."
 arch=('any')
@@ -11,7 +11,7 @@ depends=('nodejs')
 makedepends=('npm' 'jq')
 source=("https://registry.npmjs.org/$_npmname/-/$_npmname-$pkgver.tgz")
 #noextract=("$_npmname-$pkgver.tgz")
-sha256sums=('d60a19bcfddc9d043c57418cb4440450abdfcf9b407c88d1ec66d3ac9eabc316')
+sha256sums=('4df84f692413dfa2720f20d9cb5feecca1cf8bf4ff59b4d5c6e17f3587104ef3')
 
 package() {
 	npm install \
@@ -22,11 +22,15 @@ package() {
 		"$srcdir"/$_npmname-$pkgver.tgz
 
 	# Non-deterministic race in npm gives 777 permissions to random directories.
-	# See https://github.com/npm/npm/issues/9359 for details.
-	find "${pkgdir}"/usr -type d -exec chmod 755 {} +
+	# See https://github.com/npm/cli/issues/1103 for details.
+	find "$pkgdir/usr" -type d -exec chmod 755 {} +
+
+	# npm gives ownership of ALL FILES to build user
+	# https://bugs.archlinux.org/task/63396
+	chown -R root:root "$pkgdir"
 
 	# Remove references to $pkgdir
-	find "$pkgdir" -type f -name package.json -print0 | xargs -0 sed -i "/_where/d"
+	find "$pkgdir" -name package.json -print0 | xargs -r -0 sed -i '/_where/d'
 
 	# Remove references to $srcdir
 	local tmppackage="$(mktemp)"
