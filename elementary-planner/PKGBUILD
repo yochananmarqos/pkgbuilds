@@ -1,5 +1,5 @@
 pkgname=elementary-planner
-pkgver=2.6.2
+pkgver=6.2.3
 pkgrel=1
 pkgdesc="Task manager with Todoist support"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('meson' 'vala' 'gobject-introspection')
 provides=('planner')
 conflicts=('planner')
 source=("planner-$pkgver.tar.gz::https://github.com/alainm23/planner/archive/$pkgver.tar.gz")
-sha256sums=('c83ab3ec0bc5c5a4fc314077db174c8efe4e3b01e15939920e74fcf9eb994b28')
+sha256sums=('ec789b98ebcb322e6157c058db8cf2e0bf89944262ac39c4fb53783e0c581792')
 
 build() {
 	arch-meson planner-$pkgver build
