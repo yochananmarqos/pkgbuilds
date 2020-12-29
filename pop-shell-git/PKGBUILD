@@ -4,7 +4,7 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
-pkgver=1.1.0.r10.ge2d2b4c
+pkgver=1.1.0.r13.gc533b20
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
@@ -55,7 +55,7 @@ package_gnome-shell-extension-pop-shell-git() {
 
 package_pop-shell-plugin-system76-power-git() {
 	pkgdesc="Launcher integration with system76-power"
-	depends=('gnome-terminal' 'system76-power')
+	depends=('gnome-shell-extension-pop-shell' 'gnome-terminal' 'system76-power')
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}")
 
