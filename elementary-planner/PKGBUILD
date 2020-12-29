@@ -3,7 +3,7 @@ pkgver=6.2.3
 pkgrel=1
 pkgdesc="Task manager with Todoist support"
 arch=('x86_64')
-url="https://planner-todo.web.app"
+url="https://useplanner.com"
 license=('GPL3')
 depends=('libsoup' 'granite' 'webkit2gtk' 'evolution-data-server'
          'libpeas' 'gtk-theme-elementary' 'elementary-icon-theme')
