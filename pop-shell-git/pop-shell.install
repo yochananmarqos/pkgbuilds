@@ -12,7 +12,7 @@ post_upgrade() {
 	post_install
 }
 
-post_remove() {
+#post_remove() {
 	# Restore keyboard shortcuts to default
 
 #	KEYS_GNOME_WM=/org/gnome/desktop/wm/keybindings
@@ -47,4 +47,4 @@ post_remove() {
 #	dconf reset ${KEYS_MEDIA}/www
 #	dconf reset ${KEYS_MEDIA}/rotate-video-lock-static
 #	dconf reset ${KEYS_GNOME_WM}/close
-}
+#}
