@@ -5,8 +5,9 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!aboutmanjarognome.svg
-!distro-logo.patch
+!0001-mouse-Add-Disable-While-Typing-toggle-for-touchpad.patch
 !pop-hidpi.patch
-!software-updates.patch
 !system76-firmware.patch
+!distro-logo.patch
+!software-updates.patch
+!aboutmanjarognome.svg
