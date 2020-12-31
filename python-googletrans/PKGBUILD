@@ -10,8 +10,8 @@ arch=('any')
 url="https://github.com/ssut/py-googletrans"
 license=('MIT')
 depends=('python-httpx' 'python-h2')
-optdepends=('python-hyper: faster http networking')
 makedepends=('python-setuptools')
+optdepends=('python-hyper: faster http networking')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
         "https://raw.githubusercontent.com/ssut/py-googletrans/master/LICENSE")
 sha256sums=('d20373a7975791318a7e5d6c6e3205012d7a990b8fabbfc6b0c16017a6dfae04'
