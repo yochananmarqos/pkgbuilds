@@ -3,17 +3,18 @@ groups=('modified')
 
 pkgname=python-googletrans
 _name=${pkgname#python-}
-pkgver=3.0.0
-pkgrel=2
+pkgver=3.1.0a0
+pkgrel=1
 pkgdesc="Free Google Translate API for Python."
 arch=('any')
 url="https://github.com/ssut/py-googletrans"
 license=('MIT')
-depends=('python-httpx')
+depends=('python-httpx' 'python-h2')
+optdepends=('python-hyper: faster http networking')
 makedepends=('python-setuptools')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz"
         "https://raw.githubusercontent.com/ssut/py-googletrans/master/LICENSE")
-sha256sums=('44caeea42d91ff6ead5c2d49db2b88de66c45c2fe874c8ec03eb9b4ceb3a533d'
+sha256sums=('d20373a7975791318a7e5d6c6e3205012d7a990b8fabbfc6b0c16017a6dfae04'
             '58133601df8fe921c7910b43210d724da1675037b33652d90dde101a9fcda197')
 
 build() {
