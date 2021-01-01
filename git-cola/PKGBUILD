@@ -22,7 +22,7 @@ build() {
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd "$pkgname-$pkgver"
 	export PYTHONHASHSEED=0
 #	make prefix=/usr DESTDIR="$pkgdir" install{,-doc,-html,-man}
 	make prefix=/usr DESTDIR="$pkgdir" install{,-man}
