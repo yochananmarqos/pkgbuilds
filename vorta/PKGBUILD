@@ -29,6 +29,8 @@ package() {
 
   install -Dm644 package/icon.svg \
     "$pkgdir/usr/share/icons/hicolor/scalable/apps/com.borgbase.Vorta.svg"
+  install -Dm644 package/icon-symbolic.svg \
+    "$pkgdir/usr/share/icons/hicolor/symbolic/apps/com.borgbase.Vorta-symbolic.svg"
   install -Dm644 "src/$pkgname/assets/metadata/com.borgbase.Vorta.appdata.xml" -t \
     "$pkgdir/usr/share/metainfo"
   install -Dm644 "src/$pkgname/assets/metadata/com.borgbase.Vorta.desktop" -t \
