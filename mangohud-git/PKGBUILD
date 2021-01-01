@@ -1,20 +1,23 @@
 # http://aur.archlinux.org/packages/mangohud-git
+groups=('modified')
+
 pkgname=('mangohud-git' 'lib32-mangohud-git' 'mangohud-common-git')
 pkgbase=mangohud-git
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
-pkgver=0.5.1.r3.g321af95
+pkgver=0.6.1.r10.gc16332e
 pkgrel=1
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
 license=('MIT')
 makedepends=('git' 'meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
-             'libxnvctrl' 'vulkan-headers')
+             'libxnvctrl' 'vulkan-headers' 'dbus' 'lib32-dbus'
+             'lib32-vulkan-icd-loader')
 source=("${pkgbase%-git}::git+https://github.com/flightlessmango/MangoHud.git")
 sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgbase%-git}"
-	git describe --tags | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -37,7 +40,7 @@ build() {
 }
 
 package_mangohud-git() {
-	depends=('mangohud-common' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
+	depends=('mangohud-common' 'dbus' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
 	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
 	provides=("${pkgname%-git}")
 	conflicts=("${pkgname%-git}")
@@ -48,7 +51,7 @@ package_mangohud-git() {
 }
 
 package_lib32-mangohud-git() {
-	depends=('mangohud-common' 'lib32-gcc-libs' 'lib32-libx11'
+	depends=('mangohud-common' 'lib32-dbus' 'lib32-gcc-libs' 'lib32-libx11'
              'lib32-vulkan-icd-loader')
 	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
 	provides=("${pkgname%-git}")

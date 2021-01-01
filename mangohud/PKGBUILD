@@ -1,16 +1,19 @@
 # http://aur.archlinux.org/packages/mangohud
+groups=('modified')
+
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
-pkgver=0.5.1
-pkgrel=3
+pkgver=0.6.1
+pkgrel=2
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
 license=('MIT')
 makedepends=('meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
-             'libxnvctrl' 'vulkan-headers')
+             'libxnvctrl' 'vulkan-headers' 'dbus' 'lib32-dbus'
+             'lib32-vulkan-icd-loader')
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('3e91d4fc7369d46763894c13f3315133871dd02705072981770c3cf58e8081c6')
+sha256sums=('a1cb0bef85fd46a6e5e7426b86e0d16714e5ec68f96c724f6f53a357f516f78b')
 
 build() {
 	arch-meson \
@@ -32,7 +35,7 @@ build() {
 }
 
 package_mangohud() {
-	depends=('mangohud-common' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
+	depends=('mangohud-common' 'dbus' 'gcc-libs' 'libx11' 'vulkan-icd-loader')
 	optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
 
 	DESTDIR="$pkgdir" meson install -C build64
@@ -41,7 +44,7 @@ package_mangohud() {
 }
 
 package_lib32-mangohud() {
-	depends=('mangohud-common' 'lib32-gcc-libs' 'lib32-libx11'
+	depends=('mangohud-common' 'lib32-dbus' 'lib32-gcc-libs' 'lib32-libx11'
 	         'lib32-vulkan-icd-loader')
 	optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
 
