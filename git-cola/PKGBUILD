@@ -1,0 +1,29 @@
+# https://aur.archlinux.org/packages/git-cola
+pkgname=git-cola
+pkgver=3.8
+pkgrel=1
+pkgdesc="The highly caffeinated Git GUI"
+arch=('any')
+url="https://git-cola.github.io"
+license=('GPL2')
+depends=('git' 'python-pyqt5' 'qt5-svg')
+#makedepends=('asciidoc' 'docbook-xsl' 'rsync' 'xmlto' 'python-sphinx')
+makedepends=('python-sphinx')
+optdepends=('python-pygments: syntax highlighting'
+            'python-pyinotify: for inotify support'
+            'tcl: to use the built-in ssh-askpass handler')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/git-cola/git-cola/archive/v$pkgver.tar.gz")
+sha256sums=('ea482ca32fe142ddba500d2edf3a05f11e31cf193e5d7a944f3fe28c9ab123d4')
+
+build() {
+	cd "$pkgname-$pkgver"
+#	make all doc html man
+	make all man
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+	export PYTHONHASHSEED=0
+#	make prefix=/usr DESTDIR="$pkgdir" install{,-doc,-html,-man}
+	make prefix=/usr DESTDIR="$pkgdir" install{,-man}
+}
