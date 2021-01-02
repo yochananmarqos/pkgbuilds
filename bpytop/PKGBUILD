@@ -7,11 +7,10 @@ arch=('any')
 url="https://github.com/aristocratos/bpytop"
 license=('Apache')
 depends=('python' 'python-psutil')
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/aristocratos/$pkgname/archive/v$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('437ede3668fad5f19f448d4183ef791e2ec3377281dc6e8adaabb3333bbf2c54')
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-
-  make DESTDIR="${pkgdir}" PREFIX=/usr install
+	cd "$pkgname-$pkgver"
+	make PREFIX=/usr DESTDIR="$pkgdir" install
 }
