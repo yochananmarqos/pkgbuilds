@@ -1,6 +1,8 @@
 # http://aur.archlinux.org/packages/scrcpy-git
+groups=('modified')
+
 pkgname=scrcpy-git
-pkgver=1.12.1.r12.g2afbfc2
+pkgver=1.17.r1.gc5c5fc1
 pkgrel=1
 pkgdesc='Display and control your Android device'
 arch=('i686' 'x86_64')
@@ -14,7 +16,7 @@ source=('git+https://github.com/Genymobile/scrcpy.git'
         "$url/releases/download/v${pkgver%.r*}/${pkgname%-git}-server-v${pkgver%.r*}")
 noextract=("${pkgname%-git}-server"*)
 sha256sums=('SKIP'
-            '63e569c8a1d0c1df31d48c4214871c479a601782945fed50c1e61167d78266ea')
+            '11b5ad2d1bc9b9730fb7254a78efd71a8ff46b1938ff468e47a21b653a1b6725')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
