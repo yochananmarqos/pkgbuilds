@@ -1,6 +1,8 @@
 # https://www.archlinux.org/packages/community/any/lutris
+groups=('modified')
+
 pkgname=lutris
-pkgver=0.5.8.1
+pkgver=0.5.8.2
 pkgrel=1.1
 pkgdesc='Open Gaming Platform'
 arch=('any')
@@ -16,11 +18,11 @@ optdepends=('wine: Windows support'
             'vkd3d: Vulkan 3D support'
             'lib32-vkd3d: Vulkan 3D support'
             'gvfs: GVFS backend'
-            'gamemode'
-            'mangohud')
+            'gamemode: Request a set of optimisations be temporarily applied to host OS'
+            "mangohud: Display the games' FPS + other information")
 makedepends=('python-setuptools')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('27f9dd30304eb132476958e56b0a4c27ff78b8e294465cb2646212cca2f9dd640849690ce797ef905b5a3ddb9f636badf0201672b99f6f88a2ed4438a0382e5b')
+sha512sums=('20fa4582bbd57c71a305a64529d9d169c43c168507f3ad275a41165cb3c117850ee5160e9c7a3f78d091ff0250f8c3ea17b2b4ea00d19863c6ba0add2154d1dd')
 
 build() {
   cd $pkgname-$pkgver
