@@ -1,6 +1,6 @@
 # https://archlinux.org/packages/community/any/bpytop
 pkgname=bpytop
-pkgver=1.0.55
+pkgver=1.0.56
 pkgrel=1
 pkgdesc="Resource monitor that shows usage and stats for processor, memory, disks, network and processes"
 arch=('any')
@@ -8,7 +8,7 @@ url="https://github.com/aristocratos/bpytop"
 license=('Apache')
 depends=('python' 'python-psutil')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('437ede3668fad5f19f448d4183ef791e2ec3377281dc6e8adaabb3333bbf2c54')
+sha256sums=('ea1cdc292174cd05fbb17f237a99f8357304c67dfe873297223316c8ca981b7a')
 
 package() {
 	cd "$pkgname-$pkgver"
