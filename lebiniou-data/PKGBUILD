@@ -11,7 +11,7 @@ sha256sums=('4b244c2760536da1c08ef388579f63cfd642e75e7681a9119749240e663c49f1')
 
 build() {
 	cd "$pkgname-version-$pkgver"
-	autoreconf -i
+	./bootstrap
 	./configure --prefix=/usr
 }
 
