@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/include/orcania.h
+orcania-cfg.h
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/include/orcania-cfg.h
+stdio.h
+-
+stdlib.h
+-
+
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/base64.c
+string.h
+-
+math.h
+-
+orcania.h
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/orcania.h
+
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/memory.c
+stdlib.h
+-
+orcania.h
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/orcania.h
+
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/orcania.c
+stdio.h
+-
+string.h
+-
+ctype.h
+-
+stdarg.h
+-
+orcania.h
+/mnt/storage/pkgbuilds/liborcania/src/orcania-2.1.1/src/orcania.h
+
+orcania-cfg.h
+

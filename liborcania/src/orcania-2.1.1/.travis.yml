@@ -1,0 +1,43 @@
+# travis configuration file
+# Copyright 2018 Ilya Shipitsin <chipitsine@gmail.com>
+#           2018-2020 Nicolas Mora <mail@babelouest.org>
+language: c
+
+os: linux
+dist: bionic
+
+addons:
+  apt:
+    packages: [ check, libsubunit-dev, cppcheck, pkg-config, doxygen ]
+jobs:
+  include:
+    - env: LABEL=linux-gcc
+      compiler: gcc
+    - env: LABEL=lnux-clang
+      compiler: clang
+    - env: LABEL=osx
+      os: osx
+      addons:
+        homebrew:
+          packages:
+          - check
+          - pkg-config
+          update: true
+      script:
+        - mkdir build && cd build
+        - cmake -DBUILD_ORCANIA_TESTING=on ..
+        - make test
+    - env: LABEL=cppcheck
+      script:
+        - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 .
+script:
+  - pushd test
+  - make test
+  - popd
+  - mkdir build && cd build
+  - cmake -DBUILD_ORCANIA_TESTING=on -DBUILD_ORCANIA_DOCUMENTATION=on ..
+  - make test package doc
+  - sudo make install
+  - cd ../
+  - make
+  - make clean check

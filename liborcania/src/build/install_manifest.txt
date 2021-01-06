@@ -1,0 +1,6 @@
+/usr/lib/pkgconfig/liborcania.pc
+/usr/lib/liborcania.so.2.1.1
+/usr/lib/liborcania.so.2.1
+/usr/lib/liborcania.so
+/usr/include/orcania.h
+/usr/include/orcania-cfg.h

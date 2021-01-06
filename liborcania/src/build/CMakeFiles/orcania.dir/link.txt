@@ -1,0 +1,1 @@
+/usr/lib/ccache/bin/cc -fPIC -D_FORTIFY_SOURCE=2 -march=x86-64 -mtune=generic -O2 -pipe -fno-plt -Wall -Werror -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now -shared -Wl,-soname,liborcania.so.2.1 -o liborcania.so.2.1.1 CMakeFiles/orcania.dir/src/base64.c.o CMakeFiles/orcania.dir/src/memory.c.o CMakeFiles/orcania.dir/src/orcania.c.o  -lm 
