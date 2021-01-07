@@ -1,0 +1,34 @@
+# https://aur.archlinux.org/packages/rclone-browser
+groups=('modified')
+
+pkgname=rclone-browser
+pkgver=1.8.0
+pkgrel=3
+pkgdesc="Simple cross-platform GUI for rclone"
+arch=('x86_64' 'armv6h' 'armv7h' 'aarch64')
+url="https://github.com/kapitainsky/RcloneBrowser"
+license=('MIT')
+depends=('qt5-base' 'rclone')
+makedepends=('cmake')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('5f8242a011b85477749127b7e94e874035c431c2fa6df817e5603ed891604beb')
+
+prepare() {
+	cd "RcloneBrowser-$pkgver"
+	sed -i 's/-Werror/-Wno-deprecated-declarations/g' src/CMakeLists.txt
+}
+
+build() {
+	cmake -B build -S "RcloneBrowser-$pkgver" \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
+	make -C build
+}
+
+package() {
+	make -C build DESTDIR="$pkgdir" install
+
+	cd "RcloneBrowser-$pkgver"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
