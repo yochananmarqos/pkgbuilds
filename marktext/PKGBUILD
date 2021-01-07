@@ -35,7 +35,7 @@ prepare() {
     export npm_config_cache="$srcdir/npm-cache"
 
     local npm_prefix=$(npm config get prefix)
-    local nodeversion='12.20.0'
+    local nodeversion='12.20.1'
 
     npm config delete prefix
     source /usr/share/nvm/init-nvm.sh
