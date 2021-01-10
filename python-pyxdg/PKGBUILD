@@ -1,0 +1,27 @@
+# https://archlinux.org/packages/extra/any/python-pyxdg
+pkgname=python-pyxdg
+_name=${pkgname#python-}
+pkgver=0.27
+pkgrel=1
+pkgdesc="Python library to access freedesktop.org standards"
+arch=('any')
+url="http://freedesktop.org/Software/pyxdg"
+license=('LGPL')
+depends=('python')
+makedepends=('python-setuptools')
+provides=('python-xdg')
+conflicts=('python-xdg')
+replaces=('python-xdg<0.26-5')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('80bd93aae5ed82435f20462ea0208fb198d8eec262e831ee06ce9ddb6b91c5a5')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
