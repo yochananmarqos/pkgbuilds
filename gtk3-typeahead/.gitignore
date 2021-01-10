@@ -6,7 +6,5 @@
 !PKGBUILD
 !.SRCINFO
 !gtk3.install
-!0001-gtkplacessidebar-Disconnect-and-unref-cloud_manager-.patch
 !gtk-query-immodules-3.0.hook
-!settings.ini
 !typeahead.patch
