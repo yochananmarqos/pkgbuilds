@@ -5,3 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!bpytop.desktop
+!bpytop.svg

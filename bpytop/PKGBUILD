@@ -1,16 +1,23 @@
 # https://archlinux.org/packages/community/any/bpytop
 pkgname=bpytop
-pkgver=1.0.58
+pkgver=1.0.59
 pkgrel=1
 pkgdesc="Resource monitor that shows usage and stats for processor, memory, disks, network and processes"
 arch=('any')
 url="https://github.com/aristocratos/bpytop"
 license=('Apache')
 depends=('python' 'python-psutil')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('e62ed966e7ae7736754f39305abdeb7c68c2d3f27db09daf25910a01a9c6317e')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
+        "$pkgname.desktop"
+        "$pkgname.svg")
+sha256sums=('c95d0034ab6567a72d377d12806f5a89f87a796e72b8993fbbb5efc79e5a9133'
+            '2df6bb20ef42a818a625c4c89614dc78b6e551008d143570826f5d5d0354fc87'
+            '17634da93c09101ce3ee1687e55d1c3835e9c92cea606744f0993558d5a4d4ff')
 
 package() {
 	cd "$pkgname-$pkgver"
 	make PREFIX=/usr DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+	install -Dm644 "$srcdir/$pkgname.svg" -t "$pkgdir/usr/share/pixmaps"
 }

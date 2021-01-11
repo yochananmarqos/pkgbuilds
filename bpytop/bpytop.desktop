@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/bpytop
+Name=bpytop
+GenericName=bpytop
+Comment=Resource monitor that shows adjustable usage and stats
+Icon=/usr/share/pixmaps/bpytop.svg
+Categories=System;Utility;
+Terminal=true
+Hidden=false
+NoDisplay=false
+StartupNotify=true
+Keywords=system;process;task;cpu;processor;frequency;memory;ram;resources;sensors;
