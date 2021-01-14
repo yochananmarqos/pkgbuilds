@@ -1,5 +1,5 @@
 pkgname=adwmod-theme-git
-pkgver=r138.15594c1
+pkgver=r152.8f58851
 pkgrel=1
 pkgdesc="A modified default GNOME/GTK theme with some extras/enhancements/additions."
 arch=('any')
@@ -19,6 +19,7 @@ pkgver() {
 
 build() {
 	arch-meson "${pkgname%-git}" build
+	meson compile -C build
 }
 
 package() {
