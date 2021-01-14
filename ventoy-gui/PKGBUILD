@@ -1,11 +1,11 @@
 pkgname=ventoy-gui
-pkgver=20200518
+pkgver=20210114
 pkgrel=1
 pkgdesc="GUI for Ventoy Multiboot USB"
 arch=('any')
 url="https://github.com/Philippe734/Snippets/tree/master/GUI-for-ventoy"
 license=('GPL')
-depends=('ventoy' 'yad' 'exfat-utils' 'xterm')
+depends=('ventoy' 'yad' 'exfat-utils' 'xterm' 'libnotify')
 source=('https://github.com/Philippe734/Snippets/raw/master/GUI-for-ventoy/VentoyMultibootusbGUI.sh'
         "$pkgname.desktop"
         "$pkgname.png")
@@ -15,6 +15,10 @@ sha256sums=('c06d2234817290082e65e83b4c0e348afa9623836a4ef6f219e704d2e0ad8a81'
 
 pkgver() {
 	date +%Y%m%d
+}
+
+prepare() {
+	sed -i 's|path/to/Ventoy2Disk.sh|opt/ventoy/Ventoy2Disk.sh|g' VentoyMultibootusbGUI.sh
 }
 
 package() {
