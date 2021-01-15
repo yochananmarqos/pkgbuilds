@@ -1,6 +1,8 @@
 # https://aur.archlinux.org/packages/hardcode-tray-git
+groups=('modified')
+
 pkgname=hardcode-tray-git
-pkgver=4.3.r123.gbde2a01
+pkgver=4.3.r143.gae402e8
 pkgrel=1
 pkgdesc="Fixes hardcoded tray icons"
 arch=('i686' 'x86_64')
