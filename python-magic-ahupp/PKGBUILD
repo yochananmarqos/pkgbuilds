@@ -1,0 +1,30 @@
+# https://aur.archlinux.org/packages/python-magic-ahupp
+groups=('modified')
+
+pkgname=python-magic-ahupp
+_name=python-magic
+pkgdesc="A Python wrapper for libmagic"
+pkgver=0.4.20
+pkgrel=1
+arch=('any')
+url="https://github.com/ahupp/python-magic"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools')
+provides=('python-magic')
+conflicts=('python-magic')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('0cc52ccad086c377b9194014e3dbf98d94b194344630172510a6a3e716b47801')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
