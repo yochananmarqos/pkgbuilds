@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/chromeos-gtk-theme-git
 pkgname=chromeos-gtk-theme-git
-pkgver=2020.01.18.r44.g7bf97f1
+pkgver=2020.01.18.r53.gafea60b
 pkgrel=1
 pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
 arch=('any')
@@ -8,7 +8,8 @@ url="https://github.com/vinceliuice/ChromeOS-theme"
 license=('GPL3')
 depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
 makedepends=('git' 'bc')
-optdepends=('vimix-icon-theme: Recommended icon theme'
+optdepends=('kvantum-theme-chromeos: Matching Kvantum theme'
+            'vimix-icon-theme: Recommended icon theme'
             'plank: for Plank theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
