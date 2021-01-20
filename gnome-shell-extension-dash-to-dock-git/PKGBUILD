@@ -1,8 +1,8 @@
 # http://aur.archlinux.org/packages/gnome-shell-extension-dash-to-dock-git
 pkgname=gnome-shell-extension-dash-to-dock-git
 _gitname=dash-to-dock
-pkgver=69.r0.g71abe80
-pkgrel=1
+pkgver=69.r11.g7a2c87b
+pkgrel=2
 pkgdesc="Move the dash out of the overview transforming it in a dock"
 arch=('any')
 url="https://micheleg.github.io/dash-to-dock"
@@ -12,12 +12,21 @@ makedepends=('git' 'intltool')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 install="$_gitname.install"
-source=('git+https://github.com/micheleg/dash-to-dock.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/micheleg/dash-to-dock.git'
+        'https://github.com/micheleg/dash-to-dock/pull/1369.patch')
+sha256sums=('SKIP'
+            '348a372e14f5196cb9a3a5b93506a8af21575fc872d13293518c671e2f92059a')
 
 pkgver() {
 	cd "$srcdir/$_gitname"
 	git describe --long --tags | sed 's/^extensions.gnome.org.v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+	cd "$srcdir/$_gitname"
+
+	# Fix grid flashing on app grid animation
+	git apply -3 "$srcdir/1369.patch"
 }
 
 build() {
