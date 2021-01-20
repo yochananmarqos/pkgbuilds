@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=auto-cpufreq-git
-pkgver=1.5.2.r2.g6f7eec3
+pkgver=1.5.2.r4.g11872ac
 pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
@@ -27,6 +27,11 @@ pkgver() {
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
 	sed -i 's|usr/local|usr|g' "scripts/${pkgname%-git}.service" source/core.py
+
+	if [ ! -d auto_cpufreq ]; then
+		mv source auto_cpufreq
+	fi
+	sed -i 's|source|auto_cpufreq|g' {bin/${pkgname%-git},setup.py}
 }
 
 build() {
