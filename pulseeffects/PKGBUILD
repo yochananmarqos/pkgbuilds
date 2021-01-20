@@ -1,0 +1,31 @@
+# https://archlinux.org/packages/community/x86_64/pulseeffects
+# https://github.com/wwmm/pulseeffects/blob/master/PKGBUILD
+pkgname=pulseeffects
+pkgver=5.0.0
+pkgrel=1
+pkgdesc='Audio Effects for Pulseaudio Applications'
+arch=('x86_64')
+url='https://github.com/wwmm/pulseeffects'
+license=('GPL3')
+depends=('gtk3' 'gtkmm3' 'glibmm' 'pipewire' 'gstreamer' 'gst-plugin-pipewire'
+         'gst-plugins-good' 'gst-plugins-bad' 'lilv' 'boost-libs' 'libsigc++'
+         'libsndfile' 'libsamplerate' 'zita-convolver' 'libebur128')
+makedepends=('meson' 'boost' 'itstool' 'appstream-glib' 'calf' 'zam-plugins'
+             'rubberband' 'librnnoise')
+optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
+            'lsp-plugins: equalizer, delay'
+            'rubberband: pitch shifting'
+            'zam-plugins: maximizer'
+            'librnnoise: noise remover'
+            'yelp: in-app help')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('f33ed737077dd0ab65e85707d7ff936b6e5def36c03f31f3cfab5bf09a1e2b9e')
+
+build() {
+	arch-meson $pkgname-$pkgver build
+	meson compile -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+}
