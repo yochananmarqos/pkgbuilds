@@ -1,0 +1,36 @@
+# This is the last release supporting Pulseaudio. The following PulseEffects
+# releases will be based on the new Pipewire multimedia server and only fixes
+# to critical bugs will be backported to the legacy pulseaudio branch
+# https://github.com/wwmm/pulseeffects/tree/pulseaudio-legacy.
+
+pkgname=pulseeffects-legacy
+pkgver=4.8.4
+pkgrel=1
+pkgdesc='Audio Effects for Pulseaudio Applications'
+arch=('x86_64')
+url='https://github.com/wwmm/pulseeffects'
+license=('GPL3')
+depends=('gtk3' 'gtkmm3' 'glibmm' 'pulseaudio' 'gstreamer' 'gst-plugin-gtk'
+         'gst-plugins-bad' 'lilv' 'boost-libs' 'libsigc++' 'libsndfile'
+         'libsamplerate' 'zita-convolver' 'libebur128')
+makedepends=('meson' 'boost' 'itstool' 'appstream-glib' 'zam-plugins'
+             'rubberband' 'librnnoise')
+optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
+            'lsp-plugins: equalizer, delay'
+            'rubberband: pitch shifting'
+            'zam-plugins: maximizer'
+            'librnnoise: noise remover'
+            'yelp: in-app help')
+provides=('pulseeffects')
+conflicts=('pulseeffects')
+source=("pulseeffects-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('12ba3205025d815a747b58636861594f7d1e43a578a5b0411f7794f4c12e5d86')
+
+build() {
+	arch-meson pulseeffects-$pkgver build
+	meson compile -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+}
