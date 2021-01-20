@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=auto-cpufreq-git
-pkgver=1.5.1.r1.g070103d
+pkgver=1.5.2.r2.g6f7eec3
 pkgrel=1
 pkgdesc="Automatic CPU speed & power optimizer"
 arch=('any')
@@ -11,7 +11,6 @@ url="https://github.com/AdnanHodzic/auto-cpufreq"
 license=('LGPL3')
 depends=('python-distro' 'python-psutil' 'python-click' 'lm_sensors')
 makedepends=('git' 'python-setuptools')
-# NOTE: opdepends must be installed first, otherwise files will conflict
 optdepends=('cpufreqctl: CPU Power Manager'
             'gnome-shell-extension-cpufreq: CPU Power Manager for GNOME Shell')
 provides=("${pkgname%-git}")
@@ -22,8 +21,6 @@ sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
-#	local srcversion="$(grep "version: '" snap/snapcraft.yaml | cut -d "'" -f 2)"
-#	printf "%s.r%s.%s" $srcversion "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
