@@ -20,6 +20,17 @@ sha256sums=('SKIP'
             'f8c65fc3e29d44e41092b25694ea63c01b00b65a7687b3b1b64d348227beab7f'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
+_ensure_local_nvm() {
+	# lets be sure we are starting clean
+	which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
+	export NVM_DIR="$srcdir/.nvm"
+
+	# The init script returns 3 if version
+	# specified in ./.nvrc is not (yet) installed in $NVM_DIR
+	# but nvm itself still gets loaded ok
+	source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
+}
+
 prepare() {
 	cd "$srcdir/desktop"
 	# Link jslib
@@ -36,17 +47,19 @@ prepare() {
 	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron9"'\
 	> package.json.patched
 	mv package.json.patched package.json
-}
 
-build() {
 	export npm_config_cache="$srcdir/npm_cache"
 	local nodeversion='12.20.1'
 	local npm_prefix=$(npm config get prefix)
 	npm config delete prefix
-	source /usr/share/nvm/init-nvm.sh
+	_ensure_local_nvm
 	nvm install "$nodeversion" && nvm use "$nodeversion"
+}
 
+build() {
 	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+	_ensure_local_nvm
+
 	cd "$srcdir/desktop/jslib"
 	npm install
 
