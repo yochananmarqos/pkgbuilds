@@ -9,8 +9,10 @@ depends=('clight-git' 'qt5-charts')
 makedepends=('git' 'cmake')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/nullobsi/clight-gui.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/nullobsi/clight-gui.git'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            'da3897b1bcfa40fa872b139913bff61ecbd62188c9259ce45312a4120e464683')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -27,4 +29,5 @@ build() {
 
 package() {
 	install -Dm755 "build/${pkgname%-git}" -t "$pkgdir/usr/bin"
+	install -Dm644 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 }
