@@ -6,3 +6,4 @@ Exec=clight-gui
 Terminal=false
 Hidden=false
 Categories=Utility
+Comment=Qt GUI for Clight
