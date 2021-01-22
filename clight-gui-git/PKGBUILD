@@ -1,0 +1,29 @@
+pkgname=clight-gui-git
+pkgver=r24.4713a6a
+pkgrel=1
+pkgdesc="Qt GUI for clight"
+arch=('x86_64')
+url="https://github.com/nullobsi/clight-gui"
+license=('GPL3')
+depends=('clight-git' 'qt5-charts')
+makedepends=('git' 'cmake')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/nullobsi/clight-gui.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    cmake -B build -S "${pkgname%-git}/src" \
+        -DCMAKE_BUILD_TYPE=None \
+        -DCMAKE_INSTALL_PREFIX=/usr
+    make -C build
+}
+
+package() {
+    make -C build DESTDIR="$pkgdir" install
+}
