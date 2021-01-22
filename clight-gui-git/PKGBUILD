@@ -1,5 +1,5 @@
 pkgname=clight-gui-git
-pkgver=r24.4713a6a
+pkgver=r27.96075a7
 pkgrel=1
 pkgdesc="Qt GUI for clight"
 arch=('x86_64')
@@ -18,12 +18,13 @@ pkgver() {
 }
 
 build() {
-    cmake -B build -S "${pkgname%-git}/src" \
-        -DCMAKE_BUILD_TYPE=None \
-        -DCMAKE_INSTALL_PREFIX=/usr
-    make -C build
+	cmake -B build -S "${pkgname%-git}/src" \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
+	make -C build
 }
 
 package() {
-    make -C build DESTDIR="$pkgdir" install
+	install -Dm755 "build/${pkgname%-git}" -t "$pkgdir/usr/bin"
 }
