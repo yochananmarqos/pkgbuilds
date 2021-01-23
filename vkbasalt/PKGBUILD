@@ -1,17 +1,17 @@
 # https://aur.archlinux.org/packages/vkbasalt
 pkgname=vkbasalt
-pkgver=0.3.2.3
-pkgrel=4
+pkgver=0.3.2.4
+pkgrel=1
 pkgdesc="A Vulkan post processing layer to enhance the visual graphics of games"
 arch=('x86_64')
 url="https://github.com/DadSchoorse/vkBasalt"
 license=('zlib')
 depends=('gcc-libs' 'libx11')
-makedepends=('meson' 'glslang')
+makedepends=('meson' 'glslang' 'vulkan-headers' 'spirv-headers')
 optdepends=('reshade-shaders-git')
-backup=(etc/vkBasalt/vkBasalt.conf)
+backup=('etc/vkBasalt/vkBasalt.conf')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('8cc65a69a20ac16802a8ff46629efa6540dee22daeef9db4ad0a22b63d2a4368')
+sha256sums=('f45d513d9f212e9a1e1ec49448e72c5f2510d62303c38fdb5015b9a3afd42b26')
 
 prepare() {
 	cd vkBasalt-$pkgver
@@ -22,9 +22,8 @@ prepare() {
 }
 
 build() {
-	arch-meson \
-		-Dappend_libdir_vkbasalt=true \
-		vkBasalt-$pkgver build
+	arch-meson vkBasalt-$pkgver build \
+		-Dappend_libdir_vkbasalt=true
 	meson compile -C build
 }
 
