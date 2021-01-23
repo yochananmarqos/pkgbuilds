@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=lutris
-pkgver=0.5.8.2
-pkgrel=2
+pkgver=0.5.8.3
+pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
@@ -31,10 +31,10 @@ optdepends=(
   "mangohud: Display the games' FPS + other information")
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('20fa4582bbd57c71a305a64529d9d169c43c168507f3ad275a41165cb3c117850ee5160e9c7a3f78d091ff0250f8c3ea17b2b4ea00d19863c6ba0add2154d1dd')
+sha512sums=('d551374bfb2a22a65ac6a0b059513f4985820d402a8ea771df2c5d0b2e454efc93d1042446b79cd84c1a52f1c197abb649e37ed243d761b8db62aec0209b60da')
 
 build() {
-  arch-meson "${pkgname%-git}" build
+  arch-meson "$pkgname-$pkgver" build
   meson compile -C build
 }
 
