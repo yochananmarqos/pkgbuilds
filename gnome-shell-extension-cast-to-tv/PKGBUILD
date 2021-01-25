@@ -7,7 +7,6 @@ arch=('x86_64')
 url="https://rafostar.github.io/gnome-shell-extension-cast-to-tv"
 license=('GPL2')
 depends=('gnome-shell' 'ffmpeg' 'npm')
-makedepends=('npm')
 optdepends=('python-nautilus: Nautilus integration'
             'cast-to-tv-desktop-addon: Desktop streaming support'
             'cast-to-tv-links-addon: Web links casting support')
