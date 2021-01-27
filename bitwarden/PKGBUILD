@@ -1,6 +1,6 @@
 # https://aur.archlinux.org/packages/bitwarden
 pkgname=bitwarden
-pkgver=1.24.4
+pkgver=1.24.6
 pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
@@ -86,6 +86,5 @@ package() {
 	done
 
 	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/bitwarden-desktop"
-
 	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
