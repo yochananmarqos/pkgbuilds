@@ -1,0 +1,44 @@
+# https://aur.archlinux.org/packages/paru
+groups=('modified')
+
+pkgname=paru
+pkgver=1.1.4
+pkgrel=1
+pkgdesc="AUR helper based on yay"
+arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
+url="https://github.com/morganamilo/paru"
+license=('GPL3')
+depends=('git' 'pacman')
+makedepends=('rust')
+optdepends=('asp: downloading repo PKGBUILDs'
+            'bat: colored PKGBUILD printing'
+            'bash-completion: for BASH completions'
+            'zsh-completions: for ZSH completions')
+backup=("etc/$pkgname.conf")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('46c2b1b61d904618473d76d23ea708f4b7ad2c089b9e63d40c0ede503f532009')
+
+build () {
+	cd "$pkgname-$pkgver"
+	if pacman -T pacman-git > /dev/null; then
+		_features+="git,"
+	fi
+
+	if [[ $(rustc -V) == *"nightly"* ]]; then
+		_features+="backtrace,"
+	fi
+
+	cargo build --locked --features "${_features:-}" --release --target-dir target
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin"
+	install -Dm644 "$pkgname.conf" -t "$pkgdir/etc"
+	install -Dm644 "man/$pkgname.8" -t "$pkgdir/usr/share/man/man8"
+	install -Dm644 "man/$pkgname.conf.5" "$pkgdir/usr/share/man/man5"
+	install -Dm644 completions/bash \
+		"$pkgdir/usr/share/bash-completion/completions/$pkgname.bash"
+	install -Dm644 completions/fish "$pkgdir/usr/share/fish/completions/paru.fish"
+	install -Dm644 completions/zsh "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
+}
