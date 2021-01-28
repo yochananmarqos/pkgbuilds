@@ -1,0 +1,55 @@
+# https://aur.archlinux.org/packages/fx_cast/
+pkgname=fx_cast
+pkgver=0.1.0
+pkgrel=1
+epoch=1
+pkgdesc="Implementation of the Google Cast Chrome Sender SDK within Firefox "
+arch=('x86_64')
+url="https://hensm.github.io/fx_cast/"
+license=('MIT')
+makedepends=('npm' 'jq' 'setconf')
+depends=('nodejs' 'avahi')
+conflicts=("$pkgname-bin")
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/hensm/fx_cast/archive/v$pkgver.tar.gz")
+sha256sums=('529425e78208e6acfe54284c1ca145ff1781daf627334939630b31cc53234be7')
+
+prepare() {
+	cd "$pkgname-$pkgver"
+	sed -i 's/`node.*`/"host"/' app/bin/build.js
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	npm install --cache "$srcdir/npm-cache"
+	npm run build:app
+
+	sed -i 's#"path":.*$#"path": "/usr/lib/node_modules/fx_cast/fx_cast_bridge.sh"#' \
+		"dist/app/${pkgname}_bridge.json"
+
+	setconf "dist/app/${pkgname}_bridge.sh" NODE_PATH \
+		'"/usr/lib/node_modules/fx_cast/node_modules" node $(dirname $0)/src/main.js --__name $(basename $0) "$@"'
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	install -Dm755 "dist/app/${pkgname}_bridge.sh" -t "$pkgdir/usr/lib/node_modules/$pkgname"
+	install -Dm644 dist/app/package.json -t "$pkgdir/usr/lib/node_modules/$pkgname"
+	cp -r dist/app/src "$pkgdir/usr/lib/node_modules/$pkgname/"
+	cp -r app/node_modules "$pkgdir/usr/lib/node_modules/$pkgname/"
+
+	install -Dm644 "dist/app/${pkgname}_bridge.json" -t \
+		"$pkgdir/usr/lib/mozilla/native-messaging-hosts/"
+
+	# Remove references to $pkgdir
+	find "$pkgdir" -type f -name package.json -print0 | xargs -0 sed -i "/_where/d"
+
+	# Remove references to $srcdir
+	local tmppackage="$(mktemp)"
+	local pkgjson="$pkgdir/usr/lib/node_modules/$pkgname/package.json"
+	jq '.|=with_entries(select(.key|test("_.+")|not))' "$pkgjson" > "$tmppackage"
+	mv "$tmppackage" "$pkgjson"
+	chmod 644 "$pkgjson"
+
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}_bridge/"
+}
