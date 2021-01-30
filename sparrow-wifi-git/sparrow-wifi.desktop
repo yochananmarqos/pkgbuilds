@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Icon=sparrow-wifi
-Name=Sparrow Wifi
-Exec=sparrow-wifi-launcher
-Terminal=false
-Hidden=false
-Categories=Network
-Comment=WiFi and Bluetooth Analyzer
