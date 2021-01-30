@@ -1,5 +1,7 @@
 # http://aur.archlinux.org/packages/mp3tag
 # https://gitlab.com/n4r3n/pkgbuilds/-/tree/master/mp3tag
+groups=('modified')
+
 pkgname=mp3tag
 pkgver=3.05
 pkgrel=1
