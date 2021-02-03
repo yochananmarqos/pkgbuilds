@@ -26,12 +26,11 @@ prepare() {
 build() {
 	cd "$srcdir/$pkgname"
 	qmake \
-	QMAKE_CFLAGS="$CFLAGS" \
-	QMAKE_CXXFLAGS="$CXXFLAGS" \
-	QMAKE_LFLAGS="$LDFLAGS" \
-	DEFINES+=X11 \
-	PREFIX=/usr
-
+		QMAKE_CFLAGS="$CFLAGS" \
+		QMAKE_CXXFLAGS="$CXXFLAGS" \
+		QMAKE_LFLAGS="$LDFLAGS" \
+		DEFINES+=X11 \
+		PREFIX=/usr
 	make
 }
 
