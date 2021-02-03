@@ -1,6 +1,8 @@
 # http://aur.archlinux.org/packages/protontricks-git
+groups=('modified')
+
 pkgname=protontricks-git
-pkgver=1.4.1.r2.g351474c
+pkgver=1.4.4.r0.ge997181
 pkgrel=1
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
@@ -27,6 +29,7 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
+	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
 	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
