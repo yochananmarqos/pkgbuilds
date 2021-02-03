@@ -20,7 +20,6 @@ optdepends=('python-pyqt5: system tray menu support'
             'alsa-utils: to cast with ALSA')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-#options=('!emptydirs')
 source=('git+https://github.com/muammar/mkchromecast.git')
 sha256sums=('SKIP')
 
