@@ -1,0 +1,44 @@
+# https://aur.archlinux.org/packages/mkchromecast-git
+pkgname=mkchromecast-git
+pkgver=0.3.8.1.r151.gc6078e86
+pkgrel=1
+pkgdesc="Cast Audio/Video to your Google Cast and Sonos Devices"
+arch=('any')
+url="https://mkchromecast.com"
+license=('MIT')
+depends=('python-gobject' 'python-requests' 'python-psutil' 'python-flask'
+         'python-netifaces' 'python-pychromecast' 'python-mutagen' 'vorbis-tools'
+         'sox' 'lame' 'flac' 'faac' )
+makedepends=('git' 'python-setuptools')
+optdepends=('python-pyqt5: system tray menu support'
+            'python-soco: Sonos support'
+            'soco: Sonos support'
+            'pulseaudio: to cast with PulseAudio'
+            'pavucontrol: to cast with PulseAudio'
+            'ffmpeg'
+            'youtube-dl: YouTube support'
+            'alsa-utils: to cast with ALSA')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+#options=('!emptydirs')
+source=('git+https://github.com/muammar/mkchromecast.git')
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	python setup.py build
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 LICENSE -t "pkgdir/usr/share/licenses/${pkgname%-git}"
+	install -Dm644 "images/${pkgname%-git}.xpm" -t "$pkgdir/usr/share/pixmaps"
+}

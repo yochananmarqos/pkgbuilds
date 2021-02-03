@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/python-pychromecast/
+pkgname=python-pychromecast
+_name=PyChromecast
+pkgver=8.0.0
+pkgrel=1
+pkgdesc='Library for Python 3 to communicate with the Google Chromecast'
+arch=('any')
+url="https://github.com/home-assistant-libs/pychromecast"
+license=('MIT')
+depends=('python-protobuf' 'python-zeroconf' 'python-casttube')
+makedepends=('python-setuptools')
+conflicts=("${pkgname}6")
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('21e9295b2e8088a7f19f82b22c7abcc07ab329914d647cc5dcac08790a7c9d36')
+
+build() {
+  cd "$_name-$pkgver"
+  python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
