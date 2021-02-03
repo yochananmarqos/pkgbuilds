@@ -14,3 +14,5 @@ if [ ! -d "$HOME"/.mp3tag ] ; then
 fi
 # WINEDEBUG=-all wine "$HOME"/.mp3tag/mp3tag "$@"
 cd "$HOME/.mp3tag" && WINEDEBUG=-all WINEPATH="$HOME/.mp3tag/mp3tag" wine "$HOME/.mp3tag/mp3tag" "$@"
+# Prevent installing Mono/Gecko
+WINEDLLOVERRIDES="mscoree=d;mshtml=d"

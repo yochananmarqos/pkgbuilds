@@ -4,12 +4,12 @@ groups=('modified')
 
 pkgname=mp3tag
 pkgver=3.05
-pkgrel=2
+pkgrel=3
 pkgdesc="The universal tag editor."
 arch=('i686' 'x86_64')
 url="https://www.mp3tag.de"
 license=('custom')
-depends=('wine-gecko' 'wine-mono')
+depends=('wine')
 makedepends=('p7zip')
 options=('!strip')
 source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
@@ -19,7 +19,7 @@ source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
         "$pkgname.png")
 sha256sums=('1a851bd4f242550c294db1692882d01d73db5ff318d0fe1c0f91df94a640ee35'
             'a38235202f38d03f5cfd7e368342c60435204d426e5a9c3ae57292d42f972578'
-            '5f747773cb390d82c78e830d35216fa2ecac91f955b09bd9e197a42c62a14ce8'
+            '8c38c7d0afa161f7dede9e95ed73a5db9c508839ab09b94c7e0129071a5dd0f6'
             'bc0c7b8a7a9f9ee92dfe2f1880ef5d91920473713b5d60e4afa361d69a446798'
             'a3e09f7cda34bc31b3b5b1d7cf2010c3b17847c141ef5a074472eb72f760f6bf')
 
