@@ -1,0 +1,24 @@
+# https://archlinux.org/packages/community/x86_64/python-pybluez
+pkgname=python-pybluez
+_name=PyBluez
+pkgver=0.23
+pkgrel=1
+pkgdesc="Bluetooth Python extension module"
+arch=('x86_64')
+url="https://pybluez.github.io"
+license=('GPL')
+depends=('python' 'bluez-libs')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('c8f04d2e78951eaa9de486b4d49381704e8943d0a6e6e58f55fcd7b8582e90de')
+
+build() {
+	cd "$_name-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$_name-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
