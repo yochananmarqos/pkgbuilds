@@ -1,36 +1,26 @@
 # https://archlinux.org/packages/community/any/python-dropbox/
 pkgname=python-dropbox
 _pkgname=dropbox-sdk-python
-pkgver=11.1.0
+pkgver=11.2.0
 pkgrel=1
 pkgdesc="Python SDK for Dropbox Core APIs"
 url="https://github.com/dropbox/dropbox-sdk-python"
 arch=('any')
 license=('MIT')
 depends=(python python-urllib3 python-requests python-stone)
-makedepends=(python-setuptools)
-#checkdepends=(python-pytest-runner)
+makedepends=(python-setuptools python-wheel python-pip)
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dropbox/$_pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('42d444e987297eef2aa95b48f84e027084beb3691321da51452042bc00325729b5fb8243ada572f6ef9629bb450c7da4f78352c7c1e6aba156cec76567ee68d7')
+sha512sums=('81e06df2ef00b5441e40c93aba27b2cf37bbe676becdbbd44195094bffedf1e8cf3af68ef6d618eb98eb0ba4d335a7ee94a90390c32cb31a4aa971f92e4a9f4f')
 
 build() {
-  cd "$srcdir/$_pkgname-$pkgver"
-
+  cd "$_pkgname-$pkgver"
   python setup.py build
 }
 
-# requires API token in $DROPBOX_TOKEN
-#check() {
-#  cd "$srcdir/$_pkgname-$pkgver"
-#
-#  python setup.py pytest --addopts "-k 'not TestDropboxTeam'"
-#  python2 setup.py pytest --addopts "-k 'not TestDropboxTeam'"
-#}
-
 package() {
-  cd "$srcdir/$_pkgname-$pkgver"
+  cd "$_pkgname-$pkgver"
   export PYTHONHASHSEED=0
-  python setup.py install --root="$pkgdir" --optimize=1
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-  install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm0644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
