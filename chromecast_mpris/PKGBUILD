@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/chromecast_mpris
+groups=('modified')
+
+pkgname=chromecast_mpris
+pkgver=0.7.0
+pkgrel=1
+pkgdesc="Control Chromecasts from Linux and D-Bus"
+arch=('any')
+url="https://github.com/alexdelorenzo/chromecast_mpris"
+license=('AGPL3')
+depends=('python-pychromecast=8.0.0' 'python-gobject' 'python-pydbus' 'python-click'
+         'python-mpris_server=0.2.16')
+makedepends=('python-setuptools')
+optdepends=('playerctl: Get the D-Bus name for your device')
+source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
+sha256sums=('002469f87f17915c620713509cc75d3e66584a4ee261fbd2b6f0f68d614467b7')
+
+build() {
+	cd "$pkgname-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
