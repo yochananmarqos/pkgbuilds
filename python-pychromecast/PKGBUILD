@@ -1,4 +1,6 @@
 # https://aur.archlinux.org/packages/python-pychromecast/
+groups=('modified')
+
 pkgname=python-pychromecast
 _name=PyChromecast
 pkgver=8.0.0
