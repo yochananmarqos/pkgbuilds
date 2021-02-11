@@ -1,20 +1,18 @@
 pkgname=keyboard-color-switcher-git
 pkgver=1.0.r5.g5d2e70f
-pkgrel=3
+pkgrel=4
 pkgdesc="Change the Keyboard Backlight on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-chooser"
 license=('unknown')
-depends=('gtk3' 'python-gobject' 'polkit' 'system76-oled')
+depends=('gtk3' 'python-gobject' 'polkit' 'system76-oled' 'zensu')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/ahoneybun/keyboard-color-switcher.git"
-        "${pkgname%-git}.sh"
-        "org.freedesktop.${pkgname%-git}.policy")
+        "${pkgname%-git}.sh")
 sha256sums=('SKIP'
-            '5cc9e33bd128d2c1a07d8efc22942e7f260f5641342f10108f1d929cdc32a020'
-            'a5711bfef99ea90fe0f123c13909354938cc582288b97df8c691c4d48e601409')
+            '06fe73d2e2668dd60d31635a86080ac4b8a32af7b6a661cfb5be30fb9a5d9f9d')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -31,6 +29,4 @@ package() {
 	python -O -m compileall "$pkgdir$site_packages/${pkgname%-git}"/{kcc,kcc_cli}
 
 	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 "$srcdir/org.freedesktop.${pkgname%-git}.policy" -t \
-		"$pkgdir/usr/share/polkit-1/actions"
 }
