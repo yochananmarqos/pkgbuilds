@@ -13,7 +13,7 @@ source=("git+https://github.com/ahoneybun/keyboard-color-switcher.git"
         "${pkgname%-git}.sh"
         "org.freedesktop.${pkgname%-git}.policy")
 sha256sums=('SKIP'
-            'be779df334776955589ffb078b0573b1b6e0b7a2472477c81636d888dcf6ff5e'
+            '1ba73e85dd83e75f95b3ee1c653458154d39dabd071ce4d4768208ae83a8bfcc'
             '63d13df412ded3d3e7e212270e2971aba5f7f201438a456342078b882c25f338')
 
 pkgver() {
