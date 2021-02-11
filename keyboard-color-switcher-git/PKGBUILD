@@ -1,11 +1,11 @@
 pkgname=keyboard-color-switcher-git
 pkgver=1.0.r5.g5d2e70f
-pkgrel=1
+pkgrel=2
 pkgdesc="Change the Keyboard Backlight on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-chooser"
 license=('unknown')
-depends=('gtk3' 'python-gobject' 'polkit')
+depends=('gtk3' 'python-gobject' 'polkit' 'system76-oled')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
