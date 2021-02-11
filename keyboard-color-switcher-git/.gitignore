@@ -5,4 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!keyboard-color-switcher.sh
 !org.freedesktop.keyboard-color-switcher.policy
