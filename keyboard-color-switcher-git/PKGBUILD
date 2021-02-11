@@ -1,6 +1,6 @@
 pkgname=keyboard-color-switcher-git
 pkgver=1.0.r5.g5d2e70f
-pkgrel=2
+pkgrel=3
 pkgdesc="Change the Keyboard Backlight on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-chooser"
@@ -13,8 +13,8 @@ source=("git+https://github.com/ahoneybun/keyboard-color-switcher.git"
         "${pkgname%-git}.sh"
         "org.freedesktop.${pkgname%-git}.policy")
 sha256sums=('SKIP'
-            '1ba73e85dd83e75f95b3ee1c653458154d39dabd071ce4d4768208ae83a8bfcc'
-            '63d13df412ded3d3e7e212270e2971aba5f7f201438a456342078b882c25f338')
+            '5cc9e33bd128d2c1a07d8efc22942e7f260f5641342f10108f1d929cdc32a020'
+            'a5711bfef99ea90fe0f123c13909354938cc582288b97df8c691c4d48e601409')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -23,7 +23,13 @@ pkgver() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 "${pkgname%-git}.py" -t "$pkgdir/opt/${pkgname%-git}"
+	export PYTHONHASHSEED=0
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+	install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}"
+	cp -r kcc kcc_cli "$pkgdir$site_packages/${pkgname%-git}"
+	python -O -m compileall "$pkgdir$site_packages/${pkgname%-git}"/{kcc,kcc_cli}
+
 	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
 	install -Dm644 "$srcdir/org.freedesktop.${pkgname%-git}.policy" -t \
 		"$pkgdir/usr/share/polkit-1/actions"

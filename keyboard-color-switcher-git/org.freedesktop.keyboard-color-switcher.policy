@@ -12,7 +12,7 @@
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/opt/keyboard-color-switcher/keyboard-color-switcher.py</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/python3.9/site-packages/keyboard-color-switcher/keyboard-color-switcher.py</annotate>
     <annotate key="org.freedesktop.policykit.exec.allow_gui">TRUE</annotate>
   </action>
 
