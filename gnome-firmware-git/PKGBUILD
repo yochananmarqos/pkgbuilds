@@ -1,0 +1,32 @@
+# https://aur.archlinux.org/packages/gnome-firmware-git
+groups=('modified')
+
+pkgname=gnome-firmware-git
+pkgver=3.36.0.r21.gf528107
+pkgrel=1
+pkgdesc="GNOME application to update, reinstall and downgrade firmware on devices
+supported by fwupd"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://gitlab.gnome.org/hughsie/gnome-firmware-updater"
+license=('GPL2')
+depends=('gtk3' 'fwupd' 'libxmlb' 'libsoup' 'systemd')
+makedepends=('git' 'meson' 'help2man')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://gitlab.gnome.org/hughsie/gnome-firmware-updater.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	arch-meson ${pkgname%-git} build
+	meson compile -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+}
+
