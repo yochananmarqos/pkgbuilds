@@ -9,6 +9,7 @@ depends=('sdl2_image' 'sdl2_mixer')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
+backup=("opt/${pkgname%-git}/SDLPoP.ini")
 source=("${pkgname%-git}::git+https://github.com/NagyD/SDLPoP.git"
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
