@@ -1,5 +1,5 @@
 pkgname=sdlpop-git
-pkgver=1.20.r11.g65bc93e
+pkgver=1.21.r56.g4ccf6e5
 pkgrel=1
 pkgdesc="An open-source port of Prince of Persia"
 arch=('i686' 'x86_64')
@@ -22,11 +22,13 @@ pkgver() {
 prepare() {
 	cd "$srcdir/${pkgname%-git}/src"
 	sed -e 's|$ROOT|/opt/sdlpop|' SDLPoP.desktop.template > SDLPoP.desktop
+	sed -i -e '$aStartupWMClass=prince' SDLPoP.desktop
 }
 
 build() {
 	cd "$srcdir/${pkgname%-git}/src"
-	export CFLAGS+=" $CPPFLAGS"
+	export CPPFLAGS="$CPPFLAGS"
+	export CFLAGS=" $CFLAGS"
 	make
 }
 
@@ -35,10 +37,17 @@ package() {
 
 	# world-writable for save/load games, config, etc.
 	install -dm757 "$pkgdir/opt/${pkgname%-git}"
-
 	install -m755 prince "$pkgdir/opt/${pkgname%-git}"
-	cp -r data doc mods SDLPoP.ini "$pkgdir/opt/${pkgname%-git}"
-	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/prince"
+	cp -r data mods SDLPoP.ini "$pkgdir/opt/${pkgname%-git}"
+
+	install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
+	cp -r doc/* "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+	install -d "$pkgdir/usr/share/pixmaps"
+	ln -s /opt/sdlpop/data/icon.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+
 	install -Dm644 src/SDLPoP.desktop \
 		"$pkgdir/usr/share/applications/${pkgname%-git}.desktop"
+
+	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/prince"
 }
