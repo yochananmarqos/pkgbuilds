@@ -8,7 +8,6 @@ url="https://github.com/donadigo/appeditor"
 license=('GPL3')
 depends=('gtk3' 'granite')
 makedepends=('git' 'meson' 'vala')
-optdepends=('gtk-theme-elementary' 'elementary-icon-theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/donadigo/appeditor.git')
