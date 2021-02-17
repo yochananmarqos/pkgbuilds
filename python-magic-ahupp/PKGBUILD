@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=python-magic-ahupp
 _name=python-magic
 pkgdesc="A Python wrapper for libmagic"
-pkgver=0.4.21
+pkgver=0.4.22
 pkgrel=1
 arch=('any')
 url="https://github.com/ahupp/python-magic"
@@ -14,7 +14,7 @@ makedepends=('python-setuptools')
 provides=('python-magic')
 conflicts=('python-magic')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('2fe26b15ed59118ac117caba4e64d10966298d3dca15a4802fdfc3da4c25184a')
+sha256sums=('ca884349f2c92ce830e3f498c5b7c7051fe2942c3ee4332f65213b8ebff15a62')
 
 build() {
 	cd "$_name-$pkgver"
