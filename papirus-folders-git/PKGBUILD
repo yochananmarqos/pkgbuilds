@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/papirus-folders-git
+groups=('modified')
+
+pkgname=papirus-folders-git
+pkgver=1.8.0.r1.g2d7a49b
+pkgrel=1
+pkgdesc="Allows to change the color of folders"
+arch=('any')
+url="https://github.com/PapirusDevelopmentTeam/papirus-folders"
+license=('LGPL3')
+depends=('bash' 'papirus-icon-theme')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/PapirusDevelopmentTeam/papirus-folders.git'
+        "${pkgname%-git}.hook")
+sha256sums=('SKIP'
+            'b6f52cab4c7a42e85b7e3cc0160bb9cf060aed20ab78ee2135a3f18dcaf6e92c')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+
+	# Fix ZSH completions install dir
+	sed -i 's/vendor-completions/site-functions/g' Makefile
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir/${pkgname%-git}.hook" -t "$pkgdir/usr/share/libalpm/hooks"
+}
