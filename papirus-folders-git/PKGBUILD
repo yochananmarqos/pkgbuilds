@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=papirus-folders-git
 pkgver=1.8.0.r1.g2d7a49b
 pkgrel=1
-pkgdesc="Allows to change the color of folders"
+pkgdesc="Allows changing the color of folders in Papirus icon theme and its forks"
 arch=('any')
 url="https://github.com/PapirusDevelopmentTeam/papirus-folders"
 license=('MIT')
@@ -22,16 +22,9 @@ pkgver() {
 	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-
-	# Fix ZSH completions install dir
-	sed -i 's/vendor-completions/site-functions/g' Makefile
-}
-
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	make DESTDIR="$pkgdir" install
+	make ZSHCOMPDIR="/usr/share/zsh/site-functions" DESTDIR="$pkgdir" install
 
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 	install -Dm644 "$srcdir/${pkgname%-git}.hook" -t "$pkgdir/usr/share/libalpm/hooks"
