@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="Allows to change the color of folders"
 arch=('any')
 url="https://github.com/PapirusDevelopmentTeam/papirus-folders"
-license=('LGPL3')
+license=('MIT')
 depends=('bash' 'papirus-icon-theme')
 makedepends=('git')
 provides=("${pkgname%-git}")
@@ -33,5 +33,6 @@ package() {
 	cd "$srcdir/${pkgname%-git}"
 	make DESTDIR="$pkgdir" install
 
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 	install -Dm644 "$srcdir/${pkgname%-git}.hook" -t "$pkgdir/usr/share/libalpm/hooks"
 }
