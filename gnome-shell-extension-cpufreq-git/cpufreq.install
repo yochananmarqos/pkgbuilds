@@ -5,7 +5,7 @@
 
 post_remove() {
 	echo "Reset extension settings to default values:"
-	echo "dbus-launch dconf reset -f "/org/gnome/shell/extensions/cpufreq/""
+	echo "dconf reset -f "/org/gnome/shell/extensions/cpufreq/""
 	echo ""
 }
 
