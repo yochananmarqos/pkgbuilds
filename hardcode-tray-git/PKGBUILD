@@ -35,10 +35,10 @@ build() {
 package() {
 	DESTDIR="$pkgdir" meson install -C build
 
-  # Compile Python bytecode:
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  python -m compileall -d "$site_packages" "$pkgdir$site_packages"
-  python -O -m compileall -d "$site_packages" "$pkgdir$site_packages"
+	# Compile Python bytecode:
+	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+	python -m compileall -d "$site_packages" "$pkgdir$site_packages"
+	python -O -m compileall -d "$site_packages" "$pkgdir$site_packages"
 
 	# Add pacman hook
 	# https://github.com/bilelmoussaoui/Hardcode-Tray/issues/454
