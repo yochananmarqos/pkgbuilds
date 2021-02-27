@@ -1,5 +1,5 @@
 pkgname=gnome-shell-extension-windowoverlay-icons-git
-pkgver=36.r1.g55031b5
+pkgver=37.r0.gbf02525
 pkgrel=1
 pkgdesc="Adds application icons to the windows overview (in Activities menu)"
 arch=('any')
@@ -26,7 +26,9 @@ build() {
 
 package() {
 	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/usr/share/gnome-shell/extensions/windowoverlay-icons@sustmidown.centrum.cz"
+	_uuid='windowoverlay-icons@sustmidown.centrum.cz'
+
+	install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
 	bsdtar xvf windowoverlay-icons.zip -C \
-		"$pkgdir/usr/share/gnome-shell/extensions/windowoverlay-icons@sustmidown.centrum.cz"
+		"$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
 }
