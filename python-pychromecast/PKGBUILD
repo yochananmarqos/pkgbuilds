@@ -11,7 +11,6 @@ url="https://github.com/home-assistant-libs/pychromecast"
 license=('MIT')
 depends=('python-protobuf' 'python-zeroconf' 'python-casttube')
 makedepends=('python-setuptools')
-conflicts=("${pkgname}6")
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('21e9295b2e8088a7f19f82b22c7abcc07ab329914d647cc5dcac08790a7c9d36')
 
