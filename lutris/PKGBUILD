@@ -14,7 +14,8 @@ depends=('python-gobject' 'python-yaml' 'python-dbus' 'gtk3'
          'mesa-demos' 'python-dbus' 'python-distro' 'python-magic-ahupp'
          'python-lxml')
 makedepends=('python-setuptools')
-#checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm')
+#checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm'
+#              'gnome-desktop' 'pciutils' 'xorg-xrandr')
 optdepends=(
   'wine: easiest way to get all the libraries missing from the Lutris runtime'
   'vulkan-icd-loader: Vulkan support'
