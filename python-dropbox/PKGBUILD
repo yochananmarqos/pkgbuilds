@@ -1,8 +1,8 @@
 # https://archlinux.org/packages/community/any/python-dropbox/
 pkgname=python-dropbox
 _pkgname=dropbox-sdk-python
-pkgver=11.2.0
-pkgrel=2
+pkgver=11.4.1
+pkgrel=1
 pkgdesc="Python SDK for Dropbox Core APIs"
 url="https://github.com/dropbox/dropbox-sdk-python"
 arch=('any')
@@ -10,7 +10,7 @@ license=('MIT')
 depends=(python python-urllib3 python-requests python-six python-stone)
 makedepends=(python-setuptools python-pytest-runner)
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dropbox/$_pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('d3e51dcefaa7aaba7efa45acd19920ea794554d292a024d4bfbde7c9367559b1d8afc117f69f8ccd72c468c0856aa60d1c4ebf67d93cf80255cd91ca74057bd7')
+sha512sums=('8693a8d56b29df33b5dfab3ee3c4f081775bf5f25fef77b53d91253e9db33c3dfef24e36c051ea8025162ca6ff510556b231493b3585caeedd4307b06e6deb0f')
 
 build() {
   cd "$_pkgname-$pkgver"
