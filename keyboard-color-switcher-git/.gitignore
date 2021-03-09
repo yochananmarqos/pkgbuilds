@@ -5,5 +5,7 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!keyboard-color-switcher.desktop
 !keyboard-color-switcher.sh
 !org.freedesktop.keyboard-color-switcher.policy
+!system76-backlight-manager.install

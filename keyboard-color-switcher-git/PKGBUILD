@@ -1,19 +1,26 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r9.gcf1cae1
-pkgrel=2
-pkgdesc="Change the Keyboard Backlight on System76 laptops"
+pkgver=1.0.r32.gc0b6704
+pkgrel=1
+pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-switcher"
 license=('unknown')
-depends=('gtk3' 'python-gobject' 'system76-dkms' 'polkit')
+depends=('gtk3' 'python-gobject' 'system76-dkms' 'polkit' 'python-cerberus'
+         'python-yaml' 'dmidecode')
 makedepends=('git')
-provides=("${pkgname%-git}")
+checkdepends=('python-pytest')
+backup=('etc/system76-backlight-manager.conf')
+install='system76-backlight-manager.install'
+provides=("${pkgname%-git}" 'system76-backlight-manager')
 conflicts=("${pkgname%-git}")
 source=("git+https://github.com/ahoneybun/keyboard-color-switcher.git"
+        'git+https://github.com/JeffLabonte/System76-Backlight-Manager-cli.git'
+        "${pkgname%-git}.desktop"
         "${pkgname%-git}.sh"
-        "org.freedesktop.${pkgname%-git}.policy"
-        )
+        "org.freedesktop.${pkgname%-git}.policy")
 sha256sums=('SKIP'
+            'SKIP'
+            '0e861fb5c67a6520d24845274ccc1858d4502c980f2da8ef2ca3588d63cd15cc'
             '5cc9e33bd128d2c1a07d8efc22942e7f260f5641342f10108f1d929cdc32a020'
             'a5711bfef99ea90fe0f123c13909354938cc582288b97df8c691c4d48e601409')
 
@@ -22,16 +29,49 @@ pkgver() {
 	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+
+	sed -i 's|git@github.com:|https://github.com/|g' .gitmodules
+
+	git submodule init system76_backlight_manager
+	git config submodule.System76-Backlight-Manager-cli.url \
+		$srcdir/System76-Backlight-Manager-cli
+	git submodule update
+
+	cd system76_backlight_manager
+	# Fix service path
+	sed -i 's|usr/local|usr|g' service/system76-backlight-manager.service
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}/system76_backlight_manager"
+	python setup.py build
+}
+
+check() {
+	cd "$srcdir/${pkgname%-git}/system76_backlight_manager"
+	pytest
+}
+
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	export PYTHONHASHSEED=0
 	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
 	install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}"
-	cp -r kcc kcc_cli "$pkgdir$site_packages/${pkgname%-git}"
+	cp -r kcc "$pkgdir$site_packages/${pkgname%-git}"
 	python -O -m compileall "$pkgdir$site_packages/${pkgname%-git}"
 
+	install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
 	install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
 	install -Dm644 "$srcdir/org.freedesktop.${pkgname%-git}.policy" -t \
 		"$pkgdir/usr/share/polkit-1/actions"
+
+	cd system76_backlight_manager
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 "service/system76-backlight-manager.service" -t \
+		"$pkgdir/usr/lib/systemd/system"
+	install -Dm644 "configs/system76-backlight-manager.conf" -t "$pkgdir/etc"
 }

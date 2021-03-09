@@ -1,0 +1,17 @@
+post_install() {
+	echo ""
+	echo "Optionally enable the backlight manager service:"
+	echo ""
+	echo "systemctl enable --now system76-backlight-manager.service"
+	echo ""
+}
+
+
+post_upgrade() {
+	echo ""
+	echo "Restart the backlight manager service if applicable:"
+	echo ""
+	echo "systemctl daemon-reload"
+	echo "systemctl restart system76-backlight-manager.service"
+	echo ""
+}

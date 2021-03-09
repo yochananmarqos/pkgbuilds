@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Icon=preferences-desktop-keyboard-shortcuts
+Name=Keyboard Color Switcher
+Exec=keyboard-color-switcher
+Terminal=false
+Hidden=false
+Categories=Settings; Utility
+Comment=Change the keyboard backlight color
