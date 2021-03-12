@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=bitwarden
-pkgver=1.24.6
-pkgrel=3
+pkgver=1.25.0
+pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
 license=('GPL3')
-depends=('electron9' 'libnotify' 'libsecret' 'libxtst')
-makedepends=('git' 'npm' 'python' 'nvm' 'jq')
+depends=('electron' 'libnotify' 'libsecret' 'libxtst' 'libxss')
+makedepends=('git' 'npm' 'python2' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
@@ -19,7 +19,7 @@ source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
 sha256sums=('SKIP'
             'SKIP'
             '90f6fc45619d1c76e4f999d6e256e72a590aed6a352272d85607783b2ab61ab8'
-            'f8c65fc3e29d44e41092b25694ea63c01b00b65a7687b3b1b64d348227beab7f'
+            '829a9db73ecd835196dd68ad0f14a0c197e7084369b6217762fd8315da97e744'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 _ensure_local_nvm() {
@@ -42,15 +42,16 @@ prepare() {
 	# Patch out postinstall routines
 	patch --strip=1 package.json "$srcdir/package.json.patch"
 
-	# Patch build to make it work with system electron
-	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron9/version | cut -d '%' -f1)
+	# Patch build to make it works with system electron
+	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron/version | cut -d '%' -f1)
 	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
-	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron9"'\
+	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
 	> package.json.patched
 	mv package.json.patched package.json
 
 	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='12.21.0'
+#	local nodeversion='12.21.0'
+	local nodeversion='14.16.0'
 	local npm_prefix=$(npm config get prefix)
 	npm config delete prefix
 	_ensure_local_nvm
