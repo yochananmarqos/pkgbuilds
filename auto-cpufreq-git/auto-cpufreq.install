@@ -3,11 +3,11 @@ post_install() {
 	touch /var/log/auto-cpufreq.log
 
 	echo ''
-	echo 'Enable daemon service on boot:'
+	echo 'Enable auto-cpufreq daemon service on boot:'
 	echo 'systemctl enable --now auto-cpufreq'
 	echo ''
 	echo 'To view live log, run:'
-	echo 'auto-cpufreq --log'
+	echo 'auto-cpufreq --stats'
 	echo ''
 }
 
