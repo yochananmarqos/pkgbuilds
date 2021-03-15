@@ -1,5 +1,0 @@
-#!/bin/dash
-[ -e ~/.tcelldb ] || cp /etc/skel/.tcelldb ~/.tcelldb
-[ -e ~/.config/micro/bindings.json ] || mkdir -p ~/.config/micro/ && cp /etc/skel/.config/micro/bindings.json ~/.config/micro/bindings.json
-
-st micro "$@"
