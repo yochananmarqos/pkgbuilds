@@ -10,17 +10,18 @@ pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
 url='https://github.com/wwmm/pulseeffects'
 license=('GPL3')
-depends=('gtk3' 'gtkmm3' 'glibmm' 'pulseaudio' 'gstreamer' 'gst-plugin-gtk'
-         'gst-plugins-bad' 'lilv' 'boost-libs' 'libsigc++' 'libsndfile'
-         'libsamplerate' 'zita-convolver' 'libebur128')
-makedepends=('meson' 'boost' 'itstool' 'appstream-glib' 'zam-plugins'
-             'rubberband' 'rnnoise')
+depends=('boost-libs' 'glibmm' 'gst-plugin-gtk' 'gst-plugins-bad'
+         'gst-plugins-base' 'gstreamer' 'gtk3' 'gtkmm3' 'libebur128'
+         'libsamplerate' 'libsigc++' 'libsndfile' 'lilv' 'pulseaudio'
+         'zita-convolver')
+makedepends=('appstream-glib' 'boost' 'calf' 'itstool' 'meson' 'rnnoise'
+             'rubberband' 'zam-plugins')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, delay'
-            'rubberband: pitch shifting'
-            'zam-plugins: maximizer'
             'rnnoise: noise remover'
-            'yelp: in-app help')
+            'rubberband: pitch shifting'
+            'yelp: in-app help'
+            'zam-plugins: maximizer')
 provides=('pulseeffects')
 conflicts=('pulseeffects')
 source=("pulseeffects-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
