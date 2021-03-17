@@ -4,7 +4,7 @@
 # https://github.com/wwmm/pulseeffects/tree/pulseaudio-legacy.
 
 pkgname=pulseeffects-legacy
-pkgver=4.8.4
+pkgver=4.8.5
 pkgrel=1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
@@ -14,21 +14,25 @@ depends=('gtk3' 'gtkmm3' 'glibmm' 'pulseaudio' 'gstreamer' 'gst-plugin-gtk'
          'gst-plugins-bad' 'lilv' 'boost-libs' 'libsigc++' 'libsndfile'
          'libsamplerate' 'zita-convolver' 'libebur128')
 makedepends=('meson' 'boost' 'itstool' 'appstream-glib' 'zam-plugins'
-             'rubberband' 'librnnoise')
+             'rubberband' 'rnnoise')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, delay'
             'rubberband: pitch shifting'
             'zam-plugins: maximizer'
-            'librnnoise: noise remover'
+            'rnnoise: noise remover'
             'yelp: in-app help')
 provides=('pulseeffects')
 conflicts=('pulseeffects')
 source=("pulseeffects-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('12ba3205025d815a747b58636861594f7d1e43a578a5b0411f7794f4c12e5d86')
+sha256sums=('df1c4c4a9811c62a549822dacde3a9e36233ba3ec58817ae52a236f6181a507c')
 
 build() {
 	arch-meson pulseeffects-$pkgver build
 	meson compile -C build
+}
+
+check() {
+	meson test -C build --print-errorlogs
 }
 
 package() {
