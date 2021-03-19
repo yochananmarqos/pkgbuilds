@@ -1,7 +1,7 @@
 # https://archlinux.org/packages/community/x86_64/pulseeffects
 # https://github.com/wwmm/pulseeffects/blob/master/PKGBUILD
 pkgname=pulseeffects
-pkgver=5.0.2
+pkgver=5.0.3
 pkgrel=1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
@@ -20,7 +20,7 @@ optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'yelp: in-app help'
             'zam-plugins: maximizer')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('a6baea9e25c1ed39b3b91eabe0210312cfe0044179c5e01584f4801dc487a7b2')
+sha256sums=('2e14858918b54bee5f6e4898cc803ae2170b4d624407fef39e0831b6584c4a4f')
 
 build() {
 	arch-meson $pkgname-$pkgver build
