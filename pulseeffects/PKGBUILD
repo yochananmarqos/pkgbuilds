@@ -1,5 +1,7 @@
 # https://archlinux.org/packages/community/x86_64/pulseeffects
 # https://github.com/wwmm/pulseeffects/blob/master/PKGBUILD
+groups=('modified')
+
 pkgname=pulseeffects
 pkgver=5.0.3
 pkgrel=1
