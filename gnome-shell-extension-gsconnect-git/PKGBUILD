@@ -1,0 +1,53 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-gsconnect-git
+groups=('modified')
+
+pkgname=gnome-shell-extension-gsconnect-git
+pkgver=44.r21.g0071643d
+pkgrel=1
+pkgdesc="KDE Connect implementation with GNOME Shell integration"
+arch=('any')
+url="https://github.com/andyholmes/gnome-shell-extension-gsconnect"
+license=('GPL')
+depends=('gnome-shell')
+makedepends=('git' 'meson')
+optdepends=(
+  'evolution-data-server: access contacts in GNOME Online Accounts, Evolution or the local address book'
+  'python-nautilus: share files from Nautilus'
+  'gsound: sound effects'
+)
+#checkdepends=('appstream' 'eslint')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/andyholmes/gnome-shell-extension-gsconnect.git')
+sha256sums=('SKIP')
+
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g;s/rc.\.//'
+}
+
+build() {
+	_uuid='gsconnect@andyholmes.github.io'
+
+	arch-meson \
+		-Dinstalled_tests=false \
+		-Dfirewalld=true \
+		-Dpost_install=true \
+		-Dgsettings_schemadir="/usr/share/gnome-shell/extensions/$_uuid/schemas" \
+		"${pkgname%-git}" build
+	meson compile -C build
+}
+
+#check() {
+#	meson test -C build --print-errorlogs
+#}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+
+	_uuid='gsconnect@andyholmes.github.io'
+
+	install -Dm644 "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/org.gnome.Shell.Extensions.GSConnect.gschema.xml" -t \
+		"$pkgdir/usr/share/glib-2.0/schemas"
+}
