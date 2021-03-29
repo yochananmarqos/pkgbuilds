@@ -17,6 +17,7 @@ optdepends=('hardcode-fixer-git: To deal with hardcoded application icons'
             'gnome-shell-extension-appindicator: Integrates AppIndicators on GNOME')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
+install='alt-icons.install'
 options=('!strip')
 source=('git+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git')
 sha256sums=('SKIP')
