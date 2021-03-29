@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=papirus-icon-theme-git
-pkgver=20210302.r69.g5ea62cf36d
+pkgver=20210302.r71.g1764751176
 pkgrel=1
 epoch=1
 pkgdesc="A free and open source SVG icon theme based on Paper Icon Set"
@@ -18,18 +18,8 @@ optdepends=('hardcode-fixer-git: To deal with hardcoded application icons'
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
-source=('git+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git'
-        'nautilus_16.svg'
-        'nautilus_24.svg'
-        'nautilus_32.svg'
-        'nautilus_48.svg'
-        'nautilus_64.svg')
-sha256sums=('SKIP'
-            'aae77a7864e5c852baf2aef631205be8b371f284f553b8f718431aa70a736a46'
-            '162b1711d1174309e47a6dc15f0f6076bcd9d514928b712b62f984d98a6c5ae6'
-            '4cca2cfedf7ce3ecb8f31697e0f0b54d9e57d5c86eb599fe1d047d9843a8818e'
-            '03af7a5445142f457d6652e10d54b53c84fb84206bbfd0b58f080363619f2c3c'
-            '60266302cbfe7d87a076feca4c4689d8881c59cc6923b9938416292e5caafc9d')
+source=('git+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git')
+sha256sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
@@ -39,9 +29,4 @@ pkgver() {
 package() {
 	cd "$srcdir/${pkgname%-git}"
 	make DESTDIR="$pkgdir/" install
-
-	for s in 16 24 32 48 64; do
-		install -Dm644 "$srcdir/nautilus_${s}.svg" \
-			"$pkgdir/usr/share/icons/Papirus/${s}x${s}/apps/nautilus.svg"
-	done
 }
