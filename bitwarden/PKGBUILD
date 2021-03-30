@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.25.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -50,7 +50,7 @@ prepare() {
 	mv package.json.patched package.json
 
 	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='12.21.0'
+	local nodeversion='12.22.0'
 	local npm_prefix=$(npm config get prefix)
 	npm config delete prefix
 	_ensure_local_nvm
