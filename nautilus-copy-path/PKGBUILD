@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=nautilus-copy-path
-pkgver=1.4.1
+pkgver=1.5.0
 pkgrel=1
 pkgdesc="Extension for Nautilus to copy files/dir path or name"
 arch=('any')
@@ -10,7 +10,7 @@ url="https://github.com/chr314/nautilus-copy-path"
 license=('MIT')
 depends=('python-nautilus' 'python-gobject')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('023a0b40b500644f86617ef73fa6cd443f2452186432bb964ccc2bfa5dc066c3')
+sha256sums=('d8c63a3f9236f7a0fe81c91029bba1602fb749e5a2017b773cb5ed0c0a5a3921')
 
 package() {
 	cd "$pkgname-$pkgver"
