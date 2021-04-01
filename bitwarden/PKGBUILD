@@ -3,12 +3,12 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.25.1
-pkgrel=2
+pkgrel=3
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
 license=('GPL3')
-depends=('electron' 'libnotify' 'libsecret' 'libxtst' 'libxss')
+depends=('electron11' 'libnotify' 'libsecret' 'libxtst' 'libxss')
 makedepends=('git' 'npm' 'python' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
@@ -43,9 +43,9 @@ prepare() {
 	patch --strip=1 package.json "$srcdir/package.json.patch"
 
 	# Patch build to make it works with system electron
-	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron/version | cut -d '%' -f1)
+	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron11/version | cut -d '%' -f1)
 	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
-	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron"'\
+	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron11"'\
 	> package.json.patched
 	mv package.json.patched package.json
 
