@@ -9,13 +9,14 @@ arch=('any')
 url="https://github.com/chr314/nautilus-copy-path"
 license=('MIT')
 depends=('python-nautilus' 'python-gobject')
+backup=("usr/share/nautilus-python/extensions/$pkgname/config.json")
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
 sha256sums=('d8c63a3f9236f7a0fe81c91029bba1602fb749e5a2017b773cb5ed0c0a5a3921')
 
 package() {
 	cd "$pkgname-$pkgver"
 	install -Dm644 "$pkgname.py" -t "$pkgdir/usr/share/nautilus-python/extensions"
-	install -Dm644 nautilus_copy_path.py translation.py -t \
+	install -Dm644 nautilus_copy_path.py translation.py config.json -t \
 		"$pkgdir/usr/share/nautilus-python/extensions/$pkgname"
 	install -Dm644 translations/*.json -t \
 		"$pkgdir/usr/share/nautilus-python/extensions/$pkgname/translations"
