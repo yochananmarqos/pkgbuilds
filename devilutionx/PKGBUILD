@@ -1,21 +1,23 @@
 # https://aur.archlinux.org/packages/devilutionx
 pkgname=devilutionx
-pkgver=1.1.0
-pkgrel=2
+pkgver=1.2.0
+pkgrel=1
 pkgdesc="Diablo build for modern operating systems"
 arch=('x86_64')
 url="https://github.com/diasurgical/devilutionX"
 license=('Unlicense')
 depends=('graphite' 'hicolor-icon-theme' 'libsodium' 'sdl2_mixer' 'sdl2_ttf')
 makedepends=('cmake')
+install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('395ec298df5383abe60550d45adba5e5811984589ccb1e504891b267b3c467c1')
+sha256sums=('63a06043b60a5866933eafcc078052e7f6a5878757c451fe74efb141b94386ac')
 
 build() {
 	cmake -B build -S devilutionX-$pkgver \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DPIE=ON \
 		-DBINARY_RELEASE=ON \
+		-DVERSION_NUM="$pkgver" \
 		-Wno-dev
 	make -C build
 }
