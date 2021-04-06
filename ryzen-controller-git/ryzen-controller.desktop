@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Ryzen Controller
-Comment=Unlock the true performance of your Ryzen Mobile Processor
-Exec=/opt/ryzen-controller/ryzen-controller %U
-Terminal=false
-Type=Application
-Icon=ryzen-controller
-StartupWMClass=Ryzen Controller
-Categories=Utility;
