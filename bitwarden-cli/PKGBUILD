@@ -1,0 +1,68 @@
+# https://aur.archlinux.org/packages/bitwarden-cli
+groups=('modified')
+
+pkgname=bitwarden-cli
+pkgver=1.15.1
+pkgrel=1
+pkgdesc="The command line vault"
+arch=('x86_64')
+url="https://bitwarden.com"
+license=('GPL3')
+depends=('gcc-libs')
+makedepends=('git' 'nvm' 'npm' 'python')
+source=("git+https://github.com/bitwarden/cli.git#tag=v$pkgver"
+        'git+https://github.com/bitwarden/jslib.git')
+options=('!strip')
+sha256sums=('SKIP'
+            'SKIP')
+
+_ensure_local_nvm() {
+	# lets be sure we are starting clean
+	which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
+	export NVM_DIR="$srcdir/.nvm"
+
+	# The init script returns 3 if version
+	# specified in ./.nvrc is not (yet) installed in $NVM_DIR
+	# but nvm itself still gets loaded ok
+	source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
+}
+
+prepare() {
+	cd "$srcdir/cli"
+	git submodule init
+	git config submodule.jslib.url "$srcdir/jslib"
+	git submodule update
+}
+
+build() {
+	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+	_ensure_local_nvm
+
+	export npm_config_cache="$srcdir/npm_cache"
+	local nodeversion='10.24.1'
+	local npm_prefix=$(npm config get prefix)
+	npm config delete prefix
+	source /usr/share/nvm/init-nvm.sh
+	_ensure_local_nvm
+	nvm install "$nodeversion" && nvm use "$nodeversion"
+
+	cd "$srcdir/cli/jslib"
+	npm install
+
+	cd "$srcdir/cli"
+	npm install
+	npm run dist:lin
+
+	# create zsh completions
+	./dist/linux/bw completion --shell zsh > _bw
+
+	# Restore node config from nvm
+	npm config set prefix "$npm_prefix"
+	nvm unalias default
+}
+
+package() {
+	cd "$srcdir/cli"
+	install -Dm755 dist/linux/bw -t "$pkgdir/usr/bin"
+	install -Dm644 _bw -t "$pkgdir/usr/share/zsh/site-functions"
+}
