@@ -1,4 +1,6 @@
-# Maintainer: Mark Wagie <mark dot wagie at tutanota dot com>
+https://aur.archlinux.org/packages/python-sentry_sdk
+groups=('modified')
+
 pkgname=python-sentry_sdk
 _name=sentry-sdk
 pkgver=0.19.5
