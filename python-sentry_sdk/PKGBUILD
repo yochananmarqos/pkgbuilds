@@ -1,4 +1,4 @@
-https://aur.archlinux.org/packages/python-sentry_sdk
+# https://aur.archlinux.org/packages/python-sentry_sdk
 groups=('modified')
 
 pkgname=python-sentry_sdk
