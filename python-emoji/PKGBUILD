@@ -1,0 +1,32 @@
+# https://archlinux.org/packages/community/any/python-emoji/
+pkgname=python-emoji
+_name=${pkgname#python-}
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="Emoji for Python"
+arch=('any')
+url="https://github.com/carpedm20/emoji"
+license=('BSD')
+depends=('python')
+makedepends=('python-setuptools')
+checkdepends=('python-nose')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha512sums=('29a4560d2d63eee4a8eebb87ddaca20ed55aef410abb2f8d1397c02eceb1853b29955a7540e83e782a4d1d7a2780af70f39cece35f4708ade7582bcb8008e1c0')
+
+build() {
+  cd "$_name-$pkgver"
+  python setup.py build
+}
+
+check() {
+  cd "$_name-$pkgver"
+  nosetests
+}
+
+package() {
+  cd "$_name-$pkgver"
+  export PYTHONHASHSEED=0
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+  install -Dm644 LICENSE.txt -t "$pkgdir"/usr/share/licenses/$pkgname/
+}
