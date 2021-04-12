@@ -2,15 +2,15 @@
 groups=('modified')
 
 pkgname=whatip-git
-pkgver=1.0.r0.g7582a1c
+pkgver=1.0.r3.g4fdfa66
 pkgrel=1
 pkgdesc="Info on your IP"
 arch=('any')
 url="https://gabmus.gitlab.io/whatip"
 license=('GPL3')
 depends=('gtk4' 'iproute2' 'libadwaita' 'python-requests' 'python-netaddr'
-         'python-gobject')
-makedepends=('git' 'meson' 'gobject-introspection')
+         'python-gobject' 'python-iperf3')
+makedepends=('git' 'meson' 'gobject-introspection' 'gtk3')
 optdepends=('avahi: hostname resolution')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
