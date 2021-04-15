@@ -1,4 +1,6 @@
 # https://aur.archlinux.org/packages/git-extras
+groups=('modified')
+
 pkgname=git-extras
 pkgver=6.2.0
 pkgrel=1
@@ -16,6 +18,8 @@ package() {
 
     # avoid annoying interactive prompts if an alias is in your gitconfig
     export GIT_CONFIG=/dev/null
+
     make DESTDIR="${pkgdir}" PREFIX=/usr SYSCONFDIR=/etc install
     install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 etc/"$pkgname"{.fish,-completion.zsh} -t "$pkgdir/usr/share/doc/$pkgname/completions"
 }
