@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=opengothic
-pkgver=0.35
+pkgver=0.36
 pkgrel=1
 pkgdesc="Open source remake of Gothic 2: Night of the raven"
 arch=('x86_64')
@@ -10,7 +10,6 @@ url="https://github.com/Try/OpenGothic"
 license=('MIT')
 depends=('alsa-lib' 'bullet' 'libsquish' 'libx11' 'physfs' 'vulkan-icd-loader')
 makedepends=('cmake' 'git' 'glslang' 'libglvnd' 'vulkan-headers')
-optdepends=('doxygen: build documentation')
 provides=('libTempest.so')
 source=("git+https://github.com/Try/OpenGothic#tag=v${pkgver}"
         'git+https://github.com/Try/Tempest.git'
@@ -60,10 +59,10 @@ package() {
 
   # Remove conflicting files with bullet, libsquish & phyfs
   rm -rf "${pkgdir}"/usr/include/bullet
+  rm -rf "${pkgdir}"/usr/lib/cmake/bullet
+  rm -rf "${pkgdir}"/usr/lib/pkgconfig
   rm -f "${pkgdir}"/usr/include/{physfs.h,squish.h}
-  rm -f "${pkgdir}"/usr/lib/cmake/bullet/{BulletConfig.cmake,UseBullet.cmake}
   rm -f "${pkgdir}"/usr/lib/{libphysfs.a,libsquish.a}
-  rm -f "${pkgdir}"/usr/lib/pkgconfig/{bullet.pc,physfs.pc}
 
   install -Dm644 OpenGothic/LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
 }
