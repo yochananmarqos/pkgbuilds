@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=opengothic
-pkgver=0.36
+pkgver=0.37
 pkgrel=1
 pkgdesc="Open source remake of Gothic 2: Night of the raven"
 arch=('x86_64')
