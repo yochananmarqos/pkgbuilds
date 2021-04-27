@@ -1,10 +1,5 @@
 # http://aur.archlinux.org/packages/vulkan-caps-viewer
-groups=('modified')
-
-# For X11 only
-# TODO: Split into separate X11 & Wayland packages
-
-pkgname=vulkan-caps-viewer
+pkgname=vulkan-caps-viewer-x11
 pkgver=3.01
 pkgrel=1
 pkgdesc='Vulkan Hardware Capability Viewer'
@@ -13,20 +8,22 @@ url="http://vulkan.gpuinfo.org"
 license=('GPL2')
 depends=('vulkan-icd-loader' 'qt5-x11extras')
 makedepends=('git')
-source=("$pkgname::git+https://github.com/SaschaWillems/VulkanCapsViewer.git#tag=$pkgver"
+provides=("${pkgname%-*}")
+conflicts=("${pkgname%-*}")
+source=("${pkgname%-*}::git+https://github.com/SaschaWillems/VulkanCapsViewer.git#tag=$pkgver"
         'git+https://github.com/KhronosGroup/Vulkan-Headers.git')
 sha256sums=('SKIP'
             'SKIP')
 
 prepare() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-*}"
 	git submodule init
 	git config submodule.Vulkan-Headers.url "$srcdir/Vulkan-Headers"
 	git submodule update
 }
 
 build() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-*}"
 	qmake \
 		QMAKE_CFLAGS="$CFLAGS" \
 		QMAKE_CXXFLAGS="$CXXFLAGS" \
@@ -37,7 +34,7 @@ build() {
 }
 
 package() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/${pkgname%-*}"
 	make INSTALL_ROOT="$pkgdir/" install
 
 	# There's a bug preventing this from being installed automatically
