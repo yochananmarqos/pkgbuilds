@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=lebiniou
-pkgver=3.55.0
+pkgver=3.56.1
 pkgrel=1
 pkgdesc="A tool to create images from sound"
 arch=('x86_64')
 url="https://biniou.net"
 license=('GPL')
 depends=('libmagick6' 'fftw' 'sdl2_ttf' 'libcaca' 'ffmpeg'
-         "lebiniou-data>=$pkgver" 'ulfius')
+         'lebiniou-data>=3.56.0' 'ulfius')
 makedepends=('git' 'uglify-js' 'nodejs-clean-css-cli' 'htmlmin')
 source=("git+https://gitlab.com/lebiniou/lebiniou.git#tag=version-$pkgver")
 sha256sums=('SKIP')
