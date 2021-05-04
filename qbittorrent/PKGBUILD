@@ -6,7 +6,7 @@ pkgrel=1
 arch=('x86_64')
 url="https://www.qbittorrent.org"
 license=('custom' 'GPL')
-depends=('libtorrent-rasterbar' 'qt5-base')
+depends=('libtorrent-rasterbar>=2.0.3' 'qt5-base')
 makedepends=('boost' 'qt5-tools' 'qt5-svg')
 optdepends=('python: needed for torrent search tab')
 source=("https://downloads.sourceforge.net/sourceforge/qbittorrent/${pkgname}-${pkgver}.tar.xz"{,.asc})
