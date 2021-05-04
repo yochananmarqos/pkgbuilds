@@ -1,0 +1,41 @@
+# https://archlinux.org/packages/extra/x86_64/libtorrent-rasterbar
+pkgname=libtorrent-rasterbar
+pkgver=2.0.3
+pkgrel=1
+epoch=1
+pkgdesc="A C++ BitTorrent library that aims to be a good alternative to all the other implementations around"
+url="https://www.rasterbar.com/products/libtorrent/"
+arch=('x86_64')
+license=('BSD')
+depends=('boost-libs')
+makedepends=('boost' 'cmake' 'python')
+options=('!emptydirs')
+source=("https://github.com/arvidn/libtorrent/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('37211ac165db8542f8c2a29e28f4685b050a825c14d1f6328a4a96c2af1bc1bbf00d9dba4bc81c192f9b57ff358d1b27eeb7df7cebca5a2f751e6fb2bce3d257')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+}
+
+build() {
+#  export CXXFLAGS="${CXXFLAGS} -std=c++17"
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_CXX_STANDARD=17 \
+    -Dbuild_tests=ON \
+    -Dbuild_examples=ON \
+    -Dpython-bindings=ON \
+    -Dpython-egg-info=ON \
+    -Dboost-python-module-name=python \
+    -Wno-dev
+  make -C build
+}
+
+package() {
+  make -C build DESTDIR="$pkgdir" install
+
+  cd $pkgname-$pkgver
+  install -Dm644 COPYING LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
