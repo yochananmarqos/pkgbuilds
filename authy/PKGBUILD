@@ -1,12 +1,14 @@
 # https://aur.archlinux.org/packages/authy
+groups=('modified')
+
 pkgname=authy
 pkgver=1.8.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Two factor authentication desktop application"
 arch=('x86_64')
 url="https://authy.com"
 license=('unknown')
-depends=('electron')
+depends=('electron9')
 makedepends=('squashfs-tools')
 conflicts=("$pkgname-snap")
 replaces=("$pkgname-snap")
@@ -15,7 +17,7 @@ _snaprev='5'
 source=("$pkgname-$pkgver-$_snaprev.snap::https://api.snapcraft.io/api/v1/snaps/download/${_snapid}_${_snaprev}.snap"
         "$pkgname.sh")
 sha256sums=('f6be2a19b96a23c626f15f6baa1b51674b84d4f4215495ac6a8155327c9ddbf9'
-            '1a9313361f4cde5e8b7883e8a3fc8f0edd7626776ab63f9428beddbf7de45b96')
+            '549fdcbb8e833474fd3379a9b3496f3bfe1394487be2078f8c575644593dbe78')
 
 prepare() {
     unsquashfs -f -d "$srcdir/$pkgname" "$pkgname-$pkgver-$_snaprev.snap"

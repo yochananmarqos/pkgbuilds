@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec electron /usr/lib/authy/resources/app.asar "$@"
+exec electron9 /usr/lib/authy/resources/app.asar "$@"
