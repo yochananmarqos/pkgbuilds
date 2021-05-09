@@ -1,0 +1,40 @@
+# https://aur.archlinux.org/packages/vizex
+pkgname=vizex
+pkgver=2.0.3
+pkgrel=1
+pkgdesc="Visualize disk space and disk usage in your UNIX\Linux terminal"
+arch=('any')
+url="https://github.com/bexxmodd/vizex"
+license=('MIT')
+depends=('python-click' 'python-colored' 'python-pandas' 'python-psutil'
+         'python-magic-ahupp' 'python-tabulate')
+makedepends=('python-setuptools')
+#checkdepends=('python-pytest')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('f88d4c99e591dcb6e14a921d9fca4105091568567c19db71cb032421f603a261')
+
+prepare() {
+    cd "$pkgname-$pkgver"
+
+    # Proper module name
+    find . -type f -exec sed -i "s|main|$pkgname|g" {} \;
+    mv main "$pkgname"
+}
+
+build() {
+    cd "$pkgname-$pkgver"
+    python setup.py build
+}
+
+#check() {
+#    cd "$pkgname-$pkgver"
+#    pytest
+#}
+
+package() {
+    cd "$pkgname-$pkgver"
+    export PYTHONHASHSEED=0
+    python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+    install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
