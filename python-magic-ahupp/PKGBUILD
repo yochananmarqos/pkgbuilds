@@ -11,8 +11,6 @@ url="https://github.com/ahupp/python-magic"
 license=('MIT')
 depends=('python')
 makedepends=('python-setuptools')
-provides=('python-magic')
-conflicts=('python-magic')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('ca884349f2c92ce830e3f498c5b7c7051fe2942c3ee4332f65213b8ebff15a62')
 
