@@ -2,17 +2,17 @@
 _pkgbase=nautilus
 pkgbase=nautilus-typeahead
 pkgname=(nautilus-typeahead libnautilus-extension-typeahead)
-pkgver=3.36.3
+pkgver=40.1
 pkgrel=1
 pkgdesc="Default file manager for GNOME - Patched to bring back the 'typeahead find' feature"
 url="https://wiki.gnome.org/Apps/Files"
 arch=(x86_64)
 license=(GPL)
-depends=(libgexiv2 gnome-desktop gvfs dconf tracker gnome-autoar
-         gst-plugins-base-libs tracker-miners)
-makedepends=(gobject-introspection git gtk-doc meson appstream-glib 'meson>=0.44.1' ninja)
-optdepends=('nautilus-sendto: right click to send files')
-_commit=efc97f8a99e1059126a20817bb0691a7c0d29311  # tags/3.36.3^0
+depends=(libgexiv2 gnome-desktop gvfs dconf tracker3 tracker3-miners
+         gnome-autoar gst-plugins-base-libs libhandy libportal)
+makedepends=(gobject-introspection git gtk-doc meson appstream-glib)
+checkdepends=(python-gobject)
+_commit=4f9ddd632f555bdfe06abd6a339aa2bd7781b2bc  # tags/40.1^0
 source=("git+https://gitlab.gnome.org/GNOME/nautilus.git#commit=$_commit"
         'git+https://gitlab.gnome.org/GNOME/libgd.git'
         nautilus-restore-typeahead.patch)
@@ -24,7 +24,7 @@ prepare() {
   cd $_pkgbase
 
   git submodule init
-  git config submodule.libgd.url $srcdir/libgd
+  git submodule set-url subprojects/libgd "$srcdir/libgd"
   git submodule update
 
   patch -p1 -i ../nautilus-restore-typeahead.patch
@@ -42,9 +42,9 @@ build() {
   meson compile -C build
 }
 
-#check() {
-#  meson test -C build --print-errorlogs
-#}
+check() {
+  meson test -C build --print-errorlogs
+}
 
 _pick() {
   local p="$1" f d; shift
@@ -58,9 +58,9 @@ _pick() {
 
 package_nautilus-typeahead() {
   depends+=(libnautilus-extension-typeahead)
-  conflicts=(nautilus)
+  optdepends=('nautilus-sendto: Send files via mail extension')
   provides=(nautilus)
-  groups=(gnome)
+  conflicts=(nautilus)
 
   DESTDIR="$pkgdir" meson install -C build
 
@@ -74,7 +74,8 @@ package_nautilus-typeahead() {
 package_libnautilus-extension-typeahead() {
   pkgdesc="Library for extending the $pkgdesc"
   depends=(gtk3)
-  conflicts=(libnautilus-extension libnautilus-extension.so)
   provides=(libnautilus-extension libnautilus-extension.so)
+  conflicts=(libnautilus-extension libnautilus-extension.so)
+
   mv libne/* "$pkgdir"
 }
