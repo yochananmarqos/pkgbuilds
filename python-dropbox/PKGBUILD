@@ -14,10 +14,10 @@ source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dropbox/$_pkgname/archi
 sha512sums=('ac0b525565f458f1f0d0d96094822df160bfaf1876cfd7d46851be9ea3e50b634b162994b964a768bfdd0d9b3a7bb9dbd7da445d20da33f266a253b5331854ed')
 
 prepare() {
-	cd "$_pkgname-$pkgver"
+  cd "$_pkgname-$pkgver"
 
-	# Pytest Runner not required to build
-	sed -i '/pytest-runner/d' setup.py
+  # Pytest Runner not required to build
+  sed -i '/pytest-runner/d' setup.py
 }
 
 build() {
