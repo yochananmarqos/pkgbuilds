@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/python-debian
+groups=('modified')
+
+pkgname=python-debian
+pkgver=0.1.39
+pkgrel=1
+pkgdesc="Python modules to work with Debian-related data formats"
+arch=('any')
+url="https://salsa.debian.org/python-debian-team/python-debian"
+license=('GPL2')
+depends=('python-chardet' 'python-six')
+makedepends=('python-setuptools')
+source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"{,.asc})
+sha256sums=('6cca96239b5981f5203216d2113fea522477628607ed0a8427e15094a792541c'
+            'SKIP')
+validpgpkeys=('90E2D2C1AD146A1B7EBB891DBBC17EBB1396F2F7') # Stuart Prescott <stuart@nanonanonano.net>
+
+build() {
+	cd "$pkgname-$pkgver"
+	python setup.py build
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	export PYTHONHASHSEED=0
+	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
