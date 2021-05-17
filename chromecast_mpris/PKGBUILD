@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=chromecast_mpris
-pkgver=0.8.2
+pkgver=0.8.3
 pkgrel=1
 pkgdesc="Control Chromecasts from Linux and D-Bus"
 arch=('any')
@@ -14,7 +14,7 @@ makedepends=('python-setuptools')
 optdepends=('playerctl: Get the D-Bus name for your device'
             'gnome-shell-extension-mpris-indicator-button: MPRIS indicator for GNOME')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz")
-sha256sums=('7f719b54fab19ffd33e6e5091c037ecdda36dc4b6b8900ea3922dcaa4daa46b1')
+sha256sums=('7c0e2cafae920612cd1ce9e843bb20a7b17dec7480fc3022c7666b90d21ec84e')
 
 build() {
 	cd "$pkgname-$pkgver"
