@@ -9,7 +9,7 @@ arch=('x86_64')
 url="https://bitwarden.com"
 license=('GPL3')
 depends=('electron11' 'libnotify' 'libsecret' 'libxtst' 'libxss')
-makedepends=('git' 'npm' 'python' 'nvm' 'jq')
+makedepends=('git' 'npm' 'python2' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
@@ -50,7 +50,7 @@ prepare() {
 	mv package.json.patched package.json
 
 	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='12.22.1'
+	local nodeversion='14.17.0'
 	local npm_prefix=$(npm config get prefix)
 	npm config delete prefix
 	_ensure_local_nvm
