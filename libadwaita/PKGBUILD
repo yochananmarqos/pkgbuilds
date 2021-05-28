@@ -1,0 +1,39 @@
+# https://aur.archlinux.org/packages/libadwaita
+groups=('modified')
+
+pkgname=libadwaita
+pkgver=1.0.0.alpha.1
+pkgrel=1
+pkgdesc="Library full of GTK+ widgets for mobile phones"
+url="https://gitlab.gnome.org/GNOME/libadwaita"
+license=('LGPL')
+arch=('i686' 'x86_64' 'armv7h' 'aarch64')
+depends=('gtk4')
+makedepends=('git' 'gobject-introspection' 'meson' 'sassc' 'vala' 'wayland-protocols')
+#checkdepends=(xorg-server-xvfb)
+provides=("$pkgname-1.so")
+_commit=faa9f26a2b8a89923c0b83d42e84078f672c19ec
+source=("git+https://gitlab.gnome.org/GNOME/libadwaita.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    git describe --tags | sed 's/-/./g'
+}
+
+build() {
+    arch-meson "$pkgname" build \
+        -Dtests=false \
+        -Dexamples=false
+    meson compile -C build
+}
+
+#check() {
+#    dbus-run-session xvfb-run \
+#      -s '-screen 0 1920x1080x24 -nolisten local' \
+#      meson test -C build --print-errorlogs
+#}
+
+package() {
+    DESTDIR="$pkgdir" meson install -C build
+}
