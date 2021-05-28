@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=libadwaita-git
-pkgver=1.0.r1598.geb61f4c
+pkgver=1.0.0.alpha.1.r0.gfaa9f26a
 pkgrel=1
 pkgdesc="Library full of GTK+ widgets for mobile phones"
 url="https://gitlab.gnome.org/GNOME/libadwaita"
@@ -10,24 +10,29 @@ license=('LGPL')
 arch=('i686' 'x86_64' 'armv7h' 'aarch64')
 depends=('gtk4')
 makedepends=('git' 'gobject-introspection' 'meson' 'sassc' 'vala' 'wayland-protocols')
-provides=("${pkgname%-git}" 'libadwaita-1.so')
+#checkdepends=(xorg-server-xvfb)
+provides=("${pkgname%-git}" "${pkgname%-git}-1.so")
 conflicts=("${pkgname%-git}")
 source=('git+https://gitlab.gnome.org/GNOME/libadwaita.git')
 sha256sums=('SKIP')
 
 pkgver() {
     cd "$srcdir/${pkgname%-git}"
-    printf "1.0.r%s.g%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-#    printf "%s.r%s.g%s" "$(grep -m1 'version' meson.build | sed -r 's/([^0-9]*([0-9.]+)).*/\2/')" \
-#        "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
     arch-meson "${pkgname%-git}" build \
-        -Dgtk_doc=true \
+        -Dtests=false \
         -Dexamples=false
     meson compile -C build
 }
+
+#check() {
+#    dbus-run-session xvfb-run \
+#      -s '-screen 0 1920x1080x24 -nolisten local' \
+#      meson test -C build --print-errorlogs
+#}
 
 package() {
     DESTDIR="$pkgdir" meson install -C build
