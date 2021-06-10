@@ -1,14 +1,14 @@
 # https://archlinux.org/packages/extra/x86_64/libtorrent-rasterbar
 pkgname=libtorrent-rasterbar
 pkgver=2.0.4
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc="A C++ BitTorrent library that aims to be a good alternative to all the other implementations around"
 url="https://www.rasterbar.com/products/libtorrent/"
 arch=('x86_64')
 license=('BSD')
-depends=('boost-libs')
-makedepends=('boost' 'cmake' 'python-setuptools')
+depends=('boost-libs' 'openssl')
+makedepends=('boost' 'cmake' 'ninja' 'python-setuptools')
 options=('!emptydirs')
 source=("https://github.com/arvidn/libtorrent/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha512sums=('66ce3c3369b1d2a83654727c23022d38b070b8bc3ad83b1001e2cfad945acbaa4d61990094bc758886967cd305ca2213b60b1b0523b5106c42d4701d8cff8db1')
@@ -24,17 +24,16 @@ build() {
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_CXX_STANDARD=17 \
-    -Dbuild_tests=ON \
-    -Dbuild_examples=ON \
     -Dpython-bindings=ON \
-    -Dpython-egg-info=ON \
     -Dboost-python-module-name=python \
-    -Wno-dev
-  make -C build
+    -Dpython-egg-info=ON \
+    -Wno-dev \
+    -GNinja "$pkgname-$pkgver"
+  ninja -C build
 }
 
 package() {
-  make -C build DESTDIR="$pkgdir" install
+  DESTDIR="$pkgdir" ninja -C build install
 
   cd $pkgname-$pkgver
   install -Dm644 COPYING LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
