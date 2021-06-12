@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=('mangohud-git' 'lib32-mangohud-git' 'mangohud-common-git')
 pkgbase=mangohud-git
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
-pkgver=0.6.1.r41.g4862d83
+pkgver=0.6.3.r0.g5f54a9c
 pkgrel=1
 arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
@@ -21,8 +21,7 @@ pkgver() {
 }
 
 build() {
-	arch-meson \
-		--wrap-mode default \
+	arch-meson --wrap-mode default \
 		-Duse_system_vulkan=enabled \
 		"${pkgbase%-git}" build64
 	meson compile -C build64
@@ -32,8 +31,7 @@ build() {
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config32"
 
-	arch-meson \
-		--wrap-mode default \
+	arch-meson --wrap-mode default \
 		--libdir lib32 \
 		-Duse_system_vulkan=enabled \
 		-Dinclude_doc=false \
