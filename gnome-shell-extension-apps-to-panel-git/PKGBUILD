@@ -4,7 +4,7 @@ pkgrel=1
 pkgdesc="Turns the Activities button into two buttons with icon or text to select Applications or Workspaces in the Overview."
 arch=('any')
 url="https://github.com/aunetx/apps-to-panel"
-license=('none')
+license=('unknown')
 depends=('gnome-shell')
 makedepends=('git' 'meson')
 provides=("${pkgname%-git}")
@@ -21,6 +21,11 @@ build() {
 	arch-meson apps-to-panel build
 	meson compile -C build
 }
+
+# No tests defined
+#check() {
+#	meson test -C build --print-errorlogs
+#}
 
 package() {
 	DESTDIR="$pkgdir" meson install -C build
