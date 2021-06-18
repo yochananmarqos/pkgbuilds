@@ -3,17 +3,17 @@ groups=('modified')
 
 pkgname=python-gtts
 _name=gTTS
-pkgver=2.2.2
+pkgver=2.2.3
 pkgrel=1
 pkgdesc="Python library and CLI tool to interface with Google Translate's text-to-speech API"
 arch=('any')
 url="https://github.com/pndurette/gTTS"
 license=('MIT')
-depends=('python-six' 'python-click' 'python-gtts-token')
+depends=('python-click' 'python-requests' 'python-six')
 makedepends=('python-setuptools')
-checkdepends=('python-pytest' 'python-mock' 'python-testfixtures')
+checkdepends=('python-mock' 'python-pytest' 'python-testfixtures')
 source=("$_name-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('daa6b053eeda671593d8fdd65f3ce3bdd436e2270f905dc6c69d740912bf15f5')
+sha256sums=('594b1e8d0ba4fefe20bd1de40fca9569e6f7f65122aa290085c0bd41180f3dc6')
 
 build() {
 	cd "$_name-$pkgver"
@@ -29,4 +29,6 @@ package() {
 	cd "$_name-$pkgver"
 	export PYTHONHASHSEED=0
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
