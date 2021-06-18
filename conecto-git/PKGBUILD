@@ -8,7 +8,8 @@ license=('GPL2')
 depends=('granite' 'gtk3' 'libnotify' 'gnutls' 'sqlite' 'glibmm' 'gtkmm3' 'folks'
          'jsoncpp')
 makedepends=('git' 'meson')
-provides=("${pkgname%-git}" 'libconecto.so=libconecto.so-64')
+#checkdepends=('appstream-glib')
+provides=("${pkgname%-git}" 'libconecto.so')
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/hannesschulze/conecto.git#branch=new-ui')
 sha256sums=('SKIP')
@@ -23,6 +24,12 @@ build() {
 		--wrap-mode=nofallback \
 		-Ddisable_plank_support=true
 	meson compile -C build
+}
+
+check() {
+
+	# Validate appstream file fails, only validate desktop & schema files
+	meson test 'Validate desktop file' 'Validate schema file' 'crypt_test'  -C build --print-errorlogs
 }
 
 package() {
