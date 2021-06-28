@@ -10,6 +10,7 @@ url="https://salsa.debian.org/python-debian-team/python-debian"
 license=('GPL2')
 depends=('python-chardet' 'python-six')
 makedepends=('python-setuptools')
+optdepends=('python-apt: some modules can use it to speed up processing')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('385dfb965eca75164d256486c7cf9bae772d24144249fd18b9d15d3cffb70eea'
             'SKIP')
