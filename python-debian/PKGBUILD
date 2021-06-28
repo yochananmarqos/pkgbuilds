@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=python-debian
-pkgver=0.1.39
+pkgver=0.1.40
 pkgrel=1
 pkgdesc="Python modules to work with Debian-related data formats"
 arch=('any')
@@ -11,7 +11,7 @@ license=('GPL2')
 depends=('python-chardet' 'python-six')
 makedepends=('python-setuptools')
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"{,.asc})
-sha256sums=('6cca96239b5981f5203216d2113fea522477628607ed0a8427e15094a792541c'
+sha256sums=('385dfb965eca75164d256486c7cf9bae772d24144249fd18b9d15d3cffb70eea'
             'SKIP')
 validpgpkeys=('90E2D2C1AD146A1B7EBB891DBBC17EBB1396F2F7') # Stuart Prescott <stuart@nanonanonano.net>
 
