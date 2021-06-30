@@ -4,7 +4,7 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
-pkgver=1.2.0.r36.ga3fa53e
+pkgver=1.2.0.r95.g976106e
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
@@ -34,7 +34,7 @@ build() {
 }
 
 package_gnome-shell-extension-pop-shell-git() {
-	depends=('gnome-shell' 'pop-shell-shortcuts')
+	depends=('fd' 'gnome-shell' 'pop-shell-shortcuts')
 	optdepends=('gnome-control-center: keybinding categories'
                 'gnome-shell-extensions: for Native Window Placment extension'
                 'pop-shell-plugin-system76-power: for system76-power scripts')
