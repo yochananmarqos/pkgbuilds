@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=marktext
 pkgver=0.16.3
-pkgrel=2
+pkgrel=3
 pkgdesc="A simple and elegant open-source markdown editor that focused on speed and usability"
 arch=('x86_64')
 url="https://marktext.app"
@@ -34,7 +34,7 @@ prepare() {
 
     # Use Node.js v12
     export npm_config_cache="$srcdir/npm_cache"
-    local nodeversion='12.22.1'
+    local nodeversion='12.22.2'
     local npm_prefix=$(npm config get prefix)
     npm config delete prefix
     _ensure_local_nvm
@@ -58,25 +58,29 @@ build() {
     export npm_config_clang=1
     export MARKTEXT_IS_STABLE=1
     export MARKTEXT_EXIT_ON_ERROR=1
-#    export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+    export ELECTRON_SKIP_BINARY_DOWNLOAD=1
     _ensure_local_nvm
 
     cd "$pkgname-$pkgver"
     yarn run electron-rebuild
     node .electron-vue/build.js
     yarn run electron-builder --linux --x64 --dir
-}
-
-check() {
-    cd "$pkgname-$pkgver"
-
-    # Unit and e2e tests
-    yarn run test
 
     # Restore node config from nvm
     npm config set prefix "$npm_prefix"
     nvm unalias default
 }
+
+#check() {
+#    cd "$pkgname-$pkgver"
+
+#    # Unit and e2e tests
+#    yarn run test
+
+#    # Restore node config from nvm
+#    npm config set prefix "$npm_prefix"
+#    nvm unalias default
+#}
 
 package() {
     cd "$pkgname-$pkgver"
