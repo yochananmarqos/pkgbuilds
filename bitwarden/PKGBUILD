@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=bitwarden
-pkgver=1.26.5
-pkgrel=2
+pkgver=1.27.0
+pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -18,7 +18,7 @@ source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         "$pkgname.desktop")
 sha256sums=('SKIP'
             'SKIP'
-            'a8c19a6fd43d919d642d4a95c74a8d78c745aefe86c6dc4bfb50e2a61a1b51e2'
+            'ba863b4d75f79ad80759c813293a0be5c36dd520d984b758eb7a1f90c9d3b03b'
             'e82dd587ad12aa9a590692468992be16d02ce580d4c18a7477dbf635b26a4c24'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 

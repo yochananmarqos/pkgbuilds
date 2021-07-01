@@ -1,11 +1,9 @@
---- package.json	2020-03-10 19:42:23.103515416 -0700
-+++ package.json.new	2020-03-10 19:43:05.616838093 -0700
-@@ -22,7 +22,7 @@
-     "sub:update": "git submodule update --remote",
-     "sub:pull": "git submodule foreach git pull origin master",
+--- package.json	2021-06-30 18:41:51.346631450 -0600
++++ package.json.new	2021-06-30 18:43:41.108759185 -0600
+@@ -24,5 +24,5 @@
      "sub:commit": "npm run sub:pull && git commit -am \"update submodule\"",
--    "postinstall": "./node_modules/.bin/electron-rebuild && npm run sub:init && patch-package",
+     "preinstall": "npm run sub:init",
+-    "postinstall": "patch-package && electron-rebuild",
 +    "postinstall": "",
      "symlink:win": "rm -rf ./jslib && cmd /c mklink /J .\\jslib ..\\jslib",
      "symlink:mac": "npm run symlink:lin",
-     "symlink:lin": "rm -rf ./jslib && ln -s ../jslib ./jslib",
