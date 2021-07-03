@@ -2,18 +2,17 @@
 groups=('modified')
 
 pkgname=lutris
-pkgver=0.5.8.3
-pkgrel=2.2
+pkgver=0.5.8.4
+pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
 license=('GPL3')
-depends=('python-gobject' 'python-yaml' 'python-dbus' 'gtk3'
+depends=('python-gobject' 'python-yaml' 'python-evdev' 'python-dbus' 'gtk3'
          'glib2' 'psmisc' 'cabextract' 'unzip' 'p7zip' 'curl' 'xorg-xrandr'
          'python-pillow' 'python-requests' 'gnome-desktop' 'webkit2gtk'
-         'mesa-demos' 'python-dbus' 'python-distro' 'python-magic'
-         'python-lxml')
-makedepends=('python-setuptools')
+         'mesa-demos' 'python-dbus' 'python-distro' 'python-magic' 'python-lxml')
+makedepends=('meson')
 #checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm'
 #              'gnome-desktop' 'pciutils' 'xorg-xrandr')
 optdepends=(
@@ -24,14 +23,12 @@ optdepends=(
   'lib32-vkd3d: Vulkan 3D support'
   'gvfs: GVFS backend'
   'lib32-glibc: for 32bit games support'
-  'python-evdev: for controller detection'
-  'python-pypresence: Discord RPC and Rich Presence'
   'gamemode: Allows games to request a temporary set of optimisations'
   "mangohud: Display the games' FPS + other information"
-  "lib32-mangohud: Display the games' FPS + other information")
-makedepends=('meson')
+  "lib32-mangohud: Display the games' FPS + other information"
+  'innoextract: Extract Inno Setup installers')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('d551374bfb2a22a65ac6a0b059513f4985820d402a8ea771df2c5d0b2e454efc93d1042446b79cd84c1a52f1c197abb649e37ed243d761b8db62aec0209b60da')
+sha512sums=('ca75559ffb950a9078bbecfd34c2fac6dc5f56df7e6e24d18bd95b86d1104065565f677e333242725380b39d1b1dc1ac546adfecd5b9de5e998f5931e1b01eae')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
