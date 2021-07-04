@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=python-apt
-pkgver=2.1.7
+pkgver=2.2.1
 pkgrel=1
 pkgdesc="Python 3 interface to libapt-pkg"
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('GPL2')
 depends=('apt' 'python')
 makedepends=('python-distutils-extra' 'python-setuptools')
 source=("https://salsa.debian.org/apt-team/python-apt/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('8bae7634e172b45f4d00f1f5786fba93aa29b1ab511b299120aa38410cf981a0')
+sha256sums=('2357b089af1e677c06b3cfc99620b41cd0c777dcbc2f909a3e3c0cc17acf283d')
 
 build() {
 	cd "$pkgname-$pkgver"
