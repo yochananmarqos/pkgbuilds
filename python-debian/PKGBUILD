@@ -1,4 +1,4 @@
-# https://aur.archlinux.org/packages/python-debian
+# https://archlinux.org/packages/community/any/python-debian
 groups=('modified')
 
 pkgname=python-debian
@@ -19,6 +19,12 @@ validpgpkeys=('90E2D2C1AD146A1B7EBB891DBBC17EBB1396F2F7') # Stuart Prescott <stu
 build() {
 	cd "$pkgname-$pkgver"
 	python setup.py build
+}
+
+check() {
+	cd "$pkgname-$pkgver"
+#	rm lib/debian/tests/test_deb{822,file}.py # remove failing tests .. for now
+	python -m unittest discover --verbose lib/
 }
 
 package() {
