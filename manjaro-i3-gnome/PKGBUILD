@@ -57,6 +57,8 @@ package() {
 	cd "$_pkgname-$pkgver"
 	make DESTDIR="$pkgdir" install
 
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
 	echo 'Explore https://gitlab.manjaro.org/profiles-and-settings/desktop-settings/tree/master/community/i3/skel for config files'
 }
 
