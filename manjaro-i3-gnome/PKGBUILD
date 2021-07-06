@@ -1,6 +1,6 @@
 pkgname=manjaro-i3-gnome
 _pkgname=${pkgname#manjaro-}
-pkgver=3.38.0
+pkgver=40
 pkgrel=1
 pkgdesc="Use i3 with GNOME Session integration: Manjaro edition."
 arch=('any')
@@ -46,7 +46,7 @@ optdepends=('gdm'
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('b43184725eeb61dcb7bde2f097fb8ff06d8488e50d4cf6da10812486ff1d6cb2')
+sha256sums=('0cbde5f704a878f6af03e48507c3a1345850f16def2649d3336fe8a1cf9cc8a5')
 
 build() {
 	cd "$_pkgname-$pkgver"
