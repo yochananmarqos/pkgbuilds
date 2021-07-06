@@ -1,5 +1,5 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r32.gc0b6704
+pkgver=1.0.r74.g3791c8f
 pkgrel=1
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
@@ -22,7 +22,7 @@ sha256sums=('SKIP'
             'SKIP'
             '0e861fb5c67a6520d24845274ccc1858d4502c980f2da8ef2ca3588d63cd15cc'
             '5cc9e33bd128d2c1a07d8efc22942e7f260f5641342f10108f1d929cdc32a020'
-            'a5711bfef99ea90fe0f123c13909354938cc582288b97df8c691c4d48e601409')
+            '84db9161bd09ffc7d2e8787236603c96c2ecc038395d37ac9196cc728f1f9e0d')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"

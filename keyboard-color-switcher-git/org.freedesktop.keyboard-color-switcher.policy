@@ -4,7 +4,7 @@
  "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
 
-  <action id="org.freedesktop.policykit.pkexec.run-gparted">
+  <action id="org.freedesktop.policykit.pkexec.run-keyboard-color-switcher">
     <description>Run System76 Keyboard Switcher</description>
     <message>Authentication is required to run System76 Keyboard Switcher</message>
     <defaults>
