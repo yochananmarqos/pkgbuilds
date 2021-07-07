@@ -3,13 +3,14 @@ groups=('modified')
 
 pkgname=icoextract
 pkgver=0.1.2
-pkgrel=1.1
+pkgrel=2
 pkgdesc="Thumbnailer for Windows PE files (.exe/.dll)"
 arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
-depends=('python-pefile' 'python-pillow')
+depends=('python-pefile')
 makedepends=('python-setuptools')
+optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('3818ad889160b33d360da4083da0a32df8d1955fb77a64bfbac49edc15d5ad3b')
