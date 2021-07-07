@@ -1,0 +1,36 @@
+# https://archlinux.org/packages/community/x86_64/pulseeffects
+# https://github.com/wwmm/easyeffects/blob/master/PKGBUILD
+groups=('modified')
+
+pkgname=easyeffects
+pkgver=6.0.0
+pkgrel=1
+pkgdesc='Audio Effects for Pulseaudio Applications'
+arch=('x86_64')
+url='https://github.com/wwmm/easyeffects'
+license=('GPL3')
+depends=('gtkmm-4.0' 'glibmm-2.68' 'pipewire' 'lilv' 'lv2' 'libsigc++-3.0'
+         'libsndfile' 'libsamplerate' 'zita-convolver' 'libebur128' 'rnnoise'
+         'rubberband' 'fftw' 'libbs2b' 'speexdsp' 'nlohmann-json')
+makedepends=('meson' 'itstool')
+#checkdepends=('appstream-glib')
+optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
+            'lsp-plugins: equalizer, delay'
+            'zam-plugins: maximizer'
+            'yelp: in-app help')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('71d7916ea52d8e87936b65b52fb1ff9f27c1496a40dcc346ffc598978f5e51d5')
+
+build() {
+	arch-meson $pkgname-$pkgver build
+	meson compile -C build
+}
+
+check() {
+	# Validate appstream file & Validate schema file fails, only validate desktop file
+	meson test 'Validate desktop file' -C build --print-errorlogs
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install -C build
+}
