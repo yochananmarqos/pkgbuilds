@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=('mangohud' 'lib32-mangohud' 'mangohud-common')
 pkgbase=mangohud
-pkgver=0.6.4
+pkgver=0.6.5
 pkgrel=1
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 arch=('x86_64')
@@ -13,7 +13,7 @@ makedepends=('meson' 'python-mako' 'glslang' 'libglvnd' 'lib32-libglvnd'
              'libxnvctrl' 'vulkan-headers' 'dbus' 'lib32-dbus'
              'lib32-vulkan-icd-loader')
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('1619027f274d25a285395d98f333e8563a7b4bd8c10c932cccef11a9a12df9e3')
+sha256sums=('5e5490407a64275e04dae7b3068cbfcbb522f02c632c872a212b95025a316f72')
 
 build() {
 	arch-meson --wrap-mode default \
