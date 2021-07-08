@@ -4,7 +4,7 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
-pkgver=1.2.0.r95.g976106e
+pkgver=1.2.0.r107.g42ff8d4
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
@@ -15,13 +15,6 @@ provides=("${pkgbase%-git}")
 conflicts=("${pkgbase%-git}")
 source=('git+https://github.com/pop-os/shell.git')
 sha256sums=('SKIP')
-
-# Fix dbus-launch error on X11 running install file commands
-#if [[ $(echo $XDG_SESSION_TYPE) = x11 ]]; then
-#	depends+=('dbus-x11')
-#elif [[ $(echo $XDG_SESSION_TYPE) = wayland ]]; then
-#	depends+=('dbus')
-#fi
 
 pkgver() {
     cd "$srcdir/shell"
