@@ -5,7 +5,7 @@ groups=('modified')
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
 pkgver=1.2.0.r107.g42ff8d4
-pkgrel=1
+pkgrel=2
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
 url="https://github.com/pop-os/shell"
@@ -13,12 +13,19 @@ license=('GPL3')
 makedepends=('git' 'typescript')
 provides=("${pkgbase%-git}")
 conflicts=("${pkgbase%-git}")
-source=('git+https://github.com/pop-os/shell.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/pop-os/shell.git'
+        'https://github.com/pop-os/shell/pull/1074.patch')
+sha256sums=('SKIP'
+            '5bae5d6aa79263830f4d0c1939267bb4fa57a2b5b98198b1b8e61d36cd5c7c0a')
 
 pkgver() {
-    cd "$srcdir/shell"
-    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+	cd "$srcdir/shell"
+	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+	cd "$srcdir/shell"
+	patch -Np1 -i $srcdir/1074.patch
 }
 
 build() {
