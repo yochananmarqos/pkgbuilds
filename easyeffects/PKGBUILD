@@ -1,23 +1,24 @@
-# https://archlinux.org/packages/community/x86_64/pulseeffects
+# https://archlinux.org/packages/community/x86_64/easyeffects
 # https://github.com/wwmm/easyeffects/blob/master/PKGBUILD
 groups=('modified')
 
 pkgname=easyeffects
 pkgver=6.0.1
-pkgrel=1
+pkgrel=1.1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
 url='https://github.com/wwmm/easyeffects'
 license=('GPL3')
-depends=('gtkmm-4.0' 'glibmm-2.68' 'pipewire' 'lilv' 'lv2' 'libsigc++-3.0'
-         'libsndfile' 'libsamplerate' 'zita-convolver' 'libebur128' 'rnnoise'
-         'rubberband' 'fftw' 'libbs2b' 'speexdsp' 'nlohmann-json')
-makedepends=('meson' 'itstool')
+depends=('gtkmm-4.0' 'libglibmm-2.68.so' 'libpipewire-0.3.so' 'liblilv-0.so' 'libsigc-3.0.so'
+         'libsndfile.so' 'libsamplerate.so' 'zita-convolver' 'libebur128' 'rnnoise'
+         'librubberband.so' 'fftw' 'libbs2b.so' 'speexdsp')
+makedepends=('itstool' 'lv2' 'meson' 'nlohmann-json' 'zam-plugins')
 #checkdepends=('appstream-glib')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, delay'
             'zam-plugins: maximizer'
             'yelp: in-app help')
+replaces=('pulseeffects')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('b2dfbaa4c020ce994194d608d376cb01ad603d9bb626adb453f35c9b2e5998ec')
 
