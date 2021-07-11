@@ -3,8 +3,8 @@
 groups=('modified')
 
 pkgname=easyeffects
-pkgver=6.0.1
-pkgrel=1.1
+pkgver=6.0.2
+pkgrel=1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
 url='https://github.com/wwmm/easyeffects'
@@ -16,11 +16,12 @@ makedepends=('itstool' 'lv2' 'meson' 'nlohmann-json' 'zam-plugins')
 #checkdepends=('appstream-glib')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, delay'
+            'mda.lv2: loudness'
             'zam-plugins: maximizer'
             'yelp: in-app help')
 replaces=('pulseeffects')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('b2dfbaa4c020ce994194d608d376cb01ad603d9bb626adb453f35c9b2e5998ec')
+sha256sums=('f5554636ff082558fd1d2b25931671b0de60833262f7cd8c6688d51c6c6895b2')
 
 build() {
 	arch-meson $pkgname-$pkgver build
