@@ -15,8 +15,8 @@ depends=('gtkmm-4.0' 'libglibmm-2.68.so' 'libpipewire-0.3.so' 'liblilv-0.so' 'li
 makedepends=('itstool' 'lv2' 'meson' 'nlohmann-json' 'zam-plugins')
 #checkdepends=('appstream-glib')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
-            'lsp-plugins: equalizer, delay'
-            'mda.lv2: loudness'
+            'lsp-plugins: equalizer, compressor, delay, loudness'
+            'mda.lv2: bass loudness'
             'zam-plugins: maximizer'
             'yelp: in-app help')
 replaces=('pulseeffects')
