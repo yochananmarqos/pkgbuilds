@@ -1,32 +1,34 @@
 # https://aur.archlinux.org/packages/chromeos-gtk-theme-git
 pkgname=chromeos-gtk-theme-git
-pkgver=2020.01.18.r53.gafea60b
+pkgver=2021.07.16.r0.g64ed29d
 pkgrel=1
 pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
 arch=('any')
 url="https://github.com/vinceliuice/ChromeOS-theme"
 license=('GPL3')
-depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
-makedepends=('git' 'bc')
-optdepends=('kvantum-theme-chromeos: Matching Kvantum theme'
+depends=('gtk3' 'gnome-themes-extra')
+makedepends=('git')
+optdepends=('gtk-engine-murrine: GTK2 theme support'
+            'kvantum-theme-chromeos: Matching Kvantum theme'
             'vimix-icon-theme: Recommended icon theme'
             'plank: for Plank theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
+install="${pkgname%-git}.install"
 source=("${pkgname%-git}::git+https://github.com/vinceliuice/ChromeOS-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/usr/share/themes"
-	./install.sh -d "$pkgdir/usr/share/themes"
-	install -Dm755 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/ChromeOS"
-	install -d "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
-	cp -r src/firefox/* "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
+  cd "$srcdir/${pkgname%-git}"
+  install -d "$pkgdir/usr/share/themes"
+  ./install.sh -d "$pkgdir/usr/share/themes"
+  install -Dm755 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/ChromeOS"
+  install -d "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
+  cp -r src/firefox/* "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
 }
