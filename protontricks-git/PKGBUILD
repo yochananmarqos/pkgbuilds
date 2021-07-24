@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=protontricks-git
-pkgver=1.4.4.r0.ge997181
+pkgver=1.5.2.r9.gf2143c9
 pkgrel=1
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
@@ -17,20 +17,23 @@ source=('git+https://github.com/Matoking/protontricks.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-	#python setup.py --version
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	export PYTHONHASHSEED=0
-	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+  cd "$srcdir/${pkgname%-git}"
+  export PYTHONHASHSEED=0
+  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
-	install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+  # Remove protontricks-desktop-install, since we already install
+  # desktop files properly
+  rm "$pkgdir/usr/bin/${pkgname%-git}-desktop-install"
+
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
