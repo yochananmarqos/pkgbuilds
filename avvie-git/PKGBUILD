@@ -25,7 +25,7 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/${pkgname%-git}"
-  sed -i "s/main.py/$_app_id/g" "$_app_id.desktop"
+  sed -i "s/main.py/${pkgname%-git}/g" "$_app_id.desktop"
 }
 
 package() {
