@@ -1,0 +1,37 @@
+pkgname=python-glean_parser
+_name=${pkgname#python-}
+pkgver=3.7.0
+pkgrel=1
+pkgdesc="Tools for parsing the metadata for Mozilla's glean telemetry SDK"
+arch=('any')
+url="https://mozilla.github.io/glean_parser"
+license=('MPL2')
+depends=('python-appdirs' 'python-click' 'python-diskcache' 'python-jinja'
+         'python-jsonschema' 'python-pyaml' 'yamllint')
+makedepends=('python-setuptools-scm' 'setconf')
+#checkdepends=('python-pytest-runner')
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('7c875ae6105ab3de5ac5966f2c1a62a2f980ef931a7e73bff4aca20feabecdc1')
+
+prepare() {
+  cd "$_name-$pkgver"
+
+  # Pytest Runner not required to build
+  setconf setup.py setup_requirements '["setuptools-scm"]'
+}
+
+build() {
+  cd "$_name-$pkgver"
+  python setup.py build
+}
+
+#check() {
+#  cd "$_name-$pkgver"
+#  pytest
+#}
+
+package() {
+  cd "$_name-$pkgver"
+  export PYTHONHASHSEED=0
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
