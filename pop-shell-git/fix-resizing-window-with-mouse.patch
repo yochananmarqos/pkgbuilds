@@ -1,0 +1,29 @@
+From e334b8d346db4d454034e53d18bdafcab7aacb17 Mon Sep 17 00:00:00 2001
+From: Laurent le Beau-Martin <laurent@lebeaumartin.com>
+Date: Thu, 29 Jul 2021 11:38:52 -0400
+Subject: [PATCH] Fix resizing/moving window with mouse in GNOME 40
+
+---
+ src/extension.ts | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/extension.ts b/src/extension.ts
+index 9eb7147f..c38d2294 100644
+--- a/src/extension.ts
++++ b/src/extension.ts
+@@ -1789,13 +1789,12 @@ export class Ext extends Ecs.System<ExtEvent> {
+             this.register({ tag: 3, window });
+         });
+ 
+-        this.connect(display, 'grab-op-begin', (_, _display, win, op) => {
++        this.connect(display, 'grab-op-begin', (_display, win, op) => {
+             this.on_grab_start(win, op);
+         });
+ 
+-        this.connect(display, 'grab-op-end', (_, _display, win, op) => {
++        this.connect(display, 'grab-op-end', (_display, win, op) => {
+             this.register_fn(() => this.on_grab_end(win, op));
+-
+         });
+ 
+         this.connect(overview, 'window-drag-begin', (_, win) => {

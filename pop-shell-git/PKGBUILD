@@ -4,8 +4,8 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
-pkgver=1.2.0.r113.g9616931
-pkgrel=1
+pkgver=1.2.0.r114.g475b49d
+pkgrel=2
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
 url="https://github.com/pop-os/shell"
@@ -13,12 +13,22 @@ license=('GPL3')
 makedepends=('git' 'typescript')
 provides=("${pkgbase%-git}")
 conflicts=("${pkgbase%-git}")
-source=('git+https://github.com/pop-os/shell.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/pop-os/shell.git'
+        'fix-resizing-window-with-mouse.patch')
+sha256sums=('SKIP'
+            '505fcc631a87ed444827f790b6233ccdd05dc78fd15a9c99935d1f1c5cd84c04')
 
 pkgver() {
   cd "$srcdir/shell"
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir/shell"
+
+  # Fix resizing/moving window with mouse in GNOME 40
+  # https://github.com/laurentlbm/pop-shell/commit/e334b8d346db4d454034e53d18bdafcab7aacb17
+  patch -Np1 -i $srcdir/fix-resizing-window-with-mouse.patch
 }
 
 build() {
