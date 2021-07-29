@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.27.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -11,7 +11,9 @@ license=('GPL3')
 depends=('electron11' 'libnotify' 'libsecret' 'libxtst' 'libxss')
 makedepends=('git' 'npm' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
-source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
+_commit=157d9478d4bd86cdeeb266b62e99f562f36933d8
+#source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
+source=("git+https://github.com/bitwarden/desktop.git#commit=$_commit"
         'git+https://github.com/bitwarden/jslib.git'
         'package.json.patch'
         "$pkgname.sh"
@@ -23,70 +25,70 @@ sha256sums=('SKIP'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 _ensure_local_nvm() {
-	# lets be sure we are starting clean
-	which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
-	export NVM_DIR="$srcdir/.nvm"
+  # lets be sure we are starting clean
+  which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
+  export NVM_DIR="$srcdir/.nvm"
 
-	# The init script returns 3 if version
-	# specified in ./.nvrc is not (yet) installed in $NVM_DIR
-	# but nvm itself still gets loaded ok
-	source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
+  # The init script returns 3 if version
+  # specified in ./.nvrc is not (yet) installed in $NVM_DIR
+  # but nvm itself still gets loaded ok
+  source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
 }
 
 prepare() {
-	cd "$srcdir/desktop"
-	git submodule init
-	git config submodule.jslib.url "$srcdir/jslib"
-	git submodule update
+  cd "$srcdir/desktop"
+  git submodule init
+  git config submodule.jslib.url "$srcdir/jslib"
+  git submodule update
 
-	# Patch out postinstall routines
-	patch --strip=1 package.json "$srcdir/package.json.patch"
+  # Patch out postinstall routines
+  patch --strip=1 package.json "$srcdir/package.json.patch"
 
-	# Patch build to make it works with system electron
-	SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron11/version | cut -d '%' -f1)
-	jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
-	'.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron11"'\
-	> package.json.patched
-	mv package.json.patched package.json
+  # Patch build to make it works with system electron
+  SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron11/version | cut -d '%' -f1)
+  jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
+  '.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron11"'\
+  > package.json.patched
+  mv package.json.patched package.json
 
-	export npm_config_cache="$srcdir/npm_cache"
-	local nodeversion='14.17.2'
-	local npm_prefix=$(npm config get prefix)
-	npm config delete prefix
-	_ensure_local_nvm
-	nvm install "$nodeversion" && nvm use "$nodeversion"
+  export npm_config_cache="$srcdir/npm_cache"
+  local nodeversion='14.17.4'
+  local npm_prefix=$(npm config get prefix)
+  npm config delete prefix
+  _ensure_local_nvm
+  nvm install "$nodeversion" && nvm use "$nodeversion"
 }
 
 build() {
-	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-	_ensure_local_nvm
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+  _ensure_local_nvm
 
-	cd "$srcdir/desktop/jslib"
-	npm install
+  cd "$srcdir/desktop/jslib"
+  npm install
 
-	cd "$srcdir/desktop"
-	npm install
-	npm run build
-	npm run clean:dist
-	npx electron-builder build --dir
+  cd "$srcdir/desktop"
+  npm install
+  npm run build
+  npm run clean:dist
+  npx electron-builder build --dir
 
-	# Restore node config from nvm
-	npm config set prefix "$npm_prefix"
-	nvm unalias default
+  # Restore node config from nvm
+  npm config set prefix "$npm_prefix"
+  nvm unalias default
 }
 
 package() {
-	cd "$srcdir/desktop"
-	install -d "$pkgdir/usr/lib/$pkgname"
-	cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
+  cd "$srcdir/desktop"
+  install -d "$pkgdir/usr/lib/$pkgname"
+  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
 
-	for i in 16 32 48 64 128 256 512; do
-		install -Dm644 resources/icons/${i}x${i}.png \
-			"$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
-	install -Dm644 resources/icon.png \
-		"$pkgdir/usr/share/icons/hicolor/1024x1024/apps/$pkgname.png"
-	done
+  for i in 16 32 48 64 128 256 512; do
+    install -Dm644 resources/icons/${i}x${i}.png \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
+  install -Dm644 resources/icon.png \
+    "$pkgdir/usr/share/icons/hicolor/1024x1024/apps/$pkgname.png"
+  done
 
-	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/bitwarden-desktop"
-	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/bitwarden-desktop"
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
 }
