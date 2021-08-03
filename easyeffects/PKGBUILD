@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=easyeffects
-pkgver=6.0.2
+pkgver=6.0.3
 pkgrel=1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
@@ -13,7 +13,7 @@ depends=('gtkmm-4.0' 'libglibmm-2.68.so' 'libpipewire-0.3.so' 'liblilv-0.so' 'li
          'libsndfile.so' 'libsamplerate.so' 'zita-convolver' 'libebur128' 'rnnoise'
          'librubberband.so' 'fftw' 'libbs2b.so' 'speexdsp')
 makedepends=('itstool' 'lv2' 'meson' 'nlohmann-json' 'zam-plugins')
-#checkdepends=('appstream-glib')
+checkdepends=('appstream-glib')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, compressor, delay, loudness'
             'mda.lv2: bass loudness'
@@ -21,18 +21,17 @@ optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'yelp: in-app help')
 replaces=('pulseeffects')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('f5554636ff082558fd1d2b25931671b0de60833262f7cd8c6688d51c6c6895b2')
+sha256sums=('8bacae0aa8d668131dedfaef54819a25e23bafce4dcdf8dd7eb7f10796fce8df')
 
 build() {
-	arch-meson $pkgname-$pkgver build
-	meson compile -C build
+  arch-meson $pkgname-$pkgver build
+  meson compile -C build
 }
 
 check() {
-	# Validate appstream file & Validate schema file fails, only validate desktop file
-	meson test 'Validate desktop file' -C build --print-errorlogs
+  meson test -C build --print-errorlogs
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  DESTDIR="$pkgdir" meson install -C build
 }
