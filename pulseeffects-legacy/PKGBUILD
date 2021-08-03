@@ -9,15 +9,15 @@ groups=('modified')
 pkgname=pulseeffects-legacy
 pkgver=4.8.5
 pkgrel=1
-pkgdesc='Audio Effects for Pulseaudio Applications'
+pkgdesc="Audio Effects for Pulseaudio Applications"
 arch=('x86_64')
-url='https://github.com/wwmm/pulseeffects'
+url="https://github.com/wwmm/easyeffects"
 license=('GPL3')
 depends=('boost-libs' 'glibmm' 'gst-plugin-gtk' 'gst-plugins-bad'
          'gst-plugins-base' 'gstreamer' 'gtk3' 'gtkmm3' 'libebur128'
          'libsamplerate' 'libsigc++' 'libsndfile' 'lilv' 'pulseaudio'
          'zita-convolver')
-makedepends=('appstream-glib' 'boost' 'calf' 'itstool' 'meson' 'rnnoise'
+makedepends=('boost' 'calf' 'itstool' 'meson' 'rnnoise'
              'rubberband' 'zam-plugins')
 optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'lsp-plugins: equalizer, delay'
@@ -25,20 +25,21 @@ optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'rubberband: pitch shifting'
             'yelp: in-app help'
             'zam-plugins: maximizer')
-provides=('pulseeffects')
-conflicts=('pulseeffects')
-source=("pulseeffects-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+checkdepends=('appstream-glib')
+provides=("${pkgname%-*}")
+conflicts=("${pkgname%-*}")
+source=("${pkgname%-*}-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('df1c4c4a9811c62a549822dacde3a9e36233ba3ec58817ae52a236f6181a507c')
 
 build() {
-	arch-meson pulseeffects-$pkgver build
-	meson compile -C build
+  arch-meson "${pkgname%-*}-$pkgver" build
+  meson compile -C build
 }
 
 check() {
-	meson test -C build --print-errorlogs
+  meson test -C build --print-errorlogs
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  DESTDIR="$pkgdir" meson install -C build
 }
