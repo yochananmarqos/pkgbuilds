@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!rabbitvcs-caja.install
+!rabbitvcs-nautilus.install
+!rabbitvcs-nemo.install
+!rabbitvcs-thunar.install
+!rabbitvcs-ignore-post-install.patch
+!328.patch
