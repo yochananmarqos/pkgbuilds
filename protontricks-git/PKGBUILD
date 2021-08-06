@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=protontricks-git
-pkgver=1.5.2.r9.gf2143c9
+pkgver=1.5.2.r18.gb4e21de
 pkgrel=1
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
 url="https://github.com/Matoking/protontricks"
 license=('GPL3')
 depends=('python-vdf' 'winetricks' 'steam')
-optdepends=('zenity: for GUI')
+optdepends=('yad: for GUI')
 makedepends=('git' 'python-setuptools-scm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
