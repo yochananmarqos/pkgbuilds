@@ -1,40 +1,41 @@
 # https://aur.archlinux.org/packages/safeeyes-git
 pkgname=safeeyes-git
-pkgver=2.1.3.r0.g736f15e
+pkgver=2.1.3.r11.g541f39f
 pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
 url="http://slgobinath.github.io/SafeEyes"
 license=('GPL3')
-depends=('alsa-utils' 'hicolor-icon-theme' 'libappindicator-gtk3' 'python-babel'
-         'python-dbus' 'python-gobject' 'python-psutil' 'python-xlib' 'xorg-xprop')
+depends=('alsa-utils' 'hicolor-icon-theme' 'python-babel' 'dbus-python' 'python-gobject'
+         'python-psutil' 'python-xlib' 'xorg-xprop')
 makedepends=('python-setuptools' 'git')
-optdepends=('xprintidle: for Smart Pause plugin'
-            'python-croniter: for Health Stats plugin'
-            'python-pyowm: for weather plugin')
+optdepends=('libappindicator-gtk3: show a tray icon in the notification area'
+            'python-croniter: for Health Statistics plugin'
+            'python-pyowm: for Weather plugin'
+            'xprintidle: for Smart Pause plugin')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/slgobinath/SafeEyes.git"
         'git+https://github.com/safeeyes/safeeyes-plugins.git')
-sha1sums=('SKIP'
-          'SKIP')
+sha256sums=('SKIP'
+            'SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	export PYTHONHASHSEED=0
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$srcdir/${pkgname%-git}"
+  export PYTHONHASHSEED=0
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-	cp -r "$srcdir"/${pkgname%-git}-plugins/{weather,zoom} \
-		"$pkgdir${site_packages}/${pkgname%-git}/plugins"
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  cp -r "$srcdir/${pkgname%-git}"-plugins/{weather,zoom} \
+    "$pkgdir${site_packages}/${pkgname%-git}/plugins"
 }
