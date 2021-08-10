@@ -4,7 +4,7 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git' 'pop-shell-plugin-system76-power-git')
 pkgbase='pop-shell-git'
-pkgver=1.2.0.r116.g10244d7
+pkgver=1.2.0.r121.g3eda9bb
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')

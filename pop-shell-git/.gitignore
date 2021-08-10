@@ -6,4 +6,3 @@
 !PKGBUILD
 !.SRCINFO
 !pop-shell.install
-!fix-resizing-window-with-mouse.patch
