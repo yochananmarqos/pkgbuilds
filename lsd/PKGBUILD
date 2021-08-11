@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=lsd
-pkgver=0.20.0
+pkgver=0.20.1
 pkgrel=1
 pkgdesc="Modern ls with a lot of pretty colors and awesome icons"
 url="https://github.com/Peltoche/lsd"
@@ -11,7 +11,7 @@ license=('Apache')
 depends=('gcc-libs' 'ttf-nerd-fonts-symbols')
 makedepends=('cargo')
 source=("https://github.com/Peltoche/lsd/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('86269cb28c7b3633cb7dd8809b44cc8c796e120ef4ebd3f2fcafa6ed47d60265')
+sha256sums=('a2086aa049b8bd21c880f23b21b0e9ef21d3c3829d40641aa8810c08be936c19')
 
 prepare() {
   cd "$pkgname-$pkgver"
