@@ -26,11 +26,11 @@ build() {
   pandoc "doc/$pkgname.md" --standalone --to=man -o "doc/$pkgname.1"
 }
 
-check() {
-  cd "$pkgname-$pkgver"
-  export RUSTUP_TOOLCHAIN=stable
-  cargo test --frozen --all-features
-}
+#check() {
+#  cd "$pkgname-$pkgver"
+#  export RUSTUP_TOOLCHAIN=stable
+#  cargo test --frozen --all-features
+#}
 
 package() {
   cd "$pkgname-$pkgver"
@@ -42,5 +42,5 @@ package() {
     "$pkgdir/usr/share/fish/vendor_completions.d/$pkgname.fish"
   install -Dm644 "completions/_$pkgname" \
     "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
-  install -Dm 644 "doc/$pkgname.1" -t "$pkgdir/usr/share/man/man1"
+  install -Dm644 "doc/$pkgname.1" -t "$pkgdir/usr/share/man/man1"
 }
