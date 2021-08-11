@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.27.1
-pkgrel=2
+pkgrel=3
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -25,12 +25,12 @@ sha256sums=('SKIP'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 _ensure_local_nvm() {
-  # lets be sure we are starting clean
+  # let's be sure we are starting clean
   which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
   export NVM_DIR="$srcdir/.nvm"
 
-  # The init script returns 3 if version
-  # specified in ./.nvrc is not (yet) installed in $NVM_DIR
+  # The init script returns 3 if version specified
+  # in ./.nvrc is not (yet) installed in $NVM_DIR
   # but nvm itself still gets loaded ok
   source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
 }
@@ -52,11 +52,8 @@ prepare() {
   mv package.json.patched package.json
 
   export npm_config_cache="$srcdir/npm_cache"
-  local nodeversion='14.17.4'
-  local npm_prefix=$(npm config get prefix)
-  npm config delete prefix
   _ensure_local_nvm
-  nvm install "$nodeversion" && nvm use "$nodeversion"
+  nvm install 14.17.5
 }
 
 build() {
@@ -71,10 +68,6 @@ build() {
   npm run build
   npm run clean:dist
   npx electron-builder build --dir
-
-  # Restore node config from nvm
-  npm config set prefix "$npm_prefix"
-  nvm unalias default
 }
 
 package() {
