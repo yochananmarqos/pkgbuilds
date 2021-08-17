@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=easyeffects
-pkgver=6.0.3
+pkgver=6.1.0
 pkgrel=1
 pkgdesc='Audio Effects for Pulseaudio Applications'
 arch=('x86_64')
@@ -21,7 +21,7 @@ optdepends=('calf: limiter, compressor exciter, bass enhancer and others'
             'yelp: in-app help')
 replaces=('pulseeffects')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('8bacae0aa8d668131dedfaef54819a25e23bafce4dcdf8dd7eb7f10796fce8df')
+sha256sums=('0af13df5685e5417be913c4bf79254d07250f033ed218b040bfc7c9c54ad9d5e')
 
 build() {
   arch-meson $pkgname-$pkgver build
