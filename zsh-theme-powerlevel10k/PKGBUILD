@@ -3,9 +3,9 @@ groups=('modified')
 
 pkgname=zsh-theme-powerlevel10k
 # Whenever pkgver is updated, _libgit2ver below must also be updated.
-pkgver=1.14.3
+pkgver=1.15.0
 _libgit2ver="tag-82cefe2b42300224ad3c148f8b1a569757cc617a"
-pkgrel=1
+pkgrel=2
 pkgdesc="Powerlevel10k is a theme for Zsh. It emphasizes speed, flexibility and out-of-the-box experience."
 arch=('x86_64')
 url='https://github.com/romkatv/powerlevel10k'
@@ -14,17 +14,22 @@ makedepends=('git' 'cmake')
 depends=('glibc' 'zsh')
 optdepends=(
   'ttf-meslo-nerd-font-powerlevel10k: recommended font'
-  'powerline-fonts: patched fonts for powerline'
-  'awesome-terminal-fonts: icon package'
-)
+  'powerline-fonts: patched fonts for powerline')
+  # It works well with Nerd Fonts, Source Code Pro, Font Awesome, Powerline,
+  # and even the default system fonts. The full choice of style options is
+  # available only when using Nerd Fonts.
+replaces=('zsh-theme-powerlevel9k')
+
 # _libgit2ver depends on pkgver. They must be updated together. See libgit2_version in:
 # https://raw.githubusercontent.com/romkatv/powerlevel10k/v${pkgver}/gitstatus/build.info
 source=(
-  "${pkgname}-${pkgver}.tar.gz::https://github.com/romkatv/powerlevel10k/archive/v${pkgver}.tar.gz"
+  "powerlevel10k-${pkgver}.tar.gz::https://github.com/romkatv/powerlevel10k/archive/v${pkgver}.tar.gz"
+  "https://github.com/romkatv/powerlevel10k/releases/download/v$pkgver/powerlevel10k-$pkgver.tar.gz.asc"
   "libgit2-${_libgit2ver}.tar.gz::https://github.com/romkatv/libgit2/archive/${_libgit2ver}.tar.gz")
-sha256sums=('928015be748ceb39a75ed149010b7c1b39717dc53a30e6e4d5153303371c2651'
+sha256sums=('3482ae9b876890b78dd2567066cf5ceecd37eb2117c12248106710655a7dc1dc'
+            'SKIP'
             'dc701c4e2080f7901f5d599d642b629569e5581086b9838d481d09f284dc7621')
-replaces=('zsh-theme-powerlevel9k')
+validpgpkeys=('8B060F8B9EB395614A669F2A90ACE942EB90C3DD') # Roman Perepelitsa <roman.perepelitsa@gmail.com>
 
 build() {
   cd "${srcdir}/libgit2-${_libgit2ver}"
@@ -42,6 +47,7 @@ build() {
    -DUSE_NTLMCLIENT=OFF \
    -DBUILD_SHARED_LIBS=OFF \
    -DENABLE_REPRODUCIBLE_BUILDS=ON \
+   -Wno-dev \
    .
   make
 
@@ -54,22 +60,27 @@ build() {
 
 package() {
   cd "$srcdir/powerlevel10k-${pkgver}"
-  find . -type f -exec install -D '{}' "$pkgdir/usr/share/zsh-theme-powerlevel10k/{}" ';'
+  find . -type f -exec install -D '{}' "$pkgdir/usr/share/${pkgname}/{}" ';'
+
+  install -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -s "/usr/share/${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}"
+
   # delete unnecessary files. See also: https://bugs.archlinux.org/task/66737
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/obj"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/.gitignore"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/.gitattributes"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/src"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/build"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/deps"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/Makefile"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/mbuild"
-  rm "${pkgdir}/usr/share/zsh-theme-powerlevel10k/.gitattributes"
-  rm "${pkgdir}/usr/share/zsh-theme-powerlevel10k/.gitignore"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/usrbin/.gitkeep"
-  rm "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/.clang-format"
-  rm -rf "${pkgdir}/usr/share/zsh-theme-powerlevel10k/gitstatus/.vscode/"
-  cd "${pkgdir}/usr/share/zsh-theme-powerlevel10k/"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/obj"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/.gitignore"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/.gitattributes"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/src"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/build"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/deps"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/Makefile"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/mbuild"
+  rm "${pkgdir}/usr/share/${pkgname}/.gitattributes"
+  rm "${pkgdir}/usr/share/${pkgname}/.gitignore"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/usrbin/.gitkeep"
+  rm "${pkgdir}/usr/share/${pkgname}/gitstatus/.clang-format"
+  rm -rf "${pkgdir}/usr/share/${pkgname}/gitstatus/.vscode/"
+
+  cd "${pkgdir}/usr/share/${pkgname}"
   for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
     zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"
   done
