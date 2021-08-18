@@ -1,6 +1,8 @@
 # https://aur.archlinux.org/packages/chromeos-gtk-theme-git
+groups=('modified')
+
 pkgname=chromeos-gtk-theme-git
-pkgver=2021.07.16.r0.g64ed29d
+pkgver=2021.08.18.r0.g5ecad1c
 pkgrel=1
 pkgdesc="A Material Design theme for GNOME/GTK based desktop environments."
 arch=('any')
@@ -28,7 +30,11 @@ package() {
   cd "$srcdir/${pkgname%-git}"
   install -d "$pkgdir/usr/share/themes"
   ./install.sh -d "$pkgdir/usr/share/themes"
+
+  # Plank theme
   install -Dm755 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/ChromeOS"
-  install -d "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
-  cp -r src/firefox/* "$pkgdir/usr/share/doc/${pkgname%-git}/firefox"
+
+  # Firefox theme
+  install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
+  cp -r src/firefox "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
