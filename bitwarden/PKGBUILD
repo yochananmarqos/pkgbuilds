@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=bitwarden
-pkgver=1.27.1
-pkgrel=3
+pkgver=1.28.0
+pkgrel=1
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -11,9 +11,7 @@ license=('GPL3')
 depends=('electron11' 'libnotify' 'libsecret' 'libxtst' 'libxss')
 makedepends=('git' 'npm' 'nvm' 'jq')
 optdepends=('libappindicator-gtk3: for tray icon')
-_commit=157d9478d4bd86cdeeb266b62e99f562f36933d8
-#source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
-source=("git+https://github.com/bitwarden/desktop.git#commit=$_commit"
+source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
         'package.json.patch'
         "$pkgname.sh"
