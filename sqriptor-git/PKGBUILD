@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/sqriptor-git
+groups=('modified')
+
+pkgname=sqriptor-git
+pkgver=r62.a658771
+pkgrel=1
+pkgdesc="QsciScintilla based text editor"
+arch=('x86_64')
+url="https://github.com/luebking/sqriptor"
+license=('GPL2')
+depends=('qscintilla-qt5')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/luebking/sqriptor.git'
+        "${pkgname%-git}.desktop")
+md5sums=('SKIP'
+         '33305c34b8d0fb09f6bcddaec8d8b8c6')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "$srcdir/${pkgname%-git}"
+  qmake
+  make
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
+  install -Dm644 "${pkgname%-git}.svg" -t "$pkgdir/usr/share/icons/hicolor/scalable/apps"
+  install -Dm644 "${pkgname%-git}256.png" "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+}
