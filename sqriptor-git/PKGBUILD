@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=sqriptor-git
 pkgver=r62.a658771
 pkgrel=1
-pkgdesc="QsciScintilla based text editor"
+pkgdesc="QScintilla based text editor"
 arch=('x86_64')
 url="https://github.com/luebking/sqriptor"
 license=('GPL2')
@@ -15,7 +15,7 @@ conflicts=("${pkgname%-git}")
 source=('git+https://github.com/luebking/sqriptor.git'
         "${pkgname%-git}.desktop")
 md5sums=('SKIP'
-         '33305c34b8d0fb09f6bcddaec8d8b8c6')
+         '2041ffe255df847165155765957a8b2b')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
