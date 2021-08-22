@@ -14,8 +14,8 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/luebking/sqriptor.git'
         "${pkgname%-git}.desktop")
-md5sums=('SKIP'
-         '2041ffe255df847165155765957a8b2b')
+sha256sums=('SKIP'
+            '1e12c8df66f750997915e31b6e43a802a7625d5ff7dc4bc20bc8ac7839ab6014')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
