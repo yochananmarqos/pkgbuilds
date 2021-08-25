@@ -5,7 +5,7 @@ groups=('modified')
 pkgname=gnome-control-center-system76
 _pkgname=${pkgname%-system76}
 pkgver=40.0
-pkgrel=1.1
+pkgrel=1.2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop (with System76 patches - Manjaro edition)"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -24,14 +24,17 @@ optdepends=('system-config-printer: Printer settings'
             'gnome-remote-desktop: screen sharing'
             'rygel: media sharing'
             'openssh: remote login'
-            'power-profiles-daemon: power profiles support')
+            'power-profiles-daemon: power profiles support'
+#            'hidpi-daemon'
+            )
 provides=("$_pkgname" 'firmware-manager-virtual')
 conflicts=("$_pkgname")
 _commit=49d71c07b5b3ce59e035b785310cba4fcf903868  # tags/40.0^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         'git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git'
         'git+https://gitlab.gnome.org/GNOME/libhandy.git'
-#        '0001-mouse-Add-Disable-While-Typing-toggle-for-touchpad.patch'
+        '0001-mouse-Add-Disable-While-Typing-toggle-for-touchpad.patch'
+        'pop-mouse-accel.patch'
 #        'pop-hidpi.patch'
         'system76-firmware.patch'
         'distro-logo.patch'
@@ -41,6 +44,8 @@ source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_co
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
+            'a038b6d1c5c8dd5e80c1b6e24d650d616d1434486c5e86b270694b540449e3f3'
+            '4d5a9de5f629982b66a8a9ce3a8bb1c1dd76df1214f3a2d5e1c0621b475dfa7a'
             '33fc2be90935fa9b913cccde12677d7234763821d47d71edf3586034d7eece2d'
             '588a2b3982f63b67f0fb49f8b4717725b3c3447775b02d184d5c5c8499d6f4c8'
             '4f4d0856a69d41d6f0e7f26939e2b3786a387be35e5da5234f614912c245e651')
@@ -57,7 +62,8 @@ prepare() {
   git config --local submodule.subprojects/libhandy.url "$srcdir/libhandy"
   git submodule update
 
-#  patch -Np1 -i ../0001-mouse-Add-Disable-While-Typing-toggle-for-touchpad.patch
+  patch -Np1 -i ../'0001-mouse-Add-Disable-While-Typing-toggle-for-touchpad.patch'
+  patch -Np1 -i ../pop-mouse-accel.patch
 #  patch -Np1 -i ../pop-hidpi.patch
   patch -Np1 -i ../system76-firmware.patch
   patch -Np1 -i ../distro-logo.patch
