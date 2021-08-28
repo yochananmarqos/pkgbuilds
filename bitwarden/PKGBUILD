@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.28.2
-pkgrel=1
+pkgrel=2
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -14,12 +14,14 @@ optdepends=('libappindicator-gtk3: for tray icon')
 source=("git+https://github.com/bitwarden/desktop.git#tag=v$pkgver"
         'git+https://github.com/bitwarden/jslib.git'
         'package.json.patch'
+        'messaging.main.ts.patch'
         "$pkgname.sh"
         "$pkgname.desktop")
 sha256sums=('SKIP'
             'SKIP'
-            'ba863b4d75f79ad80759c813293a0be5c36dd520d984b758eb7a1f90c9d3b03b'
-            'e82dd587ad12aa9a590692468992be16d02ce580d4c18a7477dbf635b26a4c24'
+            'ec62ccd29cb85e6c1f324a16495578d6d16efcc9660a02b76231b60ced896a8e'
+            'a789a04bad47b74e3f9fd700abbe0636ba785f28fbcadf2d679e0efb1d63b20a'
+            'cd4bf43483034d98a3698baffdca78e04b5c6f6208a03eefd1aad1dcfbea7105'
             '6ca2d16c056174f3a00cf5def6221089dfb5d10ad6a8b30640ceecbcb4625efa')
 
 _ensure_local_nvm() {
@@ -39,11 +41,15 @@ prepare() {
   git config submodule.jslib.url "$srcdir/jslib"
   git submodule update
 
-  # Patch out postinstall routines
+  # Remove pre and postinstall routines from package.json.
+  # This is required to build without a git repo and to make the builds more reproducible
   patch --strip=1 package.json "$srcdir/package.json.patch"
 
+  # This patch is required to make "Start automatically on login" work
+  patch --strip=1 src/main/messaging.main.ts "$srcdir/messaging.main.ts.patch"
+
   # Patch build to make it works with system electron
-  SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron11/version | cut -d '%' -f1)
+  local SYSTEM_ELECTRON_VERSION=$(tail /usr/lib/electron11/version | cut -d '%' -f1)
   jq < package.json --arg ver $SYSTEM_ELECTRON_VERSION\
   '.build["electronVersion"]=$ver | .build["electronDist"]="/usr/lib/electron11"'\
   > package.json.patched
@@ -56,12 +62,23 @@ prepare() {
 
 build() {
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+  export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
 
-  cd "$srcdir/desktop/jslib"
-  npm install
-
   cd "$srcdir/desktop"
+
+  pushd jslib
+  npm install
+  popd
+
+  pushd jslib/common
+  npm install --only=dev
+  popd
+
+  pushd jslib/angular
+  npm install
+  popd
+
   npm install
   npm run build
   npm run clean:dist

@@ -8,3 +8,4 @@
 !bitwarden.sh
 !bitwarden.desktop
 !package.json.patch
+!messaging.main.ts.patch
