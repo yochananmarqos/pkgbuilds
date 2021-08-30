@@ -1,11 +1,13 @@
 # http://aur.archlinux.org/packages/sonata-git
+groups=('modified')
+
 pkgname=sonata-git
-pkgver=1.7b1.r29.g0c807e5
+pkgver=1.7.0.r11.g48f7456
 pkgrel=1
 pkgdesc="GTK 3 client for the Music Player Daemon"
+arch=('any')
 url="https://github.com/multani/sonata"
 license=('GPL3')
-arch=('i686' 'x86_64')
 depends=('python-gobject' 'gtk3' 'python-mpd2')
 makedepends=('git' 'python-setuptools')
 optdepends=('python-tagpy: metadata editing support'
@@ -16,16 +18,16 @@ source=('git+https://github.com/multani/sonata.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
