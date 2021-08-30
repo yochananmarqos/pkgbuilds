@@ -1,0 +1,40 @@
+# https://aur.archlinux.org/packages/mcfly
+groups=('modified')
+
+pkgname=mcfly
+pkgver=0.5.9
+pkgrel=1
+pkgdesc="Fly through your shell history"
+arch=('x86_64')
+url="https://github.com/cantino/mcfly"
+license=('MIT')
+depends=('sh')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('8c272228496f700ac7e286d30dddf8a50f67f729d8a1275d2d655d66c57944b9')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release --all-features
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo test --frozen --all-features
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 "$pkgname"{.bash,.zsh} -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 "$pkgname.fish" -t "$pkgdir/usr/share/fish/vendor_completions.d/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
