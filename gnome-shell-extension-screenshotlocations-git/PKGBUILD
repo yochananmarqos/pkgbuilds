@@ -1,0 +1,30 @@
+pkgname=gnome-shell-extension-screenshotlocations-git
+_pkgname=gnome-shell-screenshotlocations-extension
+pkgver=8.r0.gdfdcf12
+pkgrel=1
+pkgdesc="A GNOME extension for changing the screenshot output directory"
+arch=('any')
+url="https://codeberg.org/kiyui/gnome-shell-screenshotlocations-extension"
+license=('GPL2')
+depends=('gnome-shell')
+makedepends=('git' 'meson')
+source=('git+https://codeberg.org/kiyui/gnome-shell-screenshotlocations-extension.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  arch-meson "$_pkgname" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build
+}
