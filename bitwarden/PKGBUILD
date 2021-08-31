@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=bitwarden
 pkgver=1.28.2
-pkgrel=2
+pkgrel=3
 pkgdesc='A secure and free password manager for all of your devices.'
 arch=('x86_64')
 url="https://bitwarden.com"
@@ -57,7 +57,7 @@ prepare() {
 
   export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  nvm install 14.17.5
+  nvm install 14.17.6
 }
 
 build() {
