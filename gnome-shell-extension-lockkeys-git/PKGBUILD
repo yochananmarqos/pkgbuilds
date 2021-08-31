@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-lockkeys-git
-pkgver=r157.4c76c1a
+pkgver=r166.06f2ee8
 pkgrel=1
 pkgdesc="Numlock and Capslock indicator for gnome-shell"
 arch=('any')
@@ -16,25 +16,18 @@ source=("${pkgname%-*}::git+$url.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-*}"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "$srcdir/${pkgname%-*}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-	_uuid='lockkeys@vaina.lt'
+  _uuid='lockkeys@vaina.lt'
 
-	cd "$srcdir/${pkgname%-*}/$_uuid"
-	install -Dm644 icons/*.svg -t "$pkgdir/usr/share/icons/hicolor/symbolic/apps"
-	install -Dm644 schemas/*.xml -t "$pkgdir/usr/share/glib-2.0/schemas"
+  cd "$srcdir/${pkgname%-*}"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions"
+  cp -r $_uuid "$pkgdir/usr/share/gnome-shell/extensions"
 
-	for locale in locale/*/; do
-		install -Dm644 -t "$pkgdir/usr/share/${locale}/LC_MESSAGES" \
-			"${locale}/LC_MESSAGES"/*.mo
-	done
-
-#	rm -rf {icons,locale}
-
-	cd "$srcdir/${pkgname%-*}"
-	install -d "$pkgdir/usr/share/gnome-shell/extensions"
-	cp -r $_uuid "$pkgdir/usr/share/gnome-shell/extensions"
+  install -d "$pkgdir/usr/share/glib-2.0/schemas"
+  ln -s "/usr/share/gnome-shell/extensions/$_uuid/schemas/org.gnome.shell.extensions.lockkeys.gschema.xml" \
+    "$pkgdir/usr/share/glib-2.0/schemas"
 }
