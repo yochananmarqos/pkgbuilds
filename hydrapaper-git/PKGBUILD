@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=hydrapaper-git
-pkgver=2.0.3.r51.gb3fa43e
-pkgrel=2
+pkgver=3.0.0.r8.gf943f62
+pkgrel=1
 pkgdesc="A Gtk utility to set different backgrounds for each monitor on GNOME"
 arch=('any')
 url="https://gitlab.gnome.org/GabMus/HydraPaper"
@@ -17,24 +17,24 @@ source=("${pkgname%-git}::git+https://gitlab.gnome.org/GabMus/HydraPaper.git")
 sha256sums=('SKIP')
 
 prepare() {
-	cd "$srcdir/${pkgname%-git}"
-	sed -i "s/dependency('gtk+-3.0', version :'>=3.20')/dependency('gtk4', version :'>=4.0')/g" data/meson.build
+  cd "$srcdir/${pkgname%-git}"
+  sed -i "s/dependency('gtk+-3.0', version :'>=3.20')/dependency('gtk4', version :'>=4.0')/g" data/meson.build
 }
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags --always | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags --always | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	arch-meson "${pkgname%-git}" build
-	meson compile -C build
+  arch-meson "${pkgname%-git}" build
+  meson compile -C build
 }
 
 check() {
-	meson test -C build
+  meson test -C build --print-errorlogs
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  DESTDIR="$pkgdir" meson install -C build
 }
