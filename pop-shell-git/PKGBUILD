@@ -35,8 +35,10 @@ package_gnome-shell-extension-pop-shell-git() {
   cd "$srcdir/shell"
   make DESTDIR="$pkgdir" install
 
-  install -Dm644 schemas/org.gnome.shell.extensions.pop-shell.gschema.xml -t \
+  install -d "$pkgdir/usr/share/glib-2.0/schemas"
+  ln -s /usr/share/gnome-shell/extensions/pop-shell@system76.com/schemas/org.gnome.shell.extensions.pop-shell.gschema.xml \
     "$pkgdir/usr/share/glib-2.0/schemas"
+
   install -Dm644 keybindings/*.xml -t \
     "$pkgdir/usr/share/gnome-control-center/keybindings"
   install -Dm755 scripts/configure.sh -t \
