@@ -1,19 +1,18 @@
 # https://aur.archlinux.org/packages/vimix-gtk-themes-git
 pkgname=vimix-gtk-themes-git
-pkgver=2021.04.25.r24.gaea85e0
+pkgver=2021.08.17.r12.g3159e05
 pkgrel=1
 pkgdesc="A flat Material Design theme for GTK 3, GTK 2, GNOME Shell, etc."
 arch=('any')
 url="https://vinceliuice.github.io/theme-vimix.html"
 license=('GPL3')
 depends=('gtk3')
-makedepends=('git')
+makedepends=('git' 'gnome-shell' 'sassc')
 optdepends=('gtk-engine-murrine: GTK2 theme support'
             'gtk-engines: GTK2 theme support'
             'kvantum-theme-vimix: Matching Kvantum theme'
             'vimix-icon-theme: Matching icon theme'
-            'vimix-cursors: Matching cursor theme'
-            'tela-icon-theme: Recommended icon theme')
+            'vimix-cursors: Matching cursor theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
@@ -21,12 +20,21 @@ source=('git+https://github.com/vinceliuice/vimix-gtk-themes.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/usr/share/themes"
-	./install.sh -a -d "$pkgdir/usr/share/themes"
+  cd "$srcdir/${pkgname%-git}"
+  install -d "$pkgdir/usr/share/themes"
+
+  # Normal
+  for theme in standard doder beryl ruby amethyst; do
+    ./install.sh -a -t ${theme} -d "$pkgdir/usr/share/themes"
+  done
+
+  # Compact
+  for theme in standard doder beryl ruby amethyst; do
+    ./install.sh -a -t ${theme} -s compact -d "$pkgdir/usr/share/themes"
+  done
 }
