@@ -2,47 +2,52 @@
 pkgname=('canta-gtk-theme-git' 'canta-icon-theme-git')
 pkgbase=canta-theme-git
 pkgdesc="Flat Material Design theme for GTK 3, GTK 2 and Gnome-Shell"
-pkgver=2021.07.06.r0.4863550
+pkgver=2021.07.06.r9.ab372a0
 pkgrel=1
 arch=('any')
 url="https://www.gnome-look.org/p/1220749"
 license=('GPL2')
-makedepends=('gtk3' 'git' 'sassc')
+makedepends=('gnome-shell' 'gtk3' 'git' 'sassc')
 provides=("${pkgbase%-git}")
 conflicts=("${pkgbase%-git}")
-options=(!strip)
+options=('!strip')
 source=("${pkgbase%-git}::git+https://github.com/vinceliuice/Canta-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgbase%-git}"
-	git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g'
+  cd "$srcdir/${pkgbase%-git}"
+  git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g'
 }
 
 package_canta-gtk-theme-git() {
-	depends=('gnome-themes-extra')
-	optdepends=('gtk-engine-murrine: GTK2 theme support'
-	            'gtk-engines: GTK2 theme support')
-	provides=("${pkgname%-git}")
-	conflicts=("${pkgname%-git}")
+  depends=('gnome-themes-extra')
+  optdepends=('gtk-engine-murrine: GTK2 theme support'
+              'gtk-engines: GTK2 theme support'
+              'canta-icon-theme: Matching icon theme')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
 
-	cd "$srcdir/${pkgbase%-git}"
-	install -d "$pkgdir/usr/share/themes"
+  cd "$srcdir/${pkgbase%-git}"
+  install -d "$pkgdir/usr/share/themes"
 
-	# Install theme with Nautilus background image
-	./install.sh -d "$pkgdir/usr/share/themes"
+  # Install theme with Nautilus background image
+  for theme in standard blue indigo; do
+    ./install.sh -t ${theme} -d "$pkgdir/usr/share/themes"
+  done
 
-	# Install theme without Nautilus background image
-	#./install.sh -o -d "$pkgdir/usr/share/themes"
+  # Install theme without Nautilus background image
+#  for theme in standard blue indigo; do
+#    ./install.sh -o -t ${theme} -d "$pkgdir/usr/share/themes"
+#  done
 }
 
 package_canta-icon-theme-git() {
-	pkgdesc="Flat icons for Canta GTK theme"
-	optdepends=('numix-circle-icon-theme-git: if you want a better experience')
-	provides=("${pkgname%-git}")
-	conflicts=("${pkgname%-git}")
+  pkgdesc="Flat icons for Canta GTK theme"
+  optdepends=('numix-circle-icon-theme: if you want a better experience')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
 
-	cd "$srcdir/${pkgbase%-git}"
-	install -d "$pkgdir/usr/share/icons"
-	./install.sh -i -d "$pkgdir/usr/share/icons"
+  cd "$srcdir/${pkgbase%-git}"
+  install -d "$pkgdir/usr/share/icons"
+  ./install.sh -i -d "$pkgdir/usr/share/icons"
 }
