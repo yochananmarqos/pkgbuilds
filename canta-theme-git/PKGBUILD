@@ -20,7 +20,7 @@ pkgver() {
 }
 
 package_canta-gtk-theme-git() {
-  depends=('gnome-themes-extra')
+  depends=('gnome-themes-extra' 'gtk3')
   optdepends=('gtk-engine-murrine: GTK2 theme support'
               'gtk-engines: GTK2 theme support'
               'canta-icon-theme: Matching icon theme')
