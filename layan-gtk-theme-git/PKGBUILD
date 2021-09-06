@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/layan-gtk-theme-git
+groups=('modified')
+
+pkgname=layan-gtk-theme-git
+pkgver=2021.06.30.r9.gd285a92
+pkgrel=1
+pkgdesc="A flat Material Design theme for GTK 3, GTK 2 and Gnome-Shell"
+arch=('any')
+url="https://www.pling.com/p/1309214"
+license=('GPL2')
+depends=('gtk3')
+makedepends=('git' 'gnome-shell')
+optdepends=('gtk-engine-murrine: GTK2 theme support'
+            'gtk-engines: GTK2 theme support'
+            'tela-icon-theme: Recommended icon theme')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+https://github.com/vinceliuice/Layan-gtk-theme.git")
+sha256sums=('SKIP')
+
+pkgver(){
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -d "$pkgdir/usr/share/themes"
+  ./install.sh -d "$pkgdir/usr/share/themes"
+
+  # Plank theme
+  install -Dm644 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/Layan"
+
+  # Wallpapers
+  install -d "$pkgdir/usr/share/backgrounds/layan"
+  cp -r src/wallpaper/* "$pkgdir/usr/share/backgrounds/layan"
+}
