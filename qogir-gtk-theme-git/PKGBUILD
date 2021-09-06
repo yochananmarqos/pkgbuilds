@@ -1,17 +1,20 @@
 # http://aur.archlinux.org/packages/qogir-gtk-theme-git
+groups=('modified')
+
 pkgname=qogir-gtk-theme-git
-pkgver=2020.02.26.r11.ga896ea6
+pkgver=2021.08.02.r6.g6fb06fd
 pkgrel=1
 pkgdesc="A flat design theme for GTK 3, GTK 2 and Gnome-Shell"
 arch=('any')
 url="https://github.com/vinceliuice/Qogir-theme"
 license=('GPL3')
-depends=('gtk3' 'gtk-engine-murrine' 'gtk-engines')
-makedepends=('git')
-optdepends=('kvantum-theme-qogir: Matching Kvantum theme'
+depends=('gtk3')
+makedepends=('git' 'gnome-shell' 'sassc')
+optdepends=('gtk-engine-murrine: GTK2 theme support'
+            'gtk-engines: GTK2 theme support'
+            'kvantum-theme-qogir: Matching Kvantum theme'
             'qogir-icon-theme: Matching icon theme'
-            'qogir-cursors: Matching cursors'
-            'tela-icon-theme: Recommended icon theme')
+            'qogir-cursors: Matching cursors')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
@@ -19,12 +22,15 @@ source=("${pkgname%-git}::git+https://github.com/vinceliuice/Qogir-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -d "$pkgdir/usr/share/themes"
-	./install.sh -d "$pkgdir/usr/share/themes"
+  cd "$srcdir/${pkgname%-git}"
+  install -d "$pkgdir/usr/share/themes"
+
+  for theme in default manjaro ubuntu; do
+    ./install.sh -t ${theme} -d "$pkgdir/usr/share/themes"
+  done
 }
