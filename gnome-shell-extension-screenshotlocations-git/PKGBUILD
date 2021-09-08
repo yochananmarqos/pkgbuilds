@@ -1,6 +1,9 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-screenshotlocations-git
+groups=('modified')
+
 pkgname=gnome-shell-extension-screenshotlocations-git
 _pkgname=gnome-shell-screenshotlocations-extension
-pkgver=8.r0.gdfdcf12
+pkgver=8.r1.g1daf0f9
 pkgrel=1
 pkgdesc="A GNOME extension for changing the screenshot output directory"
 arch=('any')
