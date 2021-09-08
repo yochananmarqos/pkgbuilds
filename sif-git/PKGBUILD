@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=sif-git
-pkgver=r95.2f18976
+pkgver=r103.8e0a21d
 pkgrel=1
 pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
 arch=('any')
@@ -25,7 +25,7 @@ package() {
   cd "$srcdir/${pkgname%-git}"
   install -Dm755 fix-wm-class.sh "${pkgname%-git}.py" -t \
     "$pkgdir/opt/${pkgname%-git}"
-  install -Dm644 wm-class-database.json -t "$pkgdir/opt/${pkgname%-git}"
+  install -Dm644 database.json -t "$pkgdir/opt/${pkgname%-git}"
 
   install -d "$pkgdir/usr/bin"
   ln -s "/opt/${pkgname%-git}/${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
