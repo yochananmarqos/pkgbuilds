@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=python-googletrans
 _name=${pkgname#python-}
 pkgver=3.1.0a0
-pkgrel=1
+pkgrel=2
 pkgdesc="Free Google Translate API for Python."
 arch=('any')
 url="https://github.com/ssut/py-googletrans"
@@ -17,16 +17,22 @@ source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar
 sha256sums=('d20373a7975791318a7e5d6c6e3205012d7a990b8fabbfc6b0c16017a6dfae04'
             '58133601df8fe921c7910b43210d724da1675037b33652d90dde101a9fcda197')
 
+prepare() {
+  cd "$_name-$pkgver"
+
+  # Relax requirements
+  sed -i 's/==/>=/g' setup.py "$_name.egg-info/requires.txt"
+}
+
 build() {
-	cd "$_name-$pkgver"
-	python setup.py build
+  cd "$_name-$pkgver"
+  python setup.py build
 }
 
 package() {
-	cd "$_name-$pkgver"
-	export PYTHONHASHSEED=0
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$_name-$pkgver"
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 "$srcdir/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
 }
 
