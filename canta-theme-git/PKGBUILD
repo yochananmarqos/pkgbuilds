@@ -1,8 +1,10 @@
 # https://aur.archlinux.org/packages/canta-gtk-theme-git
+groups=('modified')
+
 pkgname=('canta-gtk-theme-git' 'canta-icon-theme-git')
 pkgbase=canta-theme-git
 pkgdesc="Flat Material Design theme for GTK 3, GTK 2 and Gnome-Shell"
-pkgver=2021.07.06.r9.ab372a0
+pkgver=2021.09.08.r0.e1ab546
 pkgrel=1
 arch=('any')
 url="https://www.gnome-look.org/p/1220749"
