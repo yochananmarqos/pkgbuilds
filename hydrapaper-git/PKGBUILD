@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=hydrapaper-git
-pkgver=3.0.0.r8.gf943f62
+pkgver=3.0.0.r18.gd193a97
 pkgrel=1
 pkgdesc="A Gtk utility to set different backgrounds for each monitor on GNOME"
 arch=('any')
@@ -15,11 +15,6 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://gitlab.gnome.org/GabMus/HydraPaper.git")
 sha256sums=('SKIP')
-
-prepare() {
-  cd "$srcdir/${pkgname%-git}"
-  sed -i "s/dependency('gtk+-3.0', version :'>=3.20')/dependency('gtk4', version :'>=4.0')/g" data/meson.build
-}
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
