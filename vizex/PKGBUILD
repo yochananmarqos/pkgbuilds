@@ -16,7 +16,7 @@ _commit=e3373b84c1536cb07021e9ff2134e950150ac32b
 source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"
         "https://raw.githubusercontent.com/bexxmodd/vizex/$_commit/requirements.txt")
 sha256sums=('ba48ba8579cfeea2d4a86fde45ac68e53e384bb14fa45496cb33a4e8dacddddd'
-            'ff5efda8e35393b1f4309b7bed4de50bafec586b2c4ef2d363a51f8ecd9d34ad')
+            '9efdfc25893d53699561a7ab87f8a48566a45f93d7ffe681749295a838280c2a')
 
 prepare() {
   cd "$pkgname-$pkgver"
