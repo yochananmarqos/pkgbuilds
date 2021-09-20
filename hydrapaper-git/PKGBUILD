@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=hydrapaper-git
-pkgver=3.0.0.r18.gd193a97
+pkgver=3.1.0.r0.g0dd4247
 pkgrel=1
 pkgdesc="A Gtk utility to set different backgrounds for each monitor on GNOME"
 arch=('any')
@@ -31,5 +31,5 @@ check() {
 }
 
 package() {
-  DESTDIR="$pkgdir" meson install -C build
+  meson install -C build --destdir "$pkgdir"
 }
