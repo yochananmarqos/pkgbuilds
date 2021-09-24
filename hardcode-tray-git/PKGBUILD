@@ -2,17 +2,17 @@
 groups=('modified')
 
 pkgname=hardcode-tray-git
-pkgver=4.3.r146.g49d149f
+pkgver=4.3.r203.g282878d
 pkgrel=1
 pkgdesc="Fixes hardcoded tray icons"
 arch=('i686' 'x86_64')
 url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
 license=('GPL3')
-depends=('python-gobject' 'python-cairosvg' 'librsvg' 'gtk3')
-makedepends=('git' 'meson' 'gobject-introspection')
-optdepends=('inkscape: option to convert svg to png'
+depends=('gtk3' 'librsvg' 'python-cairosvg' 'python-gobject')
+makedepends=('git' 'gobject-introspection' 'meson')
+optdepends=('nodejs-svgexport: option to convert svg to png'
             'imagemagick: option to convert svg to png'
-            'nodejs-svgexport: option to convert svg to png')
+            'inkscape: option to convert svg to png')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/bil-elmoussaoui/Hardcode-Tray.git"
@@ -23,25 +23,25 @@ sha256sums=('SKIP'
             '64a9907f74c5c04fb9f32b2b0684a3ce040d3bc2baacabb3ca1e914d70f24c81')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	arch-meson "${pkgname%-git}" build
-	meson compile -C build
+  arch-meson "${pkgname%-git}" build
+  meson compile -C build
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  meson install -C build --destdir "$pkgdir"
 
-	# Compile Python bytecode:
-	local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-	python -m compileall -d "$site_packages" "$pkgdir$site_packages"
-	python -O -m compileall -d "$site_packages" "$pkgdir$site_packages"
+  # Compile Python bytecode:
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  python -m compileall -d "$site_packages" "$pkgdir$site_packages"
+  python -O -m compileall -d "$site_packages" "$pkgdir$site_packages"
 
-	# Add pacman hook
-	# https://github.com/bilelmoussaoui/Hardcode-Tray/issues/454
-	install -Dm644 "$srcdir/90-${pkgname%-git}.hook" -t "$pkgdir/etc/pacman.d/hooks"
-	install -Dm644 "$srcdir/hook.py" -t "$pkgdir/usr/share/${pkgname%-git}"
+  # Add pacman hook
+  # https://github.com/bilelmoussaoui/Hardcode-Tray/issues/454
+  install -Dm644 "$srcdir/90-${pkgname%-git}.hook" -t "$pkgdir/etc/pacman.d/hooks"
+  install -Dm644 "$srcdir/hook.py" -t "$pkgdir/usr/share/${pkgname%-git}"
 }
