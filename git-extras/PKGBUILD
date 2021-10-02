@@ -2,24 +2,25 @@
 groups=('modified')
 
 pkgname=git-extras
-pkgver=6.2.0
+pkgver=6.3.0
 pkgrel=1
 pkgdesc="GIT utilities -- repo summary, commit counting, repl, changelog population and more"
 arch=('any')
 url="https://github.com/tj/git-extras"
 license=('MIT')
 depends=('git')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
-sha256sums=('151bc129f717179c1f7b6c83faf1d4829eeddef8b7c501dac05dc38c28270c3e')
-b2sums=('71e3be3f56ca049d2060c79b8dd52aacf613d9157fc5d6fa76c827b59e9355f16903cce94e09dcf73e0c7c4f81b422a37234dbc8f9eb146ca9925da8778ea2dc')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('8a218a0c8e10036d5ba14f26b70f994b0d11166b02ef3fed71c593cef026ec3d')
+b2sums=('263e192015e46da7867f131c19ae47243e60355cba02b1860b45abafdc4fc6adf916dffce58b853960d8bb22f5da067e1dca6ed0b02f108953571896d1c981c4')
 
 package() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "$pkgname-$pkgver"
 
-    # avoid annoying interactive prompts if an alias is in your gitconfig
-    export GIT_CONFIG=/dev/null
+  # avoid annoying interactive prompts if an alias is in your gitconfig
+  export GIT_CONFIG=/dev/null
 
-    make DESTDIR="${pkgdir}" PREFIX=/usr SYSCONFDIR=/etc install
-    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-    install -Dm644 etc/"$pkgname"{.fish,-completion.zsh} -t "$pkgdir/usr/share/doc/$pkgname/completions"
+  make DESTDIR="$pkgdir" PREFIX=/usr SYSCONFDIR=/etc install
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 etc/"$pkgname"{.fish,-completion.zsh} -t "$pkgdir/usr/share/doc/$pkgname/completions"
 }
