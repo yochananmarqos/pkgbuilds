@@ -1,7 +1,7 @@
 # https://archlinux.org/packages/community/any/python-emoji/
 pkgname=python-emoji
 _name=${pkgname#python-}
-pkgver=1.5.0
+pkgver=1.6.0
 pkgrel=1
 pkgdesc="Emoji for Python"
 arch=('any')
@@ -9,9 +9,9 @@ url="https://github.com/carpedm20/emoji"
 license=('BSD')
 depends=('python')
 makedepends=('python-setuptools')
-checkdepends=('python-nose')
+checkdepends=('python-pytest')
 source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
-sha512sums=('aab01bd6a4e4156aaaa29ecd5b7ab261ba642c3718a31ca483ae5f9ba3a49c18f77566a3874847fc21a649bed76181d747e4966082e778aed6958cd3f7ad77d7')
+sha512sums=('2c9cda590ae65a2fe0a2d7de8408902eb73ecd011a75976142079689a6169bc6487762af93192f99ebfbeb1b8fb6f55a5de7ad3186005c14baa829c6193c818e')
 
 build() {
   cd "$_name-$pkgver"
@@ -20,7 +20,7 @@ build() {
 
 check() {
   cd "$_name-$pkgver"
-  nosetests
+  pytest
 }
 
 package() {
