@@ -2,6 +2,7 @@
 groups=('modified')
 
 pkgname=appeditor-git
+_app_id=com.github.donadigo.appeditor
 pkgver=1.1.1.r4.gbb1b1fb
 pkgrel=1
 pkgdesc="Allows you to edit application entries in the application menu."
@@ -10,28 +11,33 @@ url="https://github.com/donadigo/appeditor"
 license=('GPL3')
 depends=('gtk3' 'granite')
 makedepends=('git' 'meson' 'vala')
+checkdepends=('appstream')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/donadigo/appeditor.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	arch-meson "${pkgname%-git}" build
-	meson compile -C build
+  arch-meson "${pkgname%-git}" build
+  meson compile -C build
 }
 
+check() {
+
 # No tests defined
-#check() {
-#	meson test -C build --print-errorlogs
-#}
+#  meson test -C build --print-errorlogs
+
+  desktop-file-validate build/data/${_app_id}.desktop
+  appstreamcli validate build/data/${_app_id}.appdata.xml
+}
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  meson install -C build --destdir "$pkgdir"
 
-	ln -s /usr/bin/com.github.donadigo.appeditor "$pkgdir/usr/bin/${pkgname%-git}"
+  ln -s /usr/bin/${_app_id} "$pkgdir/usr/bin/${pkgname%-git}"
 }
