@@ -1,0 +1,56 @@
+pkgname=g-assist
+_gitname=Google-Assistant-Unofficial-Desktop-Client
+_pkgver=1.0.0-rc.2
+pkgver=${_pkgver//-/.}
+pkgrel=1
+pkgdesc="A cross-platform unofficial Google Assistant Client for Desktop (powered by Google Assistant SDK)"
+arch=('x86_64')
+url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
+license=('Apache')
+depends=('gtk3' 'libxss' 'nss')
+#depends=('electron9')
+makedepends=('npm')
+source=("$pkgname-$_pkgver.tar.gz::$url/archive/v$_pkgver.tar.gz"
+        "$pkgname.desktop"
+        "$pkgname.png"
+#        "$pkgname.sh"
+        )
+sha256sums=('5ad2b715b428c00171357982127d907b14260ab2e74bf613827e71c2dd732a6b'
+            'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee'
+            '9108d4108fcedf17f4ab421aad4432b9d33598055251cd0119140e4ab3b9e9c5')
+
+prepare() {
+  cd "$_gitname-$_pkgver"
+
+  # Disable building of snap
+#  sed -i '/"snap"/d' package.json
+#  sed -i 's/"AppImage",/"AppImage"/g' package.json
+
+  # Disable building of AppImage & snap
+#  sed -i '/"AppImage",/d' package.json
+#  sed -i 's/"snap"/"dir"/g' package.json
+}
+
+build() {
+  cd "$_gitname-$_pkgver"
+  npm install --cache "$srcdir/npm-cache"
+  npm run dist
+
+#  yarn install --cache-folder "$srcdir/yarn-cache"
+#  yarn run dist
+}
+
+package() {
+  cd "$_gitname-$_pkgver"
+  install -d "$pkgdir/opt/$pkgname"
+  cp -r dist/linux-unpacked/* "$pkgdir/opt/$pkgname"
+#  install -d "$pkgdir/usr/lib/$pkgname"
+#  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
+
+#  install -d "$pkgdir/usr/bin"
+#  ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
+
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm644 "$srcdir/$pkgname.png" -t "$pkgdir/usr/share/pixmaps"
+#  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+}
