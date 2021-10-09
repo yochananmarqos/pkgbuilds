@@ -9,7 +9,7 @@ url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Clien
 license=('Apache')
 depends=('gtk3' 'libxss' 'nss')
 #depends=('electron9')
-makedepends=('npm')
+makedepends=('nvm')
 source=("$pkgname-$_pkgver.tar.gz::$url/archive/v$_pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.png"
@@ -19,25 +19,29 @@ sha256sums=('5ad2b715b428c00171357982127d907b14260ab2e74bf613827e71c2dd732a6b'
             'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee'
             '9108d4108fcedf17f4ab421aad4432b9d33598055251cd0119140e4ab3b9e9c5')
 
+_ensure_local_nvm() {
+  # let's be sure we are starting clean
+  which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
+  export NVM_DIR="$srcdir/.nvm"
+
+  # The init script returns 3 if version specified
+  # in ./.nvrc is not (yet) installed in $NVM_DIR
+  # but nvm itself still gets loaded ok
+  source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
+}
+
 prepare() {
   cd "$_gitname-$_pkgver"
-
-  # Disable building of snap
-#  sed -i '/"snap"/d' package.json
-#  sed -i 's/"AppImage",/"AppImage"/g' package.json
-
-  # Disable building of AppImage & snap
-#  sed -i '/"AppImage",/d' package.json
-#  sed -i 's/"snap"/"dir"/g' package.json
+  export npm_config_cache="$srcdir/npm_cache"
+  _ensure_local_nvm
+  nvm install 12.22.6
 }
 
 build() {
   cd "$_gitname-$_pkgver"
+  _ensure_local_nvm
   npm install --cache "$srcdir/npm-cache"
-  npm run dist
-
-#  yarn install --cache-folder "$srcdir/yarn-cache"
-#  yarn run dist
+  npm run pack
 }
 
 package() {
