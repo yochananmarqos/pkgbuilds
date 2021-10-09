@@ -12,12 +12,10 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client.git"
         "${pkgname%-git}.desktop"
-        "${pkgname%-git}.png"
 #        "${pkgname%-git}.sh"
         )
 sha256sums=('SKIP'
-            'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee'
-            '9108d4108fcedf17f4ab421aad4432b9d33598055251cd0119140e4ab3b9e9c5')
+            'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee')
 
 _ensure_local_nvm() {
   # let's be sure we are starting clean
@@ -59,7 +57,9 @@ package() {
 #  install -d "$pkgdir/usr/bin"
 #  ln -s "/opt/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
 
+  install -Dm644 app/res/Assistant Logo.png -t "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+  install -Dm644 app/res/Assistant Logo.svg -t \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-  install -Dm644 "$srcdir/${pkgname%-git}.png" -t "$pkgdir/usr/share/pixmaps"
 #  install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
 }
