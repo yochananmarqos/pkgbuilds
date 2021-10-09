@@ -39,7 +39,7 @@ prepare() {
   cd "$srcdir/${pkgname%-git}"
   export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  nvm install 14.18.0 #12.22.6
+  nvm install 14.18.0
 }
 
 build() {
