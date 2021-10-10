@@ -56,9 +56,6 @@ package() {
   install -d "$pkgdir/usr/lib/${pkgname%-git}"
   cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/${pkgname%-git}"
 
-  install -d "$pkgdir/usr/bin"
-  ln -s "/opt/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
-
   install -Dm644 "app/res/Assistant Logo.png" "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
   install -Dm644 "app/res/Assistant Logo.svg" \
     "$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
