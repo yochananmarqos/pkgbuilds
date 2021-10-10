@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Google Assistant
-Exec=/opt/g-assist/g-assist
+Exec=g-assist
 Terminal=false
 Type=Application
 Icon=g-assist

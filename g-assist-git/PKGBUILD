@@ -1,21 +1,21 @@
 pkgname=g-assist-git
 pkgver=1.0.0.rc.2.r152.g6264bc0
-pkgrel=1
+pkgrel=2
 pkgdesc="A cross-platform unofficial Google Assistant Client for Desktop (powered by Google Assistant SDK)"
 arch=('x86_64')
 url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
 license=('Apache')
-depends=('gtk3' 'libxss' 'nss')
-#depends=('electron10')
+depends=('electron10')
 makedepends=('git' 'nvm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client.git"
         "${pkgname%-git}.desktop"
-#        "${pkgname%-git}.sh"
+        "${pkgname%-git}.sh"
         )
 sha256sums=('SKIP'
-            'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee')
+            'd56962ceefe6a87d9a161655549adb56cff6961f142ecb141654cddb7e314cb5'
+            '5e462519de1e1301f224a9fd81af3e9387085cb60e0e5bc848a6d550c2eff9f2')
 
 _ensure_local_nvm() {
   # let's be sure we are starting clean
@@ -42,24 +42,26 @@ prepare() {
 
 build() {
   cd "$srcdir/${pkgname%-git}"
+  export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  npm install --cache "$srcdir/npm-cache"
-  npm run pack
+  electronDist=/usr/lib/electron10
+  electronVer=$(sed s/^v// /usr/lib/electron10/version)
+  npm install
+  ./node_modules/.bin/electron-builder --linux --x64 --dir \
+    $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
 }
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  install -d "$pkgdir/opt/${pkgname%-git}"
-  cp -r dist/linux-unpacked/* "$pkgdir/opt/${pkgname%-git}"
-#  install -d "$pkgdir/usr/lib/${pkgname%-git}"
-#  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/${pkgname%-git}"
+  install -d "$pkgdir/usr/lib/${pkgname%-git}"
+  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/${pkgname%-git}"
 
-#  install -d "$pkgdir/usr/bin"
-#  ln -s "/opt/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin/${pkgname%-git}"
 
   install -Dm644 "app/res/Assistant Logo.png" "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
   install -Dm644 "app/res/Assistant Logo.svg" \
     "$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-#  install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
+  install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
 }
