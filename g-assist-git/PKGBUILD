@@ -1,6 +1,6 @@
 pkgname=g-assist-git
-pkgver=1.0.0.rc.2.r152.g6264bc0
-pkgrel=2
+pkgver=1.0.0.r1.g902ec7e
+pkgrel=1
 pkgdesc="A cross-platform unofficial Google Assistant Client for Desktop (powered by Google Assistant SDK)"
 arch=('x86_64')
 url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
@@ -35,7 +35,6 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/${pkgname%-git}"
-  export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
   nvm install 14.18.0
 }
