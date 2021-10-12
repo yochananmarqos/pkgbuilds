@@ -1,23 +1,23 @@
 pkgname=g-assist
 _gitname=Google-Assistant-Unofficial-Desktop-Client
-_pkgver=1.0.0-rc.2
+_pkgver=1.0.0
 pkgver=${_pkgver//-/.}
 pkgrel=1
 pkgdesc="A cross-platform unofficial Google Assistant Client for Desktop (powered by Google Assistant SDK)"
 arch=('x86_64')
 url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
 license=('Apache')
-depends=('gtk3' 'libxss' 'nss')
-#depends=('electron9')
+depends=('electron10')
 makedepends=('nvm')
 source=("$pkgname-$_pkgver.tar.gz::$url/archive/v$_pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.png"
-#        "$pkgname.sh"
+        "$pkgname.sh"
         )
-sha256sums=('5ad2b715b428c00171357982127d907b14260ab2e74bf613827e71c2dd732a6b'
-            'd8a88933572a7fedb1119ed73ba4ca02db8da5d9ba4d47241dbcdf9fc06eb1ee'
-            '9108d4108fcedf17f4ab421aad4432b9d33598055251cd0119140e4ab3b9e9c5')
+sha256sums=('f564583425ee1c26ce72c5ddebfbee468b3127976d4df5a3ddff4ec4b2a746ee'
+            'd56962ceefe6a87d9a161655549adb56cff6961f142ecb141654cddb7e314cb5'
+            '9108d4108fcedf17f4ab421aad4432b9d33598055251cd0119140e4ab3b9e9c5'
+            '5e462519de1e1301f224a9fd81af3e9387085cb60e0e5bc848a6d550c2eff9f2')
 
 _ensure_local_nvm() {
   # let's be sure we are starting clean
@@ -32,29 +32,30 @@ _ensure_local_nvm() {
 
 prepare() {
   cd "$_gitname-$_pkgver"
-  export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  nvm install 12.22.6
+  nvm install 14.18.0
 }
 
 build() {
   cd "$_gitname-$_pkgver"
+  export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  npm install --cache "$srcdir/npm-cache"
-  npm run pack
+  electronDist=/usr/lib/electron10
+  electronVer=$(sed s/^v// /usr/lib/electron10/version)
+  npm install
+  ./node_modules/.bin/electron-builder --linux --x64 --dir \
+    $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
 }
 
 package() {
   cd "$_gitname-$_pkgver"
-  install -d "$pkgdir/opt/$pkgname"
-  cp -r dist/linux-unpacked/* "$pkgdir/opt/$pkgname"
-#  install -d "$pkgdir/usr/lib/$pkgname"
-#  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
+  install -d "$pkgdir/usr/lib/$pkgname"
+  cp -r dist/linux-unpacked/resources "$pkgdir/usr/lib/$pkgname"
 
-#  install -d "$pkgdir/usr/bin"
-#  ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/$pkgname"
-
+  install -Dm644 "app/res/Assistant Logo.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+  install -Dm644 "app/res/Assistant Logo.svg" \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/$pkgname.svg"
   install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
   install -Dm644 "$srcdir/$pkgname.png" -t "$pkgdir/usr/share/pixmaps"
-#  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
 }
