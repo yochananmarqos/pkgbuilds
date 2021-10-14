@@ -2,13 +2,13 @@
 groups=('modified')
 
 pkgname=hydrapaper-git
-pkgver=3.1.0.r0.g0dd4247
+pkgver=3.1.0.r2.ge37153f
 pkgrel=1
 pkgdesc="A Gtk utility to set different backgrounds for each monitor on GNOME"
 arch=('any')
 url="https://hydrapaper.gabmus.org"
 license=('GPL3')
-depends=('gtk4' 'libadwaita' 'python-dbus' 'python-gobject' 'python-pillow' )
+depends=('gtk4' 'libadwaita' 'dbus-python' 'python-gobject' 'python-pillow')
 makedepends=('git' 'gobject-introspection' 'meson' 'pandoc')
 checkdepends=('appstream')
 provides=("${pkgname%-git}")
