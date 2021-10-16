@@ -3,8 +3,8 @@
 groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git')
-pkgbase='pop-shell-git'
-pkgver=1.2.0.r129.g8be10fa
+pkgbase=pop-shell-git
+pkgver=1.2.0.r155.ge7f3024
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
@@ -35,12 +35,15 @@ package_gnome-shell-extension-pop-shell-git() {
   cd "$srcdir/shell"
   make DESTDIR="$pkgdir" install
 
+  _uuid="${pkgbase%-git}@system76.com"
+  _schema="org.gnome.shell.extensions.${pkgbase%-git}.gschema.xml"
+
   install -d "$pkgdir/usr/share/glib-2.0/schemas"
-  ln -s /usr/share/gnome-shell/extensions/pop-shell@system76.com/schemas/org.gnome.shell.extensions.pop-shell.gschema.xml \
+  ln -s "/usr/share/gnome-shell/extensions/$_uuid/schemas/$_schema" \
     "$pkgdir/usr/share/glib-2.0/schemas"
 
   install -Dm644 keybindings/*.xml -t \
     "$pkgdir/usr/share/gnome-control-center/keybindings"
   install -Dm755 scripts/configure.sh -t \
-    "$pkgdir/usr/share/gnome-shell/extensions/pop-shell@system76.com/scripts"
+    "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/scripts"
 }
