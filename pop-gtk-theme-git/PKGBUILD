@@ -1,0 +1,64 @@
+# https://aur.archlinux.org/packages/pop-gtk-theme-git
+groups=('modified')
+
+pkgname=('pop-gtk-theme-git' 'pop-gnome-shell-theme-git' 'pop-sound-theme-git')
+pkgbase=pop-gtk-theme-git
+pkgver=5.4.4.r9.g70415a4b
+pkgrel=1
+arch=('any')
+url="https://github.com/pop-os/gtk-theme"
+license=('LGPL2.1' 'LGPL3' 'CCBYSA')
+makedepends=('git' 'meson' 'sassc')
+options=('!strip')
+source=('git+https://github.com/pop-os/gtk-theme.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/gtk-theme"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  arch-meson gtk-theme build
+  meson compile -C build
+}
+
+package_pop-gtk-theme-git() {
+  pkgdesc="Pop GTK Theme"
+  depends=('gnome-themes-extra' 'gtk3')
+  optdepends=('gtk-engine-murrine: GTK2 support'
+              'gtk-engines: GTK2 support'
+              'pop-gnome-shell-theme: Accompanying GNOME Shell theme'
+              'pop-icon-theme: Accompanying icon theme'
+              'pop-sound-theme: Accompanying sound theme'
+              'ttf-fira-sans: Recommended font for window titles and interface'
+              'ttf-fira-mono: Recommended monospace font'
+              'ttf-roboto-slab: Recommended font for documents')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
+
+  DESTDIR="$pkgdir" meson install -C build
+
+  rm -rf "$pkgdir/usr/share/sounds"
+}
+
+package_pop-gnome-shell-theme-git() {
+  pkgdesc="Pop GNOME Shell Theme"
+  depends=('gnome-shell')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
+
+  DESTDIR="$pkgdir" meson install -C build
+
+  rm -rf "$pkgdir"/usr/share/{sounds,themes}
+}
+
+package_pop-sound-theme-git() {
+  pkgdesc="Pop sound theme"
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}")
+
+  DESTDIR="$pkgdir" meson install -C build
+
+  rm -rf "$pkgdir"/usr/share/{gnome-shell,themes}
+}
