@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=lutris
-pkgver=0.5.9
+pkgver=0.5.9.1
 pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
@@ -28,7 +28,7 @@ optdepends=(
   'innoextract: Extract Inno Setup installers'
   'xorg-xgamma: Restore gamma on game exit')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('6597c5780fc5e7b1d8bb2effdd475878fe244b5f4e76f5a6df4f3fc9870125c9a338712710dd3945262129e107344c80723fde09aacddab2613e8a742b75d0d8')
+sha512sums=('7cfe897ea15366dda20da5f6324a422d94e064cb3794bfeda9733f3a5c3aeb71f52354e2571f365514e965e6346f0ebef8813e577b271d9ff40fe36dac212b19')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
