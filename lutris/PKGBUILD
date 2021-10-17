@@ -13,7 +13,7 @@ depends=('python-gobject' 'python-yaml' 'python-evdev' 'python-dbus' 'gtk3'
          'python-pillow' 'python-requests' 'gnome-desktop' 'webkit2gtk'
          'mesa-demos' 'python-dbus' 'python-distro' 'python-magic' 'python-lxml')
 makedepends=('meson')
-#checkdepends=('xorg-server-xvfb' 'python-nose-cover3' 'wine' 'xterm')
+checkdepends=('appstream-glib')
 optdepends=(
   'wine: easiest way to get all the libraries missing from the Lutris runtime'
   'vulkan-icd-loader: Vulkan support'
@@ -35,11 +35,9 @@ build() {
   meson compile -C build
 }
 
-#check() {
-#  cd $pkgname-$pkgver
-#  xvfb-run nosetests --cover-erase --with-xunit --xunit-file=nosetests.xml \
-#    --with-coverage --cover-package=lutris --cover-xml-file=coverage.xml
-#}
+check() {
+  appstream-util validate-relax --nonet build/net.lutris.Lutris.metainfo.xml
+}
 
 package() {
   meson install -C build --destdir "$pkgdir"
