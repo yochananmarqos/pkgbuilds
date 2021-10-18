@@ -1,0 +1,96 @@
+# https://aur.archlinux.org/pkgbase/mangohud
+groups=('modified')
+
+pkgname=('mangohud-x11' 'lib32-mangohud-x11' 'mangohud-x11-common')
+pkgbase=mangohud-x11
+pkgver=0.6.6
+_imgui_ver=1.81
+_imgui_wrap_ver=1
+pkgrel=1
+pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
+arch=('x86_64')
+url="https://github.com/flightlessmango/MangoHud"
+license=('MIT')
+makedepends=('dbus' 'git' 'glew' 'glfw-x11' 'glslang' 'lib32-dbus' 'lib32-libglvnd'
+             'lib32-vulkan-icd-loader' 'libglvnd' 'libxnvctrl' 'meson' 'python-mako'
+             'spdlog' 'vulkan-headers')
+source=("git+https://github.com/flightlessmango/MangoHud.git#tag=v$pkgver"
+        'git+https://github.com/flightlessmango/minhook.git'
+        "https://github.com/ocornut/imgui/archive/v${_imgui_ver}/imgui-${_imgui_ver}.tar.gz"
+        "https://wrapdb.mesonbuild.com/v2/imgui_${_imgui_ver}-${_imgui_wrap_ver}/get_patch#/imgui-${_imgui_ver}-${_imgui_wrap_ver}-wrap.zip")
+sha256sums=('SKIP'
+            'SKIP'
+            'f7c619e03a06c0f25e8f47262dbc32d61fd033d2c91796812bf0f8c94fca78fb'
+            '6d00b442690b6a5c5d8f898311daafbce16d370cf64f53294c3b8c5c661e435f')
+
+prepare() {
+  cd "$srcdir/MangoHud"
+  git submodule init modules/minhook
+  git config submodule.minhook.url "$srcdir/minhook"
+  git submodule update
+
+  rm -rf subprojects/imgui/* "$srcdir/common"/*
+  mkdir -p  subprojects/imgui "$srcdir/common"
+  mv "$srcdir/imgui-${_imgui_ver}"/* subprojects/imgui/
+}
+
+build() {
+  arch-meson MangoHud build \
+    --wrap-mode default \
+    -Duse_system_vulkan=enabled \
+    -Duse_system_spdlog=enabled \
+    -Dwith_x11=enabled \
+    -Dwith_wayland=disabled
+  meson compile -C build
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+  export LLVM_CONFIG="/usr/bin/llvm-config32"
+
+  arch-meson MangoHud build32 \
+    --wrap-mode default \
+    --libdir lib32 \
+    -Duse_system_vulkan=enabled \
+    -Dwith_x11=enabled \
+    -Dwith_wayland=disabled \
+    -Dinclude_doc=false
+  meson compile -C build32
+}
+
+package_mangohud-x11() {
+  depends=('mangohud-common' 'dbus' 'gcc-libs' 'libx11' 'spdlog' 'vulkan-icd-loader')
+  optdepends=('libxnvctrl: Support for older NVIDIA GPUs')
+  provides=("${pkgname%-x11}")
+  conflicts=("${pkgname%-x11}")
+
+  DESTDIR="$pkgdir" meson install -C build
+
+  mv "$pkgdir"/usr/share/{doc,man} "$srcdir/common"
+}
+
+package_lib32-mangohud-x11() {
+  depends=('mangohud-common' 'lib32-dbus' 'lib32-gcc-libs' 'lib32-libx11'
+           'lib32-vulkan-icd-loader')
+  optdepends=('lib32-libxnvctrl: Support for older NVIDIA GPUs')
+  provides=("${pkgname%-x11}")
+  conflicts=("${pkgname%-x11}")
+
+  DESTDIR="$pkgdir" meson install -C build32
+
+  mv "$pkgdir/usr/share/vulkan/implicit_layer.d/MangoHud.json" \
+    "$pkgdir/usr/share/vulkan/implicit_layer.d/MangoHud.x86.json"
+
+  rm -rf "$pkgdir"/usr/{bin,share/man}
+}
+package_mangohud-x11-common() {
+  pkgdesc="Common files for MangoHud"
+  provides=('mangohud-common')
+  conflicts=('mangohud-common')
+
+  install -d "$pkgdir"/usr/share/{doc,man}
+  cp -r common/* "$pkgdir"
+
+  cd "$srcdir/MangoHud"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase"
+}
