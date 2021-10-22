@@ -4,7 +4,7 @@ groups=('modified')
 
 pkgname=('gnome-shell-extension-pop-shell-git')
 pkgbase=pop-shell-git
-pkgver=1.2.0.r155.ge7f3024
+pkgver=1.2.0.r158.g6421fff
 pkgrel=1
 pkgdesc="Pop!_OS Shell - Tiling window management in GNOME"
 arch=('any')
@@ -14,6 +14,7 @@ depends=('fd' 'gnome-shell' 'pop-launcher' 'pop-shell-shortcuts')
 makedepends=('git' 'typescript')
 optdepends=('gnome-control-center: keybinding categories'
             'gnome-shell-extensions: for Native Window Placement extension')
+options=('!emptydirs')
 source=('git+https://github.com/pop-os/shell.git')
 sha256sums=('SKIP')
 
