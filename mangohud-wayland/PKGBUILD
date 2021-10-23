@@ -3,7 +3,8 @@ groups=('modified')
 
 pkgname=('mangohud-wayland' 'lib32-mangohud-wayland' 'mangohud-wayland-common')
 pkgbase=mangohud-wayland
-pkgver=0.6.6
+_pkgver=0.6.6-1
+pkgver=${_pkgver//-/.}
 _imgui_ver=1.81
 _imgui_wrap_ver=1
 pkgrel=1
@@ -12,9 +13,9 @@ arch=('x86_64')
 url="https://github.com/flightlessmango/MangoHud"
 license=('MIT')
 makedepends=('dbus' 'git' 'glew' 'glfw-wayland' 'glslang' 'lib32-dbus' 'lib32-libglvnd'
-             'lib32-vulkan-icd-loader' 'libglvnd' 'libxnvctrl' 'libxrandr' 'meson'
+             'lib32-vulkan-icd-loader' 'libglvnd' 'libxrandr' 'meson'
              'python-mako' 'spdlog' 'vulkan-headers')
-source=("git+https://github.com/flightlessmango/MangoHud.git#tag=v$pkgver"
+source=("git+https://github.com/flightlessmango/MangoHud.git#tag=v$_pkgver"
         'git+https://github.com/flightlessmango/minhook.git'
         "https://github.com/ocornut/imgui/archive/v${_imgui_ver}/imgui-${_imgui_ver}.tar.gz"
         "https://wrapdb.mesonbuild.com/v2/imgui_${_imgui_ver}-${_imgui_wrap_ver}/get_patch#/imgui-${_imgui_ver}-${_imgui_wrap_ver}-wrap.zip")
