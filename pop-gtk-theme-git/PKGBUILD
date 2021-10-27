@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=('pop-gtk-theme-git' 'pop-gnome-shell-theme-git' 'pop-sound-theme-git')
 pkgbase=pop-gtk-theme-git
-pkgver=5.4.4.r9.g70415a4b
+pkgver=5.4.4.r13.g23d7ac83
 pkgrel=1
 arch=('any')
 url="https://github.com/pop-os/gtk-theme"
@@ -39,7 +39,7 @@ package_pop-gtk-theme-git() {
 
   DESTDIR="$pkgdir" meson install -C build
 
-  rm -rf "$pkgdir/usr/share/sounds"
+  rm -rf "$pkgdir"/usr/share/{gnome-shell,sounds}
 }
 
 package_pop-gnome-shell-theme-git() {
