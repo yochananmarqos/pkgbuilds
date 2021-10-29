@@ -1,11 +1,13 @@
 pkgname=g-assist-git
-pkgver=1.0.0.r1.g902ec7e
+pkgver=1.0.0.r5.g7337407
 pkgrel=1
+_electronversion=10
+_nodeversion=14
 pkgdesc="A cross-platform unofficial Google Assistant Client for Desktop (powered by Google Assistant SDK)"
 arch=('x86_64')
 url="https://github.com/Melvin-Abraham/Google-Assistant-Unofficial-Desktop-Client"
 license=('Apache')
-depends=('electron10')
+depends=("electron${_electronversion}")
 makedepends=('git' 'nvm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -36,15 +38,15 @@ pkgver() {
 prepare() {
   cd "$srcdir/${pkgname%-git}"
   _ensure_local_nvm
-  nvm install 14.18.0
+  nvm install "$_nodeversion"
 }
 
 build() {
   cd "$srcdir/${pkgname%-git}"
+  electronDist="/usr/lib/electron$_electronversion"
+  electronVer="$(sed s/^v// /usr/lib/electron$_electronversion/version)"
   export npm_config_cache="$srcdir/npm_cache"
   _ensure_local_nvm
-  electronDist=/usr/lib/electron10
-  electronVer=$(sed s/^v// /usr/lib/electron10/version)
   npm install
   ./node_modules/.bin/electron-builder --linux --x64 --dir \
     $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
