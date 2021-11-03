@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=hardcode-tray-git
-pkgver=4.3.r203.g282878d
-pkgrel=1
+pkgver=4.3.r209.g4f772c6
+pkgrel=2
 pkgdesc="Fixes hardcoded tray icons"
 arch=('i686' 'x86_64')
 url="https://github.com/bil-elmoussaoui/Hardcode-Tray"
@@ -25,6 +25,11 @@ sha256sums=('SKIP'
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+  sed -i 's|resources/||g' data/database/bitwarden.electron.json
 }
 
 build() {
