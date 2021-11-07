@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=mcfly
-pkgver=0.5.9
+pkgver=0.5.10
 pkgrel=1
 pkgdesc="Fly through your shell history"
 arch=('x86_64')
@@ -11,10 +11,11 @@ license=('MIT')
 depends=('sh')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('8c272228496f700ac7e286d30dddf8a50f67f729d8a1275d2d655d66c57944b9')
+sha256sums=('57310e2b0c51a293223b6898b247ebad81da032650201fcf2943ec73e6817026')
 
 prepare() {
   cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
