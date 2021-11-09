@@ -1,5 +1,5 @@
 pkgname=youtube-music-git
-pkgver=1.13.0.r111.ga47c906
+pkgver=1.14.0.r0.gf40ed04
 pkgrel=1
 _nodeversion=14
 pkgdesc="YouTube Music Desktop App bundled with custom plugins (and built-in ad blocker / downloader)"
