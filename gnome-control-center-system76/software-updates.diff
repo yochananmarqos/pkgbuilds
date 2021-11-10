@@ -1,6 +1,7 @@
---- cc-info-overview-panel.orig.c	2021-03-26 10:06:51.071989132 -0600
-+++ cc-info-overview-panel.new.c	2021-03-26 10:10:30.553412332 -0600
-@@ -776,4 +776,11 @@
+--- cc-info-overview-panel-a	2021-11-09 18:05:38.900919000 -0700
++++ cc-info-overview-panel-b	2021-11-09 18:12:33.650424772 -0700
+@@ -789,6 +789,13 @@
+ }
  
  static gboolean
 +does_pamac_manager_exist (void)
@@ -12,7 +13,9 @@
 +static gboolean
  does_gnome_software_exist (void)
  {
-@@ -796,4 +803,11 @@
+   g_autofree gchar *path = g_find_program_in_path ("gnome-software");
+@@ -809,6 +816,13 @@
+   gboolean ret;
    char *argv[3];
  
 +  if (does_pamac_manager_exist ())
@@ -24,10 +27,13 @@
 +  else
    if (does_gnome_software_exist ())
      {
-@@ -956,5 +970,5 @@
+       argv[0] = "gnome-software";
+@@ -976,7 +990,7 @@
+ 
    g_resources_register (cc_info_overview_get_resource ());
  
--  if (!does_gnome_software_exist () && !does_gpk_update_viewer_exist ())
+-  if ((!does_gnome_software_exist () || !does_gnome_software_allow_updates ()) && !does_gpk_update_viewer_exist ())
 +  if (!does_pamac_manager_exist () && !does_gnome_software_exist () && !does_gpk_update_viewer_exist ())
      gtk_widget_hide (GTK_WIDGET (self->software_updates_row));
  
+   info_overview_panel_setup_overview (self);

@@ -10,6 +10,6 @@
 !pop-mouse-accel.patch
 !system76-firmware.patch
 !distro-logo.patch
-!software-updates.patch
+!software-updates.diff
 !system76-firmware.patch
 !aboutmanjarognome.svg
