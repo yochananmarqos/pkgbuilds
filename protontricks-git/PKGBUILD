@@ -2,13 +2,13 @@
 groups=('modified')
 
 pkgname=protontricks-git
-pkgver=1.5.2.r18.gb4e21de
+pkgver=1.6.1.r3.g2911010
 pkgrel=1
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
 url="https://github.com/Matoking/protontricks"
 license=('GPL3')
-depends=('python-vdf' 'winetricks' 'steam')
+depends=('python-setuptools' 'python-vdf' 'winetricks' 'steam')
 optdepends=('yad: for GUI'
             'zenity: fallback for GUI')
 makedepends=('git' 'python-setuptools-scm')
@@ -29,7 +29,6 @@ build() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  export PYTHONHASHSEED=0
   python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 
   # Remove protontricks-desktop-install, since we already install
