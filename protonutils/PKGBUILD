@@ -1,0 +1,52 @@
+# https://aur.archlinux.org/pkgbase/protonutils
+groups=('modified')
+
+pkgname=protonutils
+pkgver=1.2.1
+pkgrel=1
+pkgdesc="Lists configured Proton version per game."
+arch=('x86_64')
+url="https://github.com/nning/protonutils"
+license=('MIT')
+depends=('glibc')
+makedepends=('go')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('4e05fe556541d22c5f61dacc5344d5732fb9bc80866be38c1c0d572a6e6a6c2e')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Prevent creation of a `go` directory in one's home.
+  # Sometimes this directory cannot be removed with even `rm -rf` unless
+  # one becomes root or changes the write permissions.
+  export GOPATH="$srcdir/gopath"
+  go clean -modcache
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  local VERSION="$pkgver"
+  local BUILDTIME=$(date -u +"%Y%m%d%H%M%S")
+  local GOLDFLAGS="-X 'main.Version=${VERSION}' \
+                   -X 'main.Buildtime=${BUILDTIME}'"
+  go build \
+    -trimpath \
+    -buildmode=pie \
+    -mod=readonly \
+    -modcacherw \
+    -ldflags "-linkmode external -extldflags \"${LDFLAGS}\" ${GOLDFLAGS}" \
+    -o build ./cmd/...
+
+  # Generate man page
+  ./build/"$pkgname" -m man1
+
+  # Clean mod cache for makepkg -C
+  go clean -modcache
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "build/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 man1/* -t "$pkgdir/usr/share/man/man1/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
