@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('MIT')
 depends=('glibc')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('4e05fe556541d22c5f61dacc5344d5732fb9bc80866be38c1c0d572a6e6a6c2e')
+sha256sums=('516702108778006646107e1143a726df2281386cd4b07d815883b827349ab143')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -25,7 +25,7 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
-  local VERSION="$pkgver"
+  local VERSION="v$pkgver"
   local BUILDTIME=$(date -u +"%Y%m%d%H%M%S")
   local GOLDFLAGS="-X 'main.Version=${VERSION}' \
                    -X 'main.Buildtime=${BUILDTIME}'"
