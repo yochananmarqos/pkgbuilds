@@ -2,18 +2,16 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.2.2
-pkgrel=2
+pkgver=1.2.3
+pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
 url="https://github.com/nning/protonutils"
 license=('MIT')
 depends=('glibc')
 makedepends=('go')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
-        'https://github.com/nning/protonutils/pull/3.patch')
-sha256sums=('516702108778006646107e1143a726df2281386cd4b07d815883b827349ab143'
-            'f9b9e6009413b1612c4c964ae7e9f1ea1ea63fc6983f2874b38f349df5156f0c')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('8cca4de59b36c02a7b78a5453cf52f831861fa76fd2ad044ec44b387aa122db1')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -23,9 +21,6 @@ prepare() {
   # one becomes root or changes the write permissions.
   export GOPATH="$srcdir/gopath"
   go clean -modcache
-
-  # Ignore key not found in localconfig.vdf
-  patch -Np1 -i ../3.patch
 }
 
 build() {
