@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=qogir-gtk-theme-git
-pkgver=2021.08.02.r6.g6fb06fd
+pkgver=2021.11.17.r0.g4245188
 pkgrel=1
 pkgdesc="A flat design theme for GTK 3, GTK 2 and Gnome-Shell"
 arch=('any')
@@ -18,6 +18,7 @@ optdepends=('gtk-engine-murrine: GTK2 theme support'
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
+install="${pkgname%-git}.install"
 source=("${pkgname%-git}::git+https://github.com/vinceliuice/Qogir-theme.git")
 sha256sums=('SKIP')
 
@@ -29,8 +30,12 @@ pkgver() {
 package() {
   cd "$srcdir/${pkgname%-git}"
   install -d "$pkgdir/usr/share/themes"
+  sh install.sh -t all --tweaks round -d "$pkgdir/usr/share/themes"
 
-  for theme in default manjaro ubuntu; do
-    ./install.sh -t ${theme} -d "$pkgdir/usr/share/themes"
-  done
+# Plank theme
+  install -Dm644 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/Qogir"
+
+# Firefox theme
+  install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
+  cp -r src/firefox "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
