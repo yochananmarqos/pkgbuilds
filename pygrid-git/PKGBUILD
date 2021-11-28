@@ -1,6 +1,5 @@
-# https://aur.archlinux.org/packages/pygrid
 pkgname=pygrid-git
-pkgver=1.0.0.r13.75da433
+pkgver=1.0.0.r15.g7f896fa
 pkgrel=1
 pkgdesc="Quickly move windows around the X11 desktop"
 arch=('i686' 'x86_64')
@@ -16,12 +15,12 @@ sha256sums=('SKIP'
             '1082bc5484cc05a7dc36b117f96434525d1e24fb7dedc4017163a656dc626ba6')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 README.md -t "$pkgdir/usr/share/docs/${pkgname%-git}"
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}.py" "$pkgdir/usr/bin/${pkgname%-git}"
+  install -Dm644 README.md -t "$pkgdir/usr/share/docs/${pkgname%-git}"
 }
