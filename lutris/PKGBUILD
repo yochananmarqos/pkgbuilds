@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=lutris
 pkgver=0.5.9.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
@@ -11,7 +11,7 @@ license=('GPL3')
 depends=('python-gobject' 'python-yaml' 'python-evdev' 'python-dbus' 'gtk3'
          'glib2' 'psmisc' 'cabextract' 'unzip' 'p7zip' 'curl' 'xorg-xrandr'
          'python-pillow' 'python-requests' 'gnome-desktop' 'webkit2gtk'
-         'mesa-demos' 'python-dbus' 'python-distro' 'python-magic' 'python-lxml')
+         'mesa-utils' 'python-dbus' 'python-distro' 'python-magic' 'python-lxml')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 optdepends=(
