@@ -1,0 +1,35 @@
+# https://aur.archlinux.org/packages/blueprint-compiler-git
+groups=('modified')
+
+pkgname=blueprint-compiler-git
+pkgver=r80.d0cf13b
+pkgrel=1
+pkgdesc="A markup language for GTK user interfaces"
+arch=('any')
+url="https://jwestman.pages.gitlab.gnome.org/blueprint-compiler"
+license=('LGPL3')
+depends=('python' 'gtk4')
+makedepends=('git' 'gobject-introspection' 'meson')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://gitlab.gnome.org/jwestman/blueprint-compiler.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  arch-meson "${pkgname%-git}" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
+
