@@ -5,7 +5,8 @@ pkgdesc="Extract text from any image, video or anything."
 arch=('x86_64')
 url="https://tenderowl.com/work/frog"
 license=('MIT')
-depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'python-pydbus' 'python-pytesseract')
+depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'libnotify' 'python-pydbus'
+         'python-pytesseract')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
