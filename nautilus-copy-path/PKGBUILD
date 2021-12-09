@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=nautilus-copy-path
-pkgver=1.5.2
+pkgver=1.5.3
 pkgrel=1
 pkgdesc="Extension for Nautilus to copy files/dir path or name"
 arch=('any')
@@ -11,19 +11,19 @@ license=('MIT')
 depends=('python-nautilus' 'python-gobject')
 backup=("usr/share/nautilus-python/extensions/$pkgname/config.json")
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('3414e9336a41dcc1d048254b56cf1afe7197ce3036d9df11bd3abc2fc4938dc5')
+sha256sums=('d1eebe64375f14fa34909645794ca5cbd9aa3cb879103f26cdeefd1d93dc93f5')
 
 package() {
-	cd "$pkgname-$pkgver"
-	install -Dm644 "$pkgname.py" -t "$pkgdir/usr/share/nautilus-python/extensions"
-	install -Dm644 nautilus_copy_path.py translation.py config.json -t \
-		"$pkgdir/usr/share/nautilus-python/extensions/$pkgname"
-	install -Dm644 translations/*.json -t \
-		"$pkgdir/usr/share/nautilus-python/extensions/$pkgname/translations"
+  cd "$pkgname-$pkgver"
+  install -Dm644 "$pkgname.py" -t "$pkgdir/usr/share/nautilus-python/extensions"
+  install -Dm644 nautilus_copy_path.py translation.py config.json -t \
+    "$pkgdir/usr/share/nautilus-python/extensions/$pkgname"
+  install -Dm644 translations/*.json -t \
+    "$pkgdir/usr/share/nautilus-python/extensions/$pkgname/translations"
 
-	# Compile Python bytecode:
-	python -m compileall -d /usr/share "$pkgdir/usr/share"
-	python -O -m compileall -d /usr/share "$pkgdir/usr/share"
+  # Compile Python bytecode:
+  python -m compileall -d /usr/share "$pkgdir/usr/share"
+  python -O -m compileall -d /usr/share "$pkgdir/usr/share"
 
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
