@@ -1,5 +1,5 @@
 pkgname=elementary-frog
-pkgver=0.1.7
+pkgver=0.2.0
 pkgrel=1
 pkgdesc="Extract text from any image, video or anything."
 arch=('x86_64')
@@ -10,14 +10,7 @@ depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'libnotify' 'python-pydbus'
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('53a354a3b3fa85f8b545951e1d0b1c6abdaea3a8be186e1b5f75557fd9f9d15f')
-
-prepare() {
-  cd "Frog-$pkgver"
-
-  # correct version
-  sed -i "s/version: '0.1.0'/version: '$pkgver'/g" meson.build
-}
+sha256sums=('ee1fa620c547fbe47cd3c6c81b81661803f51d3e085b0f272d134e8bc79f3288')
 
 build() {
   arch-meson "Frog-$pkgver" build
