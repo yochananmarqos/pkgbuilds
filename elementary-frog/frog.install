@@ -1,0 +1,6 @@
+post_install() {
+  echo ""
+  echo "The program fails to copy it's eng.traineddata file, do it manually for now:"
+  echo "cp /usr/share/appdata/eng.traineddata ~/.local/share/tessdata/"
+  echo ""
+}

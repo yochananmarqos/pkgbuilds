@@ -6,11 +6,19 @@ arch=('x86_64')
 url="https://tenderowl.com/work/frog"
 license=('MIT')
 depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'libnotify' 'python-pydbus'
-         'python-pytesseract')
-makedepends=('meson')
+         'python-pytesseract' 'pyzbar')
+makedepends=('meson' 'setconf')
 checkdepends=('appstream-glib')
+install=frog.install
 source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('ee1fa620c547fbe47cd3c6c81b81661803f51d3e085b0f272d134e8bc79f3288')
+
+prepare() {
+  cd "Frog-$pkgver"
+
+  # Workaround for undefined XDG_DATA_HOME env var
+  setconf data/com.github.tenderowl.frog.desktop.in Exec 'env XDG_DATA_HOME="\\$HOME/.local/share/" frog'
+}
 
 build() {
   arch-meson "Frog-$pkgver" build
