@@ -1,5 +1,5 @@
 pkgname=elementary-frog
-pkgver=0.2.0
+pkgver=0.2.1
 pkgrel=1
 pkgdesc="Extract text from any image, video or anything."
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('meson' 'setconf')
 checkdepends=('appstream-glib')
 install=frog.install
 source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('ee1fa620c547fbe47cd3c6c81b81661803f51d3e085b0f272d134e8bc79f3288')
+sha256sums=('b7e1639e21775521834e6330a166bcb43d4c29d198253e499ce7da24e55151b4')
 
 prepare() {
   cd "Frog-$pkgver"
