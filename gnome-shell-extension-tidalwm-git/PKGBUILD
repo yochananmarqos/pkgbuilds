@@ -1,5 +1,5 @@
 pkgname=gnome-shell-extension-tidalwm-git
-pkgver=r41.4f48679
+pkgver=r57.44608e0
 pkgrel=1
 pkgdesc="Simple and sane tiling window manager for Gnome Shell"
 arch=('any')
@@ -13,18 +13,23 @@ source=('git+https://github.com/rustysec/tidalwm.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/tidalwm"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "$srcdir/tidalwm"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
 
-	_uuid=tidalwm@rustysec.github.io
+  _uuid=tidalwm@rustysec.github.io
 
-	cd "$srcdir/tidalwm"
-	install -d "$pkgdir"/usr/share/{gnome-shell/extensions/${_uuid},doc/${pkgname%-git}}
-	cp -a . "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-	rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/.git"
-	mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/README.md" \
-		"$pkgdir/usr/share/doc/${pkgname%-git}"
+  cd "$srcdir/tidalwm"
+  install -d "$pkgdir"/usr/share/{gnome-shell/extensions/${_uuid},doc/${pkgname%-git}}
+  cp -a . "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+
+  mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/README.md" \
+    "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+  install -Dm644 schemas/org.gnome.shell.extensions.tidalwm.gschema.xml -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"/{.git,schemas}
 }
