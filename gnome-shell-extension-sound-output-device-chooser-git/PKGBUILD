@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-sound-output-device-chooser-git
 _gitname=gse-sound-output-device-chooser
-pkgver=38.r25.g8c90ed0
+pkgver=39.r21.g0702290
 pkgrel=1
 pkgdesc="Shows a list of sound output and input devices in the status menu"
 arch=('any')
@@ -33,7 +33,8 @@ package() {
 
   _uuid='sound-output-device-chooser@kgshank.net'
 
-  install -d "$pkgdir/usr/share/glib-2.0/schemas"
-  ln -s "/usr/share/gnome-shell/extensions/$_uuid/schemas/org.gnome.shell.extensions.sound-output-device-chooser.gschema.xml" -t \
+  install -Dm644 "$_uuid/schemas/org.gnome.shell.extensions.sound-output-device-chooser.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas"
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/"
 }
