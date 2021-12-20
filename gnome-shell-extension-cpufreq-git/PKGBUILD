@@ -1,7 +1,9 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-cpufreq-git
+groups=('modified')
+
 pkgname=gnome-shell-extension-cpufreq-git
 _pkgname=cpufreq
-pkgver=45.0.r0.g2a0f5b1
+pkgver=50.0.r1.g9d183ac
 pkgrel=1
 pkgdesc="System Monitor and Power Manager"
 arch=('any')
@@ -17,18 +19,20 @@ source=('git+https://github.com/konkor/cpufreq.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$_pkgname"
-	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/$_pkgname"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	cd "$srcdir/$_pkgname"
-	./autogen.sh
-	./configure --prefix=/usr
-	make
+  cd "$srcdir/$_pkgname"
+  ./autogen.sh
+  ./configure --prefix=/usr
+  make
 }
 
 package() {
-	cd "$srcdir/$_pkgname"
-	make DESTDIR="$pkgdir" install
+  cd "$srcdir/$_pkgname"
+  make DESTDIR="$pkgdir" install
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/cpufreq@konkor/schemas/"
 }
