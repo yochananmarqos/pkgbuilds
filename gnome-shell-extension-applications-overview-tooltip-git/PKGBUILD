@@ -3,8 +3,8 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-applications-overview-tooltip-git
 _pkgname=applications-overview-tooltip
-pkgver=10.r3.gf90ddba
-pkgrel=2
+pkgver=14.r1.gda94859
+pkgrel=1
 pkgdesc="Shows a tooltip over applications icons on applications overview."
 arch=('any')
 url="https://github.com/RaphaelRochet/applications-overview-tooltip"
@@ -17,14 +17,19 @@ source=('git+https://github.com/RaphaelRochet/applications-overview-tooltip.git'
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$_pkgname"
-	git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/$_pkgname"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-	_uuid="${_pkgname}@RaphaelRochet"
+  _uuid="${_pkgname}@RaphaelRochet"
 
-	cd "$srcdir/$_pkgname"
-	install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-	cp -r * "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+  cd "$srcdir/$_pkgname"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+  cp -r * "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+
+  install -Dm644 schemas/org.gnome.shell.extensions.applications-overview-tooltip.gschema.xml -t \
+    "$pkgdir/usr/share/glib-2.0/schemas"
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/"
 }
