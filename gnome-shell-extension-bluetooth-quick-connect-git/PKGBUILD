@@ -4,7 +4,7 @@ groups=('modified')
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
 _reponame=gnome-bluetooth-quick-connect
 pkgver=26.r1.g9a1ef87
-pkgrel=2
+pkgrel=3
 pkgdesc='Allow to connect bluetooth paired devices from gnome control panel'
 arch=('any')
 url="https://github.com/bjarosze/gnome-bluetooth-quick-connect"
@@ -36,5 +36,5 @@ package() {
     "$pkgdir/usr/share/glib-2.0/schemas"
 
   rm "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/LICENSE"
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
+#  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
 }
