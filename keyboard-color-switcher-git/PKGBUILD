@@ -1,12 +1,12 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r90.gd59a153
+pkgver=1.0.r96.gc4e070a
 pkgrel=1
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-switcher"
 license=('unknown')
 depends=('gtk3' 'python-gobject' 'system76-dkms' 'polkit' 'python-cerberus'
-         'python-yaml' 'dmidecode')
+         'python-yaml=6.0' 'dmidecode')
 makedepends=('git' 'python-setuptools')
 checkdepends=('python-pytest')
 backup=('etc/system76-backlight-manager.conf')
