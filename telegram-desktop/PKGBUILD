@@ -1,7 +1,8 @@
 # https://archlinux.org/packages/community/x86_64/telegram-desktop
+groups=('modified')
 
 pkgname=telegram-desktop
-pkgver=3.3.2
+pkgver=3.4.0
 pkgrel=1
 pkgdesc='Official Telegram Desktop client'
 arch=('x86_64')
