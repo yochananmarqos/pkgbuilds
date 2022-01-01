@@ -1,48 +1,40 @@
-# https://archlinux.org/packages/community/x86_64/telegram-desktop
-groups=('modified')
-
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: hexchain <i@hexchain.org>
 pkgname=telegram-desktop
 pkgver=3.4.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Official Telegram Desktop client'
 arch=('x86_64')
 url="https://desktop.telegram.org/"
 license=('GPL3')
 depends=('hunspell' 'ffmpeg' 'hicolor-icon-theme' 'lz4' 'minizip' 'openal' 'ttf-opensans'
-         'qt6-imageformats' 'qt6-svg' 'qt6-wayland' 'xxhash' 'glibmm'
-         'rnnoise' 'pipewire' 'libxtst' 'libxrandr' 'jemalloc' 'abseil-cpp' 'qt6-5compat')
+         'qt6-imageformats' 'qt6-svg' 'qt6-wayland' 'qt6-5compat' 'xxhash' 'glibmm'
+         'rnnoise' 'pipewire' 'libxtst' 'libxrandr' 'jemalloc' 'abseil-cpp')
 makedepends=('cmake' 'git' 'ninja' 'python' 'range-v3' 'tl-expected' 'microsoft-gsl'
-             'extra-cmake-modules' 'gtk3' 'webkit2gtk' 'libtg_owt' 
-             'qt5-tools' 'qt6-tools' 'plasma-wayland-protocols' 'wayland-protocols' 'clang')
-optdepends=('gtk3: GTK environment integration'
-            'webkit2gtk: embedded browser features'
+             'extra-cmake-modules' 'wayland-protocols' 'plasma-wayland-protocols' 'libtg_owt')
+optdepends=('webkit2gtk-5.0: embedded browser features'
             'xdg-desktop-portal: desktop integration')
-source=("git+https://github.com/telegramdesktop/tdesktop.git#tag=v$pkgver")
-sha512sums=('SKIP')
-
-prepare() {
-  cd tdesktop
-  git submodule update --init --recursive
-}
+source=("https://github.com/telegramdesktop/tdesktop/releases/download/v${pkgver}/tdesktop-${pkgver}-full.tar.gz")
+sha512sums=('00cec3bcabea78bed516940d9b048c02227c816a6455714ef1f6ecf97418e86ecf0a534e5f72c3d48377299602b06000804ec5d8cd3a640441192da249f0266e')
 
 build() {
-  cd tdesktop
+    cd tdesktop-$pkgver-full
 
-  # Turns out we're allowed to use the official API key that telegram uses for their snap builds:
-  # https://github.com/telegramdesktop/tdesktop/blob/8fab9167beb2407c1153930ed03a4badd0c2b59f/snap/snapcraft.yaml#L87-L88
-  # Thanks @primeos!
-  cmake \
-    -B build \
-    -G Ninja \
-    -DDESKTOP_APP_QT6=on \
-    -DCMAKE_INSTALL_PREFIX="/usr" \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DTDESKTOP_API_ID=611335 \
-    -DTDESKTOP_API_HASH=d524b414d21f4d37f08684c1df41ac9c
-  ninja -C build
+    # Turns out we're allowed to use the official API key that telegram uses for their snap builds:
+    # https://github.com/telegramdesktop/tdesktop/blob/8fab9167beb2407c1153930ed03a4badd0c2b59f/snap/snapcraft.yaml#L87-L88
+    # Thanks @primeos!
+    cmake \
+        -B build \
+        -G Ninja \
+        -DCMAKE_INSTALL_PREFIX="/usr" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DTDESKTOP_API_ID=611335 \
+        -DTDESKTOP_API_HASH=d524b414d21f4d37f08684c1df41ac9c \
+        -Wno-dev
+    ninja -C build
 }
 
 package() {
-  cd tdesktop
-  DESTDIR=$pkgdir ninja -C build install
+    cd tdesktop-$pkgver-full
+    DESTDIR=$pkgdir ninja -C build install
 }
