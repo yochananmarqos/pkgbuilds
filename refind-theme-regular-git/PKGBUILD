@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/refind-theme-regular-git/
+groups=('modified')
+
+pkgname=refind-theme-regular-git
+pkgver=r67.11300ef
+pkgrel=1
+pkgdesc="A simplistic clean and minimal theme for rEFInd"
+arch=('any')
+url="https://github.com/bobafetthotmail/refind-theme-regular"
+license=('AGPL3' 'OFL' 'UFL')
+depends=('refind')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+backup=("boot/EFI/refind/themes/${pkgname%-git}/theme.conf")
+source=('git+https://github.com/bobafetthotmail/refind-theme-regular.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+   # Specify path to the refind directory
+  _refind_home="$pkgdir/boot/efi/EFI/refind"
+
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm644 theme.conf -t "$_refind_home/themes/${pkgname%-git}"
+  cp -r fonts icons "$_refind_home/themes/${pkgname%-git}"
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+
+  warning 'To enable the theme add "include themes/refind-theme-regular/theme.conf"
+           at the end of refind.conf, and comment out or delete any other themes
+           you might have installed.'
+}
