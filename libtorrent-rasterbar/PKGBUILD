@@ -1,40 +1,45 @@
 # https://archlinux.org/packages/extra/x86_64/libtorrent-rasterbar
 pkgname=libtorrent-rasterbar
-pkgver=2.0.4
-pkgrel=3
-epoch=1
+pkgver=2.0.5+4+g71d608fce
+pkgrel=1
 pkgdesc="A C++ BitTorrent library that aims to be a good alternative to all the other implementations around"
 url="https://www.rasterbar.com/products/libtorrent/"
 arch=('x86_64')
 license=('BSD')
 depends=('boost-libs' 'openssl')
-makedepends=('boost' 'cmake' 'ninja' 'python-setuptools')
+makedepends=('boost' 'cmake' 'git' 'ninja' 'python-setuptools')
 options=('!emptydirs')
-source=("https://github.com/arvidn/libtorrent/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha512sums=('66ce3c3369b1d2a83654727c23022d38b070b8bc3ad83b1001e2cfad945acbaa4d61990094bc758886967cd305ca2213b60b1b0523b5106c42d4701d8cff8db1')
+_commit=71d608fceca7e61c9d124f9ea83f71b06eda3b17
+source=("git+https://github.com/arvidn/libtorrent.git#commit=$_commit")
+#source=("https://github.com/arvidn/libtorrent/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/libtorrent"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
 
 prepare() {
-  cd "$pkgname-$pkgver"
-
+  cd "$srcdir/libtorrent"
+  git submodule update --init --recursive
 }
 
 build() {
-#  export CXXFLAGS="${CXXFLAGS} -std=c++17"
-  cmake -B build -S "$pkgname-$pkgver" \
+  cmake -B build -S libtorrent \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_INSTALL_LIBDIR=lib \
     -Dpython-bindings=ON \
     -Dboost-python-module-name=python \
     -Dpython-egg-info=ON \
-    -Wno-dev \
-    -GNinja "$pkgname-$pkgver"
+    -GNinja \
+    -Wno-dev
   ninja -C build
 }
 
 package() {
   DESTDIR="$pkgdir" ninja -C build install
 
-  cd $pkgname-$pkgver
+  cd "$srcdir/libtorrent"
   install -Dm644 COPYING LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
