@@ -1,55 +1,32 @@
 # https://archlinux.org/packages/community/x86_64/qbittorrent
-pkgbase=qbittorrent
-pkgname=(qbittorrent qbittorrent-nox)
-pkgver=4.3.6
-pkgrel=1
+
+pkgname=qbittorrent
+pkgver=4.4.0
+pkgrel=1.1
+pkgdesc="An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar."
 arch=('x86_64')
 url="https://www.qbittorrent.org"
 license=('custom' 'GPL')
-depends=('libtorrent-rasterbar>=2.0.3' 'qt5-base')
-makedepends=('boost' 'qt5-tools' 'qt5-svg')
+depends=('libtorrent-rasterbar>=2.0.5' 'qt6-base' 'qt6-svg' 'hicolor-icon-theme')
+makedepends=('cmake' 'boost' 'qt6-tools' 'qt6-svg')
 optdepends=('python: needed for torrent search tab')
 source=("https://downloads.sourceforge.net/sourceforge/qbittorrent/${pkgname}-${pkgver}.tar.xz"{,.asc})
-sha512sums=('ee495f957e2714f9a054d223bd3cff991317824f28bd6e4bc9cabf0e9b89a13def9637cf79c5bb93990dd4737b8b393bf314f1f9a2261cd0737f342f9eb2d52f'
+sha512sums=('92c219969f6f44056579da24fd37dd40969d0b98e14aa29b5f32d2b9c1c7bba1095ba7d40c6d90ca66dd7e65a50f1d63ab1f1360e8b2f9cb64c8e914967cba08'
             'SKIP')
-b2sums=('b3861d93aec76f51c68c5f342869c1330cf419d1bcfe993e226d7a5082c4e529d56bab462c3616937920470feaf45d8405e6d60d166d36cdf088ac51664c8e05'
+b2sums=('56ed77fba20ec1c3bcd4848ed73190a60504316695ea1f2248ebaf4e9faf03b76c2124adf5a3e99e48a217519befb117f8b463d125f106dc011423c761e4582f'
         'SKIP')
 validpgpkeys=('D8F3DA77AAC6741053599C136E4A2D025B7CC9A2') # sledgehammer999 <sledgehammer999@qbittorrent.org>
 
 build() {
-  cd ${pkgbase}-${pkgver}
-
-  # tell qmake not to break makepkg's debug/!strip options
-  export QBT_ADD_CONFIG='nostrip'
-
-  mkdir -p ${pkgbase}
-  pushd ${pkgbase}
-  ../configure --prefix=/usr
-  make
-  popd
-
-  # Build nox variant
-  mkdir -p "${pkgbase}-nox"
-  pushd "${pkgbase}-nox"
-  ../configure --prefix=/usr --disable-gui --enable-systemd
-  make
+  cmake -B build -S $pkgname-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DQT6=ON
+  cmake --build build
 }
 
-package_qbittorrent() {
-  pkgdesc="An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar."
-  depends+=('qt5-svg' 'hicolor-icon-theme')
+package() {
+  DESTDIR="$pkgdir" cmake --install build
 
-  cd ${pkgbase}-${pkgver}/${pkgbase}
-
-  make INSTALL_ROOT="${pkgdir}" install
-  install -Dm644 "${srcdir}"/${pkgbase}-${pkgver}/COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/COPYING
-}
-
-package_qbittorrent-nox() {
-  pkgdesc="An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar, w/o gui"
-
-  cd ${pkgbase}-${pkgver}/${pkgbase}-nox
-
-  make INSTALL_ROOT="${pkgdir}" install
-  install -Dm644 "${srcdir}"/${pkgbase}-${pkgver}/COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/COPYING
+  cd ${pkgname}-${pkgver}
+  install -Dm644 COPYING -t "${pkgdir}"/usr/share/licenses/${pkgname}/
 }
