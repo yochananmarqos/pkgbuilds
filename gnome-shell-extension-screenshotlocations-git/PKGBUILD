@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-screenshotlocations-git
 _pkgname=gnome-shell-screenshotlocations-extension
-pkgver=8.r1.g1daf0f9
+pkgver=8.r2.gf96ff58
 pkgrel=1
 pkgdesc="A GNOME extension for changing the screenshot output directory"
 arch=('any')
@@ -29,5 +29,5 @@ check() {
 }
 
 package() {
-  DESTDIR="$pkgdir" meson install -C build
+  meson install -C build --destdir "$pkgdir"
 }
