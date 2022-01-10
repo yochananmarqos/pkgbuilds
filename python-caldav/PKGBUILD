@@ -1,0 +1,26 @@
+# https://aur.archlinux.org/packages/python-caldav
+groups=('modified')
+
+pkgname=python-caldav
+_name=${pkgname#python-}
+pkgver=0.8.2
+pkgrel=1
+pkgdesc="A CalDAV (RFC4791) client library for Python."
+arch=('any')
+url="https://github.com/python-caldav/caldav"
+license=('Apache')
+depends=('python' 'python-lxml' 'python-requests' 'python-six' 'python-vobject')
+makedepends=('python-setuptools')
+optdepends=('python-icalendar') # not yet on the official dependency list
+source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('f37dfcecdb6753259a179794ba19ec0bdaf2d28fa745a8b2336c6ed252a0c777')
+
+build() {
+  cd "$_name-$pkgver"
+  python setup.py build
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}
