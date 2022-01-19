@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=vizex
-pkgver=2.0.5
+pkgver=2.1.1c
 pkgrel=1
 pkgdesc="Visualize disk space and disk usage in your UNIX\Linux terminal"
 arch=('any')
@@ -12,21 +12,8 @@ depends=('python-click' 'python-colored' 'python-pandas' 'python-psutil'
          'python-magic-ahupp' 'python-tabulate')
 makedepends=('python-setuptools')
 #checkdepends=('python-pytest')
-_commit=d3e7de09767ffbc7cbb04efaec009d30f882b3bb
-source=("https://pypi.org/packages/source/${pkgname:0:1}/$pkgname/$pkgname-$pkgver.tar.gz"
-        "https://raw.githubusercontent.com/bexxmodd/vizex/$_commit/requirements.txt")
-sha256sums=('1264820d82aaee52be258795ebfab3439be6aeec046af27ffb3bd8a11cf2cd47'
-            '9efdfc25893d53699561a7ab87f8a48566a45f93d7ffe681749295a838280c2a')
-
-prepare() {
-  cd "$pkgname-$pkgver"
-
-  # Proper module name
-  find . -type f -exec sed -i "s|main|$pkgname|g" {} \;
-  mv main "$pkgname"
-
-  cp "$srcdir/requirements.txt" .
-}
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('7081af2197a98c5b9871c62b56c8c16e19f62e022221f1759793f615481ce8f6')
 
 build() {
   cd "$pkgname-$pkgver"
