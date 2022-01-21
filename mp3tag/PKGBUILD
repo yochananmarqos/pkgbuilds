@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=mp3tag
-pkgver=3.11
+pkgver=3.12
 pkgrel=1
 pkgdesc="The universal tag editor."
 arch=('i686' 'x86_64')
@@ -17,8 +17,8 @@ source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}setup.exe"
         "$pkgname"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('2ab4cbad1ba02f8410d4d8bb55e7eb3ce392a1b53a0128722fa361b427a97dce'
-            '0cdb5330be0326bcfff54057c70fb9279406537d0fb3e9e61635ff0d0fe1b0df'
+sha256sums=('187171a770989c1a29ec7010efd43bab537dbc94d385f8c6de9e077cd31f1507'
+            '083dbc8d37ad75fc6157caf8515f87e9a0cac8daf1a8f704069fda72bdf8fe43'
             '22d512a612804e9e165b96291b3dc07b096863e25de2c7c581258c9545dcb28d'
             'bc0c7b8a7a9f9ee92dfe2f1880ef5d91920473713b5d60e4afa361d69a446798'
             'a3e09f7cda34bc31b3b5b1d7cf2010c3b17847c141ef5a074472eb72f760f6bf')
