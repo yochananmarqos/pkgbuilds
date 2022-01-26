@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=lutris
 pkgver=0.5.9.1
-pkgrel=3
+pkgrel=4
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
@@ -27,7 +27,8 @@ optdepends=(
   "mangohud: Display the games' FPS + other information"
   "lib32-mangohud: Display the games' FPS + other information"
   'innoextract: Extract Inno Setup installers'
-  'xorg-xgamma: Restore gamma on game exit')
+  'xorg-xgamma: Restore gamma on game exit'
+  'gamescope: draw the desktop isolated from your desktop')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
 sha512sums=('7cfe897ea15366dda20da5f6324a422d94e064cb3794bfeda9733f3a5c3aeb71f52354e2571f365514e965e6346f0ebef8813e577b271d9ff40fe36dac212b19')
 
