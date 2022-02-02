@@ -1,0 +1,33 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-system76-power-git
+groups=('modified')
+
+pkgname=gnome-shell-extension-system76-power-git
+pkgver=2.0.2.r2.g8a34d55
+pkgrel=1
+pkgdesc="System76 Power Management Extension"
+arch=('any')
+url="https://github.com/pop-os/gnome-shell-extension-system76-power"
+license=('MIT')
+depends=('gnome-shell' 'system76-power')
+makedepends=('git' 'typescript')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/pop-os/gnome-shell-extension-system76-power.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build(){
+  cd "$srcdir/${pkgname%-git}"
+  make
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}/"
+}
