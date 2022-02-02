@@ -1,0 +1,36 @@
+pkgname=system76-scheduler-git
+pkgver=r16.d640a71
+pkgrel=1
+pkgdesc="Auto-configure CFS for improved desktop responsiveness at high CPU load when on AC (based on Zen CFS settings)"
+arch=('x86_64')
+url="https://github.com/pop-os/system76-scheduler"
+license=('MPL2')
+depends=('gcc-libs')
+makedepends=('cargo' 'git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/pop-os/system76-scheduler.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+}
+
+
+build() {
+  cd "$srcdir/${pkgname%-git}"
+  export RUSTUP_TOOLCHAIN=stable
+  make
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  make DESTDIR="$pkgdir" install
+}
