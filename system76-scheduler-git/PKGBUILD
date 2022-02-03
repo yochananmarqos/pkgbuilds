@@ -1,5 +1,8 @@
+# https://aur.archlinux.org/packages/system76-scheduler-git
+groups=('modified')
+
 pkgname=system76-scheduler-git
-pkgver=r16.d640a71
+pkgver=r22.4b77ff4
 pkgrel=1
 pkgdesc="Auto-configure CFS for improved desktop responsiveness at high CPU load when on AC (based on Zen CFS settings)"
 arch=('x86_64')
