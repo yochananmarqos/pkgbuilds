@@ -1,14 +1,14 @@
 pkgname=manjaro-starter
-pkgver=r36.2e40d4f
+pkgver=r43.cde6341
 pkgrel=1
 pkgdesc="A tool providing access to documentation and support for new Manjaro users."
 arch=('x86_64' 'aarch64')
 url="https://github.com/oguzkaganeren/manjaro-starter"
 license=('unknown')
-depends=('gtk3' 'manjaro-settings-manager' 'webkit2gtk')
+depends=('gtk3' 'inxi' 'manjaro-settings-manager' 'pamac-cli' 'webkit2gtk')
 makedepends=('cargo' 'git' 'node-gyp' 'yarn')
 options=('!lto')
-_commit=2e40d4fc13c48f697e8db6b433418c5ee4540b94
+_commit=cde634142e303f061bb0f8db3bcfef912987cf42
 source=("git+https://github.com/oguzkaganeren/manjaro-starter.git#commit=$_commit"
         "$pkgname.desktop")
 sha256sums=('SKIP'
