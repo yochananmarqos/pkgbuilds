@@ -1,0 +1,32 @@
+pkgname=smile
+pkgver=1.1.5
+pkgrel=1
+pkgdesc="An emoji picker with custom tags support"
+arch=('any')
+url="https://github.com/mijorus/smile"
+license=('GPL3')
+depends=('python-manimpango')
+makedepends=('meson')
+checkdepends=('appstream-glib' 'desktop-file-utils')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('40d965dfdb8e7964a64c9177b732408bdf9e645dac10fc0e3dfe9352143b4f79')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Correct invalid categories
+  sed -i 's/Utilities;GTK/Utility/g' data/it.mijorus.smile.desktop.in
+}
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
