@@ -1,59 +1,41 @@
-# https://aur.archlinux.org/packages/freegemas
 pkgname=freegemas-git
-pkgver=r39.82823e2
+pkgver=22.02.r0.ge03f2b0
 pkgrel=1
 pkgdesc="An open source version of the well known Bejeweled written in C++ using SDL2"
 arch=('any')
 url="https://github.com/JoseTomasTocino/freegemas"
 license=('GPL2')
-depends=('sdl2_image' 'sdl2_mixer' 'sdl2_ttf')
-makedepends=('git' 'cmake')
+depends=('jsoncpp' 'sdl2_image' 'sdl2_mixer' 'sdl2_ttf')
+makedepends=('cmake' 'git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/JoseTomasTocino/freegemas')
-sha256sums=('SKIP')
+source=('git+https://github.com/JoseTomasTocino/freegemas.git'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            'dbe382b8d8d6457fd452430a323171b818c72bf0a5c232e89e551149aa890202')
 
 pkgver() {
-	cd "${pkgname%-git}"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
-
-prepare() {
-	cd "$srcdir/${pkgname%-git}"
-	mkdir -p build
+  cd "${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build(){
-	cd "$srcdir/${pkgname%-git}/build"
-	cmake ..
-	make
+  cmake -B build -S "${pkgname%-git}" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	install -Dm755 "build/${pkgname%-git}" -t "$pkgdir/opt/${pkgname%-git}"
-	cp -a media "$pkgdir/opt/${pkgname%-git}"
+  install -Dm755 "build/${pkgname%-git}" -t "$pkgdir/opt/${pkgname%-git}/"
+  install -Dm644 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
 
-	cat > "$pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh" << EOF
-#!/bin/sh
-cd /opt/${pkgname%-git}
-./${pkgname%-git}
-EOF
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/${pkgname%-git}/${pkgname%-git}" "$pkgdir/usr/bin"/
 
-	chmod +x "$pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh"
-	install -d "$pkgdir/usr/"{bin,share/applications}
-	ln -s "$pkgdir/opt/${pkgname%-git}/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
-	install -Dm644 build/media/gemBlue.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
-
-	cat > "$pkgdir/usr/share/applications/${pkgname%-git}.desktop" << EOF
-[Desktop Entry]
-Name=Freegemas
-Comment=An open source version of Bejeweled
-Exec=/usr/bin/${pkgname%-git} %U
-Terminal=false
-Type=Application
-Icon=freegemas
-StartupWMClass=Freegemas
-Categories=Games;
-EOF
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm644 "platform/unix/icons/64x64/${pkgname%-git}.png" -t \
+    "$pkgdir/usr/share/pixmaps/"
+  cp -a media "$pkgdir/opt/${pkgname%-git}/"
 }
