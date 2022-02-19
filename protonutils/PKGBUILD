@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.2.4
+pkgver=1.4.2
 pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
@@ -11,20 +11,22 @@ license=('MIT')
 depends=('glibc')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('83316ffa73ad3d5d20b78aefc4c40c5121f19cc068a3f8638e95d65d109af4bb')
+sha256sums=('360c72ed1d2dfdae698692cc20e9dccd9c45d5854f7ba526e12e0374c6ef14ec')
 
 prepare() {
   cd "$pkgname-$pkgver"
-
-  # Prevent creation of a `go` directory in one's home.
-  # Sometimes this directory cannot be removed with even `rm -rf` unless
-  # one becomes root or changes the write permissions.
   export GOPATH="$srcdir/gopath"
-  go clean -modcache
+
+  # create directory for build output
+  mkdir -p build
+
+  # download dependencies
+  go mod download -x
 }
 
 build() {
   cd "$pkgname-$pkgver"
+  export GOPATH="$srcdir/gopath"
   local VERSION="v$pkgver"
   local BUILDTIME=$(date -u +"%Y%m%d%H%M%S")
   local GOLDFLAGS="-X 'main.Version=${VERSION}' \
@@ -39,9 +41,6 @@ build() {
 
   # Generate man page
   ./build/"$pkgname" -m man1
-
-  # Clean mod cache for makepkg -C
-  go clean -modcache
 }
 
 package() {
