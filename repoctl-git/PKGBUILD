@@ -1,54 +1,65 @@
-# http://aur.archlinux.org/packages/repoctl-devel-git
-pkgname=repoctl-devel-git
-pkgver=0.21.r0.g92ed55f
+# http://aur.archlinux.org/packages/repoctl-git
+groups=('modified')
+
+pkgname=repoctl-git
+pkgver=0.21.r5.ge3992bf
 pkgrel=1
 pkgdesc="Make it easy to manage your local Arch Linux repository."
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
 license=('MIT')
 makedepends=('git' 'go')
-provides=("${pkgname%-git}" "${pkgname%-devel-git}")
-conflicts=("${pkgname%-git}" "${pkgname%-devel-git}")
-source=("${pkgname%-devel-git}::git+$url.git#branch=devel")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/cassava/repoctl.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-devel-git}"
-	printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+  cd "$srcdir/${pkgname%-git}"
+  printf "%s" "$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
 }
 
 prepare() {
-	export GOPATH="$srcdir/gopath"
-	go clean -modcache
+  cd "$srcdir/${pkgname%-git}"
+  export GOPATH="$srcdir/gopath"
+
+  # create directory for build output
+  mkdir -p build
+
+  # download dependencies
+  go mod download -x
 }
 
 build() {
-	cd "$srcdir/${pkgname%-devel-git}"
-	export CGO_CPPFLAGS="${CPPFLAGS}"
-	export CGO_CFLAGS="${CFLAGS}"
-	export CGO_CXXFLAGS="${CXXFLAGS}"
-	export CGO_LDFLAGS="${LDFLAGS}"
-	export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
-	go build -v -o "${pkgname%-devel-git}"
+  cd "$srcdir/${pkgname%-git}"
+  export GOPATH="$srcdir/gopath"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  go build -v -o build .
 
-	# Generate the completion files
-	./repoctl completion zsh > completion.zsh
-	./repoctl completion bash > completion.bash
-	./repoctl completion fish > completion.fish
+  # Generate the completion files
+  ./build/repoctl completion zsh > completion.zsh
+  ./build/repoctl completion bash > completion.bash
+  ./build/repoctl completion fish > completion.fish
+}
 
-	# Clean now to ensure makepkg --clean works
-	go clean -modcache
+check() {
+  cd "$srcdir/${pkgname%-git}"
+  go test ./...
 }
 
 package() {
-	cd "$srcdir/${pkgname%-devel-git}"
-	install -Dm755 "${pkgname%-devel-git}" -t "$pkgdir/usr/bin"
-	install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/${pkgname%-devel-git}"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-devel-git}"
-	install -Dm644 completion.zsh \
-		"$pkgdir/usr/share/zsh/site-functions/_${pkgname%-devel-git}"
-	install -Dm644 completion.bash \
-		"$pkgdir/usr/share/bash-completion/completions/${pkgname%-devel-git}"
-	install -Dm644 completion.fish \
-		"$pkgdir/usr/share/fish/vendor_completions.d/${pkgname%-devel-git}.fish"
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 "build/${pkgname%-git}" -t "$pkgdir/usr/bin"
+  install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+  install -Dm644 completion.zsh \
+    "$pkgdir/usr/share/zsh/site-functions/_${pkgname%-git}"
+  install -Dm644 completion.bash \
+    "$pkgdir/usr/share/bash-completion/completions/${pkgname%-git}"
+  install -Dm644 completion.fish \
+    "$pkgdir/usr/share/fish/vendor_completions.d/${pkgname%-git}.fish"
 }
