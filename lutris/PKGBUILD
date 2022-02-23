@@ -4,34 +4,36 @@ groups=('modified')
 pkgname=lutris
 _pkgver=0.5.10-beta1
 pkgver=${_pkgver//-/.}
-pkgrel=1
+pkgrel=2
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
 license=('GPL3')
-depends=('python-gobject' 'python-yaml' 'python-evdev' 'python-dbus' 'gtk3'
-         'glib2' 'psmisc' 'cabextract' 'unzip' 'p7zip' 'curl' 'xorg-xrandr'
-         'python-pillow' 'python-requests' 'gnome-desktop' 'webkit2gtk'
-         'mesa-utils' 'python-dbus' 'python-distro' 'python-magic' 'python-lxml')
+depends=('dbus-python' 'cabextract' 'curl' 'glib2' 'gnome-desktop' 'gtk3' 'libnotify' 'mesa-utils'
+         'p7zip' 'psmisc' 'python-distro' 'python-gobject' 'python-lxml'
+         'python-magic' 'python-pillow' 'python-requests' 'python-yaml' 'unzip'
+         'webkit2gtk' 'xorg-xrandr')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 optdepends=(
+  'gamemode: Allows games to request a temporary set of optimisations'
+  'gamescope: Draw the game window isolated from your desktop'
+#  'gnome-desktop: Get display and resolution using GnomeDesktop'
+  'gvfs: GVFS backend'
+  'innoextract: Extract Inno Setup installers'
+  'lib32-gamemode: Allows games to request a temporary set of optimisations'
+  'lib32-glibc: for 32bit games support'
+  "lib32-mangohud: Display the games' FPS + other information"
+  'lib32-vkd3d: Vulkan 3D support'
+  'lib32-vulkan-icd-loader: Vulkan support'
+  'linux-steam-integration: start Steam with LSI'
+  "mangohud: Display the games' FPS + other information"
+  'python-evdev: Controller support'
+  'vkd3d: Vulkan 3D support'
+  'vulkan-icd-loader: Vulkan support'
   'wine: easiest way to get all the libraries missing from the Lutris runtime'
   'winetricks: use system winetricks'
-  'vulkan-icd-loader: Vulkan support'
-  'lib32-vulkan-icd-loader: Vulkan support'
-  'vkd3d: Vulkan 3D support'
-  'lib32-vkd3d: Vulkan 3D support'
-  'gvfs: GVFS backend'
-  'lib32-glibc: for 32bit games support'
-  'gamemode: Allows games to request a temporary set of optimisations'
-  'lib32-gamemode: Allows games to request a temporary set of optimisations'
-  "mangohud: Display the games' FPS + other information"
-  "lib32-mangohud: Display the games' FPS + other information"
-  'innoextract: Extract Inno Setup installers'
-  'xorg-xgamma: Restore gamma on game exit'
-  'gamescope: draw the game window isolated from your desktop'
-  'linux-steam-integration: start Steam with LSI')
+  'xorg-xgamma: Restore gamma on game exit')
 source=("$pkgname-$_pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$_pkgver.tar.gz")
 sha512sums=('306577cfa5d066dc4d4eb85b06a6b8d014d43b73486d82d2f500854d31188c2e28ff09c59f3e850f76cc2391394a48d11e5f4e7c4f708bc3b1d5cf886eaca97e')
 
