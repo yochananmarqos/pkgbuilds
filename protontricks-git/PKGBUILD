@@ -2,16 +2,16 @@
 groups=('modified')
 
 pkgname=protontricks-git
-pkgver=1.6.1.r3.g2911010
-pkgrel=1
+pkgver=1.8.0.r1.g9fc5d62
+pkgrel=2
 pkgdesc="A simple wrapper that does winetricks things for Proton enabled games."
 arch=('any')
 url="https://github.com/Matoking/protontricks"
 license=('GPL3')
-depends=('python-setuptools' 'python-vdf' 'winetricks' 'steam')
+depends=('python-setuptools' 'python-vdf' 'steam' 'winetricks')
 optdepends=('yad: for GUI'
             'zenity: fallback for GUI')
-makedepends=('git' 'python-setuptools-scm')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/Matoking/protontricks.git')
@@ -24,16 +24,14 @@ pkgver() {
 
 build() {
   cd "$srcdir/${pkgname%-git}"
-  python setup.py build
+  python -m build --wheel --no-isolation
 }
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+  python -m installer --destdir="$pkgdir" dist/*.whl
 
   # Remove protontricks-desktop-install, since we already install
   # desktop files properly
   rm "$pkgdir/usr/bin/${pkgname%-git}-desktop-install"
-
-  install -Dm644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
 }
