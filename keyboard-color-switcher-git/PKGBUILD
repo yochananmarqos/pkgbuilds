@@ -1,13 +1,13 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r96.gc4e070a
-pkgrel=1
+pkgver=1.0.r108.gebc9a6c
+pkgrel=2
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-switcher"
-license=('unknown')
-depends=('gtk3' 'python-gobject' 'system76-dkms' 'polkit' 'python-cerberus'
-         'python-yaml=6.0' 'dmidecode')
-makedepends=('git' 'python-setuptools')
+license=('GPL')
+depends=('dmidecode' 'gtk3' 'polkit' 'python-cerberus' 'python-gobject'
+         'python-yaml=6.0''system76-dkms')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 checkdepends=('python-pytest')
 backup=('etc/system76-backlight-manager.conf')
 install='system76-backlight-manager.install'
@@ -47,7 +47,7 @@ prepare() {
 
 build() {
   cd "$srcdir/${pkgname%-git}/system76_backlight_manager"
-  python setup.py build
+  python -m build --wheel --no-isolation
 }
 
 check() {
@@ -60,8 +60,7 @@ package() {
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
   install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}"
-  cp -r kcc "$pkgdir$site_packages/${pkgname%-git}"
-#  python -O -m compileall "$pkgdir$site_packages/${pkgname%-git}"
+  cp -r kcc "${pkgdir}${site_packages}/${pkgname%-git}"
 
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
   install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
@@ -69,7 +68,10 @@ package() {
     "$pkgdir/usr/share/polkit-1/actions"
 
   cd system76_backlight_manager
-  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # Remove duplicate GPL license
+  rm "${pkgdir}${site_packages}/system76_backlight_manager-0.2.dist-info/LICENSE"
 
   install -Dm644 "service/system76-backlight-manager.service" -t \
     "$pkgdir/usr/lib/systemd/system"
