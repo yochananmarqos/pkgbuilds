@@ -1,11 +1,285 @@
 ==============================================================================
-Glances Version 3
+                                Glances changelog
 ==============================================================================
+
+===============
+Version 3.2.5
+===============
+
+Version under development, see roadmap here:
+
+    https://github.com/nicolargo/glances/milestone/55
+
+===============
+Version 3.2.4.1
+===============
+
+Bugs corrected:
+
+    * Missing packaging dependency when using pip install #1955
+
+===============
+Version 3.2.4
+===============
+
+Bugs corrected:
+
+    * Failure to start on Apple M1 Max #1939
+    * Influxdb2 via SSL #1934
+    * Update WebUI (security patch). Thanks to @notFloran.
+    * Swith from black <> white theme with the '9' hotkey - Related to issue #976
+    * Fix: Docker plugin - Invalid IO stats with Arch Linux #1945
+    * Bug Fix: Docker plugin - Network stats not being displayed #1944
+    * Fix Grafana CPU temperature panel #1954
+    * is_disabled name fix #1949
+    * Fix tipo in documentation #1932
+    * distutils is deprecated in Python 3.10 #1923
+    * Separate battery percentages #1920
+    * Update docs and correct make docs-server target in Makefile
+
+Enhancement requests:
+
+    * Improve --issue by displaying the second update iteration and not the first one. More relevant
+    * Improve --issue option with Python version and paths
+    * Correct an issue on idle display
+    * Refactor Mem + MemSwap Curse
+    * Refactor CPU Curses code
+
+Contributors for this version:
+    * Nicolargo
+    * RazCrimson
+    * Floran Brutel
+    * H4ckerxx44
+    * Mohamad Mansour
+    * Néfix Estrada
+    * Zameer Manji
+
+===============
+Version 3.2.3.1
+===============
+
+Patch to correct issue (regression) #1922:
+
+    * Incorrect processes disk IO stats #1922
+    * DSM 6 docker error crash /sys/class/power_supply #1921
+
+===============
+Version 3.2.3
+===============
+
+Bugs corrected:
+
+    * Docker container monitoring only show half command? #1912
+    * Processor name getting cut off #1917
+    * batinfo not in docker image (and in requirements files...) ? #1915
+    * Glances don't send hostname (tag) to influxdb2 #1913
+    * Public IP address doesn't display anymore #1910
+    * Debian Docker images broken with version 3.2.2 #1905
+
+Enhancement requests:
+
+    * Make the process sort list configurable through the command line #1903
+    * [WebUI] truncates network name #1699
+
+===============
+Version 3.2.2
+===============
+
+Bugs corrected:
+
+    * [3.2.0/3.2.1] keybinding not working anymore #1904
+    * InfluxDB/InfluxDB2 Export object has no attribute hostname #1899
+
+Documentation: The "make docs" generate RestFull/API documentation file.
+
+===============
+Version 3.2.1
+===============
+
+Bugs corrected:
+
+    * Glances 3.2.0 and influxdb export - Missing network data bug #1893
+
+Enhancement requests:
+
+    * Security audit - B411 enhancement (Monkey patch XML RPC Lib) #1025
+    * Also search glances.conf file in /usr/share/doc/glances/glances.conf #1862
+
+===============
+Version 3.2.0
+===============
+
+This release is a major version (but minor number because the API did not change). It focus on
+*CPU consumption*. I use `Flame profiling https://github.com/nicolargo/glances/wiki/Glances-FlameGraph`_
+and code optimization to *reduce CPU consumption from 20% to 50%* depending on your system.
+
+Enhancement and development requests:
+
+    * Improve CPU consumption
+        - Make the refresh rate configurable per plugin #1870
+        - Add caching for processing username and cmdline
+        - Correct and improve refresh time method
+        - Set refresh rate for global CPU percent
+        - Set the dafault refresh rate of system stats to 60 seconds
+        - Default refresh time for sensors is refresh rate * 2
+        - Improve history perf
+        - Change main curses loop
+        - Improve Docker client connection
+        - Update Flame profiling
+    * Get system sensors temperatures thresholds #1864
+    * Filter data exported from Docker plugin
+    * Make the Docker API connection timeout configurable
+    * Add --issue to Github issue template
+    * Add release-note in the Makefile
+    * Add some comments in cpu_percent
+    * Add some comments to the processlist.py
+    * Set minimal version for PSUtil to 5.3.0
+    * Add comment to default glances.conf file
+    * Improve code quality #820
+    * Update WebUI for security vuln
+
+Bugs corrected:
+
+    * Quit from help should return to main screen, not exit #1874
+    * AttributeError: 'NoneType' object has no attribute 'current' #1875
+    * Merge pull request #1873 from metayan/fix-history-add
+    * Correct filter
+    * Correct Flake8 issue in plugins
+    * Pressing Q to get rid of irq not working #1792
+    * Spelling correction in docs #1886
+    * Starting an alias with a number causes a crash #1885
+    * Network interfaces not applying in web UI #1884
+    * Docker containers information missing with Docker 20.10.x #1878
+    * Get system sensors temperatures thresholds #1864
+
+Contibutors for this version:
+
+    * Nicolargo
+    * Markus Pöschl
+    * Clifford W. Hansen
+    * Blake
+    * Yan
+
+===============
+Version 3.1.7
+===============
+
+Enhancements and bug corrected:
+
+    * Security audit - B411 #1025 (by nicolargo)
+    * GPU temperature not shown in webview #1849 (by nicolargo)
+    * Remove shell=True for actions (following Bandit issue report) #1851 (by nicolargo)
+    * Replace Travis by Github action #1850 (by nicolargo)
+    * '/api/3/processlist/pid/3936'use this api can't get right info,all messy code #1828 (by nicolargo)
+    * Refactor the way importants stats are displayed #1826 (by nicolargo)
+    * Re-apply the Add hide option to sensors plugin #1596 PR (by nicolargo)
+    * Smart plugin error while start glances as root #1806 (by nicolargo)
+    * Plugin quicklook takes more than one seconds to update #1820 (by nicolargo)
+    * Replace Pystache by Chevron 2/2  See #1817 (by nicolargo)
+    * Doc. No SMART screenshot. #1799 (by nicolargo)
+    * Update docs following PR #1798 (by nicolargo)
+
+Contributors for this version:
+
+    - Nicolargo
+    - Deosrc
+    - dependabot[bot]
+    - Michael J. Cohen
+    - Rui Chen
+    - Stefan Eßer
+    - Tuux
+
+===============
+Version 3.1.6.2
+===============
+
+Bugs corrected:
+
+    * Remove bad merge for a non tested feature (see https://github.com/nicolargo/glances/issues/1787#issuecomment-774682954)
+
+Version 3.1.6.1
+===============
+
+Bugs corrected:
+
+    * Glances crash after installing module for shown GPU informations on Windows 10 #1800
+
+Version 3.1.6
+=============
+
+Enhancements and new features:
+
+    * Kill a process from the Curses interface #1444
+    * Manual refresh on F5 in the Curses interface #1753
+    * Hide function in sensors section #1590
+    * Enhancement Request: .conf parameter for AMP #1690
+    * Password for Web/Browser mode  #1674
+    * Unable to connect to Influxdb 2.0 #1776
+    * ci: fix release process and improve build speeds #1782
+    * Cache cpuinfo output #1700
+    * sort by clicking improvements and bug #1578
+    * Allow embedded AMP python script to be placed in a configurable location #1734
+    * Add attributes to stdout/stdout-csv plugins #1733
+    * Do not shorten container names #1723
+
+Bugs corrected:
+
+    * Version tag for docker image packaging #1754
+    * Unusual characters in cmdline cause lines to disappear and corrupt the display #1692
+    * UnicodeDecodeError on any command with a utf8 character in its name #1676
+    * Docker image is not up to date install #1662
+    * Add option to set the strftime format #1785
+    * fix: docker dev build contains all optional requirements #1779
+    * GPU information is incomplete via web #1697
+    * [WebUI] Fix display of null values for GPU plugin #1773
+    * crash on startup on Illumos when no swap is configured #1767
+    * Glances crashes with 2 GPUS bug #1683
+    * [Feature Request] Filter Docker containers#1748
+    * Error with IP Plugin : object has no attribute #1528
+    * docker-compose #1760
+    * [WebUI] Fix sort by disk io #1759
+    * Connection to MQTT server failst #1705
+    * Misleading image tag latest-arm needs contributor packaging #1419
+    * Docker nicolargo/glances:latest missing arm builds? #1746
+    * Alpine image is broken packaging #1744
+    * RIP Alpine? needs contributor packaging #1741
+    * Manpage improvement documentation #1743
+    * Make build reproducible packaging #1740
+    * Automated multiarch builds for docker #1716
+    * web ui of glances is not coming #1721
+    * fixing command in json.rst #1724
+    * Fix container rss value #1722
+    * Alpine Image is broken needs test packaging #1720
+    * Fix gpu plugin to handle multiple gpus with different reporting capabilities bug #1634
 
 Version 3.1.5
 =============
 
-Under development...
+Enhancements and new features:
+
+    * Enhancement: RSS for containers enhancement #1694
+    * exports: support rabbitmq amqps enhancement #1687
+    * Quick Look missing CPU Infos enhancement #1685
+    * Add amqps protocol suppport for rabbitmq export #1688
+    * Select host in Grafana json #1684
+    * Value for free disk space is counterintuative on ext file systems enhancement #644
+
+Bugs corrected:
+
+    * Can't start server: unexpected keyword argument 'address' bug enhancement #1693
+    * class AmpsList method _build_amps_list() Windows fail (glances/amps_list.py) bug #1689
+    * Fix grammar in sensors documentation #1681
+    * Reflect "used percent" user disk space for [fs] alert #1680
+    * Bug: [fs] plugin needs to reflect user disk space usage needs test #1658
+    * Fixed formatting on FS example #1673
+    * Missing temperature documentation #1664
+    * Wiki page for starting as a service documentation #1661
+    * How to start glances with --username option on syetemd? documentation #1657
+    * tests using /etc/glances/glances.conf from already installed version bug #1654
+    * Unittests: Use sys.executable instead of hardcoding the python interpreter #1655
+    * Glances should not phone home install #1646
+    * Add lighttpd reverse proxy config to the wiki documentation #1643
+    * Undefined name 'i' in plugins/glances_gpu.py bug #1635
 
 Version 3.1.4
 =============
@@ -619,7 +893,7 @@ Bugs corrected:
     * Fix RAID support in Python 3 (issue #793 by Alessio Sergi)
     * Use dict view objects to avoid issue (issue #758 by Alessio Sergi)
     * System exit if Cpu not supported by the Cpuinfo lib (issue #754 by nicolargo)
-    * KeyError: 'cpucore' when exporting data to InfluxDB (issue #729) by nicolargo)
+    * KeyError: 'cpucore' when exporting data to InfluxDB (issue #729 by nicolargo)
 
 Others:
     * A new Glances docker container to monitor your Docker infrastructure is available here (issue #728): https://hub.docker.com/r/nicolargo/glances/

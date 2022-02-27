@@ -2,15 +2,16 @@
 groups=('modified')
 
 pkgname=glances
-pkgver=3.1.7
+pkgver=3.2.4.2
 pkgrel=1
 pkgdesc="CLI curses-based monitoring tool"
 arch=('any')
 url="https://nicolargo.github.io/glances"
 license=('LGPL')
-depends=('python-psutil' 'python-future')
-makedepends=('python-setuptools' 'python-sphinx')
+depends=('python-defusedxml' 'python-psutil')
+makedepends=('python-setuptools')
 optdepends=('hddtemp: HDD temperature monitoring support'
+#            'python-batinfo: '
 #            'python-bernhard: for the Riemann export module'
             'python-bottle: for Web server mode'
             'python-cassandra-driver: for the Cassandra export module'
@@ -18,10 +19,10 @@ optdepends=('hddtemp: HDD temperature monitoring support'
             'python-couchdb: for the CouchDB export module'
             'python-docker: for the Docker monitoring support'
             'python-elasticsearch: for the Elastic Search export module'
+#            'python-graphitesender: for the Graphite export module'
             'python-influxdb: for the InfluxDB version 1 export module'
             'python-influxdb-client: for the InfluxDB version 2 export module'
             'python-kafka: for the Kafka export module'
-            'python-matplotlib: for graphical/chart support'
             'python-netifaces: for the IP plugin'
             'python-py3nvml: for the GPU plugin'
             'python-paho-mqtt: '
@@ -33,7 +34,6 @@ optdepends=('hddtemp: HDD temperature monitoring support'
 #            'python-pymdstat: for RAID support'
             'python-pysnmp: for SNMP support'
 #            'python-pysmart.smartx: for HDD Smart support'
-            'python-pystache: for the action script feature'
             'python-pyzmq: for the ZeroMQ export module'
             'python-requests: for the Ports, Cloud plugins and RESTful export module'
             'python-sparklines: for the Quick Plugin sparklines option'
@@ -44,22 +44,17 @@ optdepends=('hddtemp: HDD temperature monitoring support'
 changelog=NEWS.rst
 source=("$pkgname-$pkgver.tar.gz::https://github.com/nicolargo/glances/archive/v$pkgver.tar.gz"
         "$pkgname.service")
-sha256sums=('5839a110af35af35b7a1d30c15e59c59359480c2eaec852d30480c96b8cf8d76'
+sha256sums=('88ac8103d777b2a55cee9418a5940269c640c3ad964ec44de0e9bb80cdbead37'
             '4cdd6955ec14146a9975bd5a6fe0fe15081b0d83fc8a062e4a68b8e432317308')
 
 build() {
-	cd "$pkgname-$pkgver"
-	python setup.py build
-
-	cd docs
-	LC_ALL=C make man
+  cd "$pkgname-$pkgver"
+  python setup.py build
 }
 
 package() {
-	cd "$pkgname-$pkgver"
-	export PYTHONHASHSEED=0
-	python setup.py install --root="$pkgdir/" --skip-build --optimize=1
+  cd "$pkgname-$pkgver"
+  python setup.py install --root="$pkgdir/" --skip-build --optimize=1
 
-	install -Dm644 "docs/_build/man/$pkgname.1" -t "$pkgdir/usr/share/man/man1"
-	install -Dm644 "$srcdir/$pkgname.service" -t "$pkgdir/usr/lib/systemd/system"
+  install -Dm644 "$srcdir/$pkgname.service" -t "$pkgdir/usr/lib/systemd/system"
 }
