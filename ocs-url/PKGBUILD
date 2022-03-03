@@ -24,7 +24,7 @@ prepare() {
 
 build() {
   cd "$srcdir/$pkgname"
-  qmake PREFIX='/usr'
+  qmake-qt5 PREFIX='/usr'
   make
 }
 
