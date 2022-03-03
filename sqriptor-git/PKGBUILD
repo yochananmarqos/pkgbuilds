@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=sqriptor-git
-pkgver=r62.a658771
+pkgver=r130.49d1728
 pkgrel=1
 pkgdesc="QScintilla based text editor"
 arch=('x86_64')
@@ -24,7 +24,7 @@ pkgver() {
 
 build() {
   cd "$srcdir/${pkgname%-git}"
-  qmake
+  qmake-qt5
   make
 }
 
