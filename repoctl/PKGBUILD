@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=repoctl
 pkgver=0.21
-pkgrel=1
+pkgrel=2
 pkgdesc="Make it easy to manage your local Arch Linux repository."
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/cassava/repoctl"
@@ -31,7 +31,7 @@ build() {
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
   export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
-  go build -v -o build .
+  go build -v -buildvcs=false -o build .
 
   # Generate the completion files
   ./repoctl completion zsh > completion.zsh
