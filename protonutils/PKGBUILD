@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=protonutils
 pkgver=1.4.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
 url="https://github.com/nning/protonutils"
@@ -37,6 +37,7 @@ build() {
     -mod=readonly \
     -modcacherw \
     -ldflags "-linkmode external -extldflags \"${LDFLAGS}\" ${GOLDFLAGS}" \
+    -buildvcs=false \
     -o build ./cmd/...
 
   # Generate man page
