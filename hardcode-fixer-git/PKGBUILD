@@ -1,0 +1,25 @@
+# https://aur.archlinux.org/packages/hardcode-fixer-git
+groups=('modified')
+
+pkgname=hardcode-fixer-git
+pkgver=r545.ba5d874
+pkgrel=1
+pkgdesc="Fixes Hardcoded Icons"
+arch=('any')
+url="https://github.com/Foggalong/hardcode-fixer"
+license=('GPL')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+makedepends=('git')
+source=('git+https://github.com/Foggalong/hardcode-fixer.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 fix.sh "$pkgdir/usr/bin/${pkgname%-git}"
+}
