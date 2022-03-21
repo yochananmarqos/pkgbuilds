@@ -9,7 +9,6 @@ depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'libnotify' 'libportal'
          'python-gobject' 'python-pydbus' 'python-pytesseract' 'pyzbar')
 makedepends=('git' 'meson' 'setconf')
 checkdepends=('appstream-glib')
-install=frog.install
 #source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
 _commit=5e87cd68e2caca72708cd7d64af0acd47da599b9
 source=("git+https://github.com/TenderOwl/Frog.git#commit=$_commit")
