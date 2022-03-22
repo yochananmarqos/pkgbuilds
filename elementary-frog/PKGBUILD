@@ -1,5 +1,5 @@
 pkgname=elementary-frog
-pkgver=0.2.1+8+g5e87cd6
+pkgver=0.3.0
 pkgrel=1
 pkgdesc="Extract text from any image, video or anything."
 arch=('x86_64')
@@ -7,12 +7,14 @@ url="https://tenderowl.com/work/frog"
 license=('MIT')
 depends=('granite' 'gtk3' 'leptonica' 'libhandy' 'libnotify' 'libportal'
          'python-gobject' 'python-pydbus' 'python-pytesseract' 'pyzbar')
-makedepends=('git' 'meson' 'setconf')
-checkdepends=('appstream-glib')
+makedepends=('git' 'meson')
+#checkdepends=('appstream-glib')
 #source=("$pkgname-$pkgver.tar.gz::https://github.com/TenderOwl/Frog/archive/refs/tags/$pkgver.tar.gz")
-_commit=5e87cd68e2caca72708cd7d64af0acd47da599b9
-source=("git+https://github.com/TenderOwl/Frog.git#commit=$_commit")
-sha256sums=('SKIP')
+_commit=af56d57b6220bd688fcd84c825709ae2d7b931b7
+source=("git+https://github.com/TenderOwl/Frog.git#commit=$_commit"
+        'com.github.tenderowl.frog.desktop.in')
+sha256sums=('SKIP'
+            '58c82ebc8ffe5f7f65b446ca7578c0ce98778737bf4098de83157ce8ac9d3019')
 
 pkgver() {
   cd "$srcdir/Frog"
@@ -23,7 +25,7 @@ prepare() {
   cd "$srcdir/Frog"
 
   # Workaround for undefined XDG_DATA_HOME env var
-  setconf data/com.github.tenderowl.frog.desktop.in Exec 'env XDG_DATA_HOME="\\$HOME/.local/share/" frog'
+  cp -f ../com.github.tenderowl.frog.desktop.in data/
 
   # Fix path to appdata
   sed -i 's|/app/share/|/usr/share/|g' frog/language_manager.py
@@ -35,7 +37,9 @@ build() {
 }
 
 check() {
-  meson test -C build --print-errorlogs
+
+  # Validate appstream file test fails
+  meson test 'Validate desktop file' 'Validate schema file' -C build --print-errorlogs
 }
 
 package() {
