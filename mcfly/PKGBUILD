@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=mcfly
-pkgver=0.5.11
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="Fly through your shell history"
 arch=('x86_64')
@@ -10,8 +10,9 @@ url="https://github.com/cantino/mcfly"
 license=('MIT')
 depends=('sh')
 makedepends=('cargo')
+options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('ca22a600b5b1c0ca1acff6fd1ce05680a581795567f759ff99a917401bfd835e')
+sha256sums=('dd846f7ff7109921febc8aecdfd769a1258488a0d72b4a0cfcfa3eaac118b1bc')
 
 prepare() {
   cd "$pkgname-$pkgver"
