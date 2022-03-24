@@ -2,9 +2,9 @@
 groups=('modified')
 
 pkgname=system76-scheduler-git
-pkgver=r22.4b77ff4
+pkgver=1.0.0.r0.gd508ff1
 pkgrel=1
-pkgdesc="Auto-configure CFS for improved desktop responsiveness at high CPU load when on AC (based on Zen CFS settings)"
+pkgdesc="Auto-configure CFS and process priorities for improved desktop responsiveness"
 arch=('x86_64')
 url="https://github.com/pop-os/system76-scheduler"
 license=('MPL2')
@@ -12,12 +12,14 @@ depends=('gcc-libs')
 makedepends=('cargo' 'git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
+backup=("etc/${pkgname%-git}/config.ron"
+        "etc/${pkgname%-git}/assignments/default.ron")
 source=('git+https://github.com/pop-os/system76-scheduler.git')
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
