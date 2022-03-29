@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-sound-output-device-chooser-git
 _gitname=gse-sound-output-device-chooser
-pkgver=39.r21.g0702290
+pkgver=41_Base.r2.g76f7f59
 pkgrel=1
 pkgdesc="Shows a list of sound output and input devices in the status menu"
 arch=('any')
@@ -18,7 +18,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_gitname"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
