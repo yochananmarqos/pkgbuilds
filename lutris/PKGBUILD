@@ -2,8 +2,7 @@
 groups=('modified')
 
 pkgname=lutris
-_pkgver=0.5.10-beta2
-pkgver=${_pkgver//-/.}
+pkgver=0.5.10
 pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
@@ -34,11 +33,11 @@ optdepends=(
   'wine: easiest way to get all the libraries missing from the Lutris runtime'
   'winetricks: use system winetricks'
   'xorg-xgamma: Restore gamma on game exit')
-source=("$pkgname-$_pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$_pkgver.tar.gz")
-sha512sums=('0dd0896be70c8902aa09b8bb0e45e516c8631f82a5451e15b3eaf932a5881bccd1189b5564c4cc544fb4eb1ec902cbae887618f5edda0e13d23a19dd0b71dba7')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
+sha512sums=('350df3a40b14f5f84314568a7c2fb7b866a69557e1d7ec94a438fce49cc87913e474089a7a28b59a2219c7e5f70dc3416756a589c285d99f44b1ed47e321969e')
 
 build() {
-  arch-meson "$pkgname-$_pkgver" build
+  arch-meson "$pkgname-$pkgver" build
   meson compile -C build
 }
 
