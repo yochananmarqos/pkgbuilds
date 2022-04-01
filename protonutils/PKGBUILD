@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.4.3
-pkgrel=2
+pkgver=1.6.0
+pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
 url="https://github.com/nning/protonutils"
@@ -11,7 +11,7 @@ license=('MIT')
 depends=('glibc')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('783b91d1b7e4474372a61d7b09ddbba8af10a718f889f531512fa3b399240f13')
+sha256sums=('cdc1517468d8b0e1867a39cccbd050986973fef8174f833ea9ebf3b996f6df64')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -42,6 +42,9 @@ build() {
 
   # Generate man page
   ./build/"$pkgname" -m man1
+
+  # Clean module cache for makepkg -C
+  go clean -modcache
 }
 
 package() {
