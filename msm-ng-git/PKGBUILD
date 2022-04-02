@@ -36,7 +36,7 @@ build() {
 }
 
 package_libmcp-git() {
-  pkgdesc+=" core library"
+  pkgdesc="Manjaro Control Panel core library"
   depends=('libsigc++' 'libpamac')
   provides=("${pkgname%-git}" 'libmcp.so')
   conflicts=("${pkgname%-git}" 'msm-ng-core')
@@ -46,7 +46,7 @@ package_libmcp-git() {
 }
 
 package_mcp-common-git() {
-  pkgdesc+=" common fles"
+  pkgdesc="Manjaro Control Panel common fles"
   depends=()
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}")
@@ -57,7 +57,7 @@ package_mcp-common-git() {
 }
 
 package_mcp-qt-git() {
-  pkgdesc+=" Qt GUI"
+  pkgdesc="Manjaro Control Panel Qt GUI"
   depends=('kcoreaddons' 'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}" 'msm-ng-qt')
@@ -67,7 +67,7 @@ package_mcp-qt-git() {
 }
 
 package_mcp-gtk-git() {
-  pkgdesc+=" Gtk GUI"
+  pkgdesc="Manjaro Control Panel Gtk GUI"
   depends=('gtkmm3' 'libmcp-git' 'mcp-common-git')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}" 'msm-ng-gtk')
