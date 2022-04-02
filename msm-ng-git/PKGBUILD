@@ -1,0 +1,62 @@
+pkgbase=mcp-ng-git
+pkgname=('mcp-common-git' 'mcp-qt-git' 'mcp-gtk-git')
+pkgver=r42.a98a3ee
+pkgrel=1
+pkgdesc="Manjaro Settings Manager"
+arch=('x86_64')
+url="https://gitlab.com/LordTermor/msm-ng"
+license=('GPL3')
+depends=('gtkmm3' 'kcoreaddons' 'ki18n' 'kirigami2' 'libpamac' 'libsigc++' 'nlohmann-json')
+makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'poco')
+source=('git+https://gitlab.com/LordTermor/msm-ng.git'
+        'git+https://github.com/hampusborgos/country-flags.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "$srcdir/msm-ng"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/msm-ng"
+  git submodule init
+  git config submodule.libmcp/language/country-flags.url "$srcdir/country-flags"
+  git submodule update
+}
+
+build() {
+  cmake -B build -S msm-ng \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr'
+  cmake --build build
+}
+
+package_mcp-common-git() {
+  pkgdesc+=" core library"
+  depends=('libsigc++' 'nlohmann-json' 'libpamac')
+  provides=("${pkgname%-git}" 'libmcp.so')
+  conflicts=("${pkgname%-git}" 'msm-ng-core')
+  replaces=('msm-ng-core-git')
+
+  cmake --build build/mcp-common DESTDIR="$pkgdir" install
+}
+package_mcp-qt-git() {
+  pkgdesc+=" Qt GUI"
+  depends=('kcoreaddons' 'ki18n' 'kirigami2' 'mcp-common-git')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}" 'msm-ng-qt')
+  replaces=('msm-ng-qt-git')
+
+  cmake --build build/mcp-qt DESTDIR="$pkgdir" install
+}
+
+package_mcp-gtk-git() {
+  pkgdesc+=" Gtk GUI"
+  depends=('gtkmm3' 'mcp-common-git')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}" 'msm-ng-gtk')
+  replaces=('msm-ng-gtk-git')
+
+  cmake --build build/mcp-gtk DESTDIR="$pkgdir" install
+}
