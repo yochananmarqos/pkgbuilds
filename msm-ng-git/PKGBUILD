@@ -34,6 +34,7 @@ prepare() {
 
 build() {
   cmake -B build -S msm-ng \
+    -DCMAKE_BUILD_TYPE='Debug' \
     -DCMAKE_INSTALL_PREFIX='/usr'
   cmake --build build
 }
