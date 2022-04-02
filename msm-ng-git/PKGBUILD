@@ -1,5 +1,9 @@
-pkgbase=mcp-ng-git
-pkgname=('mcp-common-git' 'mcp-qt-git' 'mcp-gtk-git')
+pkgbase=msm-ng-git
+pkgname=('libmcp-git'
+#         'mcp-common-git'
+         'mcp-qt-git'
+         'mcp-gtk-git'
+         )
 pkgver=r43.c038e3d
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
@@ -27,24 +31,32 @@ prepare() {
 
 build() {
   cmake -B build -S msm-ng \
-    -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr'
   cmake --build build
 }
 
-package_mcp-common-git() {
+package_libmcp-git() {
   pkgdesc+=" core library"
   depends=('libsigc++' 'nlohmann-json' 'libpamac')
   provides=("${pkgname%-git}" 'libmcp.so')
   conflicts=("${pkgname%-git}" 'msm-ng-core')
   replaces=('msm-ng-core-git')
 
-  DESTDIR="$pkgdir" cmake --install build/mcp-common
+  DESTDIR="$pkgdir" cmake --install build/libmcp
 }
+
+#package_mcp-common-git() {
+#  pkgdesc+=" common fles"
+#  depends=('libsigc++' 'nlohmann-json' 'libpamac')
+#  provides=("${pkgname%-git}")
+#  conflicts=("${pkgname%-git}")
+
+#  DESTDIR="$pkgdir" cmake --install build/mcp-common
+#}
 
 package_mcp-qt-git() {
   pkgdesc+=" Qt GUI"
-  depends=('kcoreaddons' 'ki18n' 'kirigami2' 'mcp-common-git')
+  depends=('kcoreaddons' 'ki18n' 'kirigami2' 'libmcp-git')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}" 'msm-ng-qt')
   replaces=('msm-ng-qt-git')
@@ -54,7 +66,7 @@ package_mcp-qt-git() {
 
 package_mcp-gtk-git() {
   pkgdesc+=" Gtk GUI"
-  depends=('gtkmm3' 'mcp-common-git')
+  depends=('gtkmm3' 'libmcp-git')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}" 'msm-ng-gtk')
   replaces=('msm-ng-gtk-git')
