@@ -4,7 +4,7 @@ pkgname=('libmcp-git'
          'mcp-qt-git'
          'mcp-gtk-git'
          )
-pkgver=r44.eab5f2a
+pkgver=r46.71f0e1d
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
@@ -42,9 +42,7 @@ package_libmcp-git() {
   conflicts=("${pkgname%-git}" 'msm-ng-core')
   replaces=('msm-ng-core-git')
 
-#  DESTDIR="$pkgdir" cmake --install build/libmcp
-  install -Dm644 build/libmcp/libmcp.so -t "$pkgdir/usr/lib/"
-  install -Dm644 msm-ng/libmcp/language/language_packages.json -t "$pkgdir/usr/share/mcp/"
+  DESTDIR="$pkgdir" cmake --install build/libmcp
 }
 
 package_mcp-common-git() {
