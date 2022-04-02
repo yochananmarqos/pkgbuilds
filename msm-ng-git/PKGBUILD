@@ -46,7 +46,7 @@ package_libmcp-git() {
 }
 
 package_mcp-common-git() {
-  pkgdesc="Manjaro Control Panel common fles"
+  pkgdesc="Common files for Manjaro Control Panel"
   depends=()
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}")
