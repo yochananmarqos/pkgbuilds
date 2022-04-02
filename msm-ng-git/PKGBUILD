@@ -14,6 +14,7 @@ depends=('gtkmm3' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirig
          'libpamac' 'libsigc++' 'qt5-declarative')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'nlohmann-json'
              'poco')
+options=('debug')
 source=('git+https://gitlab.com/LordTermor/msm-ng.git'
         'git+https://github.com/hampusborgos/country-flags.git')
 sha256sums=('SKIP'
