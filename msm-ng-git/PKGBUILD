@@ -4,13 +4,13 @@ pkgname=('libmcp-git'
          'mcp-qt-git'
          'mcp-gtk-git'
          )
-pkgver=r48.539203e
+pkgver=r50.342a71c
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
 url="https://gitlab.com/LordTermor/msm-ng"
 license=('GPL3')
-depends=('gtkmm3' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2' 
+depends=('adwaita-qt' 'gtkmm3' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2' 
          'libpamac' 'libsigc++' 'qt5-declarative')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'nlohmann-json'
              'poco')
@@ -62,7 +62,7 @@ package_mcp-common-git() {
 
 package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
-  depends=('hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2'
+  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2'
            'libmcp-git' 'mcp-common-git' 'qt5-declarative')
   provides=("${pkgname%-git}" 'manjaro-settings-manager')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
