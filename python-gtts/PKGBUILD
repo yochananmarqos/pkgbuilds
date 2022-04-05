@@ -3,8 +3,8 @@ groups=('modified')
 
 pkgname=python-gtts
 _name=gTTS
-pkgver=2.2.3
-pkgrel=2
+pkgver=2.2.4
+pkgrel=1
 pkgdesc="Python library and CLI tool to interface with Google Translate's text-to-speech API"
 arch=('any')
 url="https://github.com/pndurette/gTTS"
@@ -13,7 +13,7 @@ depends=('python-click' 'python-requests' 'python-six')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 checkdepends=('python-mock' 'python-pytest' 'python-testfixtures')
 source=("$_name-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('594b1e8d0ba4fefe20bd1de40fca9569e6f7f65122aa290085c0bd41180f3dc6')
+sha256sums=('e0b688ff777928afe280c3cf4d36bc7b794e93e86851b680d54ba2fb68e88456')
 
 build() {
   cd "$_name-$pkgver"
