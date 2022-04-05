@@ -1,5 +1,5 @@
 pkgname=smile
-pkgver=1.5.0
+pkgver=1.5.1
 pkgrel=1
 pkgdesc="An emoji picker with custom tags support"
 arch=('any')
@@ -9,7 +9,16 @@ depends=('python-manimpango')
 makedepends=('meson')
 checkdepends=('appstream-glib' 'desktop-file-utils')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('1fe009514c717b483935f5e0b05db596429778bd421e11911901e43af41a76ae')
+sha256sums=('5f46045eb63786d60ed36cad27871a46c43c72cd2626b008840e5d10ce6b4b8d')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  sed -i 's/MESON_INSTALL_PREFIX/MESON_INSTALL_DESTDIR_PREFIX/g' \
+    build-aux/meson/emoji_list/generate_emoji_dict.py
+
+  sed -i 's/MESON_INSTALL_PREFIX/MESON_INSTALL_DESTDIR_PREFIX/g' \
+    build-aux/meson/postinstall.py
+}
 
 build() {
   arch-meson "$pkgname-$pkgver" build
