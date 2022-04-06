@@ -1,15 +1,15 @@
 pkgname=smile
-pkgver=1.5.1
+pkgver=1.5.2
 pkgrel=1
 pkgdesc="An emoji picker with custom tags support"
 arch=('any')
 url="https://github.com/mijorus/smile"
 license=('GPL3')
-depends=('python-manimpango')
+depends=('libwnck3' 'python-manimpango')
 makedepends=('meson')
 checkdepends=('appstream-glib' 'desktop-file-utils')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('5f46045eb63786d60ed36cad27871a46c43c72cd2626b008840e5d10ce6b4b8d')
+sha256sums=('6f882d879bd2abd322b3cfd2cf3d03b8ae745be8f53a1f6195854f09789966b9')
 
 prepare() {
   cd "$pkgname-$pkgver"
