@@ -3,13 +3,13 @@ groups=('modified')
 
 pkgname=avvie-git
 _app_id=com.github.taiko2k.avvie
-pkgver=1.7.r0.gdda3f95
+pkgver=2.0.r0.g6326118
 pkgrel=1
 pkgdesc="A GTK app for quick image cropping"
 arch=('any')
 url="https://github.com/Taiko2k/avvie"
 license=('GPL3')
-depends=('gtk3' 'libnotify' 'python-cairo' 'python-gobject' 'python-piexif' 'python-pillow')
+depends=('libadwaita' 'libnotify' 'python-cairo' 'python-gobject' 'python-piexif' 'python-pillow')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -31,6 +31,7 @@ prepare() {
 package() {
   cd "$srcdir/${pkgname%-git}"
   install -Dm755 main.py -t "$pkgdir/opt/${pkgname%-git}"
+  install -Dm644 pinku.css -t "$pkgdir/opt/${pkgname%-git}"
   install -Dm644 "$_app_id.appdata.xml" -t "$pkgdir/usr/share/metainfo"
   install -Dm644 "$_app_id.desktop" -t "$pkgdir/usr/share/applications"
   install -Dm644 "$_app_id.svg" -t "$pkgdir/usr/share/icons/hicolor/scalable/apps"
