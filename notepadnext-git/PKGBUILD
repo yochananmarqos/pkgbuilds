@@ -54,5 +54,8 @@ build() {
 
 package() {
   cd "$srcdir/NotepadNext"
+
+  pushd build
   make INSTALL_ROOT="$pkgdir" install
+  popd
 }
