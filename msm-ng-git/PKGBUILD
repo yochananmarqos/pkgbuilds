@@ -4,14 +4,14 @@ pkgname=('libmcp-git'
          'mcp-qt-git'
          'mcp-gtk-git'
          )
-pkgver=r50.342a71c
+pkgver=r66.9a1b82a
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
 url="https://gitlab.com/LordTermor/msm-ng"
 license=('GPL3')
-depends=('adwaita-qt' 'gtkmm3' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2' 
-         'libpamac' 'libsigc++' 'qt5-declarative')
+depends=('adwaita-qt' 'gtkmm3' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets'
+         'kcoreaddons' 'ki18n' 'kirigami2' 'libpamac' 'libsigc++' 'qt5-declarative')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'nlohmann-json'
              'poco')
 options=('debug')
@@ -51,19 +51,20 @@ package_libmcp-git() {
 
 package_mcp-common-git() {
   pkgdesc="Common files for Manjaro Control Panel"
-  depends=()
-  provides=("${pkgname%-git}")
+  depends=('libmcp-git')
+  provides=("${pkgname%-git}" 'libmcp-common.so')
   conflicts=("${pkgname%-git}")
 
-#  DESTDIR="$pkgdir" cmake --install build/mcp-common
+  DESTDIR="$pkgdir" cmake --install build/mcp-common
+
   install -d "$pkgdir/etc/mcp/"
   touch "$pkgdir/etc/mcp/pamac.conf"
 }
 
 package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
-  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons' 'ki18n' 'kirigami2'
-           'libmcp-git' 'mcp-common-git' 'qt5-declarative')
+  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets' 'kcoreaddons'
+           'ki18n' 'kirigami2''libmcp-git' 'mcp-common-git' 'qt5-declarative')
   provides=("${pkgname%-git}" 'manjaro-settings-manager')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
   replaces=('msm-ng-qt-git')
@@ -74,8 +75,8 @@ package_mcp-qt-git() {
 package_mcp-gtk-git() {
   pkgdesc="Manjaro Control Panel Gtk GUI"
   depends=('gtkmm3' 'libmcp-git' 'mcp-common-git')
-  provides=("${pkgname%-git}")
-  conflicts=("${pkgname%-git}" 'msm-ng-gtk')
+  provides=("${pkgname%-git}" 'manjaro-settings-manager')
+  conflicts=("${pkgname%-git}" 'msm-ng-gtk' 'manjaro-settings-manager')
   replaces=('msm-ng-gtk-git')
 
 #  DESTDIR="$pkgdir" cmake --install build/mcp-gtk
