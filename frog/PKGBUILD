@@ -1,7 +1,7 @@
 pkgname=frog
 pkgver=1.0.0
 pkgrel=1
-pkgdesc="Extract text from any image, video or anything."
+pkgdesc="Intuitive text extraction tool (OCR) for GNOME."
 arch=('x86_64')
 url="https://tenderowl.com/work/frog"
 license=('MIT')
