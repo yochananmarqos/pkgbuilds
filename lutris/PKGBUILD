@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=lutris
-pkgver=0.5.10
+pkgver=0.5.10.1
 pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
@@ -34,7 +34,7 @@ optdepends=(
   'winetricks: use system winetricks'
   'xorg-xgamma: Restore gamma on game exit')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('350df3a40b14f5f84314568a7c2fb7b866a69557e1d7ec94a438fce49cc87913e474089a7a28b59a2219c7e5f70dc3416756a589c285d99f44b1ed47e321969e')
+sha512sums=('ebb5709f0287c4726702bc280799dee26849424f9eb226891e97c2644da1acd5a1fd7b0adf0ef67bb71c3c993857242807bb145d10eaa0a5722ec5b346c62ae0')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
