@@ -42,7 +42,7 @@ build() {
 }
 
 check() {
-  appstream-util validate-relax --nonet build/net.lutris.Lutris.metainfo.xml
+  meson test -C build
 }
 
 package() {
