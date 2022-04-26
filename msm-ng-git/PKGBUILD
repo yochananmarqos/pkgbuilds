@@ -4,7 +4,7 @@ pkgname=('libmcp-git'
          'mcp-qt-git'
          'mcp-gtk-git'
          )
-pkgver=r66.9a1b82a
+pkgver=r73.1b71425
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
@@ -13,7 +13,7 @@ license=('GPL3')
 depends=('adwaita-qt' 'gtkmm3' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets'
          'kcoreaddons' 'ki18n' 'kirigami2' 'libpamac' 'libsigc++' 'qt5-declarative')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'nlohmann-json'
-             'poco')
+             'poco' 'python' 'python-gobject')
 options=('debug')
 source=('git+https://gitlab.com/LordTermor/msm-ng.git'
         'git+https://github.com/hampusborgos/country-flags.git')
@@ -64,8 +64,9 @@ package_mcp-common-git() {
 package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
   depends=('adwaita-qt' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets' 'kcoreaddons'
-           'ki18n' 'kirigami2''libmcp-git' 'mcp-common-git' 'qt5-declarative')
-  provides=("${pkgname%-git}" 'manjaro-settings-manager')
+           'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
+  provides=("${pkgname%-git}" 'manjaro-settings-manager' 'ibadwaitathemeplugin.so'
+            'msm_mhwd.so' 'mcp_langpack.so' 'mcp_kernel.so')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
   replaces=('msm-ng-qt-git')
 
