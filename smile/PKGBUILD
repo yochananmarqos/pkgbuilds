@@ -1,5 +1,5 @@
 pkgname=smile
-pkgver=1.5.4
+pkgver=1.5.5
 pkgrel=1
 pkgdesc="An emoji picker with custom tags support"
 arch=('any')
@@ -9,7 +9,7 @@ depends=('libwnck3' 'python-manimpango')
 makedepends=('meson')
 checkdepends=('appstream-glib' 'desktop-file-utils')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('4277774c7f2240ec47a8a4ea593ee43bfdd8ddebadeaa5d413ab2736e527a85e')
+sha256sums=('301d586a19e95d1a9fbe70681d374f951d57037515d74e378f13b7d794f69197')
 
 prepare() {
   cd "$pkgname-$pkgver"
