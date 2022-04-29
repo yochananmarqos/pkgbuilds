@@ -76,7 +76,7 @@ package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
   depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
            'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
-  provides=("${pkgname%-git}" 'manjaro-settings-manager' 'ibadwaitathemeplugin.so')
+  provides=("${pkgname%-git}" 'manjaro-settings-manager' 'libadwaitathemeplugin.so')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
   replaces=('msm-ng-qt-git')
 
