@@ -74,7 +74,7 @@ package_mcp-common-git() {
 
 package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
-  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets' 'kcoreaddons'
+  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
            'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
   provides=("${pkgname%-git}" 'manjaro-settings-manager' 'ibadwaitathemeplugin.so')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
@@ -87,6 +87,7 @@ package_mcp-qt-git() {
 
 package_mcp-kcm-git() {
   pkgdesc="Manjaro Control Panel KCM modules"
+  depends=('hwinfo' 'kcmutils' 'mcp-common-git')
   provides=('msm_mhwd.so' 'mcp_langpack.so' 'mcp_kernel.so')
 
   cp -r "$srcdir"/kcm/* "$pkgdir/"
