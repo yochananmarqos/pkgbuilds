@@ -1,0 +1,48 @@
+pkgname=spacedrive-git
+pkgver=r400.a4637ca
+pkgrel=1
+pkgdesc="An open source cross-platform file explorer, powered by a virtual distributed filesystem written in Rust."
+arch=('x86_64')
+url="https://www.spacedrive.app"
+license=('GPL3')
+depends=('ffmpeg' 'webkit2gtk') # libavresample (AUR) ?
+makedepends=('cargo' 'clang' 'git' 'nodejs>=14.0.0' 'npm' 'pnpm>=6.0.0')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+options=('!lto')
+source=('git+https://github.com/spacedriveapp/spacedrive.git'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            '6abb75ca2a1f9544cc7b0814774c9804671793efea0a9aed629022837bec5aa5')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+  pnpm config set store-dir "$srcdir/.pnpm-store"
+  export RUSTUP_TOOLCHAIN=stable
+
+  pnpm i
+
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$srcdir/${pkgname%-git}"
+  pnpm config set store-dir "$srcdir/.pnpm-store"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+
+  pnpm prep
+  pnpm desktop build
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 "target/release/${pkgname%-git}" -t "$pkgdir/usr/bin/"
+  install -Dm644 apps/desktop/app-icon.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
+}

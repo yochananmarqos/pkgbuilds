@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=
+Comment=Your personal virtual cloud.
+Exec=spacedrive
+Icon=spacedrive
+Name=Spacedrive
+Terminal=false
+Type=Application
