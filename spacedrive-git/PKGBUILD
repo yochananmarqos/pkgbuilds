@@ -45,9 +45,9 @@ build() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  local targetdir='apps/desktop/src-tauri/target'
-  install -Dm755 "$targetdir/release/${pkgname%-git}" -t \
+  local releasedir='apps/desktop/src-tauri/target/release'
+  install -Dm755 "$releasedir/${pkgname%-git}" -t \
     "$pkgdir/usr/bin/"
-  cp -r "$targetdir/release/bundle/deb/${pkgname%-git}_${_debver}_amd64/data/usr/share" \
+  cp -r "$releasedir/bundle/deb/${pkgname%-git}_${_debver}_amd64/data/usr/share" \
     "$pkgdir/usr/"
 }
