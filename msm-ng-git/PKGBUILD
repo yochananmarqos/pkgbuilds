@@ -3,10 +3,10 @@ pkgname=('libmcp-git'
          'mcp-common-git'
          'mcp-qt-git'
          'mcp-kcm-git'
-         'mcp-gtk-git'
+#         'mcp-gtk-git'
          )
-pkgver=r73.1b71425
-pkgrel=3
+pkgver=r74.8b0633c
+pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
 url="https://gitlab.com/LordTermor/msm-ng"
@@ -33,13 +33,20 @@ prepare() {
   git submodule init
   git config submodule.libmcp/language/country-flags.url "$srcdir/country-flags"
   git submodule update
+
+  # icon.svg is MIA
+  sed -i '$d' mcp-qt/CMakeLists.txt
 }
 
 build() {
   cmake -B build -S msm-ng \
     -DCMAKE_BUILD_TYPE='Debug' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
-    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DBUILD_CORE=ON \
+    -DBUILD_QT=ON \
+    -DBUILD_QT_GNOME=OFF \
+    -DBUILD_GTK=OFF
   cmake --build build
 }
 
@@ -85,13 +92,13 @@ package_mcp-kcm-git() {
   cp -r "$srcdir"/kcm/* "$pkgdir/"
 }
 
-package_mcp-gtk-git() {
-  pkgdesc="Manjaro Control Panel Gtk GUI"
-  depends=('gtkmm3' 'libmcp-git' 'mcp-common-git')
-  provides=("${pkgname%-git}" 'manjaro-settings-manager')
-  conflicts=("${pkgname%-git}" 'msm-ng-gtk' 'manjaro-settings-manager')
-  replaces=('msm-ng-gtk-git')
+#package_mcp-gtk-git() {
+#  pkgdesc="Manjaro Control Panel Gtk GUI"
+#  depends=('gtkmm3' 'libmcp-git' 'mcp-common-git')
+#  provides=("${pkgname%-git}" 'manjaro-settings-manager')
+#  conflicts=("${pkgname%-git}" 'msm-ng-gtk' 'manjaro-settings-manager')
+#  replaces=('msm-ng-gtk-git')
 
-#  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}""
-  install -Dm755 "build/${pkgname%-git}/mcp-ng-gtk" "$pkgdir/usr/bin/mcp-gtk"
-}
+##  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
+#  install -Dm755 "build/${pkgname%-git}/mcp-ng-gtk" "$pkgdir/usr/bin/mcp-gtk"
+#}
