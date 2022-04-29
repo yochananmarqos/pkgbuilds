@@ -1,19 +1,18 @@
 pkgname=spacedrive-git
 pkgver=r400.a4637ca
 pkgrel=1
+_debver=0.1.0
 pkgdesc="An open source cross-platform file explorer, powered by a virtual distributed filesystem written in Rust."
 arch=('x86_64')
 url="https://www.spacedrive.app"
 license=('GPL3')
-depends=('ffmpeg' 'webkit2gtk') # libavresample (AUR) ?
+depends=('ffmpeg' 'webkit2gtk')
 makedepends=('cargo' 'clang' 'git' 'nodejs>=14.0.0' 'npm' 'pnpm>=6.0.0')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
-source=('git+https://github.com/spacedriveapp/spacedrive.git'
-        "${pkgname%-git}.desktop")
-sha256sums=('SKIP'
-            '6abb75ca2a1f9544cc7b0814774c9804671793efea0a9aed629022837bec5aa5')
+source=('git+https://github.com/spacedriveapp/spacedrive.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -28,6 +27,10 @@ prepare() {
   pnpm i
 
   cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # Don't bundle AppImage
+  sed -i 's/"targets": "all",/"targets": "deb",/g' \
+    apps/desktop/src-tauri/tauri.linux.conf.json
 }
 
 build() {
@@ -42,7 +45,10 @@ build() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  install -Dm755 "target/release/${pkgname%-git}" -t "$pkgdir/usr/bin/"
-  install -Dm644 apps/desktop/app-icon.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
-  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
+  local targetdir='apps/desktop/src-tauri/target'
+  install -Dm755 "$targetdir/release/${pkgname%-git}" -t \
+    "$pkgdir/usr/bin/"
+  install -d "$pkgdir/usr"
+  cp -r "$targetdir/release/bundle/deb/${pkgname%-git}_${_debver}_amd64/data/usr/"* \
+    "$pkgdir/usr/"
 }
