@@ -5,7 +5,7 @@ pkgname=('libmcp-git'
          'mcp-kcm-git'
 #         'mcp-gtk-git'
          )
-pkgver=r74.8b0633c
+pkgver=r77.3ac62fa
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
@@ -33,9 +33,6 @@ prepare() {
   git submodule init
   git config submodule.libmcp/language/country-flags.url "$srcdir/country-flags"
   git submodule update
-
-  # icon.svg is MIA
-  sed -i '$d' mcp-qt/CMakeLists.txt
 }
 
 build() {
@@ -46,6 +43,7 @@ build() {
     -DBUILD_CORE=ON \
     -DBUILD_QT=ON \
     -DBUILD_QT_GNOME=OFF \
+    -DBUILD_KCMS=ON \
     -DBUILD_GTK=OFF
   cmake --build build
 }
@@ -76,7 +74,7 @@ package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
   depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
            'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
-  provides=("${pkgname%-git}" 'manjaro-settings-manager' 'libadwaitathemeplugin.so')
+  provides=("${pkgname%-git}" 'manjaro-settings-manager')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
   replaces=('msm-ng-qt-git')
 
@@ -90,7 +88,10 @@ package_mcp-kcm-git() {
   depends=('hwinfo' 'kcmutils' 'mcp-common-git')
   provides=('msm_mhwd.so' 'mcp_langpack.so' 'mcp_kernel.so')
 
-  cp -r "$srcdir"/kcm/* "$pkgdir/"
+#  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
+  install -d "$pkgdir"/usr/{lib/qt,share}
+  cp -r "$srcdir/kcm/plugins" "$pkgdir/usr/lib/qt/"
+  cp -r "$srcdir/kcm/kservices5" "$pkgdir/usr/share/"
 }
 
 #package_mcp-gtk-git() {
@@ -100,6 +101,5 @@ package_mcp-kcm-git() {
 #  conflicts=("${pkgname%-git}" 'msm-ng-gtk' 'manjaro-settings-manager')
 #  replaces=('msm-ng-gtk-git')
 
-##  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
-#  install -Dm755 "build/${pkgname%-git}/mcp-ng-gtk" "$pkgdir/usr/bin/mcp-gtk"
+#  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
 #}
