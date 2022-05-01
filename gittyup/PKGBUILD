@@ -34,12 +34,10 @@ prepare() {
   cd "$srcdir/Gittyup"
   git submodule init
 
-  for submodule_url in zip; do
-    git config submodule.dep/${submodule_url}/${submodule_url}.url "$srcdir/${submodule_url}"
-  done
+  git config submodule.dep/zip/zip.url "$srcdir/zip"
 
-  for submodule_none in cmark hunspell libgit2 libssh2 openssl; do
-    git -c submodule.dep/${submodule_none}/${submodule_none}.update=none submodule update
+  for submodule in cmark hunspell libgit2 libssh2 openssl; do
+    git -c submodule.dep/${submodule}/${submodule}.update=none submodule update
   done
 }
 
