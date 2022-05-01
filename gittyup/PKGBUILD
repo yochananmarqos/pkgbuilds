@@ -42,17 +42,11 @@ prepare() {
 }
 
 build() {
-
-  # prevent static lib mangling with LTO
-  export CFLAGS+=" -ffat-lto-objects"
-
   cmake -B build -S Gittyup \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DBUILD_SHARED_LIBS='OFF' \
     -DENABLE_REPRODUCIBLE_BUILDS='ON' \
-    -DENABLE_ZLIB_COMPRESSION='ON' \
-    -DUSE_BUNDLED_ZLIB='ON' \
     -Wno-dev
   cmake --build build
 }
