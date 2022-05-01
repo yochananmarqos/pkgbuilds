@@ -1,0 +1,92 @@
+# https://aur.archlinux.org/packages/gittyup
+groups=('modified')
+
+pkgname=gittyup
+pkgver=1.1.0
+pkgrel=1
+pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
+arch=('x86_64')
+url="https://murmele.github.io/Gittyup"
+license=('MIT')
+depends=('cmark' 'hunspell' 'libgit2' 'libsecret' 'lua' 'org.freedesktop.secrets' 'qt5-base')
+makedepends=('cmake' 'git' 'qt5-tools' 'qt5-translations')
+optdepends=('git: needed for the credential helpers')
+_commit=ffe1b216ec570f8e2c5221387411375806ffd39f
+source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
+        'git+https://github.com/commonmark/cmark.git'
+        'git+https://github.com/git/git.git'
+        'git+https://github.com/hunspell/hunspell'
+        'git+https://github.com/stinb/libgit2.git'
+        'git+https://github.com/libssh2/libssh2.git'
+        'git+https://github.com/openssl/openssl.git'
+        'git+https://github.com/kuba--/zip.git')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "$srcdir/Gittyup"
+  git describe --tags | sed "s/^${pkgname}_v//;s/-/+/g"
+}
+
+prepare() {
+  cd "$srcdir/Gittyup"
+  git submodule init
+  git config submodule.dep/cmark/cmark.url "$srcdir/cmark"
+  git config submodule.dep/git/git.url "$srcdir/git"
+  git config submodule.dep/hunspell/hunspell.url "$srcdir/hunspell"
+  git config submodule.dep/libgit2/libgit2.url "$srcdir/libgit2"
+  git config submodule.dep/libssh2/libssh2.url "$srcdir/libssh2"
+  git config submodule.dep/openssl/openssl.url "$srcdir/openssl"
+  git config submodule.test/dep/zip.url "$srcdir/zip"
+  git submodule update
+}
+
+build() {
+
+  # prevent static lib mangling with LTO
+  export CFLAGS+=" -ffat-lto-objects"
+
+  cmake -B build -S Gittyup \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DBUILD_SHARED_LIBS='OFF' \
+    -DENABLE_REPRODUCIBLE_BUILDS='ON' \
+    -DENABLE_ZLIB_COMPRESSION='ON' \
+    -DUSE_BUNDLED_ZLIB='ON' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  cd "$srcdir/Gittyup"
+  install -Dm644 LICENSE.md -t  "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 "rsrc/linux/com.github.Murmele.Gittyup.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -Dm644 "rsrc/linux/com.github.Murmele.Gittyup.appdata.xml" -t \
+    "$pkgdir/usr/share/appdata/"
+
+  for s in 16x16 32x32 64x64 128x128 256x256 512x512; do
+    install -Dm644 rsrc/Gittyup.iconset/icon_${s}.png \
+      "$pkgdir/usr/share/icons/hicolor/${s}/apps/$pkgname.png"
+   done
+
+  install -d "$pkgdir/usr/"{share/${pkgname},bin}
+  mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} "$pkgdir/usr/share/$pkgname/"
+  mv "$pkgdir"/usr/{Plugins,Resources} "$pkgdir/usr/share/$pkgname/"
+  ln -s "/usr/share/$pkgname/Gittyup" "$pkgdir/usr/bin/"
+
+  # Remove shared files
+  rm "$pkgdir/usr/"*.so.*
+  rm -rf "$pkgdir/usr/"{include,lib}
+
+  # Remove libssh2 docs & man pages
+  rm -rf "$pkgdir"/usr/share/{doc,man}
+}
