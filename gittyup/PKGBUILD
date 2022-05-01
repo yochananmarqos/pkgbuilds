@@ -14,20 +14,15 @@ optdepends=('git: needed for the credential helpers'
             'git-lfs: git LFS support')
 _commit=ffe1b216ec570f8e2c5221387411375806ffd39f
 source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
-        'git+https://github.com/commonmark/cmark.git'
-        'git+https://github.com/git/git.git'
-        'git+https://github.com/hunspell/hunspell'
-        'git+https://github.com/stinb/libgit2.git'
-        'git+https://github.com/libssh2/libssh2.git'
-        'git+https://github.com/openssl/openssl.git'
-        'git+https://github.com/kuba--/zip.git')
+#        'git+https://github.com/commonmark/cmark.git'
+#        'git+https://github.com/git/git.git'
+#        'git+https://github.com/hunspell/hunspell'
+#        'git+https://github.com/stinb/libgit2.git'
+#        'git+https://github.com/libssh2/libssh2.git'
+#        'git+https://github.com/openssl/openssl.git'
+        'git+https://github.com/kuba--/zip.git'
+        )
 sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
             'SKIP')
 
 pkgver() {
@@ -38,14 +33,14 @@ pkgver() {
 prepare() {
   cd "$srcdir/Gittyup"
   git submodule init
-  git config submodule.dep/cmark/cmark.url "$srcdir/cmark"
-  git config submodule.dep/git/git.url "$srcdir/git"
-  git config submodule.dep/hunspell/hunspell.url "$srcdir/hunspell"
-  git config submodule.dep/libgit2/libgit2.url "$srcdir/libgit2"
-  git config submodule.dep/libssh2/libssh2.url "$srcdir/libssh2"
-  git config submodule.dep/openssl/openssl.url "$srcdir/openssl"
-  git config submodule.test/dep/zip.url "$srcdir/zip"
-  git submodule update
+
+  for submodule_url in zip; do
+    git config submodule.dep/${submodule_url}/${submodule_url}.url "$srcdir/${submodule_url}"
+  done
+
+  for submodule_none in cmark hunspell libgit2 libssh2 openssl; do
+    git -c submodule.dep/${submodule_none}/${submodule_none}.update=none submodule update
+  done
 }
 
 build() {
@@ -77,7 +72,7 @@ package() {
   for s in 16x16 32x32 64x64 128x128 256x256 512x512; do
     install -Dm644 rsrc/Gittyup.iconset/icon_${s}.png \
       "$pkgdir/usr/share/icons/hicolor/${s}/apps/$pkgname.png"
-   done
+  done
 
   install -d "$pkgdir/usr/"{share/${pkgname},bin}
   mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} \
