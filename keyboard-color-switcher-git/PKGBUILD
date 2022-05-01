@@ -1,12 +1,12 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r108.gebc9a6c
-pkgrel=2
+pkgver=1.0.r124.gd4b1e6a
+pkgrel=1
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-switcher"
 license=('GPL')
 depends=('dmidecode' 'gtk3' 'polkit' 'python-cerberus' 'python-gobject'
-         'python-yaml=6.0''system76-dkms')
+         'python-yaml' 'system76-dkms')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 checkdepends=('python-pytest')
 backup=('etc/system76-backlight-manager.conf')
@@ -36,7 +36,7 @@ prepare() {
 
   git submodule init system76_backlight_manager
   git config submodule.System76-Backlight-Manager-cli.url \
-    $srcdir/System76-Backlight-Manager-cli
+    "$srcdir/System76-Backlight-Manager-cli"
   git submodule update
 
   cd system76_backlight_manager
@@ -59,21 +59,18 @@ package() {
   cd "$srcdir/${pkgname%-git}"
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
-  install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}"
-  cp -r kcc "${pkgdir}${site_packages}/${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}/"
+  cp -r kcc "${pkgdir}${site_packages}/${pkgname%-git}/"
 
-  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
   install -Dm644 "$srcdir/org.freedesktop.${pkgname%-git}.policy" -t \
-    "$pkgdir/usr/share/polkit-1/actions"
+    "$pkgdir/usr/share/polkit-1/actions/"
 
   cd system76_backlight_manager
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  # Remove duplicate GPL license
-  rm "${pkgdir}${site_packages}/system76_backlight_manager-0.2.dist-info/LICENSE"
-
   install -Dm644 "service/system76-backlight-manager.service" -t \
-    "$pkgdir/usr/lib/systemd/system"
-  install -Dm644 "configs/system76-backlight-manager.conf" -t "$pkgdir/etc"
+    "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 "configs/system76-backlight-manager.conf" -t "$pkgdir/etc/"
 }
