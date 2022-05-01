@@ -9,8 +9,9 @@ arch=('x86_64')
 url="https://murmele.github.io/Gittyup"
 license=('MIT')
 depends=('cmark' 'hunspell' 'libgit2' 'libsecret' 'lua' 'org.freedesktop.secrets' 'qt5-base')
-makedepends=('cmake' 'git' 'qt5-tools' 'qt5-translations')
-optdepends=('git: needed for the credential helpers')
+makedepends=('cmake' 'git' 'qt5-tools')
+optdepends=('git: needed for the credential helpers'
+            'git-lfs: git LFS support')
 _commit=ffe1b216ec570f8e2c5221387411375806ffd39f
 source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
         'git+https://github.com/commonmark/cmark.git'
@@ -79,7 +80,8 @@ package() {
    done
 
   install -d "$pkgdir/usr/"{share/${pkgname},bin}
-  mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} "$pkgdir/usr/share/$pkgname/"
+  mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} \
+    "$pkgdir/usr/share/$pkgname/"
   mv "$pkgdir"/usr/{Plugins,Resources} "$pkgdir/usr/share/$pkgname/"
   ln -s "/usr/share/$pkgname/Gittyup" "$pkgdir/usr/bin/"
 
