@@ -2,10 +2,11 @@ pkgbase=msm-ng-git
 pkgname=('libmcp-git'
          'mcp-common-git'
          'mcp-qt-git'
+         'mcp-qt-gnome-git'
          'mcp-kcm-git'
 #         'mcp-gtk-git'
          )
-pkgver=r77.3ac62fa
+pkgver=r82.3460a91
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
@@ -42,7 +43,7 @@ build() {
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
     -DBUILD_CORE=ON \
     -DBUILD_QT=ON \
-    -DBUILD_QT_GNOME=OFF \
+    -DBUILD_QT_GNOME=ON \
     -DBUILD_KCMS=ON \
     -DBUILD_GTK=OFF
   cmake --build build
@@ -72,7 +73,7 @@ package_mcp-common-git() {
 
 package_mcp-qt-git() {
   pkgdesc="Manjaro Control Panel Qt GUI"
-  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
+  depends=('hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
            'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
   provides=("${pkgname%-git}" 'manjaro-settings-manager')
   conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
@@ -81,6 +82,23 @@ package_mcp-qt-git() {
   DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
 
   mv "$pkgdir"/usr/{lib/qt/plugins,share/kservices5} "$srcdir/kcm/"
+
+  rm "$pkgdir/usr/share/applications/org.manjaro.${pkgname%-git}-gnome.desktop"
+}
+
+package_mcp-qt-gnome-git() {
+  pkgdesc="Manjaro Control Panel Qt GUI for GNOME"
+  depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
+           'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
+  provides=("${pkgname%-git}" 'manjaro-settings-manager')
+  conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
+  replaces=('msm-ng-qt-git')
+
+  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-gnome-git}"
+
+  rm -rf "$pkgdir"/usr/{lib/qt/plugins,share/kservices5}
+
+  rm "$pkgdir/usr/share/applications/org.manjaro.${pkgname%-gnome-git}.desktop"
 }
 
 package_mcp-kcm-git() {
@@ -89,6 +107,7 @@ package_mcp-kcm-git() {
   provides=('msm_mhwd.so' 'mcp_langpack.so' 'mcp_kernel.so')
 
 #  DESTDIR="$pkgdir" cmake --install "build/${pkgname%-git}"
+
   install -d "$pkgdir"/usr/{lib/qt,share}
   cp -r "$srcdir/kcm/plugins" "$pkgdir/usr/lib/qt/"
   cp -r "$srcdir/kcm/kservices5" "$pkgdir/usr/share/"
