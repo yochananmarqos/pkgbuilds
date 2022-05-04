@@ -21,7 +21,7 @@ build() {
     -DNVIDIA_SUPPORT=ON \
     -DAMDGPU_SUPPORT=OFF \
     -Wno-dev
-  make -C build-nvidia
+  cmake --build build-nvidia
 
   cmake -B build-amd -S "$pkgbase-$pkgver" \
     -DCMAKE_BUILD_TYPE='None' \
@@ -29,7 +29,7 @@ build() {
     -DNVIDIA_SUPPORT=OFF \
     -DAMDGPU_SUPPORT=ON \
     -Wno-dev
-  make -C build-amd
+  cmake --build build-amd
 }
 
 package_nvtop-nvidia() {
@@ -38,7 +38,7 @@ package_nvtop-nvidia() {
   provides=("$pkgbase")
   conflicts=("$pkgbase")
 
-  make -C build-nvidia DESTDIR="$pkgdir/" install
+  DESTDIR="$pkgdir" cmake --install build-nvidia
 }
 
 package_nvtop-amd() {
@@ -47,5 +47,5 @@ package_nvtop-amd() {
   provides=("$pkgbase")
   conflicts=("$pkgbase")
 
-  make -C build-amd DESTDIR="$pkgdir/" install
+  DESTDIR="$pkgdir" cmake --install build-amd
 }
