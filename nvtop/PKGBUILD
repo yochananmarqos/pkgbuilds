@@ -1,0 +1,51 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Maxime Schmitt <maxime.schmitt91@gmail.com>
+
+pkgname=('nvtop-nvidia' 'nvtop-amd')
+pkgbase=nvtop
+pkgver=2.0.1
+pkgrel=0
+pkgdesc="Neat Videocard TOP, an (h)top like task monitor for AMD and NVIDIA GPUs."
+arch=('x86_64')
+url="https://github.com/Syllo/nvtop"
+license=('GPL3')
+depends=('libdrm' 'nvidia-utils' 'ncurses')
+makedepends=('cmake' 'cuda')
+source=("https://github.com/Syllo/nvtop/archive/$pkgver/$pkgbase-$pkgver.tar.gz")
+sha512sums=('d44f9badcd2282d38836f4037317def9165ea850ecb135e5e6abfc5d8f10c127fe4b06b3b711366fb532c5fea78ec9d4a21ec23bc52b1072312f0d82fc20cbba')
+
+build() {
+  cmake -B build-nvidia -S "$pkgbase-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DNVIDIA_SUPPORT=ON \
+    -DAMDGPU_SUPPORT=OFF \
+    -Wno-dev
+  make -C build-nvidia
+
+  cmake -B build-amd -S "$pkgbase-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DNVIDIA_SUPPORT=OFF \
+    -DAMDGPU_SUPPORT=ON \
+    -Wno-dev
+  make -C build-amd
+}
+
+package_nvtop-nvidia() {
+  pkgdesc="Neat Videocard TOP, an (h)top like task monitor for NVIDIA GPUs."
+  depends=('nvidia-utils' 'ncurses')
+  provides=("$pkgbase")
+  conflicts=("$pkgbase")
+
+  make -C build-nvidia DESTDIR="$pkgdir/" install
+}
+
+package_nvtop-amd() {
+  pkgdesc="Neat Videocard TOP, an (h)top like task monitor for AMD GPUs."
+  depends=('libdrm' 'ncurses')
+  provides=("$pkgbase")
+  conflicts=("$pkgbase")
+
+  make -C build-amd DESTDIR="$pkgdir/" install
+}
