@@ -6,7 +6,7 @@ pkgname=('libmcp-git'
          'mcp-kcm-git'
 #         'mcp-gtk-git'
          )
-pkgver=r82.3460a91
+pkgver=r83.20d3421
 pkgrel=1
 pkgdesc="Manjaro Control Panel: Next generation of Manjaro Settings Manager"
 arch=('x86_64')
@@ -16,7 +16,6 @@ depends=('adwaita-qt' 'gtkmm3' 'hwinfo' 'kauth' 'kcmutils' 'kconfigwidgets'
          'kcoreaddons' 'ki18n' 'kirigami2' 'libpamac' 'libsigc++' 'qt5-declarative')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'git' 'nlohmann-json'
              'poco' 'python' 'python-gobject')
-options=('debug')
 source=('git+https://gitlab.com/LordTermor/msm-ng.git'
         'git+https://github.com/hampusborgos/country-flags.git')
 sha256sums=('SKIP'
@@ -90,15 +89,13 @@ package_mcp-qt-gnome-git() {
   pkgdesc="Manjaro Control Panel Qt GUI for GNOME"
   depends=('adwaita-qt' 'hwinfo' 'kauth' 'kconfigwidgets' 'kcoreaddons'
            'ki18n' 'kirigami2' 'libmcp-git' 'mcp-common-git' 'qt5-declarative')
-  provides=("${pkgname%-git}" 'manjaro-settings-manager')
-  conflicts=("${pkgname%-git}" 'msm-ng-qt' 'manjaro-settings-manager')
+  provides=("${pkgname%-git}" 'mcp-qt' 'manjaro-settings-manager')
+  conflicts=("${pkgname%-git}" 'mcp-qt' 'msm-ng-qt' 'manjaro-settings-manager')
   replaces=('msm-ng-qt-git')
 
   DESTDIR="$pkgdir" cmake --install "build/${pkgname%-gnome-git}"
 
   rm -rf "$pkgdir"/usr/{lib/qt/plugins,share/kservices5}
-
-  rm "$pkgdir/usr/share/applications/org.manjaro.${pkgname%-gnome-git}.desktop"
 }
 
 package_mcp-kcm-git() {
