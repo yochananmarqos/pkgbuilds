@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/pipecontrol
+
+pkgname=pipecontrol
+pkgver=0.2.4
+pkgrel=1
+pkgdesc="Pipewire control GUI program in Qt"
+arch=('x86_64' 'aarch64')
+url="https://github.com/portaloffreedom/pipecontrol"
+license=('GPL3')
+makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'qt5-tools')
+depends=('kcoreaddons' 'ki18n' 'kirigami2' 'pipewire')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('49d0a260691ccce51617e05986b91d0588f483d33a0206941d688f9d75bc147e')
+
+build() {
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_INSTALL_LIBEXECDIR="lib/$pkgname" \
+    -DCMAKE_BUILD_TYPE=None \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
