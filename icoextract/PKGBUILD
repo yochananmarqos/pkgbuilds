@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=icoextract
 pkgver=0.1.2
-pkgrel=5
+pkgrel=6
 pkgdesc="Thumbnailer for Windows PE files (.exe/.dll)"
 arch=('any')
 url="https://github.com/jlu5/icoextract"
@@ -15,6 +15,13 @@ conflicts=('exe-thumbnailer')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('3818ad889160b33d360da4083da0a32df8d1955fb77a64bfbac49edc15d5ad3b')
 
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Remove to avoid installing the tests folder in site-packages
+  rm -rf tests/
+}
+
 build() {
   cd "$pkgname-$pkgver"
   python -m build --wheel --no-isolation
@@ -23,9 +30,6 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
-
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  rm -rf "${pkgdir}${site_packages}/tests"
 
   install -Dm644 exe-thumbnailer.thumbnailer -t "$pkgdir/usr/share/thumbnailers/"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
