@@ -28,6 +28,11 @@ prepare() {
 build() {
   cd "$srcdir/$pkgname"
   make build_pie
+  make man
+  make completion
+
+  "./cmd/$pkgname/$pkgname" completion bash > completion.bash
+  "./cmd/$pkgname/$pkgname" completion fish > completion.fish
 
   # Clean module cache for makepkg -C
   go clean -modcache
@@ -35,11 +40,10 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir/usr" install
-
+  install -Dm755 "cmd/$pkgname/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 man1/* -t "$pkgdir/usr/share/man/man1/"
+  install -Dm644 completion.bash "$pkgdir/usr/share/bash-completion/completions/$pkgname"
+  install -Dm644 completion.fish "$pkgdir/usr/share/fish/vendor_completions.d/$pkgname.fish"
+  install -Dm644 completion.zsh "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
-
-  # fix permissions
-  find "$pkgdir/" -type d -exec chmod 755 {} \;
-  find "$pkgdir/usr/share/" -type f -exec chmod 644 {} \;
 }
