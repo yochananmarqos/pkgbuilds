@@ -2,54 +2,44 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.6.1
+pkgver=1.6.2
 pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
 url="https://github.com/nning/protonutils"
 license=('MIT')
 depends=('glibc')
-makedepends=('go')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('80100c83a02a312f6e934d943e494a2284cf1b945ddfcc9ce8a7fbd5f56da6ef')
+makedepends=('git' 'go')
+_commit=18647bb1f6237c85cb146612d3dda79a9b71b2bc
+source=("git+https://github.com/nning/protonutils.git#commit=${_commit}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
 
 prepare() {
-  cd "$pkgname-$pkgver"
+  cd "$srcdir/$pkgname"
   export GOPATH="$srcdir/gopath"
-
-  # create directory for build output
-  mkdir -p build
-
-  # download dependencies
-  go mod download -x
+  go mod tidy
 }
 
 build() {
-  cd "$pkgname-$pkgver"
-  export GOPATH="$srcdir/gopath"
-  local VERSION="v$pkgver"
-  local BUILDTIME=$(date -u +"%Y%m%d%H%M%S")
-  local GOLDFLAGS="-X 'main.Version=${VERSION}' \
-                   -X 'main.Buildtime=${BUILDTIME}'"
-  go build -v \
-    -trimpath \
-    -buildmode=pie \
-    -mod=readonly \
-    -modcacherw \
-    -ldflags "-linkmode external -extldflags \"${LDFLAGS}\" ${GOLDFLAGS}" \
-    -buildvcs=false \
-    -o build ./cmd/...
-
-  # Generate man page
-  ./build/"$pkgname" -m man1
+  cd "$srcdir/$pkgname"
+  make build_pie
 
   # Clean module cache for makepkg -C
   go clean -modcache
 }
 
 package() {
-  cd "$pkgname-$pkgver"
-  install -Dm755 "build/$pkgname" -t "$pkgdir/usr/bin/"
-  install -Dm644 man1/* -t "$pkgdir/usr/share/man/man1/"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir/usr" install
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+
+  # fix permissions
+  find "$pkgdir/" -type d -exec chmod 755 {} \;
+  find "$pkgdir/usr/share/" -type f -exec chmod 644 {} \;
 }
