@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=blueprint-compiler-git
-pkgver=0.2.0.r1.g180b529
+pkgver=0.2.0.r2.gfac311d
 pkgrel=1
 pkgdesc="A markup language for GTK user interfaces"
 arch=('any')
 url="https://jwestman.pages.gitlab.gnome.org/blueprint-compiler"
 license=('LGPL3')
-depends=('python-gobject' 'gtk4')
-makedepends=('git' 'gobject-introspection' 'meson')
+depends=('python')
+makedepends=('git' 'meson')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("${pkgname%-git}::git+https://gitlab.gnome.org/jwestman/blueprint-compiler.git")
