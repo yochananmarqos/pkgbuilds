@@ -1,9 +1,8 @@
-# Maintainer: Felix Yan <felixonmars@archlinux.org>
-# Contributor: Maxime Schmitt <maxime.schmitt91@gmail.com>
+# https://archlinux.org/packages/community/x86_64/nvtop/
 
 pkgname=('nvtop-nvidia' 'nvtop-amd')
 pkgbase=nvtop
-pkgver=2.0.1
+pkgver=2.0.2
 pkgrel=0
 pkgdesc="Neat Videocard TOP, an (h)top like task monitor for AMD and NVIDIA GPUs."
 arch=('x86_64')
@@ -12,7 +11,7 @@ license=('GPL3')
 depends=('libdrm' 'nvidia-utils' 'ncurses')
 makedepends=('cmake' 'cuda')
 source=("https://github.com/Syllo/nvtop/archive/$pkgver/$pkgbase-$pkgver.tar.gz")
-sha512sums=('d44f9badcd2282d38836f4037317def9165ea850ecb135e5e6abfc5d8f10c127fe4b06b3b711366fb532c5fea78ec9d4a21ec23bc52b1072312f0d82fc20cbba')
+sha512sums=('8cc4859ae26428b8b4835d5205be4533c38ab90f5a369261b2650200bab16f7953c4d012dba375be5d1c793ca5031775c64b18f1629cae381d6f1e3b29992cb5')
 
 build() {
   cmake -B build-nvidia -S "$pkgbase-$pkgver" \
