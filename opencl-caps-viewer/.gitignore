@@ -1,5 +1,7 @@
-opencl-caps-viewer
-OpenCL-Headers
-pkg
-src
-*.pkg.*
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO

@@ -11,18 +11,18 @@ depends=('opencl-icd-loader' 'qt5-x11extras')
 makedepends=('git')
 license=('GPL2')
 _commit=0fe6301a2346f8f8bc0989db4be9839f47054aee  # tags/1.10^
-source=("opencl-caps-viewer::git+https://github.com/SaschaWillems/OpenCLCapsViewer.git#commit=${_commit}"
+source=("git+https://github.com/SaschaWillems/OpenCLCapsViewer.git#commit=${_commit}"
         'git+https://github.com/KhronosGroup/OpenCL-Headers.git')
 sha256sums=('SKIP'
             'SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname}"
+  cd "$srcdir/OpenCLCapsViewer"
   git describe --tags | sed 's/-/+/g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname}"
+  cd "$srcdir/OpenCLCapsViewer"
   git submodule init
   git config submodule.OpenCL-Headers.url "$srcdir/OpenCL-Headers"
   git submodule update
@@ -32,7 +32,7 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/${pkgname}"
+  cd "$srcdir/OpenCLCapsViewer}"
   qmake-qt5 OpenCLCapsViewer.pro \
     DEFINES+=X11 \
     CONFIG+=release \
@@ -41,7 +41,7 @@ build() {
 }
 
 package() {
-  cd "$srcdir/${pkgname}"
+  cd "$srcdir/OpenCLCapsViewer"
   make INSTALL_ROOT="$pkgdir/" install
 
   install -m644 Resources/icon.png "${pkgdir}"/usr/share/icons/hicolor/256x256/apps/openclCapsViewer.png
