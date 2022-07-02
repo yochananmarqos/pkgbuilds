@@ -1,0 +1,48 @@
+# https://aur.archlinux.org/packages/opencl-caps-viewer
+groups=('modified')
+
+pkgname=opencl-caps-viewer
+pkgver=1.10
+pkgrel=1
+pkgdesc="OpenCL Hardware Capability Viewer"
+arch=('x86_64')
+url="https://opencl.gpuinfo.org/"
+depends=('opencl-icd-loader' 'qt5-x11extras')
+makedepends=('git')
+license=('GPL2')
+_commit=0fe6301a2346f8f8bc0989db4be9839f47054aee  # tags/1.10^
+source=("opencl-caps-viewer::git+https://github.com/SaschaWillems/OpenCLCapsViewer.git#commit=${_commit}"
+        'git+https://github.com/KhronosGroup/OpenCL-Headers.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "$srcdir/${pkgname}"
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd "$srcdir/${pkgname}"
+  git submodule init
+  git config submodule.OpenCL-Headers.url "$srcdir/OpenCL-Headers"
+  git submodule update
+
+  # Correct binary install path
+  sed -i 's|target.path = /opt/$${TARGET}/bin|target.path = /usr/bin|g' OpenCLCapsViewer.pro
+}
+
+build() {
+  cd "$srcdir/${pkgname}"
+  qmake-qt5 OpenCLCapsViewer.pro \
+    DEFINES+=X11 \
+    CONFIG+=release \
+    PREFIX=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/${pkgname}"
+  make INSTALL_ROOT="$pkgdir/" install
+
+  install -m644 Resources/icon.png "${pkgdir}"/usr/share/icons/hicolor/256x256/apps/openclCapsViewer.png
+}
