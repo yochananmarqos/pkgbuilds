@@ -32,7 +32,7 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/OpenCLCapsViewer}"
+  cd "$srcdir/OpenCLCapsViewer"
   qmake-qt5 OpenCLCapsViewer.pro \
     DEFINES+=X11 \
     CONFIG+=release \
