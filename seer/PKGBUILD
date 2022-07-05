@@ -1,0 +1,35 @@
+# https://aur.archlinux.org/packages/seer-gdb
+
+pkgname=seer
+pkgver=1.7
+pkgrel=1
+pkgdesc="A GUI frontend to gdb"
+arch=('x86_64' 'aarch64')
+url="https://github.com/epasveer/seer"
+license=('GPL3')
+depends=('gdb' 'qt5-charts')
+makedepends=('cmake')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('c043b9bc712db398328ccaf15eab264a5614b8da4192d7b39cd9ac4ab045b3f9')
+
+build() {
+  cmake -B build -S "$pkgname-$pkgver/src" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  cd "$pkgname-$pkgver"
+
+  for icon_size in 32 64 128 256 512; do
+    icons_dir="usr/share/icons/hicolor/${icon_size}x${icon_size}/apps"
+    install -Dm644 "src/resources/${pkgname}_${icon_size}x${icon_size}.png" \
+      "$pkgdir/${icons_dir}/$pkgname.png"
+  done
+
+  install -Dm644 "src/resources/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+}
