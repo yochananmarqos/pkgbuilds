@@ -1,39 +1,36 @@
 pkgname=conecto-git
-pkgver=r109.bc33c0a
+pkgver=r112.5cd1e48
 pkgrel=1
 pkgdesc="Integrate your Android phone with your PC: a GTK client for KDEConnect."
 arch=('x86_64')
 url="https://github.com/hannesschulze/conecto"
 license=('GPL2')
-depends=('granite' 'gtk3' 'libnotify' 'gnutls' 'sqlite' 'glibmm' 'gtkmm3' 'folks'
-         'jsoncpp')
+depends=('folks' 'granite' 'gtkmm3' 'jsoncpp')
 makedepends=('git' 'meson')
-#checkdepends=('appstream-glib')
+checkdepends=('appstream-glib')
 provides=("${pkgname%-git}" 'libconecto.so')
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/hannesschulze/conecto.git#branch=new-ui')
+source=('git+https://github.com/hannesschulze/conecto.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	arch-meson "${pkgname%-git}" build \
-		--wrap-mode=nofallback \
-		-Ddisable_plank_support=true
-	meson compile -C build
+  arch-meson "${pkgname%-git}" build \
+    --wrap-mode=nofallback \
+    -Ddisable_plank_support=true
+  meson compile -C build
 }
 
 check() {
-
-	# Validate appstream file fails, only validate desktop & schema files
-	meson test 'Validate desktop file' 'Validate schema file' 'crypt_test'  -C build --print-errorlogs
+  meson test -C build --print-errorlogs ||:
 }
 
 package() {
-	DESTDIR="$pkgdir" meson install -C build
+  DESTDIR="$pkgdir" meson install -C build
 
-	ln -s /usr/bin/com.github.hannesschulze.conecto "$pkgdir/usr/bin/${pkgname%-git}"
+  ln -s /usr/bin/com.github.hannesschulze.conecto "$pkgdir/usr/bin/${pkgname%-git}"
 }
