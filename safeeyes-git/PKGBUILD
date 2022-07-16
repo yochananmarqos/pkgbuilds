@@ -4,11 +4,11 @@
 groups=('modified')
 
 pkgname=safeeyes-git
-pkgver=2.1.3.r11.g541f39f
-pkgrel=2
+pkgver=2.1.3.r35.g71df387
+pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
-url="http://slgobinath.github.io/SafeEyes"
+url="https://slgobinath.github.io/SafeEyes"
 license=('GPL3')
 depends=('alsa-utils' 'hicolor-icon-theme' 'libnotify' 'python-babel' 'dbus-python'
          'python-gobject' 'python-psutil' 'python-xlib' 'xorg-xprop')
@@ -30,6 +30,13 @@ pkgver() {
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+
+  # bump Notify to 0.8
+  sed -i "s/'Notify', '0.7'/'Notify', '0.8'/g" "${pkgname%-git}/plugins/notification/plugin.py"
+}
+
 build() {
   cd "$srcdir/${pkgname%-git}"
   python setup.py build
@@ -37,15 +44,14 @@ build() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  export PYTHONHASHSEED=0
   python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
   # Remove duplicate icons and desktop file.
-  rm -rv "$pkgdir$site_packages/safeeyes/platform"
+  rm -rv "${pkgdir}${site_packages}/${pkgname%-git}/platform/"
 
   # Third-party plugins
   cp -r "$srcdir/${pkgname%-git}"-plugins/{weather,zoom} \
-    "$pkgdir$site_packages/${pkgname%-git}/plugins"
+    "${pkgdir}${site_packages}/${pkgname%-git}/plugins/"
 }
