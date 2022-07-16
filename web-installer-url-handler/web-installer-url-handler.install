@@ -1,4 +1,0 @@
-post_install() {
-    xdg-mime default web-installer-url-handler.desktop x-scheme-handler/web-pamac
-}
-
