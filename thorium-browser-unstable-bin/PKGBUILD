@@ -10,8 +10,8 @@ optdepends=('pipewire: WebRTC desktop sharing under Wayland'
             'kdialog: support for native dialogs in Plasma'
             'org.freedesktop.secrets: password storage backend on GNOME / Xfce'
             'kwallet: support for storing passwords in KWallet on Plasma')
-provides=("${pkgname%-bin}")
-conflicts=("${pkgname%-bin}" 'chromium')
+provides=("${pkgname%-bin}" "${pkgname%-unstable-bin}")
+conflicts=("${pkgname%-bin}" "${pkgname%-unstable-bin}" 'chromium')
 options=('!emptydirs' '!strip')
 source=("https://github.com/Alex313031/Thorium/releases/download/M${pkgver}/thorium-browser_${pkgver}_amd64.deb"
         "${pkgname%-bin}.sh")
