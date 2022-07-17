@@ -1,0 +1,33 @@
+pkgname=findex
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="Highly customizable finder with high performance."
+arch=('x86_64')
+url="https://github.com/mdgaziur/findex"
+license=('GPL3')
+depends=('libkeybinder3' 'systemd')
+makedepends=('cargo')
+#options=('!lto')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('200193046c44aed4203406317578c65ec869320c95d0bb719a019c6480468373')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release --all-features
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 css/style.css -t "$pkgdir/opt/$pkgname/"
+  install -Dm644 "$pkgname"{.service,-restarter.service,-restarter.path} -t \
+    "$pkgdir/usr/lib/systemd/user/"
+}
