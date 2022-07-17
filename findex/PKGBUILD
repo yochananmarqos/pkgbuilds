@@ -7,7 +7,6 @@ url="https://github.com/mdgaziur/findex"
 license=('GPL3')
 depends=('libkeybinder3' 'systemd')
 makedepends=('cargo')
-#options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('200193046c44aed4203406317578c65ec869320c95d0bb719a019c6480468373')
 
