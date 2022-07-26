@@ -1,5 +1,5 @@
 pkgname=thorium-browser-unstable-bin
-pkgver=105.0.5183.0
+pkgver=106.0.5197.0
 pkgrel=1
 pkgdesc="Chromium fork for Linux named after radioactive element No. 90."
 arch=('x86_64')
@@ -15,7 +15,7 @@ conflicts=("${pkgname%-bin}" "${pkgname%-unstable-bin}" 'chromium')
 options=('!emptydirs' '!strip')
 source=("https://github.com/Alex313031/Thorium/releases/download/M${pkgver}/thorium-browser_${pkgver}_amd64.deb"
         "${pkgname%-bin}.sh")
-sha256sums=('d293fcb94eec6a93dc6134ab8b524bed399e5841cf2e94b1ef06f8d522d4b30f'
+sha256sums=('fd2a1fea2a6a0204f01549d6efbce97fdf0f832b374021a863b43b69a4de310f'
             '7464a2b7cff28ba7e6e5118cceeb8ee260f9a11b6ad983ca5e828dc00e38fd5e')
 
 package() {
