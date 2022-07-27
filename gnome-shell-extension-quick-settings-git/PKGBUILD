@@ -1,0 +1,42 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-quick-settings-git
+groups=('modified')
+
+pkgname=gnome-shell-extension-quick-settings-git
+pkgver=r158.ac0fa1c
+pkgrel=1
+pkgdesc="Quick Settings experiments"
+arch=('any')
+url="https://gitlab.gnome.org/fmuellner/quick-settings-extension"
+license=('unknown')
+depends=('gnome-shell')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://gitlab.gnome.org/fmuellner/quick-settings-extension.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/quick-settings-extension"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "$srcdir/quick-settings-extension"
+  gnome-extensions pack \
+    --extra-source=dark-mode-symbolic.svg \
+    --extra-source=quickSettings.js \
+    --extra-source=remoteAccess.js \
+    --extra-source=status/ \
+    --force
+}
+
+package() {
+  cd "$srcdir/quick-settings-extension"
+  _uuid='quick-settings@fmuellner.gnome.org'
+
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+  bsdtar xvf "${_uuid}.shell-extension.zip" -C "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+
+  install -Dm644 schemas/org.gnome.shell.extensions.quick-settings.gschema.xml -t "$pkgdir/usr/share/glib-2.0/schemas"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
+}
