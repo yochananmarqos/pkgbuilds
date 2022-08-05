@@ -1,17 +1,19 @@
 # https://www.archlinux.org/packages/community/any/lutris
+# https://gitlab.manjaro.org/packages/community/lutris
 groups=('modified')
 
 pkgname=lutris
-pkgver=0.5.10.1
+_pkgver=0.5.11-beta1
+pkgver=${_pkgver//-/.}
 pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
 license=('GPL3')
-depends=('dbus-python' 'cabextract' 'curl' 'glib2' 'gtk3' 'libnotify' 'mesa-utils'
-         'p7zip' 'psmisc' 'python-distro' 'python-gobject' 'python-lxml'
-         'python-magic' 'python-pillow' 'python-requests' 'python-yaml' 'unzip'
-         'webkit2gtk' 'xorg-xrandr')
+depends=('cabextract' 'curl' 'glib2' 'gtk3' 'mesa-utils' 'p7zip' 'psmisc'
+         'python-dbus' 'python-distro' 'python-gobject' 'python-lxml'
+         'python-pillow' 'python-requests' 'python-yaml' 'unzip'
+         'webkit2gtk' 'xdg-utils' 'xorg-xrandr')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 optdepends=(
@@ -33,11 +35,11 @@ optdepends=(
   'wine: easiest way to get all the libraries missing from the Lutris runtime'
   'winetricks: use system winetricks'
   'xorg-xgamma: Restore gamma on game exit')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$pkgver.tar.gz")
-sha512sums=('ebb5709f0287c4726702bc280799dee26849424f9eb226891e97c2644da1acd5a1fd7b0adf0ef67bb71c3c993857242807bb145d10eaa0a5722ec5b346c62ae0')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$_pkgver.tar.gz")
+sha512sums=('764e8a2c2c59d094708bff3c81acdaba09aa0d9d37c304acf7ddf0fa900db0e064b19dd38933ee62b7e7f6b792518968833a11078c24421db5b2c9b77e093fb6')
 
 build() {
-  arch-meson "$pkgname-$pkgver" build
+  arch-meson "$pkgname-$_pkgver" build
   meson compile -C build
 }
 
