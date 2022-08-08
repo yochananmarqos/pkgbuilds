@@ -2,18 +2,27 @@
 groups=('modified')
 
 pkgname=icoextract
-pkgver=0.1.3
+pkgver=0.1.4
 pkgrel=1
 pkgdesc="Thumbnailer for Windows PE files (.exe/.dll)"
 arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
 depends=('python-pefile')
-makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=('auth-tarball-from-git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('ca2450e716b6c65cf695c1b480e5503b8103b10ed8de5110eac0778fbc502117')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+        'james.pgp') # James Lu <james@overdrivenetworks.com>
+sha256sums=('9d84a6191c02326bdf6f7689184540aba5b683b9c626ed832ff20c426f2d6746'
+            'c8829f81f2c307705d59adbac000065b446bc4acc59aad667f9ef302c98bb8ca')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  auth-tarball-from-git --keyring ../james.pgp \
+    --tag "$pkgver" --prefix "$pkgname-$pkgver" \
+    https://github.com/jlu5/icoextract.git ../"$pkgname-$pkgver.tar.gz"
+}
 
 build() {
   cd "$pkgname-$pkgver"
