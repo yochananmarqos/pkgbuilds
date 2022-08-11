@@ -35,7 +35,6 @@ build() {
   cmake -GNinja -B build -S "$pkgname" \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
-    -DSERENITY_SOURCE_DIR='/usr/share/serenity' \
     -DENABLE_TIME_ZONE_DATABASE_DOWNLOAD='false' \
     -DENABLE_UNICODE_DATABASE_DOWNLOAD='false' \
     -DBUILD_SHARED_LIBS='OFF' \
