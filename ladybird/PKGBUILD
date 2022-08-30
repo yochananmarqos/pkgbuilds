@@ -2,10 +2,10 @@
 groups=('modified')
 
 # Contributor: Francesco Gazzetta <https://github.com/fgaz>
-# https://github.com/fgaz/nixpkgs/blob/ladybird/init/pkgs/applications/networking/browsers/ladybird/default.nix
+# https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/ladybird/default.nix
 
 pkgname=ladybird
-pkgver=r64.7040a87
+pkgver=r72.263c2ae
 pkgrel=1
 pkgdesc="A browser using the SerenityOS LibWeb engine with a Qt GUI."
 arch=('x86_64')
@@ -14,8 +14,8 @@ license=('BSD')
 depends=('libgl' 'qt6-base' 'qt6-wayland')
 makedepends=('cmake' 'git' 'ninja' 'patchelf' 'qt6-tools' 'unzip')
 optdepends=()
-#options=('!strip') # Stripping results in a symbol lookup error
-_commit=7040a8790c1a8cb4879abe04b1198ec6e64d1c92
+options=('!lto') # '[2623/2624] Linking CXX executable ladybird' goes on perpetually
+_commit=263c2ae719771ab5d1dce1b7c2eb4716b01dbbcc
 source=("git+https://github.com/awesomekling/ladybird.git#commit=$_commit"
         "$pkgname.sh")
 sha256sums=('SKIP'
@@ -29,8 +29,8 @@ pkgver() {
 build() {
 
   # prevent static lib mangling with LTO
-  CFLAGS+=" -ffat-lto-objects"
-  CXXFLAGS+=" -ffat-lto-objects"
+#  CFLAGS+=" -ffat-lto-objects"
+#  CXXFLAGS+=" -ffat-lto-objects"
 
   ## TODO
   #-DSERENITY_SOURCE_DIR='/usr/share/serenity' \
@@ -52,25 +52,26 @@ package() {
   # https://github.com/awesomekling/ladybird/issues/36
 #  DESTDIR="$pkgdir" ninja install -C build
 
-  cd "$srcdir/$pkgname"
-  install -Dm644 build/_deps/lagom-build/*.so* -t "$pkgdir/usr/lib/$pkgname/"
+  
+#  install -Dm644 build/_deps/lagom-build/*.so* -t "$pkgdir/usr/lib/$pkgname/"
 
   # According to the readme, the program needs access to the serenity sources
   # at runtime
-  cp -R build/serenity "$pkgdir/usr/share/"
   install -Dm755 "build/$pkgname" -t "$pkgdir/usr/share/serenity/Base/bin/"
+  cp -R build/serenity "$pkgdir/usr/share/"
   install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
 
   # Patch rpaths
   # https://github.com/awesomekling/ladybird/issues/36
-  for f in "$pkgdir/usr/share/serenity/Base/bin/$pkgname" "$pkgdir/usr/lib/$pkgname"/*.so; do
-    old_rpath=$(patchelf --print-rpath "${f}")
-    # Remove reference to libraries from build directory
-    rpath_without_build=$(sed -e 's@[^:]*/_deps/lagom-build:@@g' <<< ${old_rpath})
-    # Add directory where we install those libraries
-    new_rpath="$pkgdir/usr/lib/$pkgname":${rpath_without_build}
-    patchelf --set-rpath "${new_rpath}" "${f}"
-  done
+#  for f in "$pkgdir/usr/share/serenity/Base/bin/$pkgname" "$pkgdir/usr/lib/$pkgname"/*.so; do
+#    old_rpath=$(patchelf --print-rpath "${f}")
+#    # Remove reference to libraries from build directory
+#    rpath_without_build=$(sed -e 's@[^:]*/_deps/lagom-build:@@g' <<< ${old_rpath})
+#    # Add directory where we install those libraries
+#    new_rpath="$pkgdir/usr/lib/$pkgname":${rpath_without_build}
+#    patchelf --set-rpath "${new_rpath}" "${f}"
+#  done
 
+  cd "$srcdir/$pkgname"
   install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
