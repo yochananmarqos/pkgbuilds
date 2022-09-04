@@ -1,0 +1,41 @@
+groups=('modified')
+
+pkgname=endeavour
+pkgver=42.0
+pkgrel=1
+pkgdesc="Task manager for GNOME"
+arch=('x86_64' 'aarch64')
+url="https://gitlab.gnome.org/World/Endeavour"
+license=('GPL3')
+#groups=('gnome-extra')
+depends=('evolution-data-server' 'libpeas' 'librest' 'python' 'libportal-gtk4'
+         'libadwaita>=1.2')
+makedepends=('gobject-introspection' 'meson' 'yelp-tools')
+checkdepends=('appstream-glib')
+conflicts=('gnome-todo')
+replaces=('gnome-todo')
+source=("$url/-/archive/v$pkgver/Endeavour-v$pkgver.tar.gz"
+        '132.patch')
+sha256sums=('6ad8d5f06b86715e6bd43f1bcbd1d4cf2dd9d5b7ee1876b7ffce88bcc5a4bbd8'
+            'de59ba119557a78b113dbb8f1ac5005d3069bc5f52bb407a75099a0e27cfb809')
+
+prepare() {
+  cd "Endeavour-v$pkgver"
+  patch -Np1 -i "$srcdir/132.patch"
+}
+
+build() {
+  arch-meson "Endeavour-v$pkgver" build
+  meson compile -C build
+}
+
+check() (
+  glib-compile-schemas "${GSETTINGS_SCHEMA_DIR:=$PWD/Endeavour-v$pkgver/data}"
+  export GSETTINGS_SCHEMA_DIR
+
+  meson test -C build || :
+)
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
