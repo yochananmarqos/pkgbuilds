@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/python-anyascii
+groups=('modified')
+
+pkgname=python-anyascii
+_name=${pkgname#python-}
+pkgver=0.3.1
+pkgrel=1
+pkgdesc="Transliterates almost all Unicode characters to ASCII"
+arch=('any')
+url="https://github.com/anyascii/anyascii"
+license=('ISC')
+depends=('python')
+makedepends=('python-build' 'python-flit-core' 'python-installer' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('dedf57728206e286c91eed7c759505a5e45c8cd01367dd40c2f7248bb15c11f6')
+
+build () {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
