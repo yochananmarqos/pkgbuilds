@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/gradience
+groups=('modified')
+
+pkgname=gradience
+pkgver=0.2.2
+pkgrel=1
+pkgdesc="A tool for customizing libadwaita applications and the adw-gtk3 theme."
+arch=('any')
+url="https://github.com/GradienceTeam/Gradience"
+license=('GPL3')
+depends=('libadwaita' 'libportal-gtk4' 'python-anyascii' 'python-gobject'
+         'python-material-color-utilities' 'python-pluggy' 'python-svglib'
+         'python-urllib3')
+makedepends=('blueprint-compiler' 'git' 'gobject-introspection' 'meson')
+checkdepends=('appstream-glib')
+_commit=f07e454ae2f87f1b2b6886b46602f5e0ced5455f
+source=("git+https://github.com/GradienceTeam/Gradience.git#commit=$_commit?signed")
+sha256sums=('SKIP')
+validpgpkeys=('B0D5BC6934491F72913C653CAC9E06BF3DECB6FB') # OxMRTT (Main key - 2022) <0xMRTT@tuta.io>
+
+pkgver() {
+  cd "$srcdir/Gradience"
+  git describe --tags | sed 's/-/+/g'
+}
+
+build() {
+  arch-meson Gradience build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
