@@ -1,0 +1,28 @@
+# https://aur.archlinux.org/packages/nickvision-tagger
+groups=('modified')
+
+pkgname=nickvision-tagger
+pkgver=2022.9.1
+pkgrel=1
+pkgdesc="An easy-to-use music tag (metadata) editor"
+arch=('x86_64')
+url="https://github.com/nlogozzo/NickvisionTagger"
+license=('GPL3')
+depends=('chromaprint' 'jsoncpp' 'libadwaita' 'libcurlpp' 'taglib')
+makedepends=('meson')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('edbd04d1e5bdb5bcf5a4f154daea444cddc655794ce4c6e9bd58d459bf2f4fb1')
+
+build() {
+  arch-meson NickvisionTagger-$pkgver build
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  # conflicts with chromaprint
+  rm "$pkgdir/usr/bin/fpcalc"
+
+  ln -s /usr/bin/org.nickvision.tagger "$pkgdir/usr/bin/$pkgname"
+}
