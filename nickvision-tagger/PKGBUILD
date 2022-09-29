@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=nickvision-tagger
-pkgver=2022.9.1
+pkgver=2022.9.2
 pkgrel=1
 pkgdesc="An easy-to-use music tag (metadata) editor"
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('GPL3')
 depends=('chromaprint' 'jsoncpp' 'libadwaita' 'libcurlpp' 'taglib')
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('edbd04d1e5bdb5bcf5a4f154daea444cddc655794ce4c6e9bd58d459bf2f4fb1')
+sha256sums=('6b23f6cb2bd26dd6a8e83e6b84ef3d62295de75f662895b3eb97eec7c24cefe9')
 
 build() {
   arch-meson NickvisionTagger-$pkgver build
@@ -21,7 +21,7 @@ build() {
 package() {
   meson install -C build --destdir "$pkgdir"
 
-  # conflicts with chromaprint
+  # conflicts with system chromaprint
   rm "$pkgdir/usr/bin/fpcalc"
 
   ln -s /usr/bin/org.nickvision.tagger "$pkgdir/usr/bin/$pkgname"
