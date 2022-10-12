@@ -24,5 +24,8 @@ package() {
   # conflicts with system chromaprint
   rm "$pkgdir/usr/bin/fpcalc"
 
+  # File (usr/bin/org.nickvision.tagger) has the world writable bit set.
+  chmod 0755 "$pkgdir/usr/bin/org.nickvision.tagger"
+
   ln -s /usr/bin/org.nickvision.tagger "$pkgdir/usr/bin/$pkgname"
 }
