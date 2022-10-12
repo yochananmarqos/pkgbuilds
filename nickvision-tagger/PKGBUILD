@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=nickvision-tagger
-pkgver=2022.10.2
+pkgver=2022.10.3
 pkgrel=1
 pkgdesc="An easy-to-use music tag (metadata) editor"
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('GPL3')
 depends=('chromaprint' 'jsoncpp' 'libadwaita' 'libcurlpp' 'taglib')
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('4c3f48f178957aacf00dab81ee98b7100f5d8fceb5986f8e78ee2a5f1f60760f')
+sha256sums=('102a95c0a304010f1baee10be830ec0f839f8a02dc202888a2eabe371e0339c0')
 
 build() {
   arch-meson NickvisionTagger-$pkgver build
