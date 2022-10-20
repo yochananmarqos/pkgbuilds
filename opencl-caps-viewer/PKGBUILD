@@ -25,7 +25,7 @@ prepare() {
   cd "$srcdir/OpenCLCapsViewer"
   git submodule init
   git config submodule.OpenCL-Headers.url "$srcdir/OpenCL-Headers"
-  git submodule update
+  git -c protocol.file.allow=always submodule update
 
   # Correct binary install path
   sed -i 's|target.path = /opt/$${TARGET}/bin|target.path = /usr/bin|g' OpenCLCapsViewer.pro
