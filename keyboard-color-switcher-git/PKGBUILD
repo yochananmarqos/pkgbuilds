@@ -1,5 +1,5 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r124.gd4b1e6a
+pkgver=1.0.r138.g283e75e
 pkgrel=1
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
@@ -34,15 +34,17 @@ prepare() {
 
   sed -i 's|git@github.com:|https://github.com/|g' .gitmodules
 
-  git submodule init system76_backlight_manager
-  git config submodule.System76-Backlight-Manager-cli.url \
+  git submodule init
+  git config submodule.system76_backlight_manager.url \
     "$srcdir/System76-Backlight-Manager-cli"
-  git submodule update
+  git -c protocol.file.allow=always submodule update
 
   cd system76_backlight_manager
 
   # Fix service path
   sed -i 's|usr/local|usr|g' service/system76-backlight-manager.service
+
+#  sed -i '/^*bonw14*/i "gaze17-3060-b": SINGLE_BACKLIGHT_PATH,' system76_backlight_manager/keyboard_backlight.py
 }
 
 build() {
