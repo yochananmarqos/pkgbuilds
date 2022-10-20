@@ -46,7 +46,7 @@ prepare() {
 
   for submodule in cmark git hunspell lexilla libgit2 libssh2 openssl scintillua; do
     git config "submodule.dep/${submodule}/${submodule}.url" "$srcdir/${submodule}"
-    git submodule update
+    git -c protocol.file.allow=always submodule update
   done
 
 #  for submodule in cmark git hunspell libgit2 libssh2 openssl; do
