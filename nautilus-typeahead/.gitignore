@@ -1,9 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!PKGBUILD
-!.SRCINFO
-!nautilus-restore-typeahead.patch
-!0001-test-Fix-declaration-of-test-environment.patch
