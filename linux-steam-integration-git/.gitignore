@@ -5,3 +5,4 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!partially-revert-2877813.patch
