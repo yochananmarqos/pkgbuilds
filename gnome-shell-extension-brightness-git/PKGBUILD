@@ -1,6 +1,6 @@
 pkgname=gnome-shell-extension-brightness-git
 _pkgname=gnome-extension-brightness
-pkgver=r27.9f1935d
+pkgver=r43.0408ebe
 pkgrel=1
 pkgdesc="Simple GNOME extension to control displays' brightness via DDC."
 arch=('any')
@@ -8,8 +8,8 @@ url="https://gitlab.com/bruno.englert/gnome-extension-brightness"
 license=('GPL')
 depends=('ddcutil' 'gnome-shell')
 makedepends=('git')
-provides=("${pkgname%-git}" "$_pkgname")
-conflicts=("${pkgname%-git}" "$_pkgname")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
 source=('git+https://gitlab.com/bruno.englert/gnome-extension-brightness.git')
 sha256sums=('SKIP')
 
