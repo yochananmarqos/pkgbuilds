@@ -2,17 +2,18 @@
 groups=('modified')
 
 pkgname=gittyup
-pkgver=1.1.2
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
 arch=('x86_64')
 url="https://murmele.github.io/Gittyup"
 license=('MIT')
-depends=('cmark' 'hunspell' 'libgit2' 'libsecret' 'lua' 'qt5-base')
+depends=('cmark' 'hicolor-icon-theme' 'hunspell' 'libgit2' 'libsecret' 'lua'
+         'pcre' 'qt5-base')
 makedepends=('cmake' 'git' 'qt5-tools')
 optdepends=('git: needed for the credential helpers'
             'git-lfs: git LFS support')
-_commit=7fa0bce2adb87c301180277363fea0f1264cd118
+_commit=b663589ddc5c0267a039de9448646bb1c7f7f7f5  # tags/gittyup_v1.2.0^0
 source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
         'git+https://github.com/commonmark/cmark.git'
         'git+https://github.com/git/git.git'
@@ -42,21 +43,36 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/Gittyup"
+
+  _submodules=(
+    cmark
+    git
+    hunspell
+    lexilla
+    libgit2
+    libssh2
+    openssl
+    scintillua
+    zip
+  )
+
   git submodule init
 
-  for submodule in cmark git hunspell lexilla libgit2 libssh2 openssl scintillua; do
-    git config "submodule.dep/${submodule}/${submodule}.url" "$srcdir/${submodule}"
-    git -c protocol.file.allow=always submodule update
+  for submodule in "${_submodules[@]}"; do
+    git config "submodule.dep/${submodule#*::}/${submodule#*::}.url" \
+      "$srcdir/${submodule%::*}"
   done
 
-#  for submodule in cmark git hunspell libgit2 libssh2 openssl; do
-#    git -c submodule.dep/${submodule}/${submodule}.update=none submodule update
-#  done
+  git -c protocol.file.allow=always submodule update
 
   sed -i -e 's/cmark_exe/cmark/' src/app/CMakeLists.txt
 }
 
 build() {
+
+  # prevent static lib mangling with LTO
+  CFLAGS+=" -ffat-lto-objects"
+
   cmake -B build -S Gittyup \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
@@ -72,7 +88,13 @@ package() {
   _app_id='com.github.Murmele.Gittyup'
 
   cd "$srcdir/Gittyup"
-  install -Dm644 LICENSE.md -t  "$pkgdir/usr/share/licenses/$pkgname/"
+  mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} \
+    "$pkgdir/usr/share/$pkgname/"
+  mv "$pkgdir"/usr/Plugins "$pkgdir/usr/share/$pkgname/"
+  cp -r "$pkgdir"/usr/Resources/* "$pkgdir/usr/share/$pkgname/Resources/"
+  rm -rf "$pkgdir"/usr/Resources
+  ln -s "/usr/share/$pkgname/Gittyup" "$pkgdir/usr/bin/"
+  
   install -Dm644 "rsrc/linux/${_app_id}.desktop" -t \
     "$pkgdir/usr/share/applications/"
   install -Dm644 "rsrc/linux/${_app_id}.appdata.xml.in" \
@@ -83,16 +105,13 @@ package() {
       "$pkgdir/usr/share/icons/hicolor/${s}/apps/$pkgname.png"
   done
 
-  install -d "$pkgdir/usr/"{share/${pkgname},bin}
-  mv "$pkgdir/usr/"{git-credential-libsecret,Gittyup,indexer,relauncher} \
-    "$pkgdir/usr/share/$pkgname/"
-  mv "$pkgdir"/usr/{Plugins,Resources} "$pkgdir/usr/share/$pkgname/"
-  ln -s "/usr/share/$pkgname/Gittyup" "$pkgdir/usr/bin/"
+  install -Dm644 LICENSE.md -t  "$pkgdir/usr/share/licenses/$pkgname/"
 
   # Remove shared files
+  rm -rf "$pkgdir/usr/bin/cmark"
   rm -f "$pkgdir/usr/"*.so.*
   rm -rf "$pkgdir/usr/"{include,lib}
 
-  # Remove libssh2 docs & man pages
-  rm -rf "$pkgdir"/usr/share/{doc,man}
+#  # Remove cmark & libssh2 man pages
+  rm -rf "$pkgdir"/usr/share/man
 }
