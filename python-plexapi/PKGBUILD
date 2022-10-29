@@ -1,0 +1,26 @@
+# https://aur.archlinux.org/packages/python-plexapi
+groups=('modified')
+
+pkgname=python-plexapi
+pkgver=4.13.0
+pkgrel=1
+pkgdesc="Python bindings for the Plex API."
+arch=('any')
+url="https://github.com/pkkid/python-plexapi"
+license=('BSD')
+depends=('python-requests' 'python-tqdm' 'python-websocket-client')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('0edcab0819be62150b900871cf03c6d6c8a603014ec3ed1af13e6e21ccd58e4d')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
