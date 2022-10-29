@@ -1,9 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!PKGBUILD
-!.SRCINFO
-!g-assist.desktop
-!g-assist.sh
