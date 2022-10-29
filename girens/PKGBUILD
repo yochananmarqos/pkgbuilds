@@ -1,0 +1,30 @@
+# https://aur.archlinux.org/packages/girens
+groups=('modified')
+
+pkgname=girens
+pkgver=1.1.10
+pkgrel=1
+pkgdesc="A Plex GTK client for playing movies, TV shows and music from your Plex library."
+arch=('any')
+url="https://gitlab.gnome.org/tijder/girens"
+license=('GPL3')
+depends=('ffmpeg' 'fribidi' 'libhandy0' 'libass' 'mpv' 'plex-remote' 'python-cairo'
+         'python-certifi' 'python-chardet' 'python-gobject' 'python-idna' 'python-mpv'
+         'python-plexapi' 'python-six' 'python-urllib3')
+makedepends=('meson')
+checkdepends=('appstream-glib')
+source=("https://gitlab.gnome.org/tijder/$pkgname/-/archive/v$pkgver/$pkgname-v$pkgver.tar.gz")
+sha256sums=('cb3e589adfa40534e3ad19cc865d56201af6c74f71098c72eece227deedfd2b1')
+
+build() {
+  arch-meson "$pkgname-v$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
