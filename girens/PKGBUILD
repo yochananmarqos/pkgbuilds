@@ -8,9 +8,9 @@ pkgdesc="A Plex GTK client for playing movies, TV shows and music from your Plex
 arch=('any')
 url="https://gitlab.gnome.org/tijder/girens"
 license=('GPL3')
-depends=('ffmpeg' 'fribidi' 'libhandy0' 'libass' 'mpv' 'plex-remote' 'python-cairo'
-         'python-certifi' 'python-chardet' 'python-gobject' 'python-idna' 'python-mpv'
-         'python-plexapi' 'python-six' 'python-urllib3')
+depends=('ffmpeg' 'fribidi' 'libhandy0' 'libass' 'plex-remote' 'python-cairo'
+         'python-certifi' 'python-chardet' 'python-gobject' 'python-idna'
+         'python-mpv' 'python-plexapi' 'python-six' 'python-urllib3')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("https://gitlab.gnome.org/tijder/$pkgname/-/archive/v$pkgver/$pkgname-v$pkgver.tar.gz")
