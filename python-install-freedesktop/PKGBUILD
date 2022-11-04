@@ -1,0 +1,23 @@
+pkgname=python-install-freedesktop
+_name=install_freedesktop
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Setuptools extension to install freedesktop.org app icons"
+arch=('any')
+url="https://github.com/thann/install_freedesktop"
+license=('Apache')
+depends=('python-setuptools')
+makedepends=('git' 'python-build' 'python-installer' 'python-wheel')
+_commit=770e613ee7d824b0eb8cb65add8c304abcd26ae7
+source=("git+https://github.com/thann/install_freedesktop.git#commit=$_commit")
+sha256sums=('SKIP')
+
+build() {
+  cd "$srcdir/$_name"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$srcdir/$_name"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
