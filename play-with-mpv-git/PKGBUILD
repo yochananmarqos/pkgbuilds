@@ -7,15 +7,17 @@ pkgrel=2
 pkgdesc='Chrome extension and Python server that allows you to play videos in webpages with MPV instead.'
 arch=('any')
 url="https://github.com/Thann/play-with-mpv"
-license=('MIT')
+license=('Unlicense')
 depends=('mpv' 'youtube-dl')
 makedepends=('git' 'python-build' 'python-install-freedesktop' 'python-installer' 'python-wheel')
 optdepends=('peerflix: Stream torrents'
             'mkchromecast: Cast to network device')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/Thann/play-with-mpv.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/Thann/play-with-mpv.git'
+        "${pkgname%-git}.service")
+sha256sums=('SKIP'
+            'b273cd8ac9c48e04ac3c7fbcdd5657ed7eefa384212060341c138fd39d44c0d9')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -32,4 +34,5 @@ package() {
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+  install -Dm644 "$srcdir/${pkgname%-git}.service" -t "$pkgdir/usr/lib/systemd/user/"
 }
