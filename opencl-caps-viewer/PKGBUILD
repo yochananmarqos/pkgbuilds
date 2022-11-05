@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=opencl-caps-viewer
-pkgver=1.10
+pkgver=1.20
 pkgrel=1
 pkgdesc="OpenCL Hardware Capability Viewer"
 arch=('x86_64')
@@ -10,7 +10,7 @@ url="https://opencl.gpuinfo.org/"
 license=('GPL2')
 depends=('opencl-icd-loader' 'qt5-x11extras')
 makedepends=('git')
-_commit=0fe6301a2346f8f8bc0989db4be9839f47054aee  # tags/1.10^
+_commit=fd813b28108521d6d6f530d9b65fb38a89926984  # tags/1.20^
 source=("git+https://github.com/SaschaWillems/OpenCLCapsViewer.git#commit=${_commit}"
         'git+https://github.com/KhronosGroup/OpenCL-Headers.git')
 sha256sums=('SKIP'
