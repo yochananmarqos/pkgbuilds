@@ -5,5 +5,4 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!makefile.patch
 !mkinitcpio.patch
