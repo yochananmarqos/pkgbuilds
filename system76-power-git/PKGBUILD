@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.20.r3.g4bd008f
+pkgver=1.1.24.r0.ge0a6fb8
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('any')
@@ -15,11 +15,9 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
 source=('git+https://github.com/pop-os/system76-power.git'
-        'makefile.patch'
         'mkinitcpio.patch')
 sha256sums=('SKIP'
-            '59c2b6a4ee4d5bf728d8f68fd9c066ba33cf9c91bf173bf16734924f6e641643'
-            'fefd4bd1c173cca2aafd3d5f03af20b9cfc5553f9a53f510a12d565cc90fe7ba')
+            'e4417c1e2013e51d08a73705adf271939ff66b6d5cf6e3b67a1fe914ba769d05')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -31,9 +29,6 @@ prepare() {
 
   # use mkinitcpio -P inplace of update-initramfs -u
   patch -Np1 -i "${srcdir}/mkinitcpio.patch"
-
-  # fix makefile
-  patch -Np1 -i "${srcdir}/makefile.patch"
 
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
