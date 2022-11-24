@@ -1,25 +1,25 @@
-# https://aur.archlinux.org/packages/ladybird
-groups=('modified')
+## WIP
 
 # Contributor: Francesco Gazzetta <https://github.com/fgaz>
 # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/ladybird/default.nix
 
 pkgname=ladybird
-pkgver=r72.263c2ae
+pkgver=r122.d69ad73
 pkgrel=1
 pkgdesc="A browser using the SerenityOS LibWeb engine with a Qt GUI."
 arch=('x86_64')
-url="https://github.com/awesomekling/ladybird"
+url="https://github.com/SerenityOS/ladybird"
 license=('BSD')
 depends=('libgl' 'qt6-base' 'qt6-wayland')
-makedepends=('cmake' 'git' 'ninja' 'patchelf' 'qt6-tools' 'unzip')
+makedepends=('cmake' 'git' 'ninja' 'qt6-tools' 'unzip')
 optdepends=()
-options=('!lto') # '[2623/2624] Linking CXX executable ladybird' goes on perpetually
-_commit=263c2ae719771ab5d1dce1b7c2eb4716b01dbbcc
-source=("git+https://github.com/awesomekling/ladybird.git#commit=$_commit"
-        "$pkgname.sh")
+options=('!lto')
+_commit=d69ad7332477de33bfd1963026e057d55c6f222d
+_serenity_commit=a0f3e2c9a2b82117aa7c1a3444ad0d31baa070d5
+source=("git+https://github.com/SerenityOS/ladybird.git#commit=$_commit"
+        "git+https://github.com/SerenityOS/serenity.git#commit=$_serenity_commit")
 sha256sums=('SKIP'
-            '1d0fc030877f9074443ef71835518c043908360b5dac67d907d8b2317baa37c4')
+            'SKIP')
 
 pkgver() {
   cd "$srcdir/$pkgname"
@@ -28,49 +28,26 @@ pkgver() {
 
 build() {
 
+  ## TODO
+
   # prevent static lib mangling with LTO
 #  CFLAGS+=" -ffat-lto-objects"
 #  CXXFLAGS+=" -ffat-lto-objects"
 
-  ## TODO
-  #-DSERENITY_SOURCE_DIR='/usr/share/serenity' \
-  #-DENABLE_TIME_ZONE_DATABASE_DOWNLOAD='false' \
-  #-DENABLE_UNICODE_DATABASE_DOWNLOAD='false' \
+#    -DBUILD_SHARED_LIBS='OFF' \
+#    -DENABLE_TIME_ZONE_DATABASE_DOWNLOAD='false' \
+#    -DENABLE_UNICODE_DATABASE_DOWNLOAD='false' \
 
   cmake -GNinja -B build -S "$pkgname" \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
-    -DBUILD_SHARED_LIBS='OFF' \
+    -DSERENITY_SOURCE_DIR="$srcdir/serenity" \
     -Wno-dev
-  cmake --build build
   ninja -C build
 }
 
 package() {
-
-  # Upstream install rules are missing
-  # https://github.com/awesomekling/ladybird/issues/36
-#  DESTDIR="$pkgdir" ninja install -C build
-
-  
-#  install -Dm644 build/_deps/lagom-build/*.so* -t "$pkgdir/usr/lib/$pkgname/"
-
-  # According to the readme, the program needs access to the serenity sources
-  # at runtime
-  install -Dm755 "build/$pkgname" -t "$pkgdir/usr/share/serenity/Base/bin/"
-  cp -R build/serenity "$pkgdir/usr/share/"
-  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
-
-  # Patch rpaths
-  # https://github.com/awesomekling/ladybird/issues/36
-#  for f in "$pkgdir/usr/share/serenity/Base/bin/$pkgname" "$pkgdir/usr/lib/$pkgname"/*.so; do
-#    old_rpath=$(patchelf --print-rpath "${f}")
-#    # Remove reference to libraries from build directory
-#    rpath_without_build=$(sed -e 's@[^:]*/_deps/lagom-build:@@g' <<< ${old_rpath})
-#    # Add directory where we install those libraries
-#    new_rpath="$pkgdir/usr/lib/$pkgname":${rpath_without_build}
-#    patchelf --set-rpath "${new_rpath}" "${f}"
-#  done
+  DESTDIR="$pkgdir" ninja install -C build
 
   cd "$srcdir/$pkgname"
   install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname/"
