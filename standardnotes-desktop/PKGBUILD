@@ -2,9 +2,9 @@
 groups=('modified')
 
 pkgname=standardnotes-desktop
-pkgver=3.23.292
+pkgver=3.100.17
 pkgrel=1
-_electronversion=17
+_electronversion=20
 pkgdesc="An end-to-end encrypted notes app for digitalists and professionals."
 arch=('x86_64') # 'aarch64' Fails to build node-sass
 url="https://standardnotes.com"
@@ -14,9 +14,9 @@ makedepends=('libxcrypt-compat' 'nvm' 'yarn')
 source=("standardnotes-$pkgver.tar.gz::https://github.com/standardnotes/app/archive/refs/tags/@standardnotes/desktop@${pkgver}.tar.gz"
         "standard-notes.desktop"
         "standard-notes.sh")
-sha256sums=('b0bcf85aeeb5f98ba805bba3628a21a53e8574b006f2d886aa53cc481b240cde'
+sha256sums=('80498f2a20c26841ff50ba6d085801ac20e1e990781ee1c81183c9f8cf0d2fa5'
             '274cd3914ff2a6a0999485a26cbded3ad597763482a90eee8ee34490ddffda00'
-            '3af809d06a0eb5ccda9791bc5e37bd86c5cd6f914abf0f7d42b07ac4a30f624f')
+            '14343c62b46201de2a9e14b90b3de253530f4e6790c61487531ae6c1fcd62e3c')
 
 _ensure_local_nvm() {
   # let's be sure we are starting clean
