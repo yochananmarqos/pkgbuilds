@@ -1,0 +1,28 @@
+# https://aur.archlinux.org/packages/extension-manager
+groups=('modified')
+
+pkgname=extension-manager
+pkgver=0.4.0
+pkgrel=2
+pkgdesc="A native tool for browsing, installing, and managing GNOME Shell Extensions"
+arch=('x86_64')
+url="https://github.com/mjakeman/extension-manager"
+license=('GPL3')
+depends=('libadwaita' 'libbacktrace' 'libsoup3' 'text-engine')
+makedepends=('blueprint-compiler' 'meson')
+checkdepends=('appstream-glib')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('34dd0e8ebbe985ac6eab52695530074c187403270ff627bdd4699cc5733c5c53')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
