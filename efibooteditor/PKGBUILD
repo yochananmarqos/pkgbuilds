@@ -1,0 +1,28 @@
+# https://aur.archlinux.org/packages/efibooteditor
+groups=('modified')
+
+pkgname=efibooteditor
+pkgver=1.1.5
+pkgrel=1
+pkgdesc="GUI for editing EFI Boot Manager entries"
+arch=('x86_64')
+url="https://github.com/Neverous/efibooteditor"
+license=('LGPL3')
+depends=('efivar' 'qt6-5compat')
+makedepends=('cmake' 'qt6-tools')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('075ef36238e1cae52cbf649ee92d2d0ed5bf6937f653dd2eba923d60fecd7f86')
+
+build() {
+  export BUILD_VERSION="$pkgver"
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DQT_VERSION_MAJOR='6' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
