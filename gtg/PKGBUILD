@@ -11,7 +11,7 @@ license=('GPL')
 depends=('gtk3' 'gtksourceview4' 'libsecret' 'python-gobject' 'python-liblarch'
          'python-lxml')
 makedepends=('itstool' 'meson')
-checkdepends=('python-mock' 'python-pytest') ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
+checkdepends=('python-caldav' 'python-mock' 'python-pytest') ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
 optdepends=('python-caldav: CalDAV syncronization'
             'python-cheetah3: for the Export and print plugin'
             'texlive-bin: pdflatex, for the Export and print plugin'
