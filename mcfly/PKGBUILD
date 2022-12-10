@@ -1,8 +1,8 @@
-# https://aur.archlinux.org/packages/mcfly
+# https://archlinux.org/packages/community/x86_64/mcfly/
 groups=('modified')
 
 pkgname=mcfly
-pkgver=0.6.1
+pkgver=0.7.0
 pkgrel=1
 pkgdesc="Fly through your shell history"
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=('sh')
 makedepends=('cargo')
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('e2eebca8f66ec99ff8582886a10e8dfa1a250329ac02c27855698c8d4a33a3f2')
+sha256sums=('11b88dcf0770fb5f6394d1f15225330ca5da27610d6a2764903b8d79f9062412')
 
 prepare() {
   cd "$pkgname-$pkgver"
