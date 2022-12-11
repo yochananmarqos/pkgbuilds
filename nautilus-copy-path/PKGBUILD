@@ -2,19 +2,26 @@
 groups=('modified')
 
 pkgname=nautilus-copy-path
-pkgver=1.8.0
+pkgver=1.8.0+1+g4411075
 pkgrel=1
 pkgdesc="Extension for Nautilus to copy files/dir path or name"
 arch=('any')
 url="https://github.com/chr314/nautilus-copy-path"
 license=('MIT')
 depends=('python-nautilus' 'python-gobject')
+makedepends=('git')
 backup=("usr/share/nautilus-python/extensions/$pkgname/config.json")
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('13122f6009973cd351919097f09e3a6a9d10f6aad95a4a170d90423a34774c0d')
+_commit=4411075aa16741f9459ef0e4c834753ef4e89325
+source=("git+https://github.com/chr314/nautilus-copy-path.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  git describe --tags | sed 's/-/+/g'
+}
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd "$srcdir/$pkgname"
   install -Dm644 "$pkgname.py" -t "$pkgdir/usr/share/nautilus-python/extensions"
   install -Dm644 nautilus_copy_path.py translation.py config.json -t \
     "$pkgdir/usr/share/nautilus-python/extensions/$pkgname"
