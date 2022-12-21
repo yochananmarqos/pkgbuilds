@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=refind-theme-regular-git
-pkgver=r67.11300ef
+pkgver=r78.3f93f53
 pkgrel=1
 pkgdesc="A simplistic clean and minimal theme for rEFInd"
 arch=('any')
@@ -12,7 +12,8 @@ depends=('refind')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-backup=("boot/EFI/refind/themes/${pkgname%-git}/theme.conf")
+backup=("boot/efi/EFI/refind/themes/${pkgname%-git}/theme.conf")
+#backup=("boot/efi/EFI/BOOT/themes/${pkgname%-git}/theme.conf")
 source=('git+https://github.com/bobafetthotmail/refind-theme-regular.git')
 sha256sums=('SKIP')
 
@@ -24,6 +25,7 @@ pkgver() {
 package() {
    # Specify path to the refind directory
   _refind_home="$pkgdir/boot/efi/EFI/refind"
+#  _refind_home="$pkgdir/boot/efi/EFI/BOOT"
 
   cd "$srcdir/${pkgname%-git}"
   install -Dm644 theme.conf -t "$_refind_home/themes/${pkgname%-git}"
