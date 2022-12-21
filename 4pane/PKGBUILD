@@ -1,0 +1,39 @@
+# https://aur.archlinux.org/packages/4pane
+groups=('modified')
+
+pkgname=4pane
+pkgver=8.0
+pkgrel=1
+pkgdesc="Multi-pane, detailed-list file manager"
+arch=('x86_64')
+url="https://www.4pane.co.uk/index.html"
+license=('GPL3')
+depends=('bzip2' 'wxwidgets-gtk3')
+checkdepends=('appstream-glib')
+source=("http://downloads.sourceforge.net/project/fourpane/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+sha256sums=('0a5f9e08cd284a1edf0f93dc49a8a7faab86f9795c06116e167043b80ee0bafb'
+            'SKIP')
+validpgpkeys=('C611704F6FEC6C15115124B75DFF46D4CAFA84B8') # David Hart <debian@4Pane.co.uk
+
+build() {
+  cd "$pkgname-$pkgver"
+  ./configure \
+    --prefix=/usr \
+    --disable-desktop \
+    --without-builtin_bzip2
+  make
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  desktop-file-validate rc/4Pane.desktop || :
+  appstream-util validate-relax --nonet 4Pane.appdata.xml
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 rc/4Pane.desktop -t "$pkgdir/usr/share/applications/"
+  install -Dm644 4Pane.1 -t "$pkgdir/usr/share/man1/"
+}
