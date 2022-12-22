@@ -10,7 +10,7 @@ url="https://www.4pane.co.uk/index.html"
 license=('GPL3')
 depends=('bzip2' 'wxwidgets-gtk3')
 checkdepends=('appstream-glib')
-source=("http://downloads.sourceforge.net/project/fourpane/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+source=("https://downloads.sourceforge.net/project/fourpane/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('0a5f9e08cd284a1edf0f93dc49a8a7faab86f9795c06116e167043b80ee0bafb'
             'SKIP')
 validpgpkeys=('C611704F6FEC6C15115124B75DFF46D4CAFA84B8') # David Hart <debian@4Pane.co.uk
