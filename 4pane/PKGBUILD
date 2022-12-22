@@ -35,5 +35,5 @@ package() {
   make DESTDIR="$pkgdir" install
 
   install -Dm644 rc/4Pane.desktop -t "$pkgdir/usr/share/applications/"
-  install -Dm644 4Pane.1 -t "$pkgdir/usr/share/man1/"
+  install -Dm644 4Pane.1 -t "$pkgdir/usr/share/man/man1/"
 }
