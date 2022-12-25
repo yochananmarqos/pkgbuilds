@@ -1,0 +1,7 @@
+post_install() {
+  sed -i '/[Seat:*]/a display-setup-script=/etc/lightdm/display_setup.sh' /etc/lightdm.conf
+}
+
+post_remove() {
+  sed -i '/display-setup-script=/etc/lightdm/display_setup.sh/d' /etc/lightdm.conf
+}

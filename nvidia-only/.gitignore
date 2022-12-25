@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!display_setup.sh
+!lightdm.install
+!optimus-greeter.desktop
+!optimus-xdg.desktop
+!Xsetup
