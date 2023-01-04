@@ -1,0 +1,53 @@
+# https://aur.archlinux.org/packages/onetagger
+groups=('modified')
+
+pkgname=onetagger
+pkgver=1.5.1
+pkgrel=1
+pkgdesc="Music tagger with Beatport, Discogs, Musicbrainz, Spotify, Traxsource and many other platforms support."
+arch=('x86_64')
+url="https://onetagger.github.io"
+license=('GPL3')
+depends=('alsa-lib' 'libsndfile' 'webkit2gtk')
+makedepends=('cargo' 'pnpm')
+options=('!lto')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Marekkon5/onetagger/archive/refs/tags/$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha256sums=('a7a1a44d4b1160cb29096c3c065fed42f507926c4e566584d0e5c9db9e5460f6'
+            '81f6776bd5027cdd7a54255cc9b1b3a3babf113fb0c98717dd44878b9d77856c')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  pushd client
+  pnpm config set cache-dir "$srcdir/pnpm-cache"
+  pnpm i
+  popd
+
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  pushd client
+  pnpm run build
+  popd
+
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release --all-features
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/{"$pkgname","$pkgname-cli"} -t "$pkgdir/usr/bin/"
+
+  for icon_size in 32x32 128x128 128x128@2x; do
+    install -Dm644 assets/${icon_size}.png \
+      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png"
+  done
+
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+}
