@@ -1,0 +1,38 @@
+pkgname=bitsteward-git
+pkgver=r65.1f1bee3
+pkgrel=1
+pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
+arch=('any')
+url="https://github.com/Bitsteward/bitsteward"
+license=('GPL3')
+depends=('bitwarden-cli' 'libadwaita' 'python-dotenv' 'python-requests')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/Bitsteward/bitsteward.git'
+#        "${pkgname%-git}.desktop"
+        "${pkgname%-git}.sh")
+sha256sums=('SKIP'
+            '134463574091c03c930be31726f1aba4f6ce863e59b29dc7d70be392823e086a')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  install -Dm755 src/main.py -t "$pkgdir/usr/share/${pkgname%-git}/src/"
+  install -Dm644 src/widgets/vault_types/*.py -t \
+    "$pkgdir/usr/share/${pkgname%-git}/src/widgets/vault_types/"
+
+  install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
+#  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
+#    "$pkgdir/usr/share/applications/"
+
+  ln -s /usr/bin/bw "$pkgdir/usr/share/${pkgname%-git}/"
+}

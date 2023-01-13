@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Icon=bitsteward
+Name=Bitsteward
+Exec=bitsteward
+Terminal=false
+Hidden=false
+Categories=Utility
+Comment=A GTK4 + Libadwaita client for Bitwarden
