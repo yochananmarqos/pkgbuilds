@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/envycontrol
+groups=('modified')
+
+pkgname=envycontrol
+pkgver=2.3
+pkgrel=1
+pkgdesc="Easy GPU switching for Nvidia Optimus laptops under Linux"
+arch=('any')
+url="https://bayas.dev/projects/envycontrol"
+license=('MIT')
+depends=('python' 'xorg-xrandr')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=('gnome-shell-extension-gpu-profile-selector: GUI for GNOME')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/geminis3/envycontrol/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('b411b8ae5c073247e6f7d145b46037f1adbc1c2d5fdf564fc0bf13c71780d3da')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
