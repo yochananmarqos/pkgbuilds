@@ -1,5 +1,5 @@
 pkgname=bitsteward-git
-pkgver=r65.1f1bee3
+pkgver=r71.aae9778
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
@@ -20,13 +20,11 @@ pkgver() {
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-  cd "$srcdir/${pkgname%-git}"
-}
-
 package() {
   cd "$srcdir/${pkgname%-git}"
   install -Dm755 src/main.py -t "$pkgdir/usr/share/${pkgname%-git}/src/"
+  install -Dm644 src/utility/*.py -t \
+    "$pkgdir/usr/share/${pkgname%-git}/src/utility/"
   install -Dm644 src/widgets/vault_types/*.py -t \
     "$pkgdir/usr/share/${pkgname%-git}/src/widgets/vault_types/"
 
@@ -34,5 +32,6 @@ package() {
 #  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
 #    "$pkgdir/usr/share/applications/"
 
+  # Symlink Bitwarden CLI binary
   ln -s /usr/bin/bw "$pkgdir/usr/share/${pkgname%-git}/"
 }
