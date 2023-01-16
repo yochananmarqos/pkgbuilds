@@ -1,4 +1,5 @@
-# https://aur.archlinux.org/packages/waydroid-settings
+# https://aur.archlinux.org/packages/waydroid-settings-git
+groups=('modified')
 
 pkgname=waydroid-settings-git
 pkgver=r85.bac6cd8
