@@ -1,21 +1,19 @@
 # http://aur.archlinux.org/packages/python-gtts
 groups=('modified')
 
-## TODO: Drop python-mock checkdepends: https://archlinux.org/todo/drop-python-mock-checkdepends/
-
 pkgname=python-gtts
 _name=gTTS
-pkgver=2.3.0
+pkgver=2.3.1
 pkgrel=1
 pkgdesc="Python library and CLI tool to interface with Google Translate's text-to-speech API"
 arch=('any')
 url="https://github.com/pndurette/gTTS"
 license=('MIT')
-depends=('python-click' 'python-requests' 'python-six')
+depends=('python-click' 'python-requests')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
-checkdepends=('python-mock' 'python-pytest-cov' 'python-testfixtures')
+checkdepends=('python-pytest-cov' 'python-testfixtures')
 source=("$_name-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('58e1d2169fc69977315588843eca44c97a6dfe3163c3dec5a140ff9909c0edd0')
+sha256sums=('e3764195ccb210b313ba6662083aa85e5cb39a918078048322227c46d3440a0a')
 
 build() {
   cd "$_name-$pkgver"
