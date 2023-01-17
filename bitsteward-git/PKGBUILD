@@ -1,5 +1,5 @@
 pkgname=bitsteward-git
-pkgver=r71.aae9778
+pkgver=0.0.1.r7.g1ca51cc
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
@@ -10,14 +10,15 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/Bitsteward/bitsteward.git'
-#        "${pkgname%-git}.desktop"
+        "${pkgname%-git}.desktop"
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
+            '4d76c8236496ac0584f330daf27176d69554c1810b4c4dbd3d633b39151b989b'
             '134463574091c03c930be31726f1aba4f6ce863e59b29dc7d70be392823e086a')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
@@ -29,8 +30,8 @@ package() {
     "$pkgdir/usr/share/${pkgname%-git}/src/widgets/vault_types/"
 
   install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
-#  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
-#    "$pkgdir/usr/share/applications/"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
 
   # Symlink Bitwarden CLI binary
   ln -s /usr/bin/bw "$pkgdir/usr/share/${pkgname%-git}/"
