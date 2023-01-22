@@ -1,4 +1,6 @@
 # https://aur.archlinux.org/packages/anoise-community-extension3
+groups=('modified')
+
 pkgname=anoise-community-extension3
 pkgver=0.0.1
 pkgrel=6
@@ -11,11 +13,11 @@ source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pk
 sha256sums=('d5fbabff750418e646b73648aa2e0b6b01128defe307737bae371827f03a18c1')
 
 build() {
-	cd "$srcdir/media3"
-	python setup.py build
+  cd "$srcdir/media3"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/media3"
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$srcdir/media3"
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
