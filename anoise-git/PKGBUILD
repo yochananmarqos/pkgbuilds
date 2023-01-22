@@ -22,28 +22,28 @@ source=('git+https://github.com/costales/anoise.git')
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
-		sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "$srcdir/${pkgname%-git}"
+  printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
+    sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$srcdir/${pkgname%-git}"
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 
-	# This file is included in anoise-gui
-	rm "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
+  # This file is included in anoise-gui
+  rm "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
 
-	# Files setup.py does not install
+  # Files setup.py does not install
 
-	install -d "$pkgdir/usr/locale"
-	cp -r locale "$pkgdir/usr/locale"
+  install -d "$pkgdir/usr/locale"
+  cp -r locale "$pkgdir/usr/locale"
 
-	install -Dm644 "build/share/applications/${pkgname%-git}.desktop" -t \
-		"$pkgdir/usr/share/applications"
+  install -Dm644 "build/share/applications/${pkgname%-git}.desktop" -t \
+    "$pkgdir/usr/share/applications"
 }
