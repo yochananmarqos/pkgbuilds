@@ -1,0 +1,44 @@
+# WIP
+
+pkgname=appimageupdate-git
+pkgver=2.0.0.alpha.1.20220512.r42.g55ffffc
+pkgrel=1
+pkgdesc="Update AppImages in a decentral way using information embedded in the AppImage itself."
+arch=('x86_64')
+url="https://github.com/AppImage/AppImageUpdate"
+license=('MIT')
+depends=('libappimage')
+makedepends=('cmake' 'cpr' 'git' 'zsync')
+optdepends=('appimagelauncher')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/AppImage/AppImageUpdate.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/AppImageUpdate"
+  git describe --long --tags --exclude continuous | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir/AppImageUpdate"
+}
+
+build() {
+  cmake -B build -S AppImageUpdate \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DUSE_SYSTEM_LIBAPPIMAGE='ON' \
+    -DUSE_SYSTEM_ZSYNC2='ON' \
+    -Wno-dev
+    cmake --build build
+}
+
+check() {
+  cd build
+  ctest --output-on-failure
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
