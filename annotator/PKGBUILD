@@ -1,0 +1,39 @@
+# https://aur.archlinux.org/packages/annotator
+groups=('modfied')
+
+pkgname=annotator
+_app_id=com.github.phase1geo.annotator
+pkgver=1.1.1
+pkgrel=1
+pkgdesc="Image annotation for Elementary OS"
+arch=('x86_64')
+url="https://github.com/phase1geo/Annotator"
+license=('GPL3')
+depends=('granite' 'libhandy' 'python-gobject')
+makedepends=('meson' 'vala')
+checkdepends=('appstream')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('d4ba8c6e567554a3da8c611c8c51a3efa0e91b563dd83fb3d07fb1616e235c5c')
+
+prepare() {
+  cd "Annotator-$pkgver"
+
+  # Correct version
+  sed -i 's/1.1.0/1.1.1/g' meson.build
+}
+
+build() {
+  arch-meson "Annotator-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  desktop-file-validate build/data/${_app_id}.desktop
+  appstreamcli validate build/data/${_app_id}.appdata.xml || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/$pkgname"
+}
