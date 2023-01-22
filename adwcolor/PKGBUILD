@@ -1,0 +1,42 @@
+pkgname=adwcolor
+pkgver=r40.bad14b6
+pkgrel=1
+pkgdesc="Easily Modify and create Libadwaita color themes by modifying the ~/.config/gtk-4.0/gtk.css."
+arch=('any')
+url="https://github.com/risiIndustries/adwcolor"
+license=('GPL3')
+depends=('adw-gtk-theme' 'python')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+_commit=bad14b6e74e256a720dbc437bd33be5ce3de6d10
+source=("git+https://github.com/risiIndustries/adwcolor.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/$pkgname"
+  sed -i "s|./$pkgname/||g" setup.py
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  install -Dm755 *.py -t "${pkgdir}${site_packages}/$pkgname/"
+  rm "${pkgdir}${site_packages}/$pkgname/setup.py"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "${pkgdir}${site_packages}/$pkgname/__main__.py" "$pkgdir/usr/bin/$pkgname"
+
+  python -m compileall -d /usr/lib "$pkgdir/usr/lib"
+  python -O -m compileall -d /usr/lib "$pkgdir/usr/lib"
+}
