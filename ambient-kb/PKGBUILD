@@ -1,0 +1,36 @@
+pkgname=ambient-kb
+pkgver=1.4.2
+pkgrel=1
+pkgdesc="Sets keyboard color to match display on certain System76 laptops"
+arch=('x86_64')
+url="https://github.com/MilesBHuff/Ambient-Keyboard-Lighting"
+license=('LGPL3')
+depends=('gcc-libs' 'libxcb' 'system76-acpi-dkms')
+makedepends=('cargo' 'git')
+optdepends=('apparmor: Needed for the included apparmor profile to work'
+            'systemd: Needed for the included systemd service to work')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('b79895bb1123c708d146ae8ade93f2bac90799396bfb0459416707bd899f87ed')
+
+prepare() {
+  cd "Ambient-Keyboard-Lighting-$pkgver/application"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # Adjust path for serw12
+  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
+}
+
+build() {
+  cd "Ambient-Keyboard-Lighting-$pkgver/application"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release --all-features
+}
+
+package() {
+  cd "Ambient-Keyboard-Lighting-$pkgver"
+  install -Dm755 "application/target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 "configuration/apparmor/usr.bin.$pkgname" -t "$pkgdir/etc/apparmor.d/"
+  install -Dm644 "configuration/systemd/$pkgname.service" -t "$pkgdir/usr/lib/systemd/system/"
+}
