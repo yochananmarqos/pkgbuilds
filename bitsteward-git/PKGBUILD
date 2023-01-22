@@ -1,5 +1,5 @@
 pkgname=bitsteward-git
-pkgver=0.0.1.r7.g1ca51cc
+pkgver=0.0.3.r3.g13f02fd
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
@@ -10,15 +10,24 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/Bitsteward/bitsteward.git'
+        'https://github.com/Bitsteward/bitsteward/pull/14.patch'
         "${pkgname%-git}.desktop"
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
+            'ab3cb6615ff96c9acfec0746fa8858d71d8d3b05f533f6e6c472500933f797f4'
             '4d76c8236496ac0584f330daf27176d69554c1810b4c4dbd3d633b39151b989b'
             '134463574091c03c930be31726f1aba4f6ce863e59b29dc7d70be392823e086a')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+
+  # Correct imports again
+  patch -Np1 -i ../14.patch
 }
 
 package() {
