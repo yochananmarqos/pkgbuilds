@@ -1,4 +1,6 @@
 # https://aur.archlinux.org/packages/anoise-community-extension1
+groups=('modified')
+
 pkgname=anoise-community-extension1
 pkgver=0.0.1
 pkgrel=6
@@ -11,11 +13,11 @@ source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pk
 sha256sums=('605aafb84a4669cc6d64dec2d93b3585dc260971bcc5db7d63478f8f8901c7b4')
 
 build() {
-	cd "$srcdir/community"
-	python setup.py build
+  cd "$srcdir/community"
+  python setup.py build
 }
 
 package() {
-	cd "$srcdir/community"
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$srcdir/community"
+  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
