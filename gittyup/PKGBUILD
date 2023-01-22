@@ -2,6 +2,7 @@
 groups=('modified')
 
 pkgname=gittyup
+_app_id='com.github.Murmele.Gittyup'
 pkgver=1.2.1
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
@@ -11,6 +12,7 @@ license=('MIT')
 depends=('cmark' 'hicolor-icon-theme' 'hunspell' 'libgit2' 'libsecret' 'libzip'
          'lua' 'pcre' 'qt5-base')
 makedepends=('cmake' 'git' 'libgnome-keyring' 'qt5-tools')
+checkdepends=('appstream-glib' 'desktop-file-utils')
 optdepends=('git: needed for the credential helpers'
             'git-lfs: git LFS support'
             'libgnome-keyring: for GNOME Keyring for auth credentials')
@@ -85,10 +87,14 @@ build() {
   cmake --build build
 }
 
+check() {
+  cd "$srcdir/Gittyup"
+  appstream-util validate-relax --nonet "rsrc/linux/${_app_id}.appdata.xml.in" || :
+  desktop-file-validate "rsrc/linux/${_app_id}.desktop"
+}
+
 package() {
   DESTDIR="$pkgdir" cmake --install build
-
-  _app_id='com.github.Murmele.Gittyup'
 
   cd "$srcdir/Gittyup"
   mv "$pkgdir/usr/"{Gittyup,indexer,relauncher} \
