@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gittyup
 _app_id='com.github.Murmele.Gittyup'
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
 arch=('x86_64')
@@ -17,7 +17,7 @@ optdepends=('git: needed for the credential helpers'
             'git-lfs: git LFS support'
             'libgnome-keyring: for GNOME Keyring for auth credentials')
 options=('lto')
-_commit=f364ff0a333dbb8143f310903b5f098a3a804a58  # tags/gittyup_v1.2.1^0
+_commit=627f73d9fd2fd12efad401294e81baa76a80e750  # tags/gittyup_v1.2.2^0
 source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
         'git+https://github.com/commonmark/cmark.git'
         'git+https://github.com/git/git.git'
