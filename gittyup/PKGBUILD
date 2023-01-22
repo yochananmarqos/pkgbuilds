@@ -2,18 +2,20 @@
 groups=('modified')
 
 pkgname=gittyup
-pkgver=1.2.0
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
 arch=('x86_64')
 url="https://murmele.github.io/Gittyup"
 license=('MIT')
-depends=('cmark' 'hicolor-icon-theme' 'hunspell' 'libgit2' 'libsecret' 'lua'
-         'pcre' 'qt5-base')
-makedepends=('cmake' 'git' 'qt5-tools')
+depends=('cmark' 'hicolor-icon-theme' 'hunspell' 'libgit2' 'libsecret' 'libzip'
+         'lua' 'pcre' 'qt5-base')
+makedepends=('cmake' 'git' 'libgnome-keyring' 'qt5-tools')
 optdepends=('git: needed for the credential helpers'
-            'git-lfs: git LFS support')
-_commit=b663589ddc5c0267a039de9448646bb1c7f7f7f5  # tags/gittyup_v1.2.0^0
+            'git-lfs: git LFS support'
+            'libgnome-keyring: for GNOME Keyring for auth credentials')
+options=('lto')
+_commit=f364ff0a333dbb8143f310903b5f098a3a804a58  # tags/gittyup_v1.2.1^0
 source=("git+https://github.com/Murmele/Gittyup.git#commit=$_commit"
         'git+https://github.com/commonmark/cmark.git'
         'git+https://github.com/git/git.git'
@@ -38,7 +40,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$srcdir/Gittyup"
-  git describe --tags | sed "s/^${pkgname}_v//;s/-/+/g"
+  git describe --tags --exclude development | sed "s/^${pkgname}_v//;s/-/+/g"
 }
 
 prepare() {
@@ -49,7 +51,7 @@ prepare() {
     git config "submodule.dep/${submodule}/${submodule}.update" none
   done
 
-  for submodule in libgit2 lexilla scintillua zip; do
+  for submodule in lexilla libgit2 scintillua zip; do
     git config "submodule.dep/${submodule}/${submodule}.url" "$srcdir/${submodule}"
   done
 
@@ -61,8 +63,10 @@ build() {
   # prevent static lib mangling with LTO
   CFLAGS+=" -ffat-lto-objects"
 
+  # Build fails with `-DUSE_SYSTEM_LIBGIT2='ON'`
+
   cmake -B build -S Gittyup \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DCMAKE_INSTALL_DATADIR='share' \
     -DENABLE_REPRODUCIBLE_BUILDS='ON' \
@@ -74,7 +78,9 @@ build() {
     -DUSE_SYSTEM_LIBSSH2='ON' \
     -DUSE_SYSTEM_LUA='ON' \
     -DUSE_SYSTEM_OPENSSL='ON' \
+    -DUSE_SYSTEM_QT='ON' \
     -DLUA_MODULES_PATH='/usr/lib/lua/5.4' \
+    -DGENERATE_APPDATA='ON' \
     -Wno-dev
   cmake --build build
 }
@@ -87,7 +93,7 @@ package() {
   cd "$srcdir/Gittyup"
   mv "$pkgdir/usr/"{Gittyup,indexer,relauncher} \
     "$pkgdir/usr/share/$pkgname/"
-  rm -rf "$pkgdir"/usr/{Plugins,Resources}
+  rm -rf "$pkgdir"/usr/Resources
 
   install -d "$pkgdir/usr/bin"
   ln -s "/usr/share/$pkgname/Gittyup" "$pkgdir/usr/bin/"
@@ -100,6 +106,8 @@ package() {
   for s in 16x16 32x32 64x64 128x128 256x256 512x512; do
     install -Dm644 rsrc/Gittyup.iconset/icon_${s}.png \
       "$pkgdir/usr/share/icons/hicolor/${s}/apps/$pkgname.png"
+    install -Dm644 rsrc/Gittyup.iconset/icon_${s}@2x.png \
+      "$pkgdir/usr/share/icons/hicolor/${s}@2x/apps/$pkgname.png"
   done
 
   install -Dm644 "rsrc/Gittyup.iconset/${pkgname}_logo.svg" \
