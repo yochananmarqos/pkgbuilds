@@ -1,8 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!PKGBUILD
-!.SRCINFO
-!0288-Use-pacman-hooks.patch
