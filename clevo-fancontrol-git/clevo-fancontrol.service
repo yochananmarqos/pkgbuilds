@@ -1,0 +1,18 @@
+[Unit]
+Description=Clevo-Fancontrol
+After=network.target
+StartLimitIntervalSec=0
+After=network-target.service
+Wants=network-target.service
+
+[Service]
+Type=idle
+User=root
+Group=root
+Restart=always
+RestartSec=2
+User=root
+ExecStart=/usr/bin/clevo-fancontrol -1
+
+[Install]
+WantedBy=graphical.target

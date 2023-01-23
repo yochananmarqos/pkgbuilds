@@ -1,0 +1,39 @@
+pkgname=clevo-fancontrol-git
+pkgver=r30.af937e7
+pkgrel=1
+pkgdesc="Clevo (and some System76 models) fan-control service"
+arch=('x86_64')
+url="https://github.com/mmt050/clevo-fancontrol"
+license=('Unlicense')
+depends=('glibc')
+makedepends=('git')
+optdepends=('ryzenadj: Fine tuning for for Ryzen mobile CPUs')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" 'clevo-indicator')
+source=('git+https://github.com/mmt050/clevo-fancontrol.git'
+        "${pkgname%-git}.service")
+sha256sums=('SKIP'
+            '642e1db3fbdb9f306ac16c377c436573283d047f021808e010409eaeb1cb21a2')
+
+pkgver() {
+  cd "$srcdir/${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$srcdir/${pkgname%-git}"
+
+  # Set permissions and group
+  sed -i 's/sudo install -m 4750 -g adm $(TARGET)/install -Dm 4750 $(TARGET) -t/g' Makefile
+
+  # Add shebang
+  sed -i 's| This is a sample Python script.|!/usr/bin/env python|g' src-py/controller.py
+}
+
+package() {
+  cd "$srcdir/${pkgname%-git}"
+  make DSTDIR="$pkgdir/usr" install
+
+  install -Dm755 src-py/controller.py "$pkgdir/usr/bin/${pkgname%-git}"
+  install -Dm644 "$srcdir/${pkgname%-git}.service" -t "$pkgdir/usr/lib/systemd/system/"
+}
