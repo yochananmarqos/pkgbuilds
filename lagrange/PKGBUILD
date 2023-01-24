@@ -1,0 +1,33 @@
+# https://aur.archlinux.org/packages/lagrange
+groups=('modified')
+
+pkgname=lagrange
+pkgver=1.15.0
+pkgrel=1
+pkgdesc="Beautiful Gemini Client"
+arch=('x86_64' 'aarch64')
+url="https://gmi.skyjake.fi/lagrange"
+license=('BSD')
+depends=('fribidi' 'harfbuzz' 'hicolor-icon-theme' 'libwebp' 'mpg123' 'openssl'
+         'pcre2' 'sdl2' 'zlib')
+makedepends=('cmake' 'git' 'zip')
+install="$pkgname.install"
+source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
+sha256sums=('72dc249a2393dbfe531f0e472de979a5a26b24b9d4da1d845415d7a165fb231b'
+            'SKIP')
+validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
+
+build() {
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  cd "$pkgname-$pkgver"
+  install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
