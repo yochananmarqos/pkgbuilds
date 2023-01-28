@@ -14,7 +14,7 @@ source=('git+https://github.com/Bitsteward/bitsteward.git'
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
             '4d76c8236496ac0584f330daf27176d69554c1810b4c4dbd3d633b39151b989b'
-            'b217757612a45b716e36c0080d62539a9d9baba80c1590730a8c28cc428d5453')
+            'ca2bf033524d7a76c0c542d4b4061d07bd999750e67b6e50ba0c2c5f8e5f818d')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
