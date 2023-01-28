@@ -1,12 +1,12 @@
 pkgname=bitsteward-git
-pkgver=0.0.3.r8.ge5fdfe5
+pkgver=0.0.4.r0.g525fe1d
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
 url="https://github.com/Bitsteward/bitsteward"
 license=('GPL3')
 depends=('bitwarden-cli' 'libadwaita' 'python-dotenv' 'python-requests')
-makedepends=('git')
+makedepends=('git' 'python-build' 'python-hatchling' 'python-installer' 'python-wheel')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/Bitsteward/bitsteward.git'
@@ -14,7 +14,7 @@ source=('git+https://github.com/Bitsteward/bitsteward.git'
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
             '4d76c8236496ac0584f330daf27176d69554c1810b4c4dbd3d633b39151b989b'
-            '134463574091c03c930be31726f1aba4f6ce863e59b29dc7d70be392823e086a')
+            'b217757612a45b716e36c0080d62539a9d9baba80c1590730a8c28cc428d5453')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -23,20 +23,28 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/${pkgname%-git}"
+
+  # invalid classifer
+  sed -i '/License ::/d' pyproject.toml
+}
+
+build() {
+  cd "$srcdir/${pkgname%-git}"
+  python -m build --wheel --no-isolation
 }
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  install -Dm755 src/main.py -t "$pkgdir/usr/share/${pkgname%-git}/src/"
-  install -Dm644 src/utility/*.py -t \
-    "$pkgdir/usr/share/${pkgname%-git}/src/utility/"
-  install -Dm644 src/widgets/vault_types/*.py -t \
-    "$pkgdir/usr/share/${pkgname%-git}/src/widgets/vault_types/"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  install -d "${pkgdir}${site_packages}/${pkgname%-git}"
+  mv "${pkgdir}${site_packages}/src" "${pkgdir}${site_packages}/${pkgname%-git}/"
 
   install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
     "$pkgdir/usr/share/applications/"
 
   # Symlink Bitwarden CLI binary
-  ln -s /usr/bin/bw "$pkgdir/usr/share/${pkgname%-git}/"
+  ln -s /usr/bin/bw "${pkgdir}${site_packages}/${pkgname%-git}/"
 }
