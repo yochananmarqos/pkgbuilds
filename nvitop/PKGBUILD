@@ -1,0 +1,25 @@
+# https://aur.archlinux.org/packages/nvitop
+groups=('modified')
+
+pkgname=nvitop
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Interactive NVIDIA-GPU process viewer and GPU process management"
+arch=('any')
+url="https://github.com/XuehaiPan/nvitop"
+license=('GPL3')
+depends=('ncurses' 'nvidia-utils' 'python-cachetools' 'python-nvidia-ml-py'
+         'python-psutil' 'python-termcolor')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('573bb17a8880d5bc85846bab18abbaa7b40944366864beca6d36c8e431462b7f')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
