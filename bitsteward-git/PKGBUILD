@@ -1,5 +1,5 @@
 pkgname=bitsteward-git
-pkgver=0.0.4.r0.g525fe1d
+pkgver=0.0.4.r6.g5074efb
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
@@ -44,6 +44,10 @@ package() {
   install -Dm755 "$srcdir/${pkgname%-git}.sh" "$pkgdir/usr/bin/${pkgname%-git}"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t \
     "$pkgdir/usr/share/applications/"
+
+  # Install password store file
+  touch "${pkgdir}${site_packages}/${pkgname%-git}/.env"
+  chmod 777 "${pkgdir}${site_packages}/${pkgname%-git}/.env"
 
   # Symlink Bitwarden CLI binary
   ln -s /usr/bin/bw "${pkgdir}${site_packages}/${pkgname%-git}/"
