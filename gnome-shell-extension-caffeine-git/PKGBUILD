@@ -27,7 +27,7 @@ build() {
 
   cd "$_uuid"
   gnome-extensions pack \
-    --extra-source=icons \
+    --extra-source=icons/ \
     --extra-source=preferences/ \
     --force
 }
