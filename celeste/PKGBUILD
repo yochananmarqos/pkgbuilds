@@ -1,0 +1,43 @@
+pkgname=celeste
+pkgver=0.3.5
+pkgrel=1
+pkgdesc="GUI file synchronization client that can sync with any cloud provider"
+arch=('x86_64')
+url="https://github.com/hwittenborn/celeste"
+license=('GPL3')
+depends=('gtk3' 'libadwaita' 'libayatana-appindicator' 'rclone')
+makedepends=('cargo-nightly' 'clang' 'go' 'just')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('7a01f1a0b08378d898705b633adeb8192d44647bd78303385dfe2b75040920ae')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=nightly
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=nightly
+  export GOPATH="$srcdir/gopath"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  just build
+
+  # Clean module cache for makepkg -C
+  go clean -modcache
+}
+
+check() {
+  export RUSTUP_TOOLCHAIN=nightly
+  just clippy
+}
+
+
+package() {
+  cd "$pkgname-$pkgver"
+  DESTDIR="$pkgdir" just install
+}
