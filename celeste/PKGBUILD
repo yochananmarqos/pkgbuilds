@@ -32,6 +32,7 @@ build() {
 }
 
 check() {
+  cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=nightly
   just clippy
 }
