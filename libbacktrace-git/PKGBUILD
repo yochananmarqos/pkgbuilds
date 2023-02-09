@@ -19,7 +19,7 @@ sha256sums=('SKIP'
             '93c2e6238ceec2cf32ae8a30ea39e5fc5556c189a75990f0d1270450f3d53c22')
 
 pkgver() {
-  cd "libbacktrace"
+  cd "$srcdir/libbacktrace"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
@@ -29,7 +29,7 @@ prepare() {
 }
 
 build() {
-  cd "libbacktrace"
+  cd "$srcdir/libbacktrace"
 
   # prevent static lib mangling
   export CFLAGS+=" -ffat-lto-objects"
@@ -48,7 +48,7 @@ build() {
 #}
 
 package() {
-  cd "libbacktrace"
+  cd "$srcdir/libbacktrace"
   make DESTDIR="$pkgdir" install
 
   install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/libbacktrace"
