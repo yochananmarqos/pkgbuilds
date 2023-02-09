@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=celeste
-pkgver=0.3.5
+pkgver=0.3.6
 pkgrel=1
 pkgdesc="GUI file synchronization client that can sync with any cloud provider"
 arch=('x86_64')
@@ -10,7 +10,7 @@ license=('GPL3')
 depends=('gtk3' 'libadwaita' 'libayatana-appindicator' 'rclone')
 makedepends=('cargo-nightly' 'clang' 'go' 'just')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('7a01f1a0b08378d898705b633adeb8192d44647bd78303385dfe2b75040920ae')
+sha256sums=('84525cf795b3b17039081655af3c44c602f78e26137dde712a00169862777da1')
 
 prepare() {
   cd "$pkgname-$pkgver"
