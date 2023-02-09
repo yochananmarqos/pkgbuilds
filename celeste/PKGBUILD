@@ -1,16 +1,19 @@
 ## WIP
 
 pkgname=celeste
-pkgver=0.3.6
+pkgver=0.4.0
 pkgrel=1
 pkgdesc="GUI file synchronization client that can sync with any cloud provider"
 arch=('x86_64')
 url="https://github.com/hwittenborn/celeste"
 license=('GPL3')
-depends=('gtk3' 'libadwaita' 'libayatana-appindicator' 'rclone')
-makedepends=('cargo-nightly' 'clang' 'go' 'just')
+depends=('cairo' 'gdk-pixbuf2' 'libadwaita' 'pango' 'rclone')
+makedepends=('cargo-nightly' 'clang' 'go' 'gtk3' 'just')
+optdepends=('libayatana-appindicator: option for tray icon'
+            'libappindicator-gtk3: option for tray icon')
+options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('84525cf795b3b17039081655af3c44c602f78e26137dde712a00169862777da1')
+sha256sums=('af7b1b757dfd17282c6959c314ec622a6ae7d7843200a634b7325ccb5939cc38')
 
 prepare() {
   cd "$pkgname-$pkgver"
