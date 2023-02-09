@@ -10,8 +10,8 @@ url="https://github.com/ianlancetaylor/libbacktrace"
 license=('BSD')
 depends=('gcc-libs')
 makedepends=('git' 'libunwind')
-provides=('libbacktrace' 'libbacktrace.so')
-conflicts=('libbacktrace')
+provides=("${pkgname%-git}" "${pkgname%-git}.so")
+conflicts=("${pkgname%-git}")
 options=('lto' 'staticlibs')
 source=("git+https://github.com/ianlancetaylor/libbacktrace.git"
         '0001-Provide-project-information-to-autotools.patch')
@@ -19,17 +19,17 @@ sha256sums=('SKIP'
             '93c2e6238ceec2cf32ae8a30ea39e5fc5556c189a75990f0d1270450f3d53c22')
 
 pkgver() {
-  cd "$srcdir/libbacktrace"
+  cd "$srcdir/${pkgname%-git}"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-  cd "libbacktrace"
+  cd "$srcdir/${pkgname%-git}"
   patch -Np1 -i "$srcdir/0001-Provide-project-information-to-autotools.patch"
 }
 
 build() {
-  cd "$srcdir/libbacktrace"
+  cd "$srcdir/${pkgname%-git}"
 
   # prevent static lib mangling
   export CFLAGS+=" -ffat-lto-objects"
@@ -43,13 +43,13 @@ build() {
 }
 
 #check() {
-#  cd "libbacktrace"
+#  cd "$srcdir/${pkgname%-git}"
 #  make check
 #}
 
 package() {
-  cd "$srcdir/libbacktrace"
+  cd "$srcdir/${pkgname%-git}"
   make DESTDIR="$pkgdir" install
 
-  install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/libbacktrace"
+  install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/${pkgname%-git}/"
 }
