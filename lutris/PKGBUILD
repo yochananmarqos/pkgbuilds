@@ -5,7 +5,7 @@ groups=('modified')
 pkgname=lutris
 _pkgver=0.5.13-beta1
 pkgver=${_pkgver//-/.}
-pkgrel=2
+pkgrel=1
 pkgdesc='Open Gaming Platform'
 arch=('any')
 url='https://lutris.net'
@@ -24,6 +24,7 @@ optdepends=(
   'innoextract: Extract Inno Setup installers'
   'lib32-gamemode: Allows games to request a temporary set of optimisations'
   'lib32-glibc: for 32bit games support'
+  'lib32-libstrangle: Set FPS limit'
   "lib32-mangohud: Display the games' FPS + other information"
   'lib32-vkd3d: Vulkan 3D support'
   'lib32-vulkan-icd-loader: Vulkan support'
