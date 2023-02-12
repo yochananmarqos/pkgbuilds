@@ -1,14 +1,14 @@
 pkgname=findex
-pkgver=0.6.0
+pkgver=0.7.1
 pkgrel=1
 pkgdesc="Highly customizable finder with high performance."
 arch=('x86_64')
 url="https://github.com/mdgaziur/findex"
 license=('GPL3')
-depends=('libkeybinder3' 'systemd')
+depends=('libkeybinder3')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('200193046c44aed4203406317578c65ec869320c95d0bb719a019c6480468373')
+sha256sums=('057c9b1f7826ff502efae0b587069ed75ffb61c880f7f58c0705f6b1473ef4fe')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -25,8 +25,6 @@ build() {
 
 package() {
   cd "$pkgname-$pkgver"
-  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm755 target/release/{"$pkgname","$pkgname-daemon"} -t "$pkgdir/usr/bin/"
   install -Dm644 css/style.css -t "$pkgdir/opt/$pkgname/"
-  install -Dm644 "$pkgname"{.service,-restarter.service,-restarter.path} -t \
-    "$pkgdir/usr/lib/systemd/user/"
 }
