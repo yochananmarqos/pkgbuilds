@@ -12,7 +12,7 @@ depends=('clinfo' 'gtk4' 'lsb-release' 'mesa-demos' 'mesa-utils' 'python'
          'python-gobject' 'vdpauinfo' 'vulkan-tools')
 makedepends=('meson')
 checkdepends=('appstream-glib')
-optdepends=('nvidia: Vulkan nvidia driver'
+optdepends=('nvidia: Vulkan NVIDIA drivers'
             'vulkan-radeon: Vulkan AMD drivers'
             'vulkan-intel: Vulkan Intel drivers')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
