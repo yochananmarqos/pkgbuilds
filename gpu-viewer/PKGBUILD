@@ -1,0 +1,34 @@
+# https://aur.archlinux.org/packages/gpu-viewer
+groups=('modified')
+
+pkgname=gpu-viewer
+pkgver=2.22
+pkgrel=1
+pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
+arch=('any')
+url="https://github.com/arunsivaramanneo/GPU-Viewer/"
+license=('GPL3')
+depends=('clinfo' 'gtk4' 'lsb-release' 'mesa-demos' 'mesa-utils' 'python'
+         'python-gobject' 'vdpauinfo' 'vulkan-tools')
+makedepends=('meson')
+checkdepends=('appstream-glib')
+optdepends=('nvidia: Vulkan nvidia driver'
+            'vulkan-radeon: Vulkan AMD drivers'
+            'vulkan-intel: Vulkan Intel drivers')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('c9eaa3786191a64f63d0f5fb842beb7b4265141ed0299ed75f6b4ccf54506e83')
+
+build() {
+  arch-meson GPU-Viewer-$pkgver build
+  meson compile -C build
+}
+
+check() {
+  cd GPU-Viewer-$pkgver
+  appstream-util validate-relax --nonet data/*.metainfo.xml
+  desktop-file-validate data/*.desktop
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
