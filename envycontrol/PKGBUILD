@@ -11,7 +11,7 @@ license=('MIT')
 depends=('python' 'xorg-xrandr')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('gnome-shell-extension-gpu-profile-selector: GUI for GNOME')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/geminis3/envycontrol/archive/refs/tags/v$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/bayasdev/envycontrol/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('b411b8ae5c073247e6f7d145b46037f1adbc1c2d5fdf564fc0bf13c71780d3da')
 
 build() {
