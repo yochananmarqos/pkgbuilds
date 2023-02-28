@@ -1,5 +1,5 @@
 pkgname=findex
-pkgver=0.7.1
+pkgver=0.7.2
 pkgrel=1
 pkgdesc="Highly customizable finder with high performance."
 arch=('x86_64')
@@ -8,7 +8,7 @@ license=('GPL3')
 depends=('libkeybinder3')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('057c9b1f7826ff502efae0b587069ed75ffb61c880f7f58c0705f6b1473ef4fe')
+sha256sums=('e2eeedf01747fdca1fd52c6a1609a979d0261ba16fa1031bbb7607b2bace2780')
 
 prepare() {
   cd "$pkgname-$pkgver"
