@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gpu-viewer
-pkgver=2.24
+pkgver=2.26
 pkgrel=1
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
@@ -16,7 +16,7 @@ optdepends=('nvidia: Vulkan NVIDIA drivers'
             'vulkan-radeon: Vulkan AMD drivers'
             'vulkan-intel: Vulkan Intel drivers')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('db25dd4b3792fc52d6cb344abe5e733ac445b045ed067f9a44258439f2e04bba')
+sha256sums=('08ad07384216596eb4ff5c96c2667c4b68f67a1080a3316cbc4707ab8209fdfd')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
