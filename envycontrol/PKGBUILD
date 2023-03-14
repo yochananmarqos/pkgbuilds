@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=envycontrol
-pkgver=3.0.2
+pkgver=3.0.3
 pkgrel=1
 pkgdesc="Easy GPU switching for Nvidia Optimus laptops under Linux"
 arch=('any')
@@ -12,7 +12,7 @@ depends=('python' 'xorg-xrandr')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('gnome-shell-extension-gpu-profile-selector: GUI for GNOME')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/bayasdev/envycontrol/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('e6bbf491d5caef8dfdf0e299735c78d6994526d0c12d203c2faef0e9a131716b')
+sha256sums=('d9485d27b7fbde945fc308057f060bf0e4ff1add550cbd1f1f9e7223540b484e')
 
 build() {
   cd "$pkgname-$pkgver"
