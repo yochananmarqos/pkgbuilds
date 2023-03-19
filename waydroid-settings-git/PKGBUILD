@@ -2,18 +2,18 @@
 groups=('modified')
 
 pkgname=waydroid-settings-git
-pkgver=r85.bac6cd8
+pkgver=r102.33fb7bb
 pkgrel=1
 pkgdesc="GTK app written in Python to control Waydroid settings"
 arch=('any')
 url="https://github.com/axel358/Waydroid-Settings"
 license=('GPL3')
-depends=('libadwaita' 'polkit' 'python-gobject' 'vte4' 'waydroid' 'webkit2gtk-5.0')
+depends=('gtk3' 'polkit' 'python-gobject' 'vte3' 'waydroid' 'webkit2gtk')
 makedepends=('blueprint-compiler' 'git' 'meson')
 checkdepends=('appstream-glib')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("git+https://github.com/axel358/Waydroid-Settings.git#branch=gtk4-port")
+source=("git+https://github.com/axel358/Waydroid-Settings.git")
 sha512sums=('SKIP')
 
 pkgver() {
