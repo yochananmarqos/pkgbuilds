@@ -2,31 +2,31 @@
 groups=('modified')
 
 pkgname=glances
-pkgver=3.2.4.2
+pkgver=3.3.1.1
 pkgrel=1
 pkgdesc="CLI curses-based monitoring tool"
 arch=('any')
 url="https://nicolargo.github.io/glances"
 license=('LGPL')
-depends=('python-defusedxml' 'python-psutil')
-makedepends=('python-setuptools')
-optdepends=('hddtemp: HDD temperature monitoring support'
-#            'python-batinfo: '
+depends=('python-defusedxml' 'python-packaging' 'python-psutil' 'python-ujson')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=('hddtemp: for HDD temperature monitoring support'
+#            'python-batinfo: for battery monitoring'
 #            'python-bernhard: for the Riemann export module'
             'python-bottle: for Web server mode'
-            'python-cassandra-driver: for the Cassandra export module'
-            'python-chevron: for the action script feature'
-            'python-couchdb: for the CouchDB export module'
+            'python-cassandra-driver: for the Cassandra export module' # AUR, VCS package
+            'python-chevron: for the action script feature' # AUR
+#            'python-couchdb: for the CouchDB export module'
             'python-docker: for the Docker monitoring support'
             'python-elasticsearch: for the Elastic Search export module'
 #            'python-graphitesender: for the Graphite export module'
             'python-influxdb: for the InfluxDB version 1 export module'
-            'python-influxdb-client: for the InfluxDB version 2 export module'
-            'python-kafka: for the Kafka export module'
+            'python-influxdb-client: for the InfluxDB version 2 export module' # AUR
+            'python-kafka: for the Kafka export module' # AUR
             'python-netifaces: for the IP plugin'
-            'python-py3nvml: for the GPU plugin'
-            'python-paho-mqtt: '
-            'python-pika: for the RabbitMQ/ActiveMQ export module'
+            'python-py3nvml: for the GPU plugin' # AUR
+            'python-paho-mqtt: for the MQTT plugin'
+            'python-pika: for the RabbitMQ/ActiveMQ export module' # AUR
 #            'python-potsdb: for the OpenTSDB export module'
             'python-prometheus_client: for the Prometheus export module'
             'python-py-cpuinfo: for the Quicklook CPU info module'
@@ -34,27 +34,26 @@ optdepends=('hddtemp: HDD temperature monitoring support'
 #            'python-pymdstat: for RAID support'
             'python-pysnmp: for SNMP support'
 #            'python-pysmart.smartx: for HDD Smart support'
+            'python-dateutil'
             'python-pyzmq: for the ZeroMQ export module'
             'python-requests: for the Ports, Cloud plugins and RESTful export module'
-            'python-sparklines: for the Quick Plugin sparklines option'
-            'python-statsd: for the StatsD export module'
-            'python-wifi: for the wifi plugin'
-            'python-zeroconf: for the autodiscover mode'
-            'wireless_tools: for the Wifi plugin')
-changelog=NEWS.rst
+            'python-sparklines: for the Quick Plugin sparklines option' # AUR
+            'python-statsd: for the StatsD export module' # AUR
+            'python-wifi: for the wifi plugin' # AUR
+            'python-zeroconf: for the autodiscover mode')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/nicolargo/glances/archive/v$pkgver.tar.gz"
         "$pkgname.service")
-sha256sums=('88ac8103d777b2a55cee9418a5940269c640c3ad964ec44de0e9bb80cdbead37'
+sha256sums=('450c604ddfe05398ec88bd237648c7d851ad3c537b5f785eccafab4e9789c235'
             '4cdd6955ec14146a9975bd5a6fe0fe15081b0d83fc8a062e4a68b8e432317308')
 
 build() {
   cd "$pkgname-$pkgver"
-  python setup.py build
+  python -m build --wheel --no-isolation
 }
 
 package() {
   cd "$pkgname-$pkgver"
-  python setup.py install --root="$pkgdir/" --skip-build --optimize=1
+  python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "$srcdir/$pkgname.service" -t "$pkgdir/usr/lib/systemd/system"
 }
