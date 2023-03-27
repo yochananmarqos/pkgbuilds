@@ -1,0 +1,39 @@
+pkgname=journal-viewer
+pkgver=0.1.1
+pkgrel=1
+pkgdesc="A modern linux desktop application to visualize systemd logs."
+arch=('x86_64')
+url="https://github.com/mingue/journal-viewer"
+license=('GPL3')
+depends=('systemd' 'webkit2gtk')
+makedepends=('cargo' 'npm')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha256sums=('5e0fa285e312ac317b9b851ea96f9c9476e8f8a57a6e5f01c38b2ee2eddf8a90'
+            '283a00ac37a4aa7bde1de49b8b54a7c786a7d709035d53a9c71b7972f0093e72')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  npm config set cache "$srcdir/npm-cache"
+  npm install
+
+  cd src-tauri
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # Don't bundle AppImage
+  sed -i 's/"targets": "all",/"targets": "deb",/g' tauri.conf.json
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  npm config set cache "$srcdir/npm-cache"
+  npm run build
+  npm run tauri build
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "src-tauri/target/release/$pkgname" -t "$pkgdir/usr/bin/"
+}
