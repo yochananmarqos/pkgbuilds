@@ -5,3 +5,4 @@ Exec=journal-viewer
 Terminal=false
 Icon=logviewer
 StartupNotify=false
+Type=Application

@@ -10,7 +10,7 @@ makedepends=('cargo' 'npm')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop")
 sha256sums=('5e0fa285e312ac317b9b851ea96f9c9476e8f8a57a6e5f01c38b2ee2eddf8a90'
-            '283a00ac37a4aa7bde1de49b8b54a7c786a7d709035d53a9c71b7972f0093e72')
+            '413001fffca9460ec2a5ff4e5515e12218034747a9bc41b018507a17a2a5ddfc')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -36,4 +36,5 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   install -Dm755 "src-tauri/target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
 }
