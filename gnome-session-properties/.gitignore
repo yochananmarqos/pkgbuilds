@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!0001-Remove-unneeded-stuff.patch
+!0002-Fix-GTK-3.14-incompatibilities.patch
