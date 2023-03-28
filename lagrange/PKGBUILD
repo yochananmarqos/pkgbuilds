@@ -8,8 +8,8 @@ pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
 url="https://gmi.skyjake.fi/lagrange"
 license=('BSD')
-depends=('fribidi' 'harfbuzz' 'hicolor-icon-theme' 'libwebp' 'mpg123' 'openssl'
-         'pcre2' 'sdl2' 'zlib')
+depends=('fribidi' 'harfbuzz' 'hicolor-icon-theme' 'libunistring' 'libwebp'
+         'mpg123' 'openssl' 'pcre2' 'sdl2' 'zlib')
 makedepends=('cmake' 'git' 'zip')
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
