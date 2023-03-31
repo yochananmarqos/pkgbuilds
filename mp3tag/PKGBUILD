@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=mp3tag
-pkgver=3.19
+pkgver=3.20
 pkgrel=1
 pkgdesc="The universal tag editor."
 arch=('x86_64')
@@ -19,7 +19,7 @@ source=(
         "$pkgname"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('7908e12068075a8f39a2500ee23de1268ea66947379d6c807a4e5c7f5b0627e2'
+sha256sums=('b6e250b65c3ea0e047cabc0d9cd4cc18cdbbae6f5cf0e728ec6d6c02fe47195f'
             'e4c4e01eb54dc6a0dbc255732f24f36503439f411d4d43c344f1c7e8fdee7ed9'
             '22d512a612804e9e165b96291b3dc07b096863e25de2c7c581258c9545dcb28d'
             'bc0c7b8a7a9f9ee92dfe2f1880ef5d91920473713b5d60e4afa361d69a446798'
