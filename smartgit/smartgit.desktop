@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Name=SmartGit
+Keywords=git
+Comment= Git-Client
+Comment[cs]=Git-Klient
+Comment[de]=Git-Client
+Comment[zh_CN]=Git-客户端
+Comment[zh_HK]=Git-客戶端
+Comment[zh_TW]=Git-客戶端
+Type=Application
+Categories=Development;RevisionControl
+Terminal=false
+StartupWMClass=SmartGit
+Exec="/opt/smartgit/bin/smartgit.sh" %u
+MimeType=x-scheme-handler/git;x-scheme-handler/smartgit;
+Icon=smartgit
