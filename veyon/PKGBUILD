@@ -1,0 +1,62 @@
+# https://aur.archlinux.org/packages/veyon
+groups=('modfied')
+
+pkgname=veyon
+pkgver=4.7.5
+pkgrel=2
+pkgdesc="Cross-platform computer monitoring and classroom management"
+arch=('x86_64')
+url="https://veyon.io/"
+license=('GPL2')
+depends=('hicolor-icon-theme' 'libfakekey' 'libjpeg-turbo' 'libldap' 'libsasl'
+         'libvncserver' 'libxcomposite' 'libxcursor' 'libxdamage' 'libxext'
+         'libxfixes' 'libxinerama' 'libxrandr' 'libxtst' 'lzo' 'openssl' 'pam'
+         'procps-ng' 'qca-qt5' 'qt5-base')
+makedepends=('cmake' 'git' 'qt5-tools')
+_commit=f24b48f5acea2a5728ba9f45c9d4df382d094b33  # tags/v4.7.5^0
+source=("git+https://github.com/veyon/veyon.git#commit=${_commit}"
+        'git+https://invent.kde.org/pim/kldap.git'
+        'git+https://github.com/veyon/libfakekey.git'
+        'git+https://github.com/veyon/libvncserver.git'
+        'git+https://github.com/veyon/qthttpserver.git'
+        'git+https://github.com/veyon/ultravnc.git'
+        'git+https://github.com/veyon/x11vnc.git'
+        'git+https://github.com/nodejs/http-parser.git')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+prepare() {
+  cd "$srcdir/$pkgname"
+  git submodule init
+  git config submodule.3rdparty/kldap.url "$srcdir/kldap"
+  git config submodule.3rdparty/libfakekey.url "$srcdir/libfakekey"
+  git config submodule.3rdparty/libvncserver.url "$srcdir/libvncserver"
+  git config submodule.3rdparty/qthttpserver.url "$srcdir/qthttpserver"
+  git config submodule.3rdparty/ultravnc.url "$srcdir/ultravnc"
+  git config submodule.3rdparty/x11vnc.url "$srcdir/x11vnc"
+  git -c protocol.file.allow=always submodule update
+
+  cd 3rdparty/qthttpserver
+  git submodule init
+  git config submodule.src/3rdparty/http-parser.url "$srcdir/http-parser"
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  cmake -B build -S "$pkgname" \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DSYSTEMD_SERVICE_INSTALL_DIR='/usr/lib/systemd/system' \
+    -Wno-dev
+  cmake --build build
+}
+
+package_veyon() {
+  DESTDIR="$pkgdir" cmake --install build
+}
