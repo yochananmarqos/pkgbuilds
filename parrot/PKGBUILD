@@ -1,3 +1,6 @@
+# Different package with the same name exists in the AUR
+groups=('modified')
+
 pkgname=parrot
 pkgver=1.0.4
 pkgrel=1
