@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gdm-settings
-pkgver=3.beta.0
+pkgver=3.0
 pkgrel=1
 pkgdesc="A settings app for GNOME's Login Manager, GDM"
 arch=('any')
@@ -12,7 +12,7 @@ depends=('gettext' 'libadwaita' 'python-gobject')
 makedepends=('blueprint-compiler' 'meson')
 checkdepends=('appstream')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/realmazharhussain/gdm-settings/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('f1268195bdfaeffac1dccc6dab26bb32f974f96378f41e74f00e816e101fb8de')
+sha256sums=('e4b33b8506383fea7bda7dd354183bc18e19355080cd0f4899d973a43717332f')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
