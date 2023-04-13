@@ -15,7 +15,7 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/realmazharhussain/gdm-setti
 sha256sums=('e4b33b8506383fea7bda7dd354183bc18e19355080cd0f4899d973a43717332f')
 
 build() {
-  arch-meson "$pkgname-$pkgver" build
+  arch-meson "$pkgname-$pkgver" build --buildtype release
   meson compile -C build
 }
 
