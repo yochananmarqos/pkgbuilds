@@ -2,41 +2,44 @@
 groups=('modified')
 
 pkgname=mangl-git
-pkgver=r70.d0f7f3a
+pkgver=1.1.2.r1.g1957140
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
 url="https://github.com/zigalenarcic/mangl"
 license=('BSD')
-depends=('freeglut' 'freetype2')
-makedepends=('glu' 'git')
+depends=('freetype2' 'glfw' 'libglvnd')
+makedepends=('git')
+makedepends+=('glfw-x11')
+#makedepends+=('glfw-wayland')
 optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/zigalenarcic/mangl.git'
-        "${pkgname%-git}.desktop")
+        "${pkgname%-git}.desktop"
+        'manglrc_example')
 sha256sums=('SKIP'
-            '370e454df24a2bf0bf185988d92083c0ec5bd72548a5fba9c44867e76a1d8d91')
+            '370e454df24a2bf0bf185988d92083c0ec5bd72548a5fba9c44867e76a1d8d91'
+            '527eb963486647d759f3884beff0acb24424a93b02d285008d475bcb26534e80')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
   cd "$srcdir/${pkgname%-git}"
-
-  pushd mandoc
-  ./configure --prefix=/usr
-  popd
-
+  ./configure
   make
-
 }
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
-  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+#  make PREFIX=/usr DESTDIR="$pkgdir" install
+
+  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin/"
+  install -Dm644 "${pkgname%-git}.1" -t "$pkgdir/usr/share/man/man1/"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "$srcdir/manglrc_example" -t "$pkgdir/usr/share/doc/${pkgname%-git}/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}/"
 }
