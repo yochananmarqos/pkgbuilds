@@ -1,5 +1,5 @@
 pkgname=cloudy-gtk-theme-git
-pkgver=r140.84bdf5c
+pkgver=r150.dac8e64
 pkgrel=1
 pkgdesc="Gtk2, Gtk3, Gnome Shell, Cinnamon & Metacity themes based on Arc-Theme"
 arch=('any')
@@ -7,7 +7,7 @@ url="https://www.gnome-look.org/p/1242416"
 license=('none')
 depends=('gtk3')
 optdepends=('gtk-engine-murrine: for gtk2 themes'
-            'gnome-themes-standard: for gtk2 themes'
+            'gnome-themes-extra: for gtk2 themes'
 options=('!strip')
 source=('git+https://github.com/i-mint/Cloudy.git')
 sha256sums=('SKIP')
