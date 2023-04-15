@@ -2,18 +2,18 @@
 groups=('modified')
 
 pkgname=onetagger
-pkgver=1.5.1
+pkgver=1.6.0
 pkgrel=1
 pkgdesc="Music tagger with Beatport, Discogs, Musicbrainz, Spotify, Traxsource and many other platforms support."
 arch=('x86_64')
 url="https://onetagger.github.io"
 license=('GPL3')
-depends=('alsa-lib' 'libsndfile' 'webkit2gtk')
+depends=('alsa-lib' 'webkit2gtk')
 makedepends=('cargo' 'pnpm')
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Marekkon5/onetagger/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('a7a1a44d4b1160cb29096c3c065fed42f507926c4e566584d0e5c9db9e5460f6'
+sha256sums=('68612bf5f4674ae752850b85c30b2591cca5a73460bb256cd95a1b66e989b116'
             '81f6776bd5027cdd7a54255cc9b1b3a3babf113fb0c98717dd44878b9d77856c')
 
 prepare() {
