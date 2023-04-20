@@ -3,12 +3,12 @@ groups=('modified')
 
 pkgname=smartgit
 pkgver=22.1.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Graphical Git client"
 arch=('x86_64')
 url="https://www.syntevo.com/smartgit"
 license=('custom')
-_jre_ver=19  # JRE 17 or higher required
+_jre_ver=20  # JRE 17 or higher required
 depends=('bash' 'curl' 'expat' 'git' 'gtk3' 'hicolor-icon-theme' "java-runtime=${_jre_ver}"
          'lsb-release' 'openssh' 'openssl-1.1' 'perl' 'which' 'zlib')
 optdepends=('git-lfs: Large file support'
