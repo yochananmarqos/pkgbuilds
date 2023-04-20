@@ -3,7 +3,7 @@
 groups=('modified')
 
 pkgname=lutris
-_pkgver=0.5.13-beta1
+_pkgver=0.5.13-beta2
 pkgver=${_pkgver//-/.}
 pkgrel=1
 pkgdesc='Open Gaming Platform'
@@ -43,7 +43,7 @@ optdepends=(
   'xemu: support for Xbox games'
   'xorg-xgamma: Restore gamma on game exit')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/lutris/lutris/archive/v$_pkgver.tar.gz")
-sha512sums=('83f3c212c1f4290568bce911e4d40aa778d513f444dc6ddf42870242d9c70ae79fbb141d81e144aa8cd918a7fa794c815cd1254b1864e0154fb73d4e1e2aa5bd')
+sha512sums=('25e9d55c5eb6324b506d5a70fb02a45b1ad4e891bbc7d8528a94ba68c0223d035d527b3197095ce66904d140306cfb95288ed7666bc1e2cb4981c16e1e740001')
 
 build() {
   arch-meson "$pkgname-$_pkgver" build
