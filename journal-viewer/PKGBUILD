@@ -1,3 +1,6 @@
+# https://aur.archlinux.org/packages/journal-viewer
+groups=('modified')
+
 pkgname=journal-viewer
 pkgver=0.3.0
 pkgrel=1
