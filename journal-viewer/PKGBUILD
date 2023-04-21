@@ -1,5 +1,5 @@
 pkgname=journal-viewer
-pkgver=0.2.0
+pkgver=0.3.0
 pkgrel=1
 pkgdesc="A modern linux desktop application to visualize systemd logs."
 arch=('x86_64')
@@ -9,7 +9,7 @@ depends=('systemd' 'webkit2gtk')
 makedepends=('cargo' 'npm')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('c4e31be49c5477712cbae613f38b121675ee6ab3d1d52ad2ab4525c92c47cb70'
+sha256sums=('aa794ab4c852ea9e86b5e8a2dfe7b1c5f99c74c43bbdc606dc92780b3d9cdd32'
             '413001fffca9460ec2a5ff4e5515e12218034747a9bc41b018507a17a2a5ddfc')
 
 prepare() {
@@ -37,4 +37,16 @@ package() {
   cd "$pkgname-$pkgver"
   install -Dm755 "src-tauri/target/release/$pkgname" -t "$pkgdir/usr/bin/"
   install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+
+#  _bundle_dir="src-tauri/target/release/bundle/deb/${pkgname}_0.0.1_amd64"
+
+#  install -Dm644 "${_bundle_dir}/data/usr/share/applications/$pkgname.desktop" -t \
+#    "$pkgdir/usr/share/applications/"
+
+#  for icon_size in 32x32 128x128; do
+#    install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png" -t \
+#      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/"
+#  done
+#  install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/256x256@2/apps/$pkgname.png" -t \
+#      "$pkgdir/usr/share/icons/hicolor/256x256@2/apps/"
 }
