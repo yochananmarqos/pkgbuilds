@@ -1,0 +1,46 @@
+## WIP
+
+pkgname=hoptodesk
+pkgver=1.40.4
+pkgrel=1
+pkgdesc="Remote Desktop Software free for personal and commercial use."
+arch=('x86_64')
+url="https://www.hoptodesk.com/"
+license=('GPL3')
+depends=('alsa-lib' 'gst-plugins-base' 'gtk3' 'libpulse' 'libsciter-gtk.so'
+         'libxcb' 'libxfixes' 'libxkbcommon' 'libxtst' 'systemd-libs'
+         'ttf-arphic-uming' 'xdotool')
+makedepends=('cargo' 'clang' 'cmake' 'git')
+_commit=07cb0c16225668e2837f9e14e78d3ef7ebe733a5  # 1.40.4
+source=("git+https://gitlab.com/hoptodesk/hoptodesk.git#commit=$_commit")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "$srcdir/$pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # Remove invalid version
+  sed -i '/Version/d' "$pkgname.desktop"
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release --features inline
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "$pkgname.service" -t "$pkgdir/usr/lib/systemd/system/"
+
+  for icon_size in 32x42 128x128 128x128@2x; do
+    install -Dm644 res/${icon_size}.png \
+      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png"
+  done
+  install -Dm644 res/icon.png \
+    "$pkgdir/usr/share/icons/hicolor/512x512/apps/$pkgname.png"
+}
