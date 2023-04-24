@@ -6,7 +6,7 @@
 # Contributor: TingPing <tingping@tingping.se>
 # Contributor: Omar Pakker <omar.pakker@oracle.com>
 pkgname=retro-gtk-git
-pkgver=1.0.2+61+g9033b2a
+pkgver=1.0.2.r61.g9033b2a
 pkgrel=1
 pkgdesc="The GTK Libretro frontend framework"
 arch=('x86_64' 'aarch64')
@@ -21,7 +21,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd ${pkgname%-git}
-  git describe --tags | sed 's/-/+/g'
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
