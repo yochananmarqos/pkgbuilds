@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-scheduler-git
-pkgver=2.0.0.r0.gde4d020
+pkgver=2.0.0.r1.g38fb688
 pkgrel=1
 pkgdesc="Auto-configure CFS and process priorities for improved desktop responsiveness"
 arch=('x86_64')
@@ -14,7 +14,7 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/pop-os/system76-scheduler.git'
         'manjaro.kdl')
-backup=('etc/system76-scheduler/config.kdl')
+backup=("etc/${pkgname%-git}/config.kdl")
 sha256sums=('SKIP'
             'fd775a24918b14965b5692e2defb5e2aa64966a859b21aac65dbdd5e7bc3c341')
 
@@ -41,7 +41,8 @@ package() {
   cd "$srcdir/${pkgname%-git}"
   just rootdir="$pkgdir" install
 
-  rm "$pkgdir/etc/${pkgname%-git}/process-scheduler/pop_os.kdl"
-  install -m644 "$srcdir/manjaro.kdl" -t \
-    "$pkgdir/etc/${pkgname%-git}/process-scheduler/"
+  # Remove default Pop!_OS config & install Manjaro config
+  rm -rf "$pkgdir/etc/${pkgname%-git}/process-scheduler"
+  install -Dm644 "$srcdir/manjaro.kdl" -t \
+    "$pkgdir/usr/share/${pkgname%-git}/process-scheduler/"
 }
