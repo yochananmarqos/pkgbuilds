@@ -2,20 +2,21 @@
 groups=('modified')
 
 pkgname=system76-scheduler-git
-pkgver=1.0.0.r0.gd508ff1
+pkgver=2.0.0.r0.gde4d020
 pkgrel=1
 pkgdesc="Auto-configure CFS and process priorities for improved desktop responsiveness"
 arch=('x86_64')
 url="https://github.com/pop-os/system76-scheduler"
 license=('MPL2')
-depends=('gcc-libs')
-makedepends=('cargo' 'git')
+depends=('bcc-tools' 'gcc-libs' 'libpipewire' 'python-bcc')
+makedepends=('cargo' 'git' 'just')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-backup=("etc/${pkgname%-git}/config.ron"
-        "etc/${pkgname%-git}/assignments/default.ron")
-source=('git+https://github.com/pop-os/system76-scheduler.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/pop-os/system76-scheduler.git'
+        'manjaro.kdl')
+backup=('etc/system76-scheduler/config.kdl')
+sha256sums=('SKIP'
+            'fd775a24918b14965b5692e2defb5e2aa64966a859b21aac65dbdd5e7bc3c341')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
@@ -32,10 +33,15 @@ prepare() {
 build() {
   cd "$srcdir/${pkgname%-git}"
   export RUSTUP_TOOLCHAIN=stable
-  make
+  export EXECSNOOP_PATH=/usr/share/bcc/tools/execsnoop
+  just build-release
 }
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  make DESTDIR="$pkgdir" install
+  just rootdir="$pkgdir" install
+
+  rm "$pkgdir/etc/${pkgname%-git}/process-scheduler/pop_os.kdl"
+  install -m644 "$srcdir/manjaro.kdl" -t \
+    "$pkgdir/etc/${pkgname%-git}/process-scheduler/"
 }
