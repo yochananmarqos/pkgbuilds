@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=tabby
-pkgver=1.0.196
+pkgver=1.0.197
 pkgrel=1
 pkgdesc="A terminal for a more modern age"
 arch=('x86_64')
@@ -14,22 +14,27 @@ optdepends=('libsecret: config sync'
             'gnome-keyring: password storage backend')
 conflicts=('terminus-terminal')
 replaces=('terminus-terminal')
-_commit=2a8b7c3e7975a1bc2df8b466c6014409df7529fe  # tags/v1.0.196^0
+_commit=da0a4569dede1807ab872b0c97d50c14bcc56e01  # tags/v1.0.197^0
 source=("git+https://github.com/Eugeny/tabby.git#commit=$_commit?signed"
         "$pkgname.desktop")
 sha256sums=('SKIP'
             'd0a70b3c59e423a6b7a11bed2a01b898f719dffba25d7f8b389ac981ce290569')
 validpgpkeys=('F1A5C116840C8DAE045984275896FCBBDD1CF4F4') # Eugene Pankov <e@ajenti.org>
 
+pkgver() {
+  cd "$srcdir/$pkgname"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
+
 prepare() {
-  cd "$srcdir/$pkgname/"
+  cd "$srcdir/$pkgname"
 
   # Skip building RPM
   sed -i "s/'rpm', //g" scripts/build-linux.mjs
 }
 
 build(){
-  cd "$srcdir/$pkgname/"
+  cd "$srcdir/$pkgname"
   yarn config set cache-folder "$srcdir/yarn-cache"
   yarn install
   yarn run build
