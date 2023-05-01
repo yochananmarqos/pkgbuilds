@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=sif-git
-pkgver=r103.8e0a21d
+pkgver=2023.05.01.r0.gcb2bf59
 pkgrel=1
 pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
 arch=('any')
@@ -18,7 +18,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
