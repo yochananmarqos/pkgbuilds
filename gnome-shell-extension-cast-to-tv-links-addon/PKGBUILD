@@ -8,26 +8,30 @@ url="https://github.com/Rafostar/cast-to-tv-links-addon"
 license=('GPL2')
 depends=('gnome-shell-extension-cast-to-tv' 'youtube-dl')
 makedepends=('npm')
-source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+source=("cast-to-tv-links-addon-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('90849c54287e149ff1ee5d942e5c72d03844f5171f47e7af49631e6aff014eb5')
 
 build() {
-	cd "$_pkgname-$pkgver"
-	npm install --cache "$srcdir/npm-cache"
-	make
+  cd "cast-to-tv-links-addon-$pkgver"
+  npm install --cache "$srcdir/npm-cache"
+  make
 }
 
 package() {
-	cd "$_pkgname-$pkgver"
-	make INSTALLPATH="$pkgdir/usr/share/gnome-shell/extensions" install
+  cd "cast-to-tv-links-addon-$pkgver"
+  _uuid="${_pkgname}@rafostar.github.com"
 
-	_uuid=cast-to-tv-links-addon@rafostar.github.com
+  make INSTALLPATH="$pkgdir/usr/share/gnome-shell/extensions" install
 
-	install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-	cp -r node_modules "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-	chmod 777 "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/node_modules"
-	install -Dm644 "schemas/org.gnome.shell.extensions.$_pkgname.gschema.xml" -t \
-		"$pkgdir/usr/share/glib-2.0/schemas"
-	install -d "$pkgdir/usr/share/locale"
-	cp -r locale/* "$pkgdir/usr/share/locale"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+  cp -r node_modules "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/"
+  chmod 777 "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/node_modules"
+
+  install -Dm644 "schemas/org.gnome.shell.extensions.cast-to-tv-links-addon.gschema.xml" -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+
+  install -d "$pkgdir/usr/share/locale"
+  cp -r locale/* "$pkgdir/usr/share/locale/"
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"/{schemas,locale}
 }
