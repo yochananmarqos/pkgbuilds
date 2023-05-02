@@ -28,7 +28,6 @@ _ensure_local_nvm() {
   source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
 }
 
-
 prepare() {
   cd "$pkgname-$pkgver"
   _ensure_local_nvm
