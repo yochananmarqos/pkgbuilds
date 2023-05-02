@@ -1,5 +1,4 @@
 pkgname=gnome-shell-extension-cast-to-tv-desktop-addon
-_pkgname=cast-to-tv-desktop-addon
 pkgver=2
 pkgrel=1
 pkgdesc="Desktop streaming support for GNOME Shell Extension Cast to TV."
@@ -12,21 +11,25 @@ source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('fdd35a1149332287e9011467c5b55a8cad594becbe28b14f6ba8a4f8b42a77c3')
 
 build() {
-	cd "$_pkgname-$pkgver"
-	npm install --cache "$srcdir/npm-cache"
-	make
+  cd "cast-to-tv-desktop-addone-$pkgver"
+  npm install --cache "$srcdir/npm-cache"
+  make
 }
 
 package() {
-	cd "$_pkgname-$pkgver"
-	make INSTALLPATH="$pkgdir/usr/share/gnome-shell/extensions" install
+  cd "cast-to-tv-desktop-addon-$pkgver"
+  _uuid="${_pkgname}@rafostar.github.com"
 
-	_uuid=cast-to-tv-desktop-addon@rafostar.github.com
+  make INSTALLPATH="$pkgdir/usr/share/gnome-shell/extensions" install
 
-	cp -r node_modules "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-	chmod 777 "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/node_modules"
-	install -Dm644 "schemas/org.gnome.shell.extensions.$_pkgname.gschema.xml" -t \
-		"$pkgdir/usr/share/glib-2.0/schemas"
-#	install -d "$pkgdir/usr/share/locale"
-#	cp -r locale/* "$pkgdir/usr/share/locale"
+  cp -r node_modules "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+  chmod 777 "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/node_modules"
+
+  install -Dm644 "schemas/org.gnome.shell.extensions.cast-to-tv-desktop-addon.gschema.xml" -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+
+  install -d "$pkgdir/usr/share/locale"
+  cp -r locale/* "$pkgdir/usr/share/locale"
+
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"/{schemas,locale}
 }
