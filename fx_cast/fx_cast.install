@@ -1,5 +1,0 @@
-post_install() {
-	echo ""
-	echo "Don't forget to install the Firefox extension and enable the Avahi service!"
-	echo ""
-}
