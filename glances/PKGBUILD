@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=glances
 pkgver=3.3.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="CLI curses-based monitoring tool"
 arch=('any')
 url="https://nicolargo.github.io/glances"
@@ -34,6 +34,7 @@ optdepends=('hddtemp: for HDD temperature monitoring support'
 #            'python-pymdstat: for RAID support'
             'python-pysnmp: for SNMP support'
 #            'python-pysmart.smartx: for HDD Smart support'
+            'python-pystache: templating engine'
             'python-dateutil'
             'python-pyzmq: for the ZeroMQ export module'
             'python-requests: for the Ports, Cloud plugins and RESTful export module'
