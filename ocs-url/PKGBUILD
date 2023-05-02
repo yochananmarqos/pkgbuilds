@@ -3,23 +3,30 @@ groups=('modified')
 
 pkgname=ocs-url
 pkgver=3.1.0
-pkgrel=8
-pkgdesc='An install helper program for items served via OpenCollaborationServices (ocs://).'
+pkgrel=9
+pkgdesc="An install helper program for items served via OpenCollaborationServices (ocs://)."
 arch=('x86_64')
 url="https://www.opendesktop.org/p/1136805"
 license=('GPL3')
-depends=('qt5-declarative' 'qt5-quickcontrols' 'qt5-svg')
+depends=('hicolor-icon-theme' 'qt5-declarative' 'qt5-quickcontrols' 'qt5-svg')
 makedepends=('git')
 provides=('xdgurl')
 conflicts=('xdgurl')
-source=("git+https://www.opencode.net/dfn2/ocs-url.git#tag=release-$pkgver"
-        'git+https://github.com/akiraohgaki/qtil.git#tag=v0.4.0')
+_commit=e2b6dfa2a321c4189ffe6745f9e4ce57579b5a7f  # tags/release-3.1.0^0
+_qtil_commit=f9c4336478b8c19a7ed1a365f09bd20ae903498f  # tags/v0.4.0^0
+source=("git+https://www.opencode.net/dfn2/ocs-url.git#commit=$_commit"
+        "git+https://github.com/akiraohgaki/qtil.git#commit=$_qtil_commit"
+        'install_types.diff')
 sha256sums=('SKIP'
-            'SKIP')
+            'SKIP'
+            'bce48860cb12aac883e65bdd3f7a1811c0cdc63a1e74953c89e2325a2f7c2ebb')
 
 prepare() {
   cd "$srcdir/$pkgname"
   ln -s "$srcdir/qtil" lib/qtil
+
+  # make install directories XDG compliant
+  patch --strip=1 app/configs/install_types.json < ../install_types.diff
 }
 
 build() {
