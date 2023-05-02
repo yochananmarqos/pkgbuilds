@@ -7,7 +7,7 @@ url="https://github.com/Rafostar/cast-to-tv-desktop-addon"
 license=('GPL2')
 depends=('gnome-shell-extension-cast-to-tv' 'gst-plugins-ugly')
 makedepends=('npm')
-source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+source=("cast-to-tv-desktop-addon-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('fdd35a1149332287e9011467c5b55a8cad594becbe28b14f6ba8a4f8b42a77c3')
 
 build() {
