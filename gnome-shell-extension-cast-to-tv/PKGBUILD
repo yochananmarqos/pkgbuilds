@@ -1,4 +1,6 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-cast-to-tv
+groups=('modified')
+
 pkgname=gnome-shell-extension-cast-to-tv
 pkgdesc="Cast files to Chromecast, web browser or media player app over local network."
 pkgver=15
@@ -16,23 +18,23 @@ sha256sums=('d6cfb02291d8b6edc4b65b59006606bf052aceb0c43843ec654f528a2d4fdaf3'
             'b24fa4e6b04cae500ec267345ac48f9c92452e0d9ad798ac28132984387b98cc')
 
 prepare() {
-	cd "$pkgname-$pkgver"
-	patch --forward --strip=1 --input "$srcdir/install_node_modules.patch"
+  cd "$pkgname-$pkgver"
+  patch --forward --strip=1 --input "$srcdir/install_node_modules.patch"
 }
 
 build() {
-	cd "$pkgname-$pkgver"
-	npm install --cache "$srcdir/npm-cache"
-	make
+  cd "$pkgname-$pkgver"
+  npm install --cache "$srcdir/npm-cache"
+  make
 }
 
 package() {
-	cd "$pkgname-$pkgver"
-	make PKGDIR="$pkgdir/" install
-	make PKGDIR="$pkgdir/" CUSTOMPATH=PKGDIR/usr/share install
+  cd "$pkgname-$pkgver"
+  make PKGDIR="$pkgdir/" install
+  make PKGDIR="$pkgdir/" CUSTOMPATH=PKGDIR/usr/share install
 
-	rm -rf "$pkgdir/usr/share/glib-2.0/schemas/gschemas.compiled"
+  rm -rf "$pkgdir/usr/share/glib-2.0/schemas/gschemas.compiled"
 
-	install -Dm644 nautilus/nautilus-cast-to-tv.py -t \
-		"$pkgdir/usr/share/nautilus-python/extensions"
+  install -Dm644 nautilus/nautilus-cast-to-tv.py -t \
+    "$pkgdir/usr/share/nautilus-python/extensions"
 }
