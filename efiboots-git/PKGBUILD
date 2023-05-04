@@ -9,7 +9,6 @@ arch=('any')
 url="https://github.com/Elinvention/efiboots"
 license=('GPL3')
 depends=('efibootmgr' 'gtk4' 'python-gobject')
-#makedepends=('git' 'python-setuptools')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
