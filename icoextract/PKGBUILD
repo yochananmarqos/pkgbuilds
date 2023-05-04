@@ -9,8 +9,9 @@ arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
 depends=('python-pefile')
-makedepends=('auth-tarball-from-git' 'python-build' 'python-installer'
-             'python-setuptools' 'python-wheel')
+#makedepends=('auth-tarball-from-git' 'python-build' 'python-installer'
+#             'python-setuptools' 'python-wheel')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
@@ -18,12 +19,12 @@ source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
 sha256sums=('9d84a6191c02326bdf6f7689184540aba5b683b9c626ed832ff20c426f2d6746'
             'c8829f81f2c307705d59adbac000065b446bc4acc59aad667f9ef302c98bb8ca')
 
-prepare() {
-  cd "$pkgname-$pkgver"
-  auth-tarball-from-git --keyring ../james.pgp \
-    --tag "$pkgver" --prefix "$pkgname-$pkgver" \
-    https://github.com/jlu5/icoextract.git ../"$pkgname-$pkgver.tar.gz"
-}
+#prepare() {
+#  cd "$pkgname-$pkgver"
+#  auth-tarball-from-git --keyring ../james.pgp \
+#    --tag "$pkgver" --prefix "$pkgname-$pkgver" \
+#    https://github.com/jlu5/icoextract.git ../"$pkgname-$pkgver.tar.gz"
+#}
 
 build() {
   cd "$pkgname-$pkgver"
