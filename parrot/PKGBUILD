@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=parrot
 pkgver=1.0.6
-pkgrel=1
+pkgrel=2
 pkgdesc="A Rust-based GUI in Tauri for pacman using the wrapper paru."
 arch=('x86_64')
 url="https://github.com/dan-online/parrot"
@@ -54,8 +54,8 @@ package() {
   install -Dm644 src-tauri/icons/icon.png \
     "$pkgdir/usr/share/icons/hicolor/512x512/apps/$pkgname.png"
 
-  install -Dm644 "${_bundle_dir}/data/usr/share/applications/$pkgname-${pkgver//./-}.desktop" -t \
-    "$pkgdir/usr/share/applications/"
+  install -Dm644 "${_bundle_dir}/data/usr/share/applications/$pkgname-${pkgver//./-}.desktop" \
+    "$pkgdir/usr/share/applications/$pkgname.desktop"
 
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
