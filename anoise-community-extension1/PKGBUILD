@@ -3,21 +3,26 @@ groups=('modified')
 
 pkgname=anoise-community-extension1
 pkgver=0.0.1
-pkgrel=6
+pkgrel=7
 pkgdesc="Ambient Noise Community Library Package 1"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
 license=('GPL3')
-makedepends=('python-distutils-extra')
+makedepends=('python-build' 'python-distutils-extra' 'python-installer'
+             'python-setuptools' 'python-wheel')
 source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
 sha256sums=('605aafb84a4669cc6d64dec2d93b3585dc260971bcc5db7d63478f8f8901c7b4')
 
 build() {
   cd "$srcdir/community"
-  python setup.py build
+  python -m build --wheel --no-isolation
 }
 
 package() {
   cd "$srcdir/community"
-  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  cp -r "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
+  rm -rf "${pkgdir}${site_packages}/usr"
 }
