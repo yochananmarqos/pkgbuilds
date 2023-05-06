@@ -2,24 +2,24 @@
 groups=('modified')
 
 pkgname=python-apt
-pkgver=2.2.1
+pkgver=2.5.3
 pkgrel=1
 pkgdesc="Python 3 interface to libapt-pkg"
 arch=('x86_64')
 url="https://tracker.debian.org/pkg/python-apt"
 license=('GPL2')
 depends=('apt' 'python')
-makedepends=('python-distutils-extra' 'python-setuptools')
+makedepends=('python-build' 'python-distutils-extra' 'python-installer'
+             'python-setuptools' 'python-wheel')
 source=("https://salsa.debian.org/apt-team/python-apt/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('2357b089af1e677c06b3cfc99620b41cd0c777dcbc2f909a3e3c0cc17acf283d')
+sha256sums=('82304ae26db7cc3ee851eb834dbdc605edff979aad227382d55bfc2f19c27773')
 
 build() {
-	cd "$pkgname-$pkgver"
-	python setup.py build
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
 }
 
 package() {
-	cd "$pkgname-$pkgver"
-	export PYTHONHASHSEED=0
-	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
 }
