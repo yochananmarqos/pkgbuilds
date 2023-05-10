@@ -20,29 +20,29 @@ optdepends=('libayatana-indicator: show a tray icon in the notification area'
             'wlrctl: full screen detection on Wayland')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("${pkgname%-git}::git+https://github.com/slgobinath/SafeEyes.git"
+source=('git+https://github.com/slgobinath/SafeEyes.git'
         'git+https://github.com/safeeyes/safeeyes-plugins.git')
 sha256sums=('SKIP'
             'SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "$srcdir/SafeEyes"
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "$srcdir/SafeEyes"
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "$srcdir/SafeEyes"
   appstream-util validate-relax --nonet "${pkgname%-git}/platform/$_app_id.metainfo.xml"
   desktop-file-validate "${pkgname%-git}/platform/$_app_id.desktop"
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "$srcdir/SafeEyes"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "${pkgname%-git}/platform/$_app_id.metainfo.xml" -t \
