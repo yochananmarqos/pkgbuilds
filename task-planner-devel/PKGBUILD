@@ -1,0 +1,39 @@
+pkgname=task-planner-devel
+_app_id=com.github.alainm23.task-planner
+pkgver=3.0.7+27+g97c0f1c3
+pkgrel=1
+pkgdesc="Task manager with Todoist support (Development version)"
+arch=('x86_64')
+url="https://useplanner.com"
+license=('GPL3')
+depends=('evolution-data-server' 'granite7' 'gtksourceview5' 'libadwaita'
+         'webkitgtk-6.0')
+makedepends=('git' 'gobject-introspection' 'meson' 'vala')
+checkdepends=('appstream')
+conflicts=('elementary-planner')
+replaces=('elementary-planner')
+_commit=97c0f1c30d087e2ac459241bfdb9b606a12a77ce  # master
+source=("git+https://github.com/alainm23/planner.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd planner
+  git describe --tags | sed 's/-/+/g'
+}
+
+build() {
+  arch-meson planner build
+  meson compile -C build
+}
+
+check() {
+  desktop-file-validate "build/data/${_app_id}.desktop"
+  appstreamcli validate --no-net "build/data/${_app_id}.appdata.xml" || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  ln -s "/usr/bin/${_app_id}.devel" "$pkgdir/usr/bin/task-planner"
+  ln -s "/usr/bin/${_app_id}.quick-add" "$pkgdir/usr/bin/task-planner-quick-add"
+}
