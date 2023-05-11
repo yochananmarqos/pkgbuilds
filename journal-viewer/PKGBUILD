@@ -2,22 +2,22 @@
 groups=('modified')
 
 pkgname=journal-viewer
-pkgver=0.3.0
+pkgver=0.4.0
 pkgrel=1
 pkgdesc="A modern linux desktop application to visualize systemd logs."
 arch=('x86_64')
 url="https://github.com/mingue/journal-viewer"
 license=('GPL3')
-depends=('systemd' 'webkit2gtk')
+depends=('systemd-libs' 'webkit2gtk')
 makedepends=('cargo' 'npm')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('aa794ab4c852ea9e86b5e8a2dfe7b1c5f99c74c43bbdc606dc92780b3d9cdd32'
+sha256sums=('f2f071bf9a711a2f19d861cc70c82ba9fa321244d4688b9ed019cdf07df0eca0'
             '413001fffca9460ec2a5ff4e5515e12218034747a9bc41b018507a17a2a5ddfc')
 
 prepare() {
   cd "$pkgname-$pkgver"
-  npm config set cache "$srcdir/npm-cache"
+  export npm_config_cache="$srcdir/npm_cache"
   npm install
 
   cd src-tauri
@@ -31,7 +31,7 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  npm config set cache "$srcdir/npm-cache"
+  export npm_config_cache="$srcdir/npm_cache"
   npm run build
   npm run tauri build
 }
