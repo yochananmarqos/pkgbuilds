@@ -21,8 +21,6 @@ prepare() {
     "flatpak/${_app_id}.desktop"
 
   # Correct translations path
-  sed -i "s|/app/translations/|/usr/share/$pkgname/translations/|g" \
-    src/main_window.py
   sed -i 's|locale = open(f"translations/{lang}")|locale = open(f"/usr/share/savedesktop/translations/{lang}")|g' \
     src/main_window.py
 
