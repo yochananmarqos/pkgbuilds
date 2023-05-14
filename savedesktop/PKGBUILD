@@ -37,7 +37,8 @@ check() {
 
 package() {
   cd "SaveDesktop-$pkgver"
-  install -Dm755 src/{main_window,periodic_saving}.py -t "$pkgdir/usr/share/$pkgname/"
+  install -Dm755 src/main_window.py -t "$pkgdir/usr/share/$pkgname/"
+  install -m644 src/periodic_saving.py -t "$pkgdir/usr/share/$pkgname/"
   cp -R translations "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "flatpak/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm644 "flatpak/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
