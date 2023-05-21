@@ -24,6 +24,7 @@ package() {
   install -Dm755 cameractrls.py cameraview.py cameractrlsgtk4.py -t \
     "${pkgdir}${site_packages}/CameraCtrls/"
   install -Dm644 pkg/${_app_id}.svg -t "${pkgdir}${site_packages}/CameraCtrls/images/"
+
   install -Dm644 "pkg/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
   install -Dm644 "pkg/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
