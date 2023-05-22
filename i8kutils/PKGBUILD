@@ -1,44 +1,33 @@
 # http://aur.archlinux.org/packages/i8kutils
-pkgname=i8kutils
-pkgver=1.43
-pkgrel=3
-pkgdesc="Fan control for Dell laptops"
-arch=('i686' 'x86_64')
-url="https://launchpad.net/i8kutils"
-license=('GPL2')
-optdepends=('tcl: for i8kmon daemon'
-            'acpi: for i8kmon daemon')
-backup=("etc/$pkgname/i8kmon.conf")
-source=("https://launchpad.net/i8kutils/trunk/$pkgver/+download/i8kutils_${pkgver}.tar.xz"
-        'i8kmon.service')
-sha256sums=('881a211c64f79be6a08c88864deda45280f0ce925ed9e2af180db2d93d364dcb'
-            '6f6f8bfc10e8192d47e494363bd943a5ddecc1140189c160d522156f6f7d4d4b')
+groups=('modified')
 
-prepare() {
-	cd "$srcdir/$pkgname"
-	# conform to Arch Linux guidelines
-	sed -i 's|/etc/i8kmon.conf|/etc/i8kutils/i8kmon.conf|g' i8kmon.1
-	sed -i 's|/etc/i8kmon.conf|/etc/i8kutils/i8kmon.conf|g' i8kmon.conf
-	sed -i 's|/etc/i8kmon.conf|/etc/i8kutils/i8kmon.conf|g' i8kmon
-	echo "dell-smm-hwmon" > modules-load.d-dell-smm-hwmon.conf
-}
+pkgname=i8kutils
+pkgver=1.50
+pkgrel=1
+pkgdesc="Fan control for some Dell laptops"
+arch=('any')
+url="https://launchpad.net/i8kutils"
+license=('GPL3')
+depends=('tcl' 'tcllib' 'sh')
+makedepends=('meson' 'systemd')
+optdepends=('acpi: For enabling i8kmon to read the battery status')
+backup=("etc/i8kmon.conf")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Wer-Wolf/i8kutils/archive/refs/tags/v$pkgver.tar.gz"
+        'dell-smm-hwmon.conf')
+sha256sums=('4a09f1cde08949655994dde5f3fefd56e8b311141a9c6fe2951875ce36c02c74'
+            '2c447f92ac5245fcd6ecec7e69622b0e31b790e08bcbf853e9f7a7bc631fea07')
 
 build() {
-	cd "$srcdir/$pkgname"
-	make clean
-	make
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	install -d "$pkgdir"/usr/{bin,share/man/man1}
-	install -Dm644 i8kctl.1 i8kmon.1 "$pkgdir/usr/share/man/man1"
-	install -Dm755 i8kctl i8kfan i8kmon "$pkgdir/usr/bin"
+  meson install -C build --destdir "$pkgdir"
 
-	install -Dm644 i8kmon.conf -t "$pkgdir/etc/$pkgname"
-	install -Dm644 dell-smm-hwmon.conf -t "$pkgdir/etc/modprobe.d"
-	install -Dm644 modules-load.d-dell-smm-hwmon.conf -t "$pkgdir/etc/modules-load.d"
-	install -Dm644 "$srcdir/i8kmon.service" -t "$pkgdir/usr/lib/systemd/system"
-	install -Dm644 "README.$pkgname" "$pkgdir/usr/share/doc/$pkgname/README"
-	# rmmod dell-smm-hwmon && modprobe dell-smm-hwmon
+  install -Dm644 dell-smm-hwmon.conf -t "$pkgdir/etc/modules-load.d/"
 }
