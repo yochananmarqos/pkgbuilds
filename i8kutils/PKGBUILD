@@ -11,11 +11,20 @@ license=('GPL3')
 depends=('tcl' 'tcllib' 'sh')
 makedepends=('meson' 'systemd')
 optdepends=('acpi: For enabling i8kmon to read the battery status')
-backup=("etc/i8kmon.conf")
+backup=("etc/$pkgname/i8kmon.conf")
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Wer-Wolf/i8kutils/archive/refs/tags/v$pkgver.tar.gz"
         'dell-smm-hwmon.conf')
 sha256sums=('4a09f1cde08949655994dde5f3fefd56e8b311141a9c6fe2951875ce36c02c74'
             '2c447f92ac5245fcd6ecec7e69622b0e31b790e08bcbf853e9f7a7bc631fea07')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # conform to Arch Linux guidelines
+  sed -i 's|/etc/i8kmon.conf|/etc/i8kutils/i8kmon.conf|g' man/i8kmon.1
+  sed -i "s|install_data('i8kmon.conf', install_dir : '/etc'|install_data('i8kmon.conf', install_dir : '/etc/i8kutils'|g" \
+    etc/meson.build
+}
 
 build() {
   arch-meson "$pkgname-$pkgver" build
