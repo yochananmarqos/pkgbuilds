@@ -1,3 +1,5 @@
+## WIP
+
 pkgname=i8kgui
 pkgver=0.8.2
 pkgrel=1
@@ -5,7 +7,8 @@ pkgdesc="A Dell thermal management GUI to control fan speeds and monitor tempera
 arch=('any')
 url="https://github.com/razman786/i8kgui"
 license=('GPL3')
-depends=('dell-bios-fan-control-git' 'i8kutils' 'libsmbios' 'pyside6' 'python-psutil')
+depends=('dell-bios-fan-control-git' 'i8kutils' 'libsmbios' 'pyside6' 'python-psutil'
+         'python-py-cpuinfo')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('cpupower-gui: change the CPU Governor'
             'python-undervolt')
