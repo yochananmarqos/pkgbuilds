@@ -1,0 +1,34 @@
+pkgname=i8kgui
+pkgver=0.8.2
+pkgrel=1
+pkgdesc="A Dell thermal management GUI to control fan speeds and monitor temperatures"
+arch=('any')
+url="https://github.com/razman786/i8kgui"
+license=('GPL3')
+depends=('dell-bios-fan-control-git' 'i8kutils' 'libsmbios' 'pyside6' 'python-psutil')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=('cpupower-gui: change the CPU Governor'
+            'python-undervolt')
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('95b326118cc35d79d85ff1a3da9321cb96f8a048caa3e300b9972f04eddf487b')
+validpgpkeys=()
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  sed -i "s|{Path.home()}/.local|/usr/share|g" setup.py
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 i8kmon_sample_conf/i8kmon.conf \
+    "$pkgdir/usr/share/doc/$pkgname/i8kmon_sample.conf"
+}
