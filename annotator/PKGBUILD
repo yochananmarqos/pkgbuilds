@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=annotator
 _app_id=com.github.phase1geo.annotator
-pkgver=1.2.0
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="Image annotation for Elementary OS"
 arch=('x86_64')
@@ -13,7 +13,7 @@ depends=('granite' 'libhandy' 'python-gobject')
 makedepends=('meson' 'vala')
 checkdepends=('appstream')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('8b50f3d304b6c19383508c09719c3b6a817e9178767f4567b9d0613c864840b8')
+sha256sums=('b8c7db122454f4f933a7ed2f82a0dd4f01d931d7d8005acb76de4c98ccdf3153')
 
 build() {
   arch-meson "Annotator-$pkgver" build
