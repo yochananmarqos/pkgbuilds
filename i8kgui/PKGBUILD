@@ -15,12 +15,12 @@ optdepends=('cpupower-gui: change the CPU Governor'
 install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('95b326118cc35d79d85ff1a3da9321cb96f8a048caa3e300b9972f04eddf487b')
-validpgpkeys=()
 
 prepare() {
   cd "$pkgname-$pkgver"
 
-  sed -i "s|{Path.home()}/.local|/usr/share|g" setup.py
+  # Correct euid
+  sed -i 's/== 0/== 1000/g' setup.py
 }
 
 build() {
@@ -31,6 +31,10 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  cp -r "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
+  rm -rf "${pkgdir}${site_packages}/usr"
 
   install -Dm644 i8kmon_sample_conf/i8kmon.conf \
     "$pkgdir/usr/share/doc/$pkgname/i8kmon_sample.conf"
