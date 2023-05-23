@@ -24,6 +24,9 @@ prepare() {
 
   # Correct service path
   sed -i 's|etc/systemd|usr/lib/systemd|g' "$pkgname/${pkgname}_thermal_control"
+
+  # Modify hwmon path for my Dell Inspiron 5575
+  sed -i 's|coretemp.0/hwmon|dell_smm_hwmon|g' "$pkgname/$pkgname"
 }
 
 build() {
