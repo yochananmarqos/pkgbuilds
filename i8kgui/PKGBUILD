@@ -21,6 +21,9 @@ prepare() {
 
   # Correct euid
   sed -i 's/== 0/== 1000/g' setup.py
+
+  # Correct service path
+  sed -i 's|etc/systemd|usr/lib|g' "$pkgname/${pkgname}_thermal_control"
 }
 
 build() {
