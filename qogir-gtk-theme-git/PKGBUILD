@@ -2,14 +2,13 @@
 groups=('modified')
 
 pkgname=qogir-gtk-theme-git
-pkgver=2023.02.27.r12.gb3481b2
+pkgver=2023.05.24.r1.g3515f8f
 pkgrel=1
 pkgdesc="A flat design theme for GTK 3, GTK 2 and Gnome-Shell"
 arch=('any')
 url="https://github.com/vinceliuice/Qogir-theme"
 license=('GPL3')
-depends=('gtk3')
-makedepends=('git' 'gnome-shell' 'sassc')
+makedepends=('git' 'sassc')
 optdepends=('gtk-engine-murrine: GTK2 theme support'
             'gtk-engines: GTK2 theme support'
             'qogir-icon-theme: Matching icon theme'
@@ -31,10 +30,7 @@ package() {
   install -d "$pkgdir/usr/share/themes"
   ./install.sh -t all -d "$pkgdir/usr/share/themes/"
 
-# Plank theme
-  install -Dm644 src/plank/dock.theme -t "$pkgdir/usr/share/plank/themes/Qogir/"
-
 # Firefox theme
   install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
-  cp -r src/firefox "$pkgdir/usr/share/doc/${pkgname%-git}"
+  cp -r src/firefox "$pkgdir/usr/share/doc/${pkgname%-git}/"
 }
