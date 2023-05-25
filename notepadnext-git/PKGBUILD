@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=notepadnext-git
-pkgver=0.5.5.r13.gfe75620
+pkgver=0.6.1.r13.gb345587
 pkgrel=1
 pkgdesc="A cross-platform, reimplementation of Notepad++"
 arch=('x86_64')

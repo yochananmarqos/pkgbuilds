@@ -26,11 +26,11 @@ license=('GPL2')
 makedepends=('git')
 _commit=1b833c934469e331ae15b48392cff09944b7f14a
 source=("git+https://github.com/rabbitvcs/rabbitvcs.git#commit=$_commit"
-        '328.patch'
-        "$pkgbase-ignore-post-install.patch")
+        "$pkgbase-ignore-post-install.patch"
+        '328.patch')
 sha256sums=('SKIP'
-            '47ee39a0288c20183a4d8375fe32d783b886737501dac02ac666be3188e8605e'
-            'eb0f2d4dc65c4d3f3cf1835da32063990b69be38e7a162376f8dde84e21ae5e1')
+            'eb0f2d4dc65c4d3f3cf1835da32063990b69be38e7a162376f8dde84e21ae5e1'
+            '47ee39a0288c20183a4d8375fe32d783b886737501dac02ac666be3188e8605e')
 
 pkgver() {
   cd "$srcdir/$pkgbase"
@@ -39,12 +39,11 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/$pkgbase"
+  patch -Np1 -i "$srcdir/$pkgbase-ignore-post-install.patch"
 
   # Prevent double scanning all version controlled items in a directory
   # https://github.com/rabbitvcs/rabbitvcs/pull/328
   patch -Np1 -i "$srcdir/328.patch"
-
-  patch -Np1 -i "$srcdir/$pkgbase-ignore-post-install.patch"
 
 #  local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
 #  local pathfix="/usr/lib/python${python_version}/Tools/scripts/pathfix.py"

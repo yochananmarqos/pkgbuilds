@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-lockkeys-git
-pkgver=r168.e7418ec
-pkgrel=2
+pkgver=r192.856615b
+pkgrel=1
 pkgdesc="Numlock and Capslock indicator for gnome-shell"
 arch=('any')
 url="https://github.com/kazysmaster/gnome-shell-extension-lockkeys"

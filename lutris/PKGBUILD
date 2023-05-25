@@ -11,7 +11,7 @@ arch=('any')
 url='https://lutris.net'
 license=('GPL3')
 depends=('cabextract' 'curl' 'glib2' 'gtk3' 'mesa-utils' 'p7zip' 'psmisc'
-         'python-certifi' 'python-dbus' 'python-distro' 'python-gobject'
+         'python-cairo' 'python-certifi' 'python-dbus' 'python-distro' 'python-gobject'
          'python-lxml' 'python-pillow' 'python-requests' 'python-yaml' 'unzip'
          'webkit2gtk-4.1' 'xdg-utils' 'xorg-xrandr')
 makedepends=('meson')

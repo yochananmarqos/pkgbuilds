@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-sound-output-device-chooser-git
 _gitname=gse-sound-output-device-chooser
-pkgver=41_Base.r2.g76f7f59
+pkgver=43.r11.g9af403c
 pkgrel=1
 pkgdesc="Shows a list of sound output and input devices in the status menu"
 arch=('any')

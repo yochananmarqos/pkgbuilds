@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-scheduler-git
-pkgver=2.0.0.r1.g38fb688
+pkgver=2.0.0.r2.g97a8617
 pkgrel=1
 pkgdesc="Auto-configure CFS and process priorities for improved desktop responsiveness"
 arch=('x86_64')

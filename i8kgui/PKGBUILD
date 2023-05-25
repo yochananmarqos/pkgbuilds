@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=i8kgui
-pkgver=0.8.2
+pkgver=0.3+154+g4d71b7a
 pkgrel=1
 pkgdesc="A Dell thermal management GUI to control fan speeds and monitor temperatures"
 arch=('any')
@@ -9,15 +9,21 @@ url="https://github.com/razman786/i8kgui"
 license=('GPL3')
 depends=('dell-bios-fan-control-git' 'i8kutils' 'libsmbios' 'pyside6' 'python-psutil'
          'python-py-cpuinfo')
-makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('cpupower-gui: change the CPU Governor'
             'python-undervolt')
 install="$pkgname.install"
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('95b326118cc35d79d85ff1a3da9321cb96f8a048caa3e300b9972f04eddf487b')
+_commit=4d71b7ab3a45fe884cc6e683be40cb2b414e13c3  # branch/development
+source=("git+https://github.com/razman786/i8kgui.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
 
 prepare() {
-  cd "$pkgname-$pkgver"
+  cd "$srcdir/$pkgname"
 
   # Correct euid
   sed -i 's/== 0/== 1000/g' setup.py
@@ -27,12 +33,12 @@ prepare() {
 }
 
 build() {
-  cd "$pkgname-$pkgver"
+ cd "$srcdir/$pkgname"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd "$srcdir/$pkgname"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")

@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
-pkgver=31.r0.g33bb8e6
+pkgver=36.r0.gbc6af50
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
 arch=('any')

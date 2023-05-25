@@ -23,7 +23,7 @@ build() {
 #check() {
 #  cd "$_name-$pkgver"
 
-#  # this package requires itself to run the tests :/
+#  # requires itself to run the tests
 #  PYTHONPATH=./ pytest
 #}
 

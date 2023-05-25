@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=opensteam-git
-pkgver=0.0.1.beta.r4.g8bb66d1
+pkgver=0.0.2.beta.r0.ga1ff4de
 pkgrel=1
 pkgdesc="Partially open-source alternative to the Steam Client application"
 arch=('x86_64')

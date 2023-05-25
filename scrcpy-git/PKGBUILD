@@ -19,8 +19,8 @@ sha256sums=('SKIP'
             '11b5ad2d1bc9b9730fb7254a78efd71a8ff46b1938ff468e47a21b653a1b6725')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+  cd "$srcdir/${pkgname%-git}"
+  printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
 }
 
 build() {
@@ -32,8 +32,8 @@ build() {
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
-	DESTDIR="$pkgdir" ninja -C build install
+  cd "$srcdir/${pkgname%-git}"
+  meson install -C build --destdir "$pkgdir"
 
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
