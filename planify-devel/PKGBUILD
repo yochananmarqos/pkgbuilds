@@ -12,7 +12,7 @@ makedepends=('git' 'gobject-introspection' 'meson' 'vala')
 checkdepends=('appstream')
 provides=('planify')
 conflicts=('planify' 'elementary-planner' 'task-planner')
-replaces=('elementary-planner' 'task-planner)
+replaces=('elementary-planner' 'task-planner')
 _commit=394e7bada02b0ea4f89f4b006819e751565a5021  # branch/master
 source=("git+https://github.com/alainm23/planner.git#commit=$_commit")
 sha256sums=('SKIP')
