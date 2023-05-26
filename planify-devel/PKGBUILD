@@ -1,6 +1,6 @@
-pkgname=task-planner-devel
-_app_id=com.github.alainm23.task-planner
-pkgver=3.0.7+39+g6571d969
+pkgname=planify-devel
+_app_id=com.github.alainm23.planify
+pkgver=3.0.7+41+g394e7bad
 pkgrel=1
 pkgdesc="Task manager with Todoist support (Development version)"
 arch=('x86_64')
@@ -10,10 +10,10 @@ depends=('evolution-data-server' 'granite7' 'gtksourceview5' 'libadwaita'
          'webkitgtk-6.0')
 makedepends=('git' 'gobject-introspection' 'meson' 'vala')
 checkdepends=('appstream')
-provides=('task-planner')
-conflicts=('task-planner' 'elementary-planner')
-replaces=('elementary-planner')
-_commit=6571d969c30969d2bbb982d7a242be1867dcf8b8  # branch/master
+provides=('planify')
+conflicts=('planify' 'elementary-planner' 'task-planner')
+replaces=('elementary-planner' 'task-planner)
+_commit=394e7bada02b0ea4f89f4b006819e751565a5021  # branch/master
 source=("git+https://github.com/alainm23/planner.git#commit=$_commit")
 sha256sums=('SKIP')
 
@@ -35,5 +35,5 @@ check() {
 package() {
   meson install -C build --destdir "$pkgdir"
 
-  ln -s "/usr/bin/${_app_id}.Devel" "$pkgdir/usr/bin/task-planner"
+  ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/planify"
 }
