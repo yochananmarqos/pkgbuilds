@@ -28,7 +28,8 @@ build() {
 }
 
 check() {
-  desktop-file-validate "build/data/${_app_id}.desktop"
+  meson test -C build --print-errorlogs
+
   appstreamcli validate --no-net "build/data/${_app_id}.appdata.xml" || :
 }
 
