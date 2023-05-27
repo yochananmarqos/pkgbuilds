@@ -1,6 +1,6 @@
 pkgname=planify-devel
-_app_id=com.github.alainm23.planify
-pkgver=3.0.7+41+g394e7bad
+_app_id=io.github.alainm23.planify
+pkgver=3.0.7+44+g71ebb7c1
 pkgrel=1
 pkgdesc="Task manager with Todoist support (Development version)"
 arch=('x86_64')
@@ -12,8 +12,8 @@ makedepends=('git' 'gobject-introspection' 'meson' 'vala')
 checkdepends=('appstream')
 provides=('planify')
 conflicts=('planify' 'elementary-planner' 'task-planner')
-replaces=('elementary-planner' 'task-planner')
-_commit=394e7bada02b0ea4f89f4b006819e751565a5021  # branch/master
+replaces=('elementary-planner' 'task-planner-devel')
+_commit=71ebb7c14f9d4aa973fa5556742ee9a4b3e75e6c  # branch/master
 source=("git+https://github.com/alainm23/planner.git#commit=$_commit")
 sha256sums=('SKIP')
 
