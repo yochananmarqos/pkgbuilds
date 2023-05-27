@@ -1,6 +1,6 @@
 pkgname=savedesktop
 _app_id=io.github.vikdevelop.SaveDesktop
-pkgver=2.4.3
+pkgver=2.4.4
 pkgrel=1
 pkgdesc="Save and load KDE Plasma, Xfce and GNOME-based DE configuration"
 arch=('any')
@@ -11,7 +11,7 @@ checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.sh"
         'main_window.diff')
-sha256sums=('ed540f5bc70376bc4d65b80710f9dcee90627c43414db3e6b8010c2a8d563ec6'
+sha256sums=('9fc2056cbb91daf149d8636e767427a1f048151792f6096de78ea5acb709784d'
             '0ca4158d352a04643b0161750b7c5c8fefe9c4066ff4e5129a2f8c38cb53bf69'
             '4cbb7a762a9b7666c6b5136c40476017c3e83e091b7d7641b749cca3766786b8')
 
