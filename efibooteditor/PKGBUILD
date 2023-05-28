@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=efibooteditor
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=1
 pkgdesc="GUI for editing EFI Boot Manager entries"
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('LGPL3')
 depends=('efivar' 'qt6-5compat')
 makedepends=('cmake' 'qt6-tools')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('b7c2e4afb266ee237cd1d60f05cec008108cb057ed72ca1a2d9c6a487fc89514')
+sha256sums=('d58aa3db8ffa9cc32e8c327f1118b1c2249b635a9332460642994d20f344f2e9')
 
 build() {
   export BUILD_VERSION="$pkgver"
