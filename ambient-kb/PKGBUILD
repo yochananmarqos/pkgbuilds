@@ -5,15 +5,17 @@ pkgdesc="Sets keyboard color to match display on certain System76 laptops"
 arch=('x86_64')
 url="https://github.com/MilesBHuff/Ambient-Keyboard-Lighting"
 license=('LGPL3')
-depends=('gcc-libs' 'libxcb' 'system76-acpi-dkms')
+depends=('gcc-libs' 'libxcb')
 makedepends=('cargo' 'git')
 optdepends=('apparmor: Needed for the included apparmor profile to work'
-            'systemd: Needed for the included systemd service to work')
+            'systemd: Needed for the included systemd service to work'
+            'system76-acpi-dkms: Needed for kernels <5.16')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('b79895bb1123c708d146ae8ade93f2bac90799396bfb0459416707bd899f87ed')
 
 prepare() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 
@@ -23,6 +25,7 @@ prepare() {
 
 build() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   cargo build --release --all-features
