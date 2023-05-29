@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.6.3
+pkgver=1.6.6
 pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
@@ -10,7 +10,7 @@ url="https://github.com/nning/protonutils"
 license=('MIT')
 depends=('glibc')
 makedepends=('git' 'go')
-_commit=0f149a32dfa8f362a213ac74fba16d3ebc51347d
+_commit=b33f17de9af015d074996f6c2ead230e132dd802  # tags/1.6.6^0
 source=("git+https://github.com/nning/protonutils.git#commit=${_commit}?signed")
 sha256sums=('SKIP')
 validpgpkeys=('CCBB87A93F9F494C93EEA47905CCCF87AE5FC712') # henning mueller <henning@orgizm.net>
@@ -28,30 +28,26 @@ prepare() {
 
 build() {
   cd "$srcdir/$pkgname"
-#  make build_pie
-#  make man
-#  make completion
-  make DESTDIR=usr
+  export GOPATH="$srcdir/gopath"
+  make build_pie DESTDIR=usr
 
-#  "./cmd/$pkgname/$pkgname" completion bash > completion.bash
-#  "./cmd/$pkgname/$pkgname" completion fish > completion.fish
+  # Makefile only generates ZSH completions
+  "./cmd/$pkgname/$pkgname" completion bash > completion.bash
+  "./cmd/$pkgname/$pkgname" completion fish > completion.fish
 
   # Clean module cache for makepkg -C
   go clean -modcache
 }
 
-#check() {
-#  cd "$srcdir/$pkgname"
-#  make test
-#}
-
 package() {
   cd "$srcdir/$pkgname"
   make DESTDIR="$pkgdir/usr" install
-#  install -Dm755 "cmd/$pkgname/$pkgname" -t "$pkgdir/usr/bin/"
-#  install -Dm644 man1/* -t "$pkgdir/usr/share/man/man1/"
-#  install -Dm644 completion.bash "$pkgdir/usr/share/bash-completion/completions/$pkgname"
-#  install -Dm644 completion.fish "$pkgdir/usr/share/fish/vendor_completions.d/$pkgname.fish"
-#  install -Dm644 completion.zsh "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
-#  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+
+  # Fix permissions
+  chmod 0644 "$pkgdir"/usr/share/man/man1/*.1
+  chmod 0755 "$pkgdir/usr/share/man/man1"
+
+  install -Dm644 completion.bash "$pkgdir/usr/share/bash-completion/completions/$pkgname"
+  install -Dm644 completion.fish "$pkgdir/usr/share/fish/vendor_completions.d/$pkgname.fish"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
