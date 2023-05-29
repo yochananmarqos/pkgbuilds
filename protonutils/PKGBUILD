@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=protonutils
-pkgver=1.6.6
+pkgver=1.6.7
 pkgrel=1
 pkgdesc="Lists configured Proton version per game."
 arch=('x86_64')
@@ -10,7 +10,7 @@ url="https://github.com/nning/protonutils"
 license=('MIT')
 depends=('glibc')
 makedepends=('git' 'go')
-_commit=b33f17de9af015d074996f6c2ead230e132dd802  # tags/1.6.6^0
+_commit=7ea1ccaf8f219748d13a6a51c9da471141f8eb64  # tags/1.6.7^0
 source=("git+https://github.com/nning/protonutils.git#commit=${_commit}?signed")
 sha256sums=('SKIP')
 validpgpkeys=('CCBB87A93F9F494C93EEA47905CCCF87AE5FC712') # henning mueller <henning@orgizm.net>
