@@ -23,6 +23,7 @@ pkgver() {
 prepare() {
   cd "$srcdir/$pkgname"
   export GOPATH="$srcdir/gopath"
+  export GO111MODULE=on
   go mod tidy
 }
 
