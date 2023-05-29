@@ -23,14 +23,12 @@ pkgver() {
 prepare() {
   cd "$srcdir/$pkgname"
   export GOPATH="$srcdir/gopath"
-  export GO111MODULE=on
   go mod tidy
 }
 
 build() {
   cd "$srcdir/$pkgname"
   export GOPATH="$srcdir/gopath"
-  export GO111MODULE=on
   export CGO_CPPFLAGS="$CPPFLAGS"
   export CGO_CFLAGS="$CFLAGS"
   export CGO_CXXFLAGS="$CXXFLAGS"
