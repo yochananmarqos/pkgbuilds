@@ -29,6 +29,11 @@ prepare() {
 build() {
   cd "$srcdir/$pkgname"
   export GOPATH="$srcdir/gopath"
+  export GO111MODULE=on
+  export CGO_CPPFLAGS="$CPPFLAGS"
+  export CGO_CFLAGS="$CFLAGS"
+  export CGO_CXXFLAGS="$CXXFLAGS"
+  export CGO_LDFLAGS="$LDFLAGS"
   make build_pie DESTDIR=usr
 
   # Makefile only generates ZSH completions
