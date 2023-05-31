@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!bitwarden.desktop
+!bitwarden.sh
+!messaging.main.ts.patch
+!nativelib.patch
