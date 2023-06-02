@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=notepadnext-git
-pkgver=0.6.1.r13.gb345587
+pkgver=0.6.3.r1.g28deee2
 pkgrel=1
 pkgdesc="A cross-platform, reimplementation of Notepad++"
 arch=('x86_64')
@@ -13,11 +13,11 @@ makedepends=('git' 'qt6-tools')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/dail8859/NotepadNext.git'
-        'git+https://github.com/alex-spataru/QSimpleUpdater.git'
-        'git+https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System.git'
-        'git+https://github.com/editorconfig/editorconfig-core-qt.git'
         'git+https://github.com/itay-grudev/SingleApplication.git'
-        'git+https://gitlab.freedesktop.org/uchardet/uchardet.git')
+        'git+https://gitlab.freedesktop.org/uchardet/uchardet.git'
+        'git+https://github.com/editorconfig/editorconfig-core-qt.git'
+        'git+https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System.git'
+        'git+https://github.com/alex-spataru/QSimpleUpdater.git')
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
@@ -33,11 +33,11 @@ pkgver() {
 prepare() {
   cd "$srcdir/NotepadNext"
   git submodule init
-  git config submodule.src/QSimpleUpdater.url "$srcdir/QSimpleUpdater"
-  git config submodule.src/src/ads.url "$srcdir/Qt-Advanced-Docking-System"
-  git config submodule.src/editorconfig-core-qt.url "$srcdir/editorconfig-core-qt"
   git config submodule.src/singleapplication.url "$srcdir/SingleApplication"
   git config submodule.src/uchardet.url "$srcdir/uchardet"
+  git config submodule.src/editorconfig-core-qt.url "$srcdir/editorconfig-core-qt"
+  git config submodule.src/src/ads.url "$srcdir/Qt-Advanced-Docking-System"
+  git config submodule.src/QSimpleUpdater.url "$srcdir/QSimpleUpdater"
   git -c protocol.file.allow=always submodule update
 
   mkdir -p build
