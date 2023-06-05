@@ -1,0 +1,91 @@
+## WIP
+
+# https://aur.archlinux.org/packages/mozillavpn
+groups=('modified')
+
+pkgname=mozillavpn
+pkgver=2.15.0
+pkgrel=1
+pkgdesc="A fast, secure and easy to use VPN. Built by the makers of Firefox."
+arch=('x86_64')
+url="https://mozilla.org/products/vpn"
+license=('MPL2')
+depends=('hicolor-icon-theme'
+         'libsecret'
+         'openssl'
+         'polkit'
+         'qt6-base'
+         'qt6-declarative'
+         'qt6-networkauth'
+         'qt6-svg'
+         'qt6-websockets'
+         'WIREGUARD-MODULE'
+         'wireguard-tools')
+makedepends=('cargo' 'clang' 'cmake' 'flex' 'git' 'go' 'python-glean_parser'
+             'python-setuptools' 'qt6-tools')
+options=('!lto')
+_commit=bc16ffff5cd255edff70e74a83748a7606e938b0  # tags/2.15.0^0
+source=("git+https://github.com/mozilla-mobile/mozilla-vpn-client.git#commit=$_commit"
+        'git+https://github.com/mozilla-l10n/mozilla-vpn-client-l10n.git'
+        'git+https://github.com/WireGuard/wireguard-tools.git'
+        'git+https://github.com/mozilla/wireguard-apple.git'
+        'git+https://github.com/KDAB/android_openssl.git'
+        'git+https://github.com/WireGuard/wireguard-go.git'
+        'git+https://github.com/adjust/ios_sdk.git'
+        'git+https://github.com/adjust/android_sdk.git'
+        'git+https://github.com/mozilla/glean.git'
+        'git+https://github.com/getsentry/sentry-native.git')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "$srcdir/mozilla-vpn-client"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
+
+prepare() {
+  cd "$srcdir/mozilla-vpn-client"
+  git submodule init
+  git config submodule.i18n.url "${srcdir}/mozilla-vpn-client-l10n"
+  git config submodule.3rdparty/wireguard-tools.url "${srcdir}/wireguard-tools"
+  git config submodule.3rdparty/wireguard-apple.url "${srcdir}/wireguard-apple"
+  git config submodule.3rdparty/openSSL.url "${srcdir}/android_openssl"
+  git config submodule.3rdparty/wireguard-go.url "${srcdir}/wireguard-go"
+  git config submodule.3rdparty/adjust-ios-sdk.url "${srcdir}/ios_sdk"
+  git config submodule.3rdparty/adjust-android-sdk.url "${srcdir}/android_sdk"
+  git config submodule.3rdparty/glean.url "${srcdir}/glean"
+  git config submodule.3rdparty/sentry.url "${srcdir}/sentry-native"
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  export GOPATH="$srcdir/gopath"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+
+  # Generate Mozilla VPN Glean files
+  python mozilla-vpn-client/qtglean/glean_parser_ext/run_glean_parser.py
+
+  cmake -B build -S mozilla-vpn-client \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
