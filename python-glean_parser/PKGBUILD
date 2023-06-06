@@ -11,8 +11,9 @@ url="https://github.com/mozilla/glean_parser"
 license=('MPL2')
 depends=('python' 'python-appdirs' 'python-click' 'python-diskcache' 'python-iso8601'
          'python-jinja' 'python-jsonschema' 'python-markupsafe' 'python-yaml')
-makedepends=('python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
-checkdepends=('python-pytest-runner')
+makedepends=('python-build' 'python-installer' 'python-pytest-runner'
+             'python-setuptools-scm' 'python-wheel')
+checkdepends=('python-pytest')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
 sha256sums=('11496ac004fe421b914c7fbdc9a1d620e4821d56e1d9f65523d3858cdb907bbd')
 
