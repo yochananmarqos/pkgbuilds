@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=i8kgui
-pkgver=0.3+184+gf0c9763
+pkgver=0.3+186+g44880a2
 pkgrel=1
 pkgdesc="A Dell thermal management GUI to control fan speeds and monitor temperatures"
 arch=('any')
@@ -14,7 +14,7 @@ optdepends=('cpupower-gui: change the CPU Governor'
             'libsmbios: BIOS thermal management modes'
             'python-undervolt')
 install="$pkgname.install"
-_commit=f0c97638e2ab8bc351a41e6ea40b6567632d9387  # branch/development
+_commit=44880a2944f4cd7bda5af07f225ccc4e5ece3a33  # branch/development
 source=("git+https://github.com/razman786/i8kgui.git#commit=$_commit")
 sha256sums=('SKIP')
 
@@ -29,7 +29,7 @@ prepare() {
   # Correct euid
   sed -i 's/== 0/== 1000/g' setup.py
 
-  # Correct service path
+  # Correct dell-bios-fan-control service path
   sed -i 's|etc/systemd|usr/lib/systemd|g' "$pkgname/${pkgname}_thermal_control"
 }
 
