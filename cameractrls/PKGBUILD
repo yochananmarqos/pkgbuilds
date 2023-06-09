@@ -1,4 +1,4 @@
-# https://archlinux.org/packages/community/any/cameractrls/
+# https://archlinux.org/packages/extra/any/cameractrls/
 groups=('modified')
 
 pkgname=cameractrls
