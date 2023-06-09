@@ -21,6 +21,7 @@ prepare() {
   npm install
 
   cd src-tauri
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 
@@ -30,6 +31,7 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export npm_config_cache="$srcdir/npm_cache"
   npm run build
