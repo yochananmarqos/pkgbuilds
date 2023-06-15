@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=cameractrls
 _app_id="hu.irl.$pkgname"
-pkgver=0.5.5
+pkgver=0.5.6
 pkgrel=1
 pkgdesc="Camera controls for Linux"
 arch=('any')
@@ -11,7 +11,7 @@ url="https://github.com/soyersoyer/cameractrls"
 license=('MIT')
 depends=('gtk4' 'libjpeg-turbo' 'python' 'python-gobject' 'sdl2' 'systemd')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('42004027b41fb3dd300b29028ae1c7758aae2b47d24b3facf1166a33676ca040')
+sha256sums=('630ad588a09b5ac37c879da59d900b37ed1ed6c57dad1d4a8644cdb67325abd5')
 
 prepare() {
   cd "$pkgname-$pkgver"
