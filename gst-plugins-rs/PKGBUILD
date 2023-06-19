@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gst-plugins-rs
-pkgver=0.10.8
+pkgver=0.10.9
 pkgrel=1
 pkgdesc="GStreamer plugins written in Rust"
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=('cairo' 'dav1d' 'gst-plugins-base-libs' 'gst-plugins-bad-libs' 'graphen
          'gstreamer' 'gtk4' 'libwebp' 'libsodium' 'openssl' 'pango')
 makedepends=('cargo' 'cargo-c' 'clang' 'git' 'hotdoc' 'meson' 'nasm' 'python-tomli')
 options=('!lto')
-_commit=47a213b3222eb689182f680ff8b4d616ae9886c3  # tags/0.10.8^0
+_commit=f4324fd30e3bae4cb81ef6debe0e17270604cb54  # tags/0.10.9^0
 source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
 sha256sums=('SKIP')
 
