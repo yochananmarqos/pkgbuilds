@@ -5,12 +5,14 @@ pkgname=system76-power-git
 pkgver=1.1.24.r16.g0a68a7f
 pkgrel=1
 pkgdesc="System76 Power Management"
-arch=('any')
+arch=('x86_64')
 url='https://github.com/pop-os/system76-power'
 license=('GPL')
-depends=('dbus' 'libusb' 'systemd')
+depends=('dbus' 'libusb' 'polkit')
 makedepends=('cargo' 'git')
-optdepends=('system76-acpi-dkms' 'system76-dkms')
+optdepends=('system76-acpi-dkms: some systems might need this driver'
+            'system76-dkms: some systems might need this driver'
+            'system76-io-dkms: some systems might need this driver')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
