@@ -1,0 +1,26 @@
+pkgname=libgedit-gtksourceview
+pkgver=299.0.3
+pkgrel=1
+pkgdesc="A library that extends GtkTextView, the standard GTK widget for multiline text editing"
+arch=('x86_64')
+url="https://gedit-technology.net"
+license=('LGPL2.1')
+depends=('gtk3' 'libxml2')
+makedepends=('gobject-introspection' 'gtk-doc' 'meson')
+provides=('libgedit-gtksourceview-300.so')
+source=("https://gedit-technology.net/tarballs/libgedit-gtksourceview/$pkgname-$pkgver.tar.xz")
+sha256sums=('d80ec2afe87be45eadfff9396814545be15ac32e16f67fd07480e69c100c8659')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  export NO_AT_BRIDGE=1
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
