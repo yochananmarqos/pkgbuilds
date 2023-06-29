@@ -14,7 +14,7 @@ depends=(
   gspell
   libpeas
   python-gobject
-  tepl
+  'tepl=6.5.1'  # libtepl-6.so=2
 )
 makedepends=(
   appstream-glib
