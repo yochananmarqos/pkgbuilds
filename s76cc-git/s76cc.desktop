@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Charge Control
+Comment=Charge Control for S76 Laptops
+GenericName=s76cc
+Exec=s76cc
+Terminal=false
+Type=Application
+Icon=s76cc
+StartupNotify=true
+Categories=Utility;
