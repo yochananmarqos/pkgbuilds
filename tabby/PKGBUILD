@@ -35,7 +35,7 @@ prepare() {
 
 build(){
   cd "$srcdir/$pkgname"
-  yarn config set cache-folder "$srcdir/yarn-cache"
+  export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
   yarn install
   yarn run build
   node scripts/prepackage-plugins.mjs
