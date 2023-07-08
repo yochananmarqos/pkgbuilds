@@ -1,5 +1,5 @@
 pkgname=ambient-kb
-pkgver=1.4.2
+pkgver=1.4.3
 pkgrel=1
 pkgdesc="Sets keyboard color to match display on certain System76 laptops"
 arch=('x86_64')
@@ -11,7 +11,7 @@ optdepends=('apparmor: Needed for the included apparmor profile to work'
             'systemd: Needed for the included systemd service to work'
             'system76-acpi-dkms: Needed for kernels <5.16')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('b79895bb1123c708d146ae8ade93f2bac90799396bfb0459416707bd899f87ed')
+sha256sums=('26b430b4d93ba586c10d545b131ae5efcc90bd1c77869b84c72f2d9e8ab46193')
 
 prepare() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
@@ -20,7 +20,7 @@ prepare() {
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 
   # Adjust path for serw12
-  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
+#  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
 }
 
 build() {
