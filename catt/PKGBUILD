@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/catt
+groups=('modified')
+
+pkgname=catt
+pkgver=0.12.11
+pkgrel=2
+pkgdesc="Cast All The Things allows you to send videos from many, many online sources to your Chromecast."
+arch=('any')
+url="https://github.com/skorokithakis/catt"
+license=('BSD')
+depends=('python-click' 'python-ifaddr' 'python-importlib-metadata'
+         'python-pychromecast' 'python-requests' 'yt-dlp')
+makedepends=('python-installer' 'python-poetry' 'python-wheel')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('82d69d963696dfe3cfece6bdb03d96e35c80351ca8231d51b9da15bd1d3c8c4d')
+
+build() {
+  cd "$pkgname-$pkgver"
+  GIT_DIR='.' python -m poetry build --format wheel
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644  LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
