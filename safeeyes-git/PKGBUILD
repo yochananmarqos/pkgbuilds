@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.1.5.r18.g684d162
+pkgver=2.1.6.r3.ge6112a8
 pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
@@ -16,7 +16,8 @@ checkdepends=('appstream-glib')
 optdepends=('libayatana-indicator: show a tray icon in the notification area'
             'python-croniter: for Health Statistics plugin'
             'python-pyowm: for Weather plugin'
-            'xprintidle: for Smart Pause plugin'
+            'swayidle: for Smart Pause plugin (Wayland)'
+            'xprintidle: for Smart Pause plugin (Xorg)'
             'wlrctl: full screen detection on Wayland')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
