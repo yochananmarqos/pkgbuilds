@@ -2,7 +2,8 @@
 groups=('modified')
 
 pkgname=gpu-viewer
-pkgver=2.29
+_app_id=io.github.arunsivaramanneo.GPUViewer
+pkgver=2.30
 pkgrel=1
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
@@ -15,8 +16,8 @@ checkdepends=('appstream-glib')
 optdepends=('nvidia: Vulkan NVIDIA drivers'
             'vulkan-radeon: Vulkan AMD drivers'
             'vulkan-intel: Vulkan Intel drivers')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('e2035829606652c15a361cc01a2fb7fe4ba363b653a152120a7f3dc9d77edb26')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/V$pkgver.tar.gz")
+sha256sums=('caf8137245b842ca3eccb8c1f9c30cc76b628e5f0411dfed1aab2fc599e61d75')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
@@ -25,8 +26,8 @@ build() {
 
 check() {
   cd GPU-Viewer-$pkgver
-  appstream-util validate-relax --nonet data/io.github.arunsivaramanneo.GPUViewer.metainfo.xml
-  desktop-file-validate data/io.github.arunsivaramanneo.GPUViewer.desktop
+  appstream-util validate-relax --nonet "data/$_app_id.metainfo.xml"
+  desktop-file-validate "data/$_app_id.desktop"
 }
 
 package() {
