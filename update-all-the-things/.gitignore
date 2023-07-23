@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!90-mkinitcpio-dkms-linux.hook
+!orphans.hook
+!uatt.sh

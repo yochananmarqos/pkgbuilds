@@ -1,0 +1,22 @@
+pkgname=update-all-the-things
+pkgver=0.1
+pkgrel=1
+pkgdesc="Comprehensive meta package for updating your system"
+arch=('any')
+url="https://github.com/yochananmarqos/pkgbuilds"
+license=()
+depends=('meld' 'needrestart' 'pacman-contrib' 'rebuild-detector' 'topgrade')
+optdepends=()
+backup=()
+install=
+source=('90-mkinitcpio-dkms-linux.hook'
+        'orphans.hook'
+        'uatt.sh')
+sha256sums=('b8e5d64279f8181d8f98d2950aae91e6322d8499c2b9e32628ccf66b73a5acbf'
+            '02b0120e9fc894f68c9859f673fc5bb9a3e38eb920050665906a589fcd9f2aeb'
+            'd33ed3243c89ec6acccea1745777a32ddefb1299ec1cc609b282bb23448d8901')
+
+package() {
+  install -Dm755 uatt.sh "$pkgdir/usr/bin/uatt"
+  install -Dm644 *.hook -t "$pkgdir/etc/pacman.d/hooks/"
+}
