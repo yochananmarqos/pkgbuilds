@@ -2,19 +2,19 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 pkgname=gedit
-pkgver=45.0
+pkgver=46.0
 pkgrel=1
 pkgdesc="GNOME Text Editor"
 url="https://wiki.gnome.org/Apps/Gedit"
 arch=(x86_64)
 license=(GPL)
 depends=(
-  amtk  # now libgedit-amtk
   gsettings-desktop-schemas
   gspell
+  libgedit-amtk
   libpeas
   python-gobject
-  'tepl=6.5.1'  # libtepl-6.so=2
+  tepl
 )
 makedepends=(
   appstream-glib
@@ -29,7 +29,7 @@ makedepends=(
 optdepends=('gedit-plugins: Additional features')
 conflicts=('gedit-code-assistance<=3.16.0+4+gd19b879-1')
 groups=(gnome-extra)
-_commit=d3e5288e17f721f698fd9c2ea77bfcefb50d1e18  # tags/45.0^0
+_commit=63229a10825a8880890091d618fa5e16c6d4ab85  # tags/46.0^0
 source=(
   "git+https://gitlab.gnome.org/GNOME/gedit.git#commit=$_commit"
   "git+https://gitlab.gnome.org/GNOME/libgd.git"
@@ -56,6 +56,7 @@ build() {
     -D require_all_tests=true
   )
 
+  export CFLAGS="${CFLAGS} -Wno-format-security"
   arch-meson gedit build "${meson_options[@]}"
   meson compile -C build
 }
