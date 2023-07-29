@@ -4,23 +4,23 @@
 # Contributor: Tobias Bohrmann (PlainTextField) <honeypot.carbage@aechelon.de>
 
 pkgname=tepl
-pkgver=6.5.1
-pkgrel=3
+pkgver=6.8.0
+pkgrel=1
 epoch=1
-pkgdesc='Library that eases the development of GtkSourceView-based text editors and IDEs'
+pkgdesc="Library that eases the development of GtkSourceView-based text editors and IDEs"
 arch=('x86_64')
-url='https://gitlab.gnome.org/swilmet/tepl'
+url="https://gitlab.gnome.org/swilmet/tepl"
 license=('LGPL3')
-depends=('amtk' 'cairo' 'glib2' 'glibc' 'gsettings-desktop-schemas' 'gtk3' 'icu'
-         'libgedit-gtksourceview' 'pango')
+depends=('cairo' 'glib2' 'glibc' 'gsettings-desktop-schemas' 'gtk3' 'icu'
+         'libgedit-amtk' 'libgedit-gtksourceview' 'pango')
 makedepends=('gobject-introspection' 'gtk-doc' 'meson')
 checkdepends=('xorg-server-xvfb')
-provides=('libtepl-6.so=2')
+provides=('libtepl-6.so=4')
 source=("https://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz")
-sha256sums=('61c4c1eb40f67bbc40ba57ee4b3ee89992d2356934fea27238e83402476ab77c')
+sha256sums=('46e6e5f1bfdbc52e5956f06add575e9c7697c673d53d3803dfe768f490b560f0')
 
 build() {
-  arch-meson $pkgname-$pkgver build -D gtk_doc=true
+  arch-meson "$pkgname-$pkgver" build -D gtk_doc=true
   meson compile -C build
 }
 
