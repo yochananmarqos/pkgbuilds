@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=onetagger
-pkgver=1.6.0
+pkgver=1.7.0
 pkgrel=1
 pkgdesc="Music tagger with Beatport, Discogs, Musicbrainz, Spotify, Traxsource and many other platforms support."
 arch=('x86_64')
@@ -13,30 +13,31 @@ makedepends=('cargo' 'pnpm')
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Marekkon5/onetagger/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('68612bf5f4674ae752850b85c30b2591cca5a73460bb256cd95a1b66e989b116'
+sha256sums=('ee8245d3a1b3e938e96dc6704d70f1913cfc20586c305ccec2502bc8503b17e2'
             '81f6776bd5027cdd7a54255cc9b1b3a3babf113fb0c98717dd44878b9d77856c')
 
 prepare() {
   cd "$pkgname-$pkgver"
+  export PNPM_HOME="$srcdir/pnpm-home"
+  export RUSTUP_TOOLCHAIN=stable
 
   pushd client
-  pnpm config set cache-dir "$srcdir/pnpm-cache"
   pnpm i
   popd
 
-  export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
 build() {
   cd "$pkgname-$pkgver"
+  export PNPM_HOME="$srcdir/pnpm-home"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
 
   pushd client
   pnpm run build
   popd
 
-  export RUSTUP_TOOLCHAIN=stable
-  export CARGO_TARGET_DIR=target
   cargo build --frozen --release --all-features
 }
 
