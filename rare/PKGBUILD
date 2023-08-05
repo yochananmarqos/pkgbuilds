@@ -1,0 +1,30 @@
+# https://aur.archlinux.org/packages/rare
+groups=('modified')
+
+pkgname=rare
+pkgver=1.10.3
+pkgrel=1
+pkgdesc="GUI for legendary. An Epic Games Launcher open source alternative"
+arch=('any')
+url="https://github.com/Dummerle/Rare"
+license=('GPL3')
+depends=('legendary' 'python-psutil' 'python-pyqt5' 'python-qtawesome' 'python-requests'
+         'python-typing_extensions' 'qt5-svg')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=('python-pypresence: Use Discord RPC'
+            'python-pywebview: easier login process in a browser')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Dummerle/Rare/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('aade6c5b918f6b0fcbd276f66ba9295a8002dfcdbf0294286cbf3ea8fc838ee0')
+
+build() {
+  cd "Rare-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "Rare-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 "misc/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "$pkgname/resources/images/Rare.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+}
