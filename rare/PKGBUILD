@@ -12,7 +12,7 @@ depends=('legendary' 'python-psutil' 'python-pyqt5' 'python-qtawesome' 'python-r
          'python-typing_extensions' 'qt5-svg')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pypresence: Use Discord RPC'
-            'python-pywebview: easier login process in a browser')
+            'python-pywebview: webview-based login')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('aade6c5b918f6b0fcbd276f66ba9295a8002dfcdbf0294286cbf3ea8fc838ee0')
 
