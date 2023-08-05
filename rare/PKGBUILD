@@ -8,7 +8,7 @@ pkgdesc="GUI for legendary. An Epic Games Launcher open source alternative"
 arch=('any')
 url="https://github.com/Dummerle/Rare"
 license=('GPL3')
-depends=('legendary' 'python-psutil' 'python-pyqt5' 'python-qtawesome' 'python-requests'
+depends=('legendary' 'python-pyqt5' 'python-qtawesome' 'python-requests'
          'python-typing_extensions' 'qt5-svg')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pypresence: Use Discord RPC'
