@@ -3,8 +3,8 @@ groups=('modified')
 
 pkgname=python-pyfuse3
 _name=${pkgname#python-}
-pkgver=3.2.3
-pkgrel=2
+pkgver=3.3.0
+pkgrel=1
 pkgdesc="Python 3 bindings for libfuse 3 with asynchronous API (Trio compatible)"
 arch=('x86_64')
 url="https://github.com/libfuse/pyfuse3"
@@ -13,7 +13,7 @@ depends=('fuse3' 'python' 'python-trio')
 makedepends=('cython' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 #checkdepends=('python-pytest' 'python-pytest-trio')
 source=("$url/releases/download/$pkgver/$_name-$pkgver.tar.gz"{,.asc})
-sha256sums=('0771e921fd2a1c36bd4ed6b74db0616f4d40c8ac68994a80f3cc8a249fa807d8'
+sha256sums=('2b31fe412479f9620da2067dd739ed23f4cc37364224891938dedf7766e573bd'
             'SKIP')
 validpgpkeys=('ED31791B2C5C1613AF388B8AD113FCAC3C4E599F' # Nikolaus Rath <Nikolaus@rath.org>
               '6D5BEF9ADD2075805747B70F9F88FB52FAF7B393') # Thomas Waldmann <tw@waldmann-edv.de
