@@ -2,7 +2,7 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 pkgname=gedit
-pkgver=46.0
+pkgver=46.1
 pkgrel=1
 pkgdesc="GNOME Text Editor"
 url="https://wiki.gnome.org/Apps/Gedit"
@@ -29,7 +29,7 @@ makedepends=(
 optdepends=('gedit-plugins: Additional features')
 conflicts=('gedit-code-assistance<=3.16.0+4+gd19b879-1')
 groups=(gnome-extra)
-_commit=63229a10825a8880890091d618fa5e16c6d4ab85  # tags/46.0^0
+_commit=5a08fe0aef0164ab2c21140ca406d47bd9805c25  # tags/46.1^0
 source=(
   "git+https://gitlab.gnome.org/GNOME/gedit.git#commit=$_commit"
   "git+https://gitlab.gnome.org/GNOME/libgd.git"
