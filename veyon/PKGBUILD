@@ -3,7 +3,7 @@ groups=('modfied')
 
 pkgname=veyon
 pkgver=4.8.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Cross-platform computer monitoring and classroom management"
 arch=('x86_64')
 url="https://veyon.io/"
@@ -11,8 +11,8 @@ license=('GPL2')
 depends=('hicolor-icon-theme' 'libfakekey' 'libjpeg-turbo' 'libldap' 'libsasl'
          'libvncserver' 'libxcomposite' 'libxcursor' 'libxdamage' 'libxext'
          'libxfixes' 'libxinerama' 'libxrandr' 'libxtst' 'lzo' 'openssl' 'pam'
-         'procps-ng' 'qca-qt5' 'qt5-base')
-makedepends=('cmake' 'git' 'qt5-tools')
+         'procps-ng' 'qca-qt6' 'qt6-base')
+makedepends=('clang' 'cmake' 'git' 'qt6-declarative' 'qt6-httpserver' 'qt6-tools')
 optdepends=('kldap: KDE support')
 _commit=a8d6161687896c2aed8103771b3e3bf037a8d0fb  # tags/v4.8.2^0
 source=("git+https://github.com/veyon/veyon.git#commit=${_commit}"
@@ -69,6 +69,7 @@ build() {
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DSYSTEMD_SERVICE_INSTALL_DIR='/usr/lib/systemd/system' \
+    -DWITH_QT6=ON \
     -Wno-dev
   cmake --build build
 }
