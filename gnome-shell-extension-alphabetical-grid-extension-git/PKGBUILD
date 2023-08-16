@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
-pkgver=29.0.r0.g6072818
+pkgver=32.0.r0.g6b95792
 pkgrel=1
 pkgdesc="Restore the alphabetical ordering of the app grid, removed in GNOME 3.38 "
 arch=('any')
@@ -12,7 +12,8 @@ depends=('gnome-shell')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/stuarthayhurst/alphabetical-grid-extension.git')
+_commit=6b957922b2b7730a44ef9171a8dedf317164cc24  # tags/v32.0 (last version to support gnome-shell <45)
+source=("git+https://github.com/stuarthayhurst/alphabetical-grid-extension.git#commit=$_commit")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -32,6 +33,9 @@ package() {
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "build/$_uuid.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/"
+
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share/"
+
   install -Dm644 "extension/schemas/org.gnome.shell.extensions.AlphabeticalAppGrid.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas/"
 
