@@ -2,19 +2,19 @@
 groups=('modified')
 
 pkgname=tabby
-pkgver=1.0.197
+pkgver=1.0.199
 pkgrel=1
 pkgdesc="A terminal for a more modern age"
 arch=('x86_64')
 url="https://tabby.sh/"
 license=('MIT')
-depends=('gtk3' 'libxtst' 'nss')
+depends=('alsa-lib' 'gtk3' 'nss')
 makedepends=('git' 'libxcrypt-compat' 'python' 'yarn')
 optdepends=('libsecret: config sync'
             'gnome-keyring: password storage backend')
 conflicts=('terminus-terminal')
 replaces=('terminus-terminal')
-_commit=da0a4569dede1807ab872b0c97d50c14bcc56e01  # tags/v1.0.197^0
+_commit=0becf8cc76b08eae1bf570b51d4b2ccce3c14041  # tags/v1.0.199^0
 source=("git+https://github.com/Eugeny/tabby.git#commit=$_commit?signed"
         "$pkgname.desktop")
 sha256sums=('SKIP'
@@ -29,8 +29,8 @@ pkgver() {
 prepare() {
   cd "$srcdir/$pkgname"
 
-  # Skip building RPM
-  sed -i "s/'rpm', //g" scripts/build-linux.mjs
+  # Build targets
+  sed -i "s/'deb', 'tar.gz', 'rpm', 'pacman', 'appimage'/'deb'/g" scripts/build-linux.mjs
 }
 
 build(){
@@ -50,9 +50,9 @@ package() {
   install -d "$pkgdir/usr/bin"
   ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
 
-  for icon_size in 16 32 64 128 256 512; do
-    install -Dm644 build/icons/${icon_size}x${icon_size}.png \
-      "$pkgdir/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps/$pkgname.png"
+  for i in 16 32 64 128 256 512; do
+    install -Dm644 "build/icons/${i}x${i}.png" \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
   done
 
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
