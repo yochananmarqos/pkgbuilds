@@ -1,0 +1,56 @@
+# https://aur.archlinux.org/pkgbase/qadwaitadecorations-git
+groups=('modified')
+
+pkgname=('qadwaitadecorations-qt5-git' 'qadwaitadecorations-qt6-git')
+pkgbase=qadwaitadecorations-git
+pkgver=0.1.0.r0.g8ef4b78
+pkgrel=1
+pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
+arch=('x86_64')
+url="https://github.com/FedoraQt/QAdwaitaDecorations"
+license=('LGPL2.1')
+depends=('qt5-wayland-qadwaitadecorations' 'qt6-wayland')
+makedepends=('cmake' 'git')
+provides=("${pkgbase%-git}")
+conflicts=("${pkgbase%-git}")
+source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/QAdwaitaDecorations"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cmake -B build-qt5 -S QAdwaitaDecorations \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DUSE_QT6='OFF' \
+    -Wno-dev
+  cmake --build build-qt5
+
+  cmake -B build-qt6 -S QAdwaitaDecorations \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DUSE_QT6='ON' \
+    -Wno-dev
+  cmake --build build-qt6
+}
+
+package_qadwaitadecorations-qt5-git() {
+  pkgdesc="Qt5 decoration plugin implementing Adwaita-like client-side decorations"
+  depends=('qt5-wayland-qadwaitadecorations')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}" 'qgnomeplatform-qt5<0.9.2')
+
+  DESTDIR="$pkgdir" cmake --install build-qt5
+}
+
+package_qadwaitadecorations-qt6-git() {
+  pkgdesc="Qt6 decoration plugin implementing Adwaita-like client-side decorations"
+  depends=('qt6-wayland')
+  provides=("${pkgname%-git}")
+  conflicts=("${pkgname%-git}" 'qgnomeplatform-qt6<0.9.2')
+
+  DESTDIR="$pkgdir" cmake --install build-qt6
+}
