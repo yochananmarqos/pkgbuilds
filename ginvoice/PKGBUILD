@@ -1,0 +1,61 @@
+# https://aur.archlinux.org/packages/ginvoice
+groups=('modified')
+
+pkgname=ginvoice
+pkgver=1.0.4
+pkgrel=1
+pkgdesc="Creating LaTeX invoices with a GTK GUI."
+arch=('any')
+url="https://gitlab.gnome.org/MacLotsen/ginvoice"
+license=('GPL3')
+depends=('gtk3' 'python-cairo' 'python-gobject' 'python-pyxdg')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=('texlive-bin'
+            'miktex: optional replacement for texlive'
+            'ttf-ms-fonts: Microsoft Windows Core fonts')
+source=("$url/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('8630061d69abade963049f480f56558b4233bec53326e45895f02e1c9e45f811')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Correct data file path
+  sed -i "s/\usr\/lib\/$pkgname/usr\/share\/$pkgname/g" "$pkgname/environment.py"
+
+  # nl.po:652: a format specification for argument 'customer_name' doesn't exist in 'msgstr'
+#  sed -i '/msgid "customer_name"/d' res/po/nl.po
+#  sed -i '/msgstr "klantnaam"/d' res/po/nl.po
+  sed -i '/msgid "Invoice {invoice_nr} - {customer_name}.pdf"/d' res/po/nl.po
+  sed -i '/msgstr "Factuur {factuur_nr} - {klantnaam}.pdf"/d' res/po/nl.po
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 res/basic_template/{*.cls,*.tex} -t "$pkgdir/usr/share/$pkgname/templates/"
+  install -m644 res/css/style.css -t "$pkgdir/usr/share/$pkgname/"
+  install -m644 res/glade/*.glade -t "$pkgdir/usr/share/$pkgname/"
+  install -Dm644 "res/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+
+  install -d "$pkgdir/usr/share/doc/$pkgname"
+  cp -r res/example "$pkgdir/usr/share/doc/$pkgname/"
+
+  for icon_size in 16 20 22 24 32 40 42 48 64 96 128 192 256 512; do
+    install -Dm644 "res/icon/${icon_size}x${icon_size}/$pkgname.png" -t \
+      "$pkgdir/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps/"
+  done
+
+  cd res/po
+  for lang in $(ls *.po); do
+    echo "lang: ${lang}"
+    lang=${lang::-3}
+    install -d "$pkgdir/usr/share/locale/${lang//_/-}/LC_MESSAGES"
+    msgfmt -c -o "$pkgdir/usr/share/locale/${lang//_/-}/LC_MESSAGES/$pkgname.mo" "${lang}.po"
+  done
+}
