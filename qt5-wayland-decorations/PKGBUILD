@@ -1,7 +1,7 @@
-# Contributor: Felix Yan <felixonmars@archlinux.org>
-# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# https://aur.archlinux.org/packages/qt5-wayland-decorations
+groups=('modified')
 
-pkgname=qt5-wayland-qadwaitadecorations
+pkgname=qt5-wayland-decorations
 _basever=5.15.10
 pkgver=5.15.10+kde+r57
 pkgrel=1
