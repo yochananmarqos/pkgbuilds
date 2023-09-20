@@ -31,7 +31,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd qtwayland
-  echo "$_basever+kde+r"$(git rev-list --count v$_basever-lts-lgpl..$_commit) | sed -e 's|+kde+r0||'
+  echo "$_basever+kde+r$(git rev-list --count v$_basever-lts-lgpl..$_commit)" | sed -e 's|+kde+r0||'
 }
 
 prepare() {
