@@ -13,7 +13,8 @@ sha256sums=('90849c54287e149ff1ee5d942e5c72d03844f5171f47e7af49631e6aff014eb5')
 
 build() {
   cd "cast-to-tv-links-addon-$pkgver"
-  npm install --cache "$srcdir/npm-cache"
+  export npm_config_cache="$srcdir/npm_cache"
+  npm install
   make
 }
 
