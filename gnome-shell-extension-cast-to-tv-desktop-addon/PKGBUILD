@@ -12,7 +12,8 @@ sha256sums=('fdd35a1149332287e9011467c5b55a8cad594becbe28b14f6ba8a4f8b42a77c3')
 
 build() {
   cd "cast-to-tv-desktop-addone-$pkgver"
-  npm install --cache "$srcdir/npm-cache"
+  export npm_config_cache="$srcdir/npm_cache"
+  npm install
   make
 }
 
