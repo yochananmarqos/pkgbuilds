@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-applications-overview-tooltip-git
-_pkgname=applications-overview-tooltip
-pkgver=14.r1.gda94859
+_uuid=applications-overview-tooltip@RaphaelRochet
+pkgver=17.r0.ge19ea08
 pkgrel=1
 pkgdesc="Shows a tooltip over applications icons on applications overview."
 arch=('any')
 url="https://github.com/RaphaelRochet/applications-overview-tooltip"
 license=('unknown')
-depends=('gnome-shell')
+depends=('gnome-shell<=1:44.6')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -17,19 +17,28 @@ source=('git+https://github.com/RaphaelRochet/applications-overview-tooltip.git'
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_pkgname"
+  cd "$srcdir/applications-overview-tooltip"
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
-package() {
-  _uuid="${_pkgname}@RaphaelRochet"
+build() {
+  cd "$srcdir/applications-overview-tooltip"
+  gnome-extensions pack \
+    --extra-source=prefs.xml \
+    --force
+}
 
-  cd "$srcdir/$_pkgname"
-  install -d "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
-  cp -r * "$pkgdir/usr/share/gnome-shell/extensions/$_uuid"
+package() {
+  cd "$srcdir/applications-overview-tooltip"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+  bsdtar xvf "${_uuid}.shell-extension.zip" -C \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+
+  cp -r locale "$pkgdir/usr/share"
 
   install -Dm644 schemas/org.gnome.shell.extensions.applications-overview-tooltip.gschema.xml -t \
-    "$pkgdir/usr/share/glib-2.0/schemas"
+    "$pkgdir/usr/share/glib-2.0/schemas/"
 
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
+  find "$pkgdir"/. -type f -name "*.po" -o -name "*.pot" -exec rm {} \;
 }
