@@ -1,10 +1,10 @@
 #pre_remove() {
-#	# Reset to defaults for current user
-#	cpufreqctl --reset
+#  # Reset to defaults for current user
+#  cpufreqctl --reset
 #}
 
 post_remove() {
-	echo "Reset extension settings to default values:"
-	echo "dconf reset -f "/org/gnome/shell/extensions/cpufreq/""
-	echo ""
+  echo "Reset extension settings to default values:"
+  echo "dconf reset -f "/org/gnome/shell/extensions/cpufreq/""
+  echo ""
 }
