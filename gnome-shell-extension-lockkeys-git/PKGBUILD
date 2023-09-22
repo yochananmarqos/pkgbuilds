@@ -2,33 +2,34 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-lockkeys-git
+_uuid=lockkeys@vaina.lt
 pkgver=r192.856615b
 pkgrel=1
 pkgdesc="Numlock and Capslock indicator for gnome-shell"
 arch=('any')
 url="https://github.com/kazysmaster/gnome-shell-extension-lockkeys"
 license=('none')
-depends=('gnome-shell' 'hicolor-icon-theme')
+depends=('gnome-shell<=1:44.6' 'hicolor-icon-theme')
 makedepends=('git')
-provides=("${pkgname%-*}")
-conflicts=("${pkgname%-*}")
-source=("${pkgname%-*}::git+$url.git")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/kazysmaster/gnome-shell-extension-lockkeys.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-*}"
+  cd "$srcdir/${pkgname%-git}"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-  _uuid='lockkeys@vaina.lt'
-
-  cd "$srcdir/${pkgname%-*}"
+  cd "$srcdir/${pkgname%-git}"
   install -d "$pkgdir/usr/share/gnome-shell/extensions"
-  cp -r $_uuid "$pkgdir/usr/share/gnome-shell/extensions"
+  cp -r ${_uuid} "$pkgdir/usr/share/gnome-shell/extensions"
 
-  install -Dm644 "$_uuid/schemas/org.gnome.shell.extensions.lockkeys.gschema.xml" -t \
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share/"
+
+  install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.lockkeys.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas"
 
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
 }
