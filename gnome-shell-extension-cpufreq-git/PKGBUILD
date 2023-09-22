@@ -8,7 +8,7 @@ pkgdesc="System Monitor and Power Manager"
 arch=('any')
 url="https://konkor.github.io/cpufreq"
 license=('GPL3')
-depends=('gnome-shell<=44.6')
+depends=('gnome-shell<=1:44.6')
 makedepends=('git' 'gnome-common')
 optdepends=('ttf-roboto' 'ttf-lato')
 provides=("${pkgname%-git}" 'cpufreqctl')
