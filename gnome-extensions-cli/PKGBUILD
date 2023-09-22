@@ -1,0 +1,26 @@
+# https://aur.archlinux.org/packages/gnome-extensions-cli
+groups=('modified')
+
+pkgname=gnome-extensions-cli
+pkgver=0.9.5
+pkgrel=1
+pkgdesc="Command line tool to manage your GNOME Shell extensions"
+arch=('any')
+url="https://github.com/essembeh/gnome-extensions-cli"
+license=('Apache')
+depends=('python-colorama' 'python-gobject' 'python-more-itertools'
+         'python-packaging' 'python-pydantic' 'python-requests')
+makedepends=('python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
+optdepends=('dbus-python: communicate with GNOME Shell directly')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('21e47f3333c9b5a921a7e94320c72eac3cbb35533987d1730db2fdb50e007158')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
