@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-sound-output-device-chooser-git
-_gitname=gse-sound-output-device-chooser
-pkgver=43.r11.g9af403c
+_uuid=sound-output-device-chooser@kgshank.net
+pkgver=43.r19.g6047c0d
 pkgrel=1
 pkgdesc="Shows a list of sound output and input devices in the status menu"
 arch=('any')
 url="https://github.com/kgshank/gse-sound-output-device-chooser"
 license=('GPL3')
-depends=('gnome-shell' 'python')
+depends=('gnome-shell<=1:44.6' 'libpulse' 'python')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -17,24 +17,25 @@ source=('git+https://github.com/kgshank/gse-sound-output-device-chooser.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$_gitname"
+  cd gse-sound-output-device-chooser
   git describe --long --tags | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/$_gitname"
+  cd gse-sound-output-device-chooser
   make build
 }
 
 package() {
-  cd "$srcdir/$_gitname"
+  cd gse-sound-output-device-chooser
   install -d "$pkgdir/usr/share/gnome-shell/extensions"
   make INSTALL_DIR="$pkgdir/usr/share/gnome-shell/extensions" install
 
-  _uuid='sound-output-device-chooser@kgshank.net'
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share"
 
-  install -Dm644 "$_uuid/schemas/org.gnome.shell.extensions.sound-output-device-chooser.gschema.xml" -t \
+  install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.sound-output-device-chooser.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas"
 
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/schemas/"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
+  find "$pkgdir" -type f -name "*.po" -o -name "*.pot" -exec rm -f {} \;
 }
