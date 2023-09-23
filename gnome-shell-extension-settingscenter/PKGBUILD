@@ -1,0 +1,38 @@
+pkgname=gnome-shell-extension-settingscenter
+_uuid=SettingsCenter@lauinger-clan.de
+pkgver=35
+pkgrel=1
+pkgdesc="A customizable drop-down menu for quickly launching frequently used apps"
+arch=('any')
+url="https://github.com/ChrisLauinger77/XES-Settings-Center-Extension"
+license=('GPL2')
+depends=('gnome-shell>=45')
+_commit=ff0fda12bbe21fc2b905eddcc717c3055d2395d5  # tags/v35^0
+source=("git+$url.git#commit=${_commit}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/XES-Settings-Center-Extension"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
+
+build() {
+  cd "$srcdir/XES-Settings-Center-Extension"
+  gnome-extensions pack "${_uuid}" \
+    --podir=../po/ \
+    --extra-source=menu_items.js \
+    --force
+}
+
+package() {
+  cd "$srcdir/XES-Settings-Center-Extension"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+  bsdtar xvf "${_uuid}.shell-extension.zip" -C \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "${pkgdir}/usr/share/"
+
+  install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.SettingsCenter.gschema.xml" -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
+}
