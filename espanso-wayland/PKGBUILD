@@ -1,0 +1,56 @@
+# https://aur.archlinux.org/packages/espanso-wayland
+groups=('modified')
+
+pkgname=espanso-wayland
+pkgver=2.1.8
+pkgrel=1
+pkgdesc="Cross-platform Text Expander written in Rust (experimental Wayland support)"
+arch=('x86_64')
+url="https://espanso.org/"
+license=('GPL3')
+depends=('dbus' 'libnotify' 'libxkbcommon' 'wl-clipboard' 'wxwidgets-gtk3')
+makedepends=('cargo' 'cargo-make' 'git' 'rust-script')
+provides=("${pkgname%-*}")
+conflicts=("${pkgname%-*}")
+options=('!lto')
+_commit=78df1b704fe2cc5ea26f88fdc443b6ae1df8a989  # tags/v2.1.8^0
+source=("git+https://github.com/espanso/espanso.git#commit=${_commit}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-*}"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
+
+prepare() {
+  cd "${pkgname%-*}"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # don't change the original service file, as it will be embedded in the binary
+  cp "${pkgname%-*}/src/res/linux/systemd.service" "systemd.service"
+  sed -i "s|{{{${pkgname%-*}_path}}}|/usr/bin/${pkgname%-*}|g" "systemd.service"
+
+  # Icon name
+  sed -i "s/Icon=icon/Icon=${pkgname%-*}/g" "${pkgname%-*}/src/res/linux/${pkgname%-*}.desktop"
+}
+
+build() {
+  cd "${pkgname%-*}"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo make --profile release --env NO_X11=true build-binary
+}
+
+package() {
+  cd "${pkgname%-*}"
+  install -Dm755 "target/release/${pkgname%-*}" -t "${pkgdir}/usr/bin/"
+  install -Dm644 systemd.service "${pkgdir}/usr/lib/systemd/user/${pkgname%-*}.service"
+  install -Dm644 "${pkgname%-*}/src/res/linux/${pkgname%-*}.desktop" -t \
+    "${pkgdir}/usr/share/applications/"
+  install -Dm644 "${pkgname%-*}/src/res/linux/icon.png" \
+    "$pkgdir/usr/share/pixmaps/${pkgname%-*}.png"
+  install -Dm644 README.md -t "${pkgdir}/usr/share/doc/${pkgname%-*}/"
+}
