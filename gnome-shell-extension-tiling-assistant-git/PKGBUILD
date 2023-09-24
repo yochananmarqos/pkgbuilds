@@ -1,0 +1,48 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-tiling-assistant-git
+groups=('modifed')
+
+pkgname=gnome-shell-extension-tiling-assistant-git
+_uuid=tiling-assistant@leleat-on-github
+pkgver=44.r0.gb1daf9d
+pkgrel=1
+pkgdesc="Adds a Windows-like snap assist to the GNOME desktop environment"
+arch=('any')
+url="https://github.com/Leleat/Tiling-Assistant"
+license=('GPL2')
+depends=('gnome-shell>=1:45.0')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+install='tiling-assistant.install'
+source=('git+https://github.com/Leleat/Tiling-Assistant.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/Tiling-Assistant"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "$srcdir/Tiling-Assistant"
+  gnome-extensions pack "${_uuid}" \
+    --extra-source='media' \
+    --extra-source='src' \
+    --force
+}
+
+package() {
+  cd "$srcdir/Tiling-Assistant"
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+  bsdtar xvf "${_uuid}.shell-extension.zip" -C \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+
+  for file in translations/*.po; do
+    lang=$(basename "${file}" .po)
+    install -d "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES"
+    msgfmt -c "${file}" -o "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/${_uuid}.mo"
+  done
+
+  install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.tiling-assistant.gschema.xml" -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
+}
