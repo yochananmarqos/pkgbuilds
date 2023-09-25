@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=('qadwaitadecorations-qt5-git' 'qadwaitadecorations-qt6-git')
 pkgbase=qadwaitadecorations-git
-pkgver=0.1.1.r0.gf99e7ef
+pkgver=0.1.1.r2.g2654cf4
 pkgrel=1
 pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
 arch=('x86_64')
@@ -17,8 +17,16 @@ source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/QAdwaitaDecorations"
+  cd QAdwaitaDecorations
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd QAdwaitaDecorations
+
+  # Revert 'Allow to build against non-patched Qt5' since we're building
+  # against patched version
+  git revert -n 2e8bd83bb1a748976e2ae03c1d7600779b93705b
 }
 
 build() {
