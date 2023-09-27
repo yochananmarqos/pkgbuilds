@@ -3,13 +3,13 @@ groups=('modified')
 
 pkgname=('qadwaitadecorations-qt5-git' 'qadwaitadecorations-qt6-git')
 pkgbase=qadwaitadecorations-git
-pkgver=0.1.1.r6.geba4ec1
+pkgver=0.1.2.r0.g8235d5e
 pkgrel=1
 pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
 arch=('x86_64')
 url="https://github.com/FedoraQt/QAdwaitaDecorations"
 license=('LGPL2.1')
-depends=('qt5-svg' 'qt5-wayland' 'qt6-svg' 'qt6-wayland')
+depends=('qt5-svg' 'qt5-wayland-decorations' 'qt6-svg' 'qt6-wayland')
 makedepends=('cmake' 'git')
 provides=("${pkgbase%-git}")
 conflicts=("${pkgbase%-git}")
@@ -29,6 +29,7 @@ build() {
   cmake -B build-qt5 -S QAdwaitaDecorations \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DHAS_QT6_SUPPORT='true' \
     -DUSE_QT6='OFF' \
     -Wno-dev
   cmake --build build-qt5
@@ -43,7 +44,7 @@ build() {
 
 package_qadwaitadecorations-qt5-git() {
   pkgdesc="Qt5 decoration plugin implementing Adwaita-like client-side decorations"
-  depends=('qt5-svg' 'qt5-wayland')
+  depends=('qt5-svg' 'qt5-wayland-decorations')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}" 'qgnomeplatform-qt5<0.9.2')
 
