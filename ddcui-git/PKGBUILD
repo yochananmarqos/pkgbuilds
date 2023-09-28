@@ -2,13 +2,13 @@
 groups=('modified')
 
 pkgname=ddcui-git
-pkgver=0.3.0.r0.g6a4e0b9
+pkgver=0.4.2.r0.g03a902f
 pkgrel=1
 pkgdesc="Graphical user interface for ddcutil - control monitor settings"
 arch=('x86_64')
 url="https://www.ddcutil.com"
 license=('GPL2')
-depends=('ddcutil' 'qt5-base')
+depends=('ddcutil>=2.0.0' 'qt5-base')
 makedepends=('git' 'cmake' 'qt5-tools')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
