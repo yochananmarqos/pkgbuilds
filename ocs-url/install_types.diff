@@ -14,7 +14,7 @@
      "themes": {
          "name": "Desktop Themes",
 -        "destination": "$HOME/.themes",
-+        "destination": "$$XDG_DATA_HOME/themes",
++        "destination": "$XDG_DATA_HOME/themes",
          "generic_destination": "$APP_DATA/themes"
      },
      "emerald_themes": {

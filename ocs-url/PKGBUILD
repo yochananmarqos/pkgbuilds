@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=ocs-url
 pkgver=3.1.0
-pkgrel=9
+pkgrel=10
 pkgdesc="An install helper program for items served via OpenCollaborationServices (ocs://)."
 arch=('x86_64')
 url="https://www.opendesktop.org/p/1136805"
@@ -19,11 +19,11 @@ source=("git+https://www.opencode.net/dfn2/ocs-url.git#commit=$_commit"
         'install_types.diff')
 sha256sums=('SKIP'
             'SKIP'
-            'bce48860cb12aac883e65bdd3f7a1811c0cdc63a1e74953c89e2325a2f7c2ebb')
+            '96b06c4fd40ed6460b0637e0db0e3cf405a536261cbb1784a6b1ef1ba2a950c4')
 
 prepare() {
   cd "$srcdir/$pkgname"
-  ln -s "$srcdir/qtil" lib/qtil
+  ln -sf "$srcdir/qtil" lib/qtil
 
   # make install directories XDG compliant
   patch --strip=1 app/configs/install_types.json < ../install_types.diff
