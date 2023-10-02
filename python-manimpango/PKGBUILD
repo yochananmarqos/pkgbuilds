@@ -1,0 +1,34 @@
+# https://aur.archlinux.org/packages/python-manimpango
+groups=('modified')
+
+pkgname=python-manimpango
+_name=ManimPango
+pkgver=0.4.4
+pkgrel=1
+pkgdesc="C binding for Pango using Cython used in Manim to render (non-LaTeX) text."
+arch=('x86_64')
+url="https://manimpango.manim.community"
+license=('MIT')
+depends=('cairo' 'harfbuzz' 'pango' 'python' 'python-gobject')
+makedepends=('cython' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("https://github.com/ManimCommunity/ManimPango/releases/download/v$pkgver/$_name-$pkgver.tar.gz")
+sha256sums=('d4dfb55e8c8a62d6b56b6bacea314369f25dda59e2ed4f4c0e6867512d93828c')
+
+prepare() {
+  cd "$_name-$pkgver"
+
+  # relax Cython requirement
+  sed -i 's/Cython>=0.29.25,<3.0/Cython>=0.29.25/g' pyproject.toml
+}
+
+build () {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package () {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
