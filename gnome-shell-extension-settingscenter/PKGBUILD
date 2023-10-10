@@ -6,7 +6,7 @@ pkgdesc="A customizable drop-down menu for quickly launching frequently used app
 arch=('any')
 url="https://github.com/ChrisLauinger77/XES-Settings-Center-Extension"
 license=('GPL2')
-depends=('gnome-shell>=45')
+depends=('gnome-shell')
 _commit=ff0fda12bbe21fc2b905eddcc717c3055d2395d5  # tags/v35^0
 source=("git+$url.git#commit=${_commit}")
 sha256sums=('SKIP')
