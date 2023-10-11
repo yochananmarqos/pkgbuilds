@@ -1,0 +1,42 @@
+# https://aur.archlinux.org/packages/ticketbooth
+groups=('modified')
+
+pkgname=ticketbooth
+pkgver=1.0.3.1
+pkgrel=1
+pkgdesc="Keep track of your favorite shows"
+arch=('any')
+url="https://github.com/aleiepure/ticketbooth"
+license=('CC0-1.0' 'LGPL-3.0-only' 'GPL-3.0-or-later')
+depends=('libadwaita' 'python-gobject' 'python-pillow' 'python-tmdbsimple')
+makedepends=('blueprint-compiler' 'git' 'meson')
+checkdepends=('appstream')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('a6a1c753615dfb39dea430c4f1ef0072965606b1c8e23a2d2d3a63ea828147ca')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # This is not a Flatpak
+  sed -i 's/app\/bin/usr\/share\/ticketbooth/g' "install/$pkgname-run-script.in"
+}
+
+build() {
+  arch-meson "$pkgname-$pkgver" build -Dprerelease=false
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  # Fix runscript location
+  cd "$pkgname-$pkgver"
+  mv "$pkgdir/usr/bin/$pkgname" "$pkgdir/usr/share/$pkgname/$pkgname-bin"
+  mv "$pkgdir/usr/$pkgname/$pkgname-run-script" "$pkgdir/usr/bin/$pkgname"
+  chmod 0755 "$pkgdir/usr/bin/$pkgname"
+  rm -rf "$pkgdir/usr/$pkgname"
+}
