@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=python-manimpango
 _name=ManimPango
-pkgver=0.4.4
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="C binding for Pango using Cython used in Manim to render (non-LaTeX) text."
 arch=('x86_64')
@@ -12,14 +12,7 @@ license=('MIT')
 depends=('cairo' 'harfbuzz' 'pango' 'python' 'python-gobject')
 makedepends=('cython' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 source=("https://github.com/ManimCommunity/ManimPango/releases/download/v$pkgver/$_name-$pkgver.tar.gz")
-sha256sums=('d4dfb55e8c8a62d6b56b6bacea314369f25dda59e2ed4f4c0e6867512d93828c')
-
-prepare() {
-  cd "$_name-$pkgver"
-
-  # relax Cython requirement
-  sed -i 's/Cython>=0.29.25,<3.0/Cython>=0.29.25/g' pyproject.toml
-}
+sha256sums=('299913bbccb0f15954b64401cf9df24607e1a01edda589ea77de1ed4cc2bc284')
 
 build () {
   cd "$_name-$pkgver"
