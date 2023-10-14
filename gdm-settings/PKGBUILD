@@ -1,0 +1,29 @@
+# https://aur.archlinux.org/packages/gdm-settings
+groups=('modified')
+
+pkgname=gdm-settings
+pkgver=4.beta1
+pkgrel=1
+pkgdesc="A settings app for GNOME's Login Manager, GDM"
+arch=('any')
+url="https://gdm-settings.github.io"
+license=('AGPL3')
+depends=('gdm' 'libadwaita' 'polkit' 'python-gobject')
+makedepends=('blueprint-compiler' 'meson')
+checkdepends=('appstream' 'appstream-glib')
+optdepends=('appstream-glib: Release information in About dialog')
+source=("$pkgname-$pkgver.tar.gz"::"https://github.com/gdm-settings/gdm-settings/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('aa6fada519884598b6b938732399532b04d44369136511666a1121acb1a303b9')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir="$pkgdir"
+}
