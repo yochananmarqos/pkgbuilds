@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=blue-recorder-git
 pkgver=r122.ceeb294
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple Screen Recorder written in Rust based on Green Recorder"
 arch=('x86_64')
 url="https://github.com/xlmnxp/blue-recorder"
@@ -16,7 +16,7 @@ options=('!lto')
 source=('git+https://github.com/xlmnxp/blue-recorder.git'
         'https://github.com/xlmnxp/blue-recorder/pull/39.patch')
 sha256sums=('SKIP'
-            '6410b4d9fdd4f027a8dfdcae287946760f73c0593595566d818ad07d2fa830f7')
+            '773cc984c8470da82b95390b0f33e5666ce8d88f3d6cedeeea536e40febd1bb4')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
