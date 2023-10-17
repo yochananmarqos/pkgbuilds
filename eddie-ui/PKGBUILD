@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=eddie-ui
-pkgver=2.23.1
+pkgver=2.23.2
 pkgrel=1
 pkgdesc='Eddie - VPN tunnel - UI'
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ optdepends=('hummingbird: increased OpenVPN performance'
             'stunnel: VPN over SSL')
 conflicts=('airvpn')
 #source=("Eddie-$pkgver.tar.gz::https://github.com/AirVPN/Eddie/archive/$pkgver.tar.gz")
-_commit=c7a44359a4b1972a20753a8505c98437c06f8b7a  # 2.23.1
+_commit=a9ebf22515133616811b630caee762b3ef970149  # 2.23.2
 source=("git+https://github.com/AirVPN/Eddie.git#commit=$_commit")
 sha256sums=('SKIP')
 
@@ -40,15 +40,15 @@ build() {
   fi
 
   # Compile C sources
-  chmod +x src/eddie.linux.postbuild.sh
+  chmod +x src/linux_postbuild.sh
   chmod +x src/Lib.Platform.Linux.Native/build.sh
   chmod +x src/UI.GTK.Linux.Tray/build.sh
   
   if [ "ui" = "cli" ]; then
-    src/eddie.linux.postbuild.sh \
+    src/linux_postbuild.sh \
       "src/App.CLI.Linux/bin/$_pkgarch/Release/" ui $_pkgarch Release
   elif [ "ui" = "ui" ]; then
-    src/eddie.linux.postbuild.sh \
+    src/linux_postbuild.sh \
       "src/App.Forms.Linux/bin/$_pkgarch/Release/" ui $_pkgarch Release
   fi
 }
