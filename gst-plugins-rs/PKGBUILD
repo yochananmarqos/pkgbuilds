@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gst-plugins-rs
 pkgver=1.22.6
-pkgrel=1
+pkgrel=2
 pkgdesc="GStreamer plugins written in Rust"
 arch=('x86_64')
 url="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs"
@@ -11,18 +11,20 @@ license=('Apache' 'LGPL2.1' 'MIT' 'MPL2')
 depends=('cairo' 'dav1d' 'gst-plugins-base-libs' 'gst-plugins-bad-libs' 'graphene'
          'gstreamer' 'gtk4' 'libwebp' 'libsodium' 'openssl' 'pango')
 makedepends=('cargo' 'cargo-c' 'clang' 'git' 'hotdoc' 'meson' 'nasm' 'python-tomli')
+provides=('gst-plugin-gtk4')
+conflicts=('gst-plugin-gtk4')
 options=('!lto')
 _commit=1d52139e35dd66ce6038aad05ca5cd6059df900d  # tags/gstreamer-1.22.6^0
 source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "${srcdir}/${pkgname}"
+  cd "${pkgname}"
   git describe --tags | sed 's/^gstreamer-//;s/-/+/g'
 }
 
 prepare() {
-  cd "${srcdir}/${pkgname}"
+  cd "${pkgname}"
   export CARGO_HOME="${srcdir}/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target x86_64-unknown-linux-gnu
@@ -45,6 +47,6 @@ check() {
 package() {
   meson install -C build --destdir "${pkgdir}"
 
-  cd "${srcdir}/${pkgname}"
+  cd "${pkgname}"
   install -Dm644 LICENSE-MIT -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
