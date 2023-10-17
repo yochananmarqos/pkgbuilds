@@ -23,7 +23,7 @@ prepare() {
 }
 
 _cargo_opts=(--all-features
-             --offline
+             --frozen
              --release
              --prefix=/usr
              --library-type=cdylib)
