@@ -1,14 +1,14 @@
 pkgname=findex
-pkgver=0.7.2
+pkgver=0.8.0
 pkgrel=1
 pkgdesc="Highly customizable finder with high performance."
 arch=('x86_64')
 url="https://github.com/mdgaziur/findex"
 license=('GPL3')
-depends=('libkeybinder3')
+depends=('gtk3' 'libkeybinder3')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('e2eeedf01747fdca1fd52c6a1609a979d0261ba16fa1031bbb7607b2bace2780')
+sha256sums=('dd18c7c7175174e4f98aeffd7f7a50f0816d4d0cef46babd1dfb47a380a63aed')
 
 prepare() {
   cd "$pkgname-$pkgver"
