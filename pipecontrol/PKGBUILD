@@ -9,7 +9,7 @@ arch=('x86_64' 'aarch64')
 url="https://github.com/portaloffreedom/pipecontrol"
 license=('GPL3')
 makedepends=('appstream' 'cmake' 'extra-cmake-modules' 'qt5-tools')
-depends=('hicolor-icon-theme' 'kcoreaddons' 'ki18n' 'kirigami2' 'libpipewire')
+depends=('hicolor-icon-theme' 'kcoreaddons5' 'ki18n5' 'kirigami2' 'libpipewire')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('a101d96a66c87340d615b6a400e0af072fab9383498506826822c2defac84d20')
 
