@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=ugit
-pkgver=5.6
+pkgver=5.7
 pkgrel=1
 pkgdesc="Helps you undo your last git command with grace. Your damage control git buddy"
 arch=('any')
@@ -11,7 +11,7 @@ license=('MIT')
 depends=('awk' 'bash' 'coreutils' 'findutils' 'fzf' 'git' 'ncurses')
 #conflicts=('git-extras')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('6e7ecab2a6d610f52a1e4382ec8310cb05000b593fa71f3b81dbcb39d8e0de88')
+sha256sums=('9438261ef39fb3785a21edc00b756a9866e44ee373326f0269dc066c9a22ead9')
 
 package(){
   cd "$pkgname-$pkgver"
