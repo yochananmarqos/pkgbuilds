@@ -2,13 +2,13 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-extension-list-git
-pkgver=45.0.r0.g7f4c9f3
+pkgver=45.0.r1.g5d0f682
 pkgrel=1
 pkgdesc="Simple GNOME Shell extension manager in the top panel."
 arch=('any')
 url="https://github.com/tuberry/extension-list"
 license=('GPL3')
-depends=('gnome-shell>=1:45.0')
+depends=('gnome-shell')
 makedepends=('git' 'meson' 'sassc')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
