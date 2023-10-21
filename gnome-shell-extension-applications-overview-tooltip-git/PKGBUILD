@@ -17,22 +17,22 @@ source=('git+https://github.com/RaphaelRochet/applications-overview-tooltip.git'
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/applications-overview-tooltip"
+  cd applications-overview-tooltip
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/applications-overview-tooltip"
+  cd applications-overview-tooltip
   gnome-extensions pack \
     --extra-source=prefs.xml \
     --force
 }
 
 package() {
-  cd "$srcdir/applications-overview-tooltip"
+  cd applications-overview-tooltip
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
   cp -r locale "$pkgdir/usr/share"
 
