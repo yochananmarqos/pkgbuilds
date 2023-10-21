@@ -9,7 +9,7 @@ pkgdesc="A GNOME Shell extension to expand GNOME's native 2 column design."
 arch=('any')
 url="https://github.com/Leleat/Tiling-Assistant"
 license=('GPL2')
-depends=('gnome-shell>=1:45.0')
+depends=('gnome-shell')
 makedepends=('git')
 install='tiling-assistant.install'
 _commit=b1daf9d58b82d190ba5d2801ce32eda25f96bad4  # tags/v44^0
@@ -17,12 +17,12 @@ source=("git+https://github.com/Leleat/Tiling-Assistant.git#commit=${_commit}")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/Tiling-Assistant"
+  cd Tiling-Assistant
   git describe --tags | sed 's/^v//;s/-/+/g'
 }
 
 build() {
-  cd "$srcdir/Tiling-Assistant"
+  cd Tiling-Assistant
   gnome-extensions pack "${_uuid}" \
     --extra-source='media' \
     --extra-source='src' \
@@ -30,10 +30,10 @@ build() {
 }
 
 package() {
-  cd "$srcdir/Tiling-Assistant"
+  Tiling-Assistant
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
   for file in translations/*.po; do
     lang=$(basename "${file}" .po)
