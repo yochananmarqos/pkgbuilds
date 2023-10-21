@@ -12,12 +12,12 @@ source=("git+$url.git#commit=${_commit}")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/XES-Settings-Center-Extension"
+ cd XES-Settings-Center-Extension
   git describe --tags | sed 's/^v//;s/-/+/g'
 }
 
 build() {
-  cd "$srcdir/XES-Settings-Center-Extension"
+  cd XES-Settings-Center-Extension
   gnome-extensions pack "${_uuid}" \
     --podir=../po/ \
     --extra-source=menu_items.js \
@@ -25,10 +25,10 @@ build() {
 }
 
 package() {
-  cd "$srcdir/XES-Settings-Center-Extension"
+  cd XES-Settings-Center-Extension
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
   mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "${pkgdir}/usr/share/"
 
