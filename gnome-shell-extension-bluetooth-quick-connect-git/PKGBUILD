@@ -15,20 +15,20 @@ source=('git+https://github.com/bjarosze/gnome-bluetooth-quick-connect.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/gnome-bluetooth-quick-connect"
+  cd gnome-bluetooth-quick-connect
   git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/gnome-bluetooth-quick-connect"
+  cd gnome-bluetooth-quick-connect
   make
 }
 
 package() {
-  cd "$srcdir/gnome-bluetooth-quick-connect"
+  cd gnome-bluetooth-quick-connect
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar -xvf "${_uuid}.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
 # Schema not detected in system dir
 #  install -Dm644 schemas/org.gnome.shell.extensions.bluetooth-quick-connect.gschema.xml -t \
