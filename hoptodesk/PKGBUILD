@@ -1,18 +1,19 @@
 ## WIP
 
 pkgname=hoptodesk
-pkgver=1.40.5
+pkgver=1.40.8
 pkgrel=1
 pkgdesc="Remote Desktop Software free for personal and commercial use."
 arch=('x86_64')
 url="https://www.hoptodesk.com/"
 license=('GPL3')
-depends=('alsa-lib' 'gst-plugins-base' 'gtk3' 'libpulse' 'libsciter-gtk.so'
-         'libxcb' 'libxfixes' 'libxkbcommon' 'libxtst' 'systemd-libs'
-         'ttf-arphic-uming' 'xdotool')
+depends=('alsa-lib' 'gst-plugins-base' 'gtk3' 'libpulse' 'libxcb' 'libxfixes'
+         'libxkbcommon' 'libxtst' 'systemd-libs' 'ttf-arphic-uming' 'xdotool')
 makedepends=('cargo' 'clang' 'cmake' 'git')
-_commit=a55b291a0510c099a4968f038c59117f9882f113  # 1.40.5
-source=("git+https://gitlab.com/hoptodesk/hoptodesk.git#commit=$_commit")
+provides=('libsciter-gtk.so')
+conflicts=('libsciter-gtk')
+_commit=d49a8eadbcfbc7895286d40d9f1a41944e9b93c9  # tags/1.40.8^0
+source=("git+https://gitlab.com/hoptodesk/hoptodesk.git#commit=${_commit}")
 sha256sums=('SKIP')
 
 pkgver() {
