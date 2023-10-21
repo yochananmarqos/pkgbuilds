@@ -6,3 +6,4 @@
 !PKGBUILD
 !.SRCINFO
 !cpufreq.install
+!224.patch

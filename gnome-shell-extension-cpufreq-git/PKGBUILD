@@ -3,35 +3,46 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-cpufreq-git
 pkgver=50.0.r19.gfaf7fa3
-pkgrel=1
+pkgrel=3
 pkgdesc="System Monitor and Power Manager"
 arch=('any')
 url="https://konkor.github.io/cpufreq"
 license=('GPL3')
-depends=('gnome-shell<=1:44.6')
+depends=('gnome-shell' 'polkit' 'ttf-dejavu' 'ttf-droid' 'ttf-freefont')
 makedepends=('git' 'gnome-common')
 optdepends=('ttf-roboto' 'ttf-lato')
 provides=("${pkgname%-git}" 'cpufreqctl')
 conflicts=("${pkgname%-git}" 'cpufreqctl')
 install='cpufreq.install'
-source=('git+https://github.com/konkor/cpufreq.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/konkor/cpufreq.git'
+        '224.patch')
+sha256sums=('SKIP'
+            '57bf5a64c465ec3e0caa620816cd6a68fa933d83f38cc2a0b9dd5484d7da30a6')
 
 pkgver() {
-  cd "$srcdir/cpufreq"
+  cd cpufreq
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+prepare() {
+  cd cpufreq
+
+  # support gnome 45
+  # https://github.com/konkor/cpufreq/pull/224
+  patch -Np1 -i ../224.patch
+}
+
 build() {
-  cd "$srcdir/cpufreq"
+  cd cpufreq
   ./autogen.sh
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd "$srcdir/cpufreq"
+  cd cpufreq
   make DESTDIR="$pkgdir" install
 
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/cpufreq@konkor/schemas/"
+  # remove duplicate SVG & schemas
+  rm -rf "$pkgdir"/usr/share/{pixmaps,gnome-shell/extensions/cpufreq@konkor/schemas}
 }
