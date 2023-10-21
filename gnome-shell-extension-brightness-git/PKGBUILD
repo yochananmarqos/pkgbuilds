@@ -1,12 +1,12 @@
 pkgname=gnome-shell-extension-brightness-git
 _uuid=gnome-extension-brightness@bruno.englert.gitlab.com
-pkgver=r49.1bf28a0
+pkgver=r51.a0b2594
 pkgrel=1
 pkgdesc="Simple GNOME extension to control displays' brightness via DDC."
 arch=('any')
 url="https://gitlab.com/bruno.englert/gnome-extension-brightness"
 license=('GPL2')
-depends=('ddcutil' 'gnome-shell<=1:44.6')
+depends=('ddcutil' 'gnome-shell')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -14,12 +14,12 @@ source=('git+https://gitlab.com/bruno.englert/gnome-extension-brightness.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/gnome-extension-brightness"
+  cd gnome-extension-brightness
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cd "$srcdir/gnome-extension-brightness"
+  cd gnome-extension-brightness
   gnome-extensions pack \
     --extra-source=services/ \
     --extra-source=ui/ \
@@ -28,8 +28,8 @@ build() {
 }
 
 package() {
-  cd "$srcdir/gnome-extension-brightness"
+  cd gnome-extension-brightness
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/"
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 }
