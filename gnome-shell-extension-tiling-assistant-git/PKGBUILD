@@ -9,7 +9,7 @@ pkgdesc="Adds a Windows-like snap assist to the GNOME desktop environment"
 arch=('any')
 url="https://github.com/Leleat/Tiling-Assistant"
 license=('GPL2')
-depends=('gnome-shell>=1:45.0')
+depends=('gnome-shell')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
