@@ -1,28 +1,34 @@
 ## WIP
 
+# Needs static libs for opus, vpx & yuv (aom?)
+
 pkgname=hoptodesk
 pkgver=1.40.8
 pkgrel=1
+_vcpkg_ver=2023.04.15
 pkgdesc="Remote Desktop Software free for personal and commercial use."
 arch=('x86_64')
 url="https://www.hoptodesk.com/"
 license=('GPL3')
 depends=('alsa-lib' 'gst-plugins-base' 'gtk3' 'libpulse' 'libxcb' 'libxfixes'
          'libxkbcommon' 'libxtst' 'systemd-libs' 'ttf-arphic-uming' 'xdotool')
-makedepends=('cargo' 'clang' 'cmake' 'git')
+makedepends=('cargo' 'clang' 'cmake' 'git' 'nasm' 'unzip' 'yasm' 'zip')
 provides=('libsciter-gtk.so')
 conflicts=('libsciter-gtk')
+options=('!lto')
 _commit=d49a8eadbcfbc7895286d40d9f1a41944e9b93c9  # tags/1.40.8^0
-source=("git+https://gitlab.com/hoptodesk/hoptodesk.git#commit=${_commit}")
-sha256sums=('SKIP')
+source=("git+https://gitlab.com/hoptodesk/hoptodesk.git#commit=${_commit}"
+        "git+https://github.com/microsoft/vcpkg.git#tag=${_vcpkg_ver}")
+sha256sums=('SKIP'
+            'SKIP')
 
 pkgver() {
-  cd "$srcdir/$pkgname"
+  cd "$pkgname"
   git describe --tags | sed 's/-/+/g'
 }
 
 prepare() {
-  cd "$srcdir/$pkgname"
+  cd "$pkgname"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
@@ -32,15 +38,21 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/$pkgname"
+  export VCPKG_ROOT="$srcdir/vcpkg"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
+
+  cd vcpkg
+  ./bootstrap-vcpkg.sh -disableMetrics
+  ./vcpkg install aom libvpx libyuv opus
+
+  cd "$srcdir/$pkgname"
   cargo build --release --features inline
 }
 
 package() {
-  cd "$srcdir/$pkgname"
+  cd "$pkgname"
   install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
   install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm644 "$pkgname.service" -t "$pkgdir/usr/lib/systemd/system/"
