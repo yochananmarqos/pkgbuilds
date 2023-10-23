@@ -3,7 +3,7 @@ groups=('modifed')
 
 pkgname=gnome-shell-extension-tiling-assistant-git
 _uuid=tiling-assistant@leleat-on-github
-pkgver=44.r0.gb1daf9d
+pkgver=44.r5.g4b67bcc
 pkgrel=1
 pkgdesc="Adds a Windows-like snap assist to the GNOME desktop environment"
 arch=('any')
@@ -23,24 +23,21 @@ pkgver() {
 }
 
 build() {
-  Tiling-Assistant
+  cd Tiling-Assistant
   gnome-extensions pack "${_uuid}" \
-    --extra-source='media' \
-    --extra-source='src' \
+    --podir=../translations/ \
+    --extra-source=media/ \
+    --extra-source=src/ \
     --force
 }
 
 package() {
-  Tiling-Assistant
+  cd Tiling-Assistant
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
-  for file in translations/*.po; do
-    lang=$(basename "${file}" .po)
-    install -d "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES"
-    msgfmt -c "${file}" -o "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/${_uuid}.mo"
-  done
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share"
 
   install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.tiling-assistant.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas/"
