@@ -24,22 +24,19 @@ pkgver() {
 build() {
   cd Tiling-Assistant
   gnome-extensions pack "${_uuid}" \
-    --extra-source='media' \
-    --extra-source='src' \
+    --podir=../translations/ \
+    --extra-source=media/ \
+    --extra-source=src/ \
     --force
 }
 
 package() {
-  Tiling-Assistant
+  cd Tiling-Assistant
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
-  for file in translations/*.po; do
-    lang=$(basename "${file}" .po)
-    install -d "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES"
-    msgfmt -c "${file}" -o "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/${_uuid}.mo"
-  done
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share"
 
   install -Dm644 "${_uuid}/schemas/org.gnome.shell.extensions.tiling-assistant.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas/"
