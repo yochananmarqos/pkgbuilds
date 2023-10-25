@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=i8kutils
-pkgver=1.52
+pkgver=1.55
 pkgrel=1
 pkgdesc="Fan control for some Dell laptops"
 arch=('any')
@@ -14,7 +14,7 @@ optdepends=('acpi: For enabling i8kmon to read the battery status')
 backup=("etc/$pkgname/i8kmon.conf")
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Wer-Wolf/i8kutils/archive/refs/tags/v$pkgver.tar.gz"
         'dell-smm-hwmon.conf')
-sha256sums=('fd52d82e473babfd6e13bb6679d3706fcc1615f432f37323b82f34ce8ea7a1b2'
+sha256sums=('bc37b2f51a98fb6607a364390ced5688bb817b8d17d182428d44c5bf3ce3f8d9'
             '2c447f92ac5245fcd6ecec7e69622b0e31b790e08bcbf853e9f7a7bc631fea07')
 
 prepare() {
