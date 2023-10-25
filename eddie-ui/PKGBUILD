@@ -19,13 +19,6 @@ _commit=a9ebf22515133616811b630caee762b3ef970149  # 2.23.2
 source=("git+https://github.com/AirVPN/Eddie.git#commit=${_commit}")
 sha256sums=('SKIP')
 
-case "$CARCH" in
-    i686) _pkgarch="x86"
-      ;;
-    x86_64) _pkgarch="x64"
-      ;;
-esac
-
 build() {
 
   # Compile C# sources
