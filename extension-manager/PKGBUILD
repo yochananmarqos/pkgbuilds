@@ -6,12 +6,12 @@ pkgver=0.4.2
 pkgrel=1
 pkgdesc="A native tool for browsing, installing, and managing GNOME Shell Extensions"
 arch=('x86_64')
-url="https://github.com/mjakeman/extension-manager"
+url="https://mattjakeman.com/apps/extension-manager"
 license=('GPL3')
 depends=('libadwaita' 'libbacktrace' 'libsoup3' 'text-engine')
 makedepends=('blueprint-compiler' 'meson')
 checkdepends=('appstream-glib')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/mjakeman/extension-manager/archive/v$pkgver.tar.gz")
 sha256sums=('c9443755aab4340b6bb31b9ab18d49fdf65d14391bce80e6262cc7ba27e5eab0')
 
 build() {
