@@ -18,6 +18,8 @@ sha256sums=('09fc420322646976594aba1c4d02a01e47d241f196d1c2a519553ad034784213'
 
 prepare() {
   cd "$pkgname-$pkgver"
+
+  # https://github.com/lainsce/notejot/issues/395
   patch -Np1 -i ../0001-Simplify-an-overcomplicated-Boolean-expression.patch
 }
 
