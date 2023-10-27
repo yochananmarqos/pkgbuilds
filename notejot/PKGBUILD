@@ -1,0 +1,37 @@
+# https://aur.archlinux.org/packages/notejot
+groups=('modified')
+
+pkgname=notejot
+pkgver=3.5.1
+pkgrel=1
+pkgdesc="Stupidly-simple notes app."
+arch=('x86_64')
+url="https://github.com/lainsce/notejot"
+license=('GPL3')
+depends=('json-glib' 'libadwaita' 'libgee')
+makedepends=('meson' 'vala')
+checkdepends=('appstream-glib')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+        '0001-Simplify-an-overcomplicated-Boolean-expression.patch')
+sha256sums=('09fc420322646976594aba1c4d02a01e47d241f196d1c2a519553ad034784213'
+            'cd064dc822e8f3b5903fb0c191ab42b478e202cf8a317576405778d7325b6690')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  patch -Np1 -i ../0001-Simplify-an-overcomplicated-Boolean-expression.patch
+}
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  ln -s /usr/bin/io.github.lainsce.Notejot "$pkgdir/usr/bin/$pkgname"
+}
