@@ -14,7 +14,7 @@ checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
         '0001-Simplify-an-overcomplicated-Boolean-expression.patch')
 sha256sums=('09fc420322646976594aba1c4d02a01e47d241f196d1c2a519553ad034784213'
-            'cd064dc822e8f3b5903fb0c191ab42b478e202cf8a317576405778d7325b6690')
+            'e40c7d0d8698210bd71b08652921c2608b28d85c0346f0cb3b3c0576e85b7ac8')
 
 prepare() {
   cd "$pkgname-$pkgver"
