@@ -3,20 +3,20 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
 _uuid=bluetooth-quick-connect@bjarosze.gmail.com
-pkgver=36.r2.ga276248
+pkgver=r120.404c410
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
 arch=('any')
-url="https://github.com/bjarosze/gnome-bluetooth-quick-connect"
+url="https://github.com/BlankParticle/gnome-bluetooth-quick-connect"
 license=('GPL3')
-depends=('gnome-shell<=1:44.6' 'bluez-utils')
+depends=('gnome-shell' 'bluez-utils')
 makedepends=('git')
-source=('git+https://github.com/bjarosze/gnome-bluetooth-quick-connect.git')
+source=('git+https://github.com/BlankParticle/gnome-bluetooth-quick-connect.git#branch=gnome-45-port')
 sha256sums=('SKIP')
 
 pkgver() {
   cd gnome-bluetooth-quick-connect
-  git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
@@ -30,8 +30,11 @@ package() {
   bsdtar -xvf "${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
-# Schema not detected in system dir
-#  install -Dm644 schemas/org.gnome.shell.extensions.bluetooth-quick-connect.gschema.xml -t \
-#    "$pkgdir/usr/share/glib-2.0/schemas/"
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share"
+
+  install -Dm644 schemas/org.gnome.shell.extensions.bluetooth-quick-connect.gschema.xml -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+
+  # Extension expects schema to be in extension directory
 #  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
 }
