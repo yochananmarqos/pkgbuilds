@@ -1,0 +1,45 @@
+# https://aur.archlinux.org/packages/beaver-notes
+groups=('modified')
+
+pkgname=beaver-notes
+pkgver=2.0.0
+pkgrel=1
+_electronversion=13
+pkgdesc="A privacy-focused, cross-platform note-taking application."
+arch=('x86_64')
+url="https://www.beavernotes.com"
+license=('MIT')
+depends=("electron${_electronversion}")
+makedepends=('libxcrypt-compat' 'yarn')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Daniele-rolli/Beaver-Notes/archive/refs/tags/$pkgver.tar.gz"
+        "$pkgname.desktop"
+        "$pkgname.sh")
+sha256sums=('07ffa8948107d7796bacd7c8d3b4d8287dc091291830f5443e56358418f15170'
+            'ed1109a5e1c72456970ba21539a6d02cf7187eec7cc60f4599cea519a29cbfe3'
+            '9ea6ca757d3d8f9fafcda3b733d890057d39122c6bfc4e0868261f81cea18c1d')
+
+build() {
+  cd "Beaver-Notes-$pkgver"
+  export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
+  electronDist="/usr/lib/electron${_electronversion}"
+  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+  yarn install
+  yarn build
+  yarn electron-builder build --config electron-builder.config.js --linux deb \
+    $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
+}
+
+package() {
+  cd "Beaver-Notes-$pkgver"
+  install -Dm644 dist/linux-unpacked/resources/app.asar -t \
+    "$pkgdir/usr/lib/$pkgname/resources/"
+
+  for i in 32 64 128 256 512 1024; do
+    install -Dm644 "dist/.icon-set/icon-linux_${i}.png" \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
+  done
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+}
