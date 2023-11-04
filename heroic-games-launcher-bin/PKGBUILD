@@ -1,0 +1,23 @@
+# https://aur.archlinux.org/packages/heroic-games-launcher-bin
+groups=('modified')
+
+pkgname=heroic-games-launcher-bin
+pkgver=2.10.0
+pkgrel=1
+pkgdesc="A Native GOG and Epic Games Launcher"
+arch=('x86_64')
+url="https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher"
+license=('GPL3')
+depends=('alsa-lib' 'gtk3' 'nss')
+provides=('heroic-games-launcher')
+conflicts=('heroic-games-launcher')
+source=("$url/releases/download/v${pkgver}/heroic-${pkgver}.pacman")
+noextract=("heroic-${pkgver}.pacman")
+sha256sums=('b28d5e788cf6b0b4fd5e0490af2774d5f468cdfc014db40cdafbe0965e8ad0ce')
+
+package() {
+  bsdtar -xJv -C "$pkgdir" -f "heroic-${pkgver}.pacman" usr opt
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/Heroic/heroic" "$pkgdir/usr/bin/"
+}
