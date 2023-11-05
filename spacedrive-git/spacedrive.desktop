@@ -1,0 +1,7 @@
+[Desktop Entry]
+Comment=Spacedrive
+Exec=spacedrive
+Icon=spacedrive
+Name=Spacedrive
+Terminal=false
+Type=Application
