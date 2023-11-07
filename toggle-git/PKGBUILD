@@ -1,9 +1,9 @@
 # https://aur.archlinux.org/packages/toggle-git
-groups=('modifed')
+groups=('modified')
 
 pkgname=toggle-git
 _app_id=io.gitlab.orowith2os.Toggle
-pkgver=r101.4eda274
+pkgver=r105.f035d2b
 pkgrel=1
 pkgdesc="Like Tweaks, but with more Libadwaita!"
 arch=('any')
