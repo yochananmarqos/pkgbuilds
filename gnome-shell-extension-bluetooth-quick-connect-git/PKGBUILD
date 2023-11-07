@@ -3,15 +3,15 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
 _uuid=bluetooth-quick-connect@bjarosze.gmail.com
-pkgver=r120.404c410
+pkgver=r120.c40735e
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
 arch=('any')
-url="https://github.com/BlankParticle/gnome-bluetooth-quick-connect"
+url="https://github.com/Extensions-Valhalla/gnome-bluetooth-quick-connect"
 license=('GPL3')
 depends=('gnome-shell' 'bluez-utils')
-makedepends=('git')
-source=('git+https://github.com/BlankParticle/gnome-bluetooth-quick-connect.git#branch=gnome-45-port')
+makedepends=('git' 'pnpm')
+source=('git+https://github.com/Extensions-Valhalla/gnome-bluetooth-quick-connect.git')
 sha256sums=('SKIP')
 
 pkgver() {
@@ -21,7 +21,9 @@ pkgver() {
 
 build() {
   cd gnome-bluetooth-quick-connect
-  make
+  export PNPM_HOME="$srcdir/pnpm-home"
+  pnpm i
+  pnpm extension:build
 }
 
 package() {
