@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
 _uuid=bluetooth-quick-connect@bjarosze.gmail.com
-pkgver=r120.c40735e
+pkgver=40.r0.gfa8c763
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
 arch=('any')
@@ -16,7 +16,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd gnome-bluetooth-quick-connect
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
