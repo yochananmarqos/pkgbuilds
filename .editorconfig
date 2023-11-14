@@ -1,0 +1,8 @@
+# EditorConfig: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[**/PKGBUILD]
+indent_style = space
+indent_size = 2
