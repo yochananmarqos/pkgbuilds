@@ -4,7 +4,7 @@ groups=('modified')
 ## WIP
 
 pkgname=spacedrive-git
-pkgver=0.1.2.r54.g8ad468b29
+pkgver=0.1.2.r90.g0ef65fce2
 pkgrel=1
 pkgdesc="An open source cross-platform file explorer, powered by a virtual distributed filesystem written in Rust."
 arch=('x86_64')
@@ -30,14 +30,8 @@ prepare() {
   export PNPM_HOME="$srcdir/pnpm-home"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-
   pnpm i
-
   cargo fetch --target "$CARCH-unknown-linux-gnu"
-
-  # Don't bundle AppImage
-  sed -i 's/"targets": "all",/"targets": "deb",/g' \
-    apps/desktop/src-tauri/tauri.conf.json
 }
 
 build() {
