@@ -5,7 +5,7 @@ pkgname=tabby
 pkgver=1.0.204
 pkgrel=1
 pkgdesc="A terminal for a more modern age"
-arch=('x86_64')
+arch=('x86_64' 'aarch64')
 url="https://tabby.sh/"
 license=('MIT')
 depends=('alsa-lib' 'gtk3' 'nss')
@@ -44,7 +44,12 @@ build(){
 package() {
   cd "$srcdir/$pkgname"
   install -d "$pkgdir/opt/$pkgname"
-  cp -r dist/linux-unpacked/* "$pkgdir/opt/$pkgname/"
+
+  if [ $CARCH == "aarch64" ]; then
+    cp -r dist/linux-arm64-unpacked/* "$pkgdir/opt/$pkgname/"
+  else
+    cp -r dist/linux-unpacked/* "$pkgdir/opt/$pkgname/"
+  fi
 
   install -d "$pkgdir/usr/bin"
   ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
@@ -57,7 +62,4 @@ package() {
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 
   install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
-
-  # Remove prebuilt binaries for other architectures
-  rm -rf "$pkgdir/opt/$pkgname"/resources/app.asar.unpacked/node_modules/@serialport/bindings-cpp/prebuilds/{android*,darwin*,linux-arm*,win*}
 }
