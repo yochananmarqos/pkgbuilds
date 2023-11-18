@@ -4,14 +4,14 @@ groups=('modified')
 ## WIP
 
 pkgname=spacedrive-git
-pkgver=0.1.2.r90.g0ef65fce2
+pkgver=0.1.2.r103.g18c306328
 pkgrel=1
 pkgdesc="An open source cross-platform file explorer, powered by a virtual distributed filesystem written in Rust."
 arch=('x86_64')
 url="https://www.spacedrive.com"
 license=('GPL3')
 depends=('ffmpeg' 'libheif' 'webkit2gtk')
-makedepends=('cargo' 'clang' 'git' 'pnpm' 'protobuf')
+makedepends=('cargo' 'clang' 'git' 'pnpm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
