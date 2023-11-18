@@ -3,13 +3,13 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-applications-overview-tooltip-git
 _uuid=applications-overview-tooltip@RaphaelRochet
-pkgver=17.r0.ge19ea08
+pkgver=17.r2.g952263f
 pkgrel=1
 pkgdesc="Shows a tooltip over applications icons on applications overview."
 arch=('any')
 url="https://github.com/RaphaelRochet/applications-overview-tooltip"
 license=('unknown')
-depends=('gnome-shell<=1:44.6')
+depends=('gnome-shell')
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -40,5 +40,5 @@ package() {
     "$pkgdir/usr/share/glib-2.0/schemas/"
 
   rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
-  find "$pkgdir"/. -type f -name "*.po" -o -name "*.pot" -exec rm {} \;
+  find "$pkgdir"/usr/share/locale/. -type f \( -iname \*.po -o -iname \*.pot \) -exec rm {} \;
 }
