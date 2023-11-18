@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=beaver-notes
-pkgver=2.1.1
+pkgver=2.2.2
 pkgrel=1
 _electronversion=13
 pkgdesc="A privacy-focused, cross-platform note-taking application."
@@ -14,9 +14,9 @@ makedepends=('libxcrypt-compat' 'yarn')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Daniele-rolli/Beaver-Notes/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('3f900592b18a0bf8119239b8582b153da575c45b1e05f822b0db678b029465f8'
+sha256sums=('26fe48be249f9691c02497a365bb3c3959b644383a76e4acccb2788a49bbbd92'
             'ed1109a5e1c72456970ba21539a6d02cf7187eec7cc60f4599cea519a29cbfe3'
-            '9ea6ca757d3d8f9fafcda3b733d890057d39122c6bfc4e0868261f81cea18c1d')
+            'b8f8af3a4d2c68bf3eb0574c5599d9dca96a75c0d4efdc4180e6ab78b1a293f8')
 
 build() {
   cd "Beaver-Notes-$pkgver"
@@ -32,7 +32,7 @@ build() {
 package() {
   cd "Beaver-Notes-$pkgver"
   install -Dm644 dist/linux-unpacked/resources/app.asar -t \
-    "$pkgdir/usr/lib/$pkgname/resources/"
+    "$pkgdir/usr/lib/$pkgname/"
 
   for i in 32 64 128 256 512 1024; do
     install -Dm644 "dist/.icon-set/icon-linux_${i}.png" \

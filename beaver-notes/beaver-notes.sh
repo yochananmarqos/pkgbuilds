@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec electron13 /usr/lib/beaver-notes/resources/app.asar "$@"
+exec electron13 /usr/lib/beaver-notes/app.asar "$@"
