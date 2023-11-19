@@ -2,25 +2,31 @@
 groups=('modified')
 
 pkgname=gnome-extensions-cli
-pkgver=0.9.5
+pkgver=0.9.5+9+g5ebc489
 pkgrel=1
 pkgdesc="Command line tool to manage your GNOME Shell extensions"
 arch=('any')
 url="https://github.com/essembeh/gnome-extensions-cli"
 license=('Apache')
-depends=('python-colorama' 'python-gobject' 'python-more-itertools'
-         'python-packaging' 'python-pydantic' 'python-requests')
-makedepends=('python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
+depends=('python-colorama' 'python-gobject' 'python-packaging' 'python-pydantic'
+         'python-requests')
+makedepends=('git' 'python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
 optdepends=('dbus-python: communicate with GNOME Shell directly')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('21e47f3333c9b5a921a7e94320c72eac3cbb35533987d1730db2fdb50e007158')
+_commit=5ebc489065981a4cd7dbf69a64f8b5532eae5f8d  # 0.9.6
+source=("git+https://github.com/essembeh/gnome-extensions-cli#commit=${_commit}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$pkgname"
+  git describe --tags | sed 's/-/+/g'
+}
 
 build() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   python -m installer --destdir="$pkgdir" dist/*.whl
 }
