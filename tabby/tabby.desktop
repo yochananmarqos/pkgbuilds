@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Tabby
-Exec=/opt/tabby/tabby %U
-Terminal=false
-Type=Application
-Icon=tabby
-StartupWMClass=tabby
-Comment=A terminal for a modern age
-Categories=Utility;TerminalEmulator;System;
