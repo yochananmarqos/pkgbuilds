@@ -2,8 +2,8 @@
 groups=('modified')
 
 pkgname=toggle-git
-_app_id=io.gitlab.orowith2os.Toggle
-pkgver=r105.f035d2b
+_app_id=app.drey.Toggle
+pkgver=r119.db6c6c2
 pkgrel=1
 pkgdesc="Like Tweaks, but with more Libadwaita!"
 arch=('any')
@@ -38,8 +38,8 @@ prepare() {
 
   patch --forward --strip=1 --input="$srcdir/fix-build.patch"
 
-  # Add icon name to desktop file as '@app_id@' is not defined
-  setconf data/io.gitlab.orowith2os.Toggle.desktop.in.in Icon "${_app_id}"
+  # Correct Exec
+  setconf "data/${_app_id}.desktop.in.in" Exec "${pkgname%-git}"
 }
 
 build() {
@@ -53,10 +53,4 @@ check() {
 
 package() {
   meson install -C build --destdir "$pkgdir"
-
-  # Binary name is currently toggle, not io.gitlab.orowith2os.Toggle 
-  # like the desktop file thinks.
-  # When upstream resolves the issue, the symlink should 
-  # be removed or reversed.
-  ln -s "/usr/bin/${pkgname%-git}" "$pkgdir/usr/bin/${_app_id}"
 }
