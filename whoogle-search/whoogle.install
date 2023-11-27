@@ -1,0 +1,15 @@
+_site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+post_install() {
+  chown -R whoogle:whoogle ${_site_packages}/app/
+  echo "Enable the systemd unit and visit localhost:5000 to start searching!"
+  echo "If the search engine can't be reached, execute 'chown -R whoogle:whoogle ${_site_packages}/app/' to fix permissions."
+}
+
+post_upgrade() {
+  chown -R whoogle:whoogle ${_site_packages}/app/
+}
+
+post_remove() {
+  echo "Configuration files are still present in ${_site_packages}/app/, run 'sudo rm -rf ${_site_packages}/app/' to remove them."
+}
