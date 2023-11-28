@@ -2,20 +2,20 @@
 groups=('modified')
 
 pkgname=smartgit
-pkgver=22.1.5
-pkgrel=2
+pkgver=23.1.0
+pkgrel=1
 pkgdesc="Graphical Git client"
 arch=('x86_64')
 url="https://www.syntevo.com/smartgit"
 license=('custom')
-_jre_ver=20  # JRE 17 or higher required
+_jre_ver=21  # JRE 17 or higher required
 depends=('bash' 'curl' 'expat' 'git' 'gtk3' 'hicolor-icon-theme' "java-runtime=${_jre_ver}"
          'lsb-release' 'openssh' 'openssl-1.1' 'perl' 'which' 'zlib')
 optdepends=('git-lfs: Large file support'
             'mercurial: hg repositories support')
 source=("https://www.syntevo.com/downloads/${pkgname}/${pkgname}-linux-${pkgver//\./_}.tar.gz"
         "${pkgname}.desktop")
-sha256sums=('b37d6c6040b583b78b3214fd5249a36c19c778f63dc2740f9a01905e0557e23e'
+sha256sums=('e8d985e7fa2d315101c6308e66a890cbf13bed04f3f4afca6ea8ce1fff82392c'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 package() {
@@ -24,14 +24,14 @@ package() {
   # Install application files
   install -Dm755 bin/*.sh -t "${pkgdir}/opt/${pkgname}/bin/"
   install -m644 "bin/${pkgname}.vmoptions" -t "${pkgdir}/opt/${pkgname}/bin/"
-  cp -r dictionaries git lib opt "${pkgdir}/opt/${pkgname}/"
+  cp -r dictionaries git lib "${pkgdir}/opt/${pkgname}/"
 
   # Install licenses
   install -Dm644 license.html -t "${pkgdir}/usr/share/licenses/${pkgname}/"
-  install -m644 licenses/*-LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 licenses/* -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 
   # Install docs
-  install -Dm644 changelog.txt checksums known-issues.txt readme-linux.txt "${pkgname}.url" -t \
+  install -Dm644 changelog.txt checksums readme-linux.txt "${pkgname}.url" -t \
     "$pkgdir/usr/share/doc/${pkgname}/"
 
   # Install icon files
