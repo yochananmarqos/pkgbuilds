@@ -4,14 +4,14 @@ groups=('modified')
 ## WIP
 
 pkgname=spacedrive-git
-pkgver=0.1.2.r103.g18c306328
+pkgver=0.1.4.r15.g98ff6a798
 pkgrel=1
 pkgdesc="An open source cross-platform file explorer, powered by a virtual distributed filesystem written in Rust."
 arch=('x86_64')
 url="https://www.spacedrive.com"
 license=('GPL3')
 depends=('ffmpeg' 'libheif' 'webkit2gtk')
-makedepends=('cargo' 'clang' 'git' 'pnpm')
+makedepends=('cargo-nightly' 'clang' 'git' 'pnpm')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
@@ -29,8 +29,8 @@ prepare() {
   cd "${pkgname%-git}"
   export PNPM_HOME="$srcdir/pnpm-home"
   export CARGO_HOME="$srcdir/cargo-home"
-  export RUSTUP_TOOLCHAIN=stable
-  pnpm i
+  export RUSTUP_TOOLCHAIN=nightly
+  pnpm i --frozen-lockfile
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 }
 
@@ -38,7 +38,7 @@ build() {
   cd "${pkgname%-git}"
   export PNPM_HOME="$srcdir/pnpm-home"
   export CARGO_HOME="$srcdir/cargo-home"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=nightly
   export CARGO_TARGET_DIR=target
   pnpm prep
   pnpm tauri build --bundles app
