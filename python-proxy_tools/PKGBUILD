@@ -1,0 +1,29 @@
+# https://aur.archlinux.org/packages/python-proxy_tools
+groups=('modified')
+
+pkgname=python-proxy_tools
+_name=${pkgname#python-}
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Simple proxy implementation for Python"
+arch=('any')
+url="https://github.com/jtushman/proxy_tools"
+license=('BSD')
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz"
+        "https://raw.githubusercontent.com/jtushman/proxy_tools/master/LICENSE.txt")
+sha256sums=('ccb3751f529c047e2d8a58440d86b205303cf0fe8146f784d1cbcd94f0a28010'
+            'a428fb8a2e762af3eb0a6edbbb88e9b42ccfee80fd9b423958bcacf9b9abbfe4')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 "$srcdir/LICENSE.txt" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
