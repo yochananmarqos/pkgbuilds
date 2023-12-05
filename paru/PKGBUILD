@@ -14,7 +14,7 @@ optdepends=('bat: colored pkgbuild printing'
             'devtools: build in chroot and downloading pkgbuilds')
 backup=("etc/$pkgname.conf")
 _commit=81efb1f810f7265f6bf7cf8637a5103f6836f56a  # branch/master
-source=("git+https://github.com/morganamilo/paru.git#commit=${_commit}")
+source=("git+https://github.com/morganamilo/paru.git#commit=${_commit}?signed")
 sha256sums=('SKIP')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
