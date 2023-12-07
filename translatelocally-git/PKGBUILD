@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=translatelocally-git
 pkgver=r508.a210037
-pkgrel=1
+pkgrel=2
 pkgdesc="Fast and secure translation on your local machine, powered by marian and Bergamot."
 arch=('x86_64')
 url="https://translatelocally.com"
@@ -28,7 +28,7 @@ prepare() {
 
 build() {
   cmake -B build -S translateLocally \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='Release' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -Wno-dev
   cmake --build build
