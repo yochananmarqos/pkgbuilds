@@ -10,46 +10,8 @@ url="https://translatelocally.com"
 license=('MIT')
 depends=('libarchive' 'qt6-base' 'qt6-svg')
 makedepends=('cmake' 'git' 'intel-oneapi-mkl' 'qt6-tools')
-source=('git+https://github.com/XapaJIaMnu/translateLocally.git'
-        'git+https://github.com/browsermt/bergamot-translator.git'
-        'git+https://github.com/browsermt/bergamot-translator-tests.git'
-        'git+https://github.com/browsermt/marian-dev.git'
-        'git+https://github.com/pybind/pybind11.git'
-        'git+https://github.com/browsermt/ssplit-cpp.git'
-        'git+https://github.com/marian-nmt/marian-examples.git'
-        'git+https://github.com/marian-nmt/marian-regression-tests.git'
-        'git+https://github.com/marian-nmt/FBGEMM.git'
-        'git+https://github.com/kpu/intgemm.git'
-        'git+https://github.com/marian-nmt/nccl.git'
-        'git+https://github.com/browsermt/onnxjs.git'
-        'git+https://github.com/google/ruy.git'
-        'git+https://github.com/browsermt/sentencepiece.git'
-        'git+https://github.com/browsermt/simd_utils.git'
-        'git+https://github.com/marian-nmt/Simple-WebSocket-Server.git'
-        'git+https://github.com/asmjit/asmjit.git'
-        'git+https://github.com/pytorch/cpuinfo.git'
-        'git+https://github.com/google/googletest.git'
-        'git+https://github.com/abhi-agg/eigen-git-mirror.git')
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+source=('git+https://github.com/XapaJIaMnu/translateLocally.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd translateLocally
@@ -58,27 +20,9 @@ pkgver() {
 
 prepare() {
   cd translateLocally
-  git submodule init
-  git config submodule.3rd_party/bergamot-translator.url "$srcdir/bergamot-translator"
-  git config submodule.3rd_party/bergamot-translator/bergamot-translator-tests.url "$srcdir/bergamot-translator-tests"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev.url "$srcdir/marian-dev"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/pybind11.url "$srcdir/pybind11"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/ssplit-cpp.url "$srcdir/ssplit-cpp"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/marian-examples.url "$srcdir/marian-examples"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/marian-regression-tests.url "$srcdir/marian-regression-tests"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/fbgemm.url "$srcdir/FBGEMM"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/intgemm.url "$srcdir/intgemm"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/nccl.url "$srcdir/nccl"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/onnxjs.url "$srcdir/onnxjs"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/ruy.url "$srcdir/ruy"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/sentencepiece.url "$srcdir/sentencepiece"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/simd_utils.url "$srcdir/simd_utils"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/simple-webSocket-server.url "$srcdir/Simple-WebSocket-Server"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/fbgemm/3rd_party/asmjit.url "$srcdir/asmjit"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/fbgemm/3rd_party/cpuinfo.url "$srcdir/cpuinfo"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/fbgemm/3rd_party/googletest.url "$srcdir/googletest"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/onnxjs/deps/eigen.url "$srcdir/eigen-git-mirror"
-  git config submodule.3rd_party/bergamot-translator/3rd_party/marian-dev/src/3rd_party/ruy/third_party/googletest.url "$srcdir/googletest"
+
+  # There are many submodules that may change occasionally
+  git submodule update --init --recursive
   git -c protocol.file.allow=always submodule update
 }
 
