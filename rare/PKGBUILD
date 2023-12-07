@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=rare
-pkgver=1.10.5
+pkgver=1.10.6
 pkgrel=1
 pkgdesc="GUI for legendary. An Epic Games Launcher open source alternative"
 arch=('any')
@@ -14,7 +14,7 @@ makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel
 optdepends=('python-pypresence: Use Discord RPC'
             'python-pywebview: webview-based login')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('0df7afc90407c9f71706b66bb98399f5f4bf03935affc7a5f12c194143135d06')
+sha256sums=('ef899742d69dc5f1d99a63bb9547f1e3a2dd4001d215498313627b46e3b55598')
 
 build() {
   cd "Rare-$pkgver"
