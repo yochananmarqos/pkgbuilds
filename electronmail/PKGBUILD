@@ -11,11 +11,9 @@ makedepends=('git' 'libxcrypt-compat' 'npm' 'pnpm' 'yarn')
 optdepends=('org.freedesktop.secrets: password storage backend')
 _commit=c5f76ecf5285cfd0c5b23c8e667fba68281e754a  # tags/v5.2.2^0
 source=("git+https://github.com/vladimiry/ElectronMail.git#commit=${_commit}"
-        'git+https://github.com/ProtonMail/WebClients.git'
         "$pkgname.desktop"
         "$pkgname.sh")
 sha256sums=('SKIP'
-            'SKIP'
             'fa9159a243673390d1f36108b01af2ab9819fdec192ad7ffd405bbf7ab49f10b'
             'eefff93811dbca372fd32c670d20c646c6bec127e82e00bf67b3335cea19a6ba')
 
@@ -26,8 +24,6 @@ pkgver() {
 
 prepare() {
   cd ElectronMail
-  mkdir -p output/git
-  ln -sf "$srcdir/WebClients" output/git/
 }
 
 build() {
@@ -35,6 +31,7 @@ build() {
   export PNPM_HOME="$srcdir/pnpm-home"
   export npm_config_cache="$srcdir/npm_cache"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
+  export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   pnpm install --frozen-lockfile
