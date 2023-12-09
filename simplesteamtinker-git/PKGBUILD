@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=simplesteamtinker-git
-pkgver=r24.b7d11a8
+pkgver=r33.eab556b
 pkgrel=1
 pkgdesc="A work-in-progress simple, fast and modern Adwaita alternative to SteamTinkerLaunch."
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
@@ -23,7 +23,7 @@ depends=(
 makedepends=('git')
 optdepends=(
   'gamemode: Enable GameMode support'
-#  'gamescope'
+  'gamescope: Enable Gamescope support'
   'mesa: Enable Zink support'
   'mangohud: Enable MangoHud support'
   'protonplus: Recommended to install with SimpleSteamTinker'
