@@ -1,0 +1,35 @@
+# https://aur.archlinux.org/packages/halftone
+groups=('modified')
+
+pkgname=halftone
+pkgver=0.5.0
+pkgrel=1
+pkgdesc="Give your images that pixel art-like style"
+arch=('any')
+url="https://github.com/tfuxu/Halftone"
+license=('GPL3')
+depends=('libadwaita' 'python-gobject' 'python-wand')
+makedepends=('blueprint-compiler' 'git' 'meson')
+checkdepends=('appstream-glib')
+optdepends=('webp-pixbuf-loader: support more image formats')
+_commit=e6d8d2bf43f8b88ad40ad2c5385bfc298611cd18  # tags/0.5.0^0
+source=("git+https://github.com/tfuxu/Halftone.git#commit=${_commit}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd Halftone
+  git describe --tags | sed 's/-/+/g'
+}
+
+build() {
+  arch-meson Halftone build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
