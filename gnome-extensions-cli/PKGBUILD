@@ -23,7 +23,7 @@ pkgver() {
 
 build() {
   cd "$pkgname"
-  python -m build --wheel --no-isolation
+  GIT_DIR='.' python -m build --wheel --no-isolation
 }
 
 package() {
