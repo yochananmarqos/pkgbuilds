@@ -2,14 +2,14 @@
 groups=('modified')
 
 pkgname=blue-recorder-git
-pkgver=r174.0ec73e5
+pkgver=r178.6c34b6d
 pkgrel=1
 pkgdesc="Simple Screen Recorder written in Rust based on Green Recorder"
 arch=('x86_64')
 url="https://github.com/xlmnxp/blue-recorder"
 license=('GPL3')
 depends=('ffmpeg' 'gtk4' 'libappindicator-gtk3' 'pulseaudio' 'xorg-xwininfo')
-makedepends=('cargo' 'clang' 'git' 'setconf')
+makedepends=('cargo' 'clang' 'git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
@@ -27,7 +27,7 @@ prepare() {
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 
-  setconf "data/${pkgname%-git}.desktop" Icon "${pkgname%-git}"
+  desktop-file-edit --set-icon="${pkgname%-git}" "data/${pkgname%-git}.desktop"
 }
 
 build() {
