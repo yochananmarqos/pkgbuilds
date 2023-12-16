@@ -7,27 +7,27 @@ pkgdesc="Flat Material Design theme for GTK 3, GTK 2 and Gnome-Shell"
 pkgver=2021.09.08.r6.332fdec
 pkgrel=1
 arch=('any')
-url="https://www.gnome-look.org/p/1220749"
+url="https://github.com/vinceliuice/Canta-theme"
 license=('GPL2')
-makedepends=('gnome-shell' 'gtk3' 'git' 'sassc')
+makedepends=('git' 'sassc')
 options=('!strip')
-source=("${pkgbase%-git}::git+https://github.com/vinceliuice/Canta-theme.git")
+source=('git+https://github.com/vinceliuice/Canta-theme.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgbase%-git}"
+  cd Canta-theme
   git describe --long --tags | sed 's/\([^-]*-\)g/r\1/;s/-/./g'
 }
 
 package_canta-gtk-theme-git() {
-  depends=('gnome-themes-extra' 'gtk3')
-  optdepends=('gtk-engine-murrine: GTK2 theme support'
+  optdepends=('gnome-themes-extra: GTK2 theme support'
+              'gtk-engine-murrine: GTK2 theme support'
               'gtk-engines: GTK2 theme support'
               'canta-icon-theme: Matching icon theme')
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}")
 
-  cd "$srcdir/${pkgbase%-git}"
+  cd Canta-theme
   install -d "$pkgdir/usr/share/themes"
 
   # Install theme with Nautilus background image
@@ -47,7 +47,7 @@ package_canta-icon-theme-git() {
   provides=("${pkgname%-git}")
   conflicts=("${pkgname%-git}")
 
-  cd "$srcdir/${pkgbase%-git}"
+  cd Canta-theme
   install -d "$pkgdir/usr/share/icons"
   ./install.sh -i -d "$pkgdir/usr/share/icons"
 }
