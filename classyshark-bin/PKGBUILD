@@ -22,7 +22,7 @@ sha256sums=('b3bd94ce2177f2423183070c3dd096cb9b695a70e8e04d8d7d3cca530d9b855d'
 
 package() {
   # Install jar
-  install -Dm644 "$srcdir/${pkgname%-bin}-$pkgver.jar" \
+  install -Dm644 "$srcdir/ClassyShark-$pkgver.jar" \
     "$pkgdir/usr/share/java/${pkgname%-bin}/${pkgname%-bin}.jar"
 
   # Install run script
