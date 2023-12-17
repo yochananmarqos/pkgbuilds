@@ -6,3 +6,4 @@ Exec=classyshark
 Terminal=false
 Hidden=false
 Comment=Analyze any Android/Java based app or game
+StartupWMClass=com-google-classyshark-Main

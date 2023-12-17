@@ -19,7 +19,7 @@ noextract=("${pkgname%-bin}-$pkgver.jar")
 sha256sums=('b3bd94ce2177f2423183070c3dd096cb9b695a70e8e04d8d7d3cca530d9b855d'
             'cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30'
             'bef261f64afb2dbad2cf329b133cb0aba9647515bfd8a27cade133c7c4910caa'
-            '128b7e30f0ed60b969f346d59b71f5f34c7bb4980f60767281ff092779c9f889'
+            '44f098075d63c6b0b97e239abea90d26d970ba043827197d8dd1f58935d9d043'
             '0c5ffc9ca5e4ca40ee2091f4fd039ea9f7559ad9068c9c11ccbb402b249a6e32')
 
 package() {
@@ -36,8 +36,4 @@ package() {
 
   # Install icon
   install -Dm644 "$srcdir/${pkgname%-bin}.png" -t "$pkgdir/usr/share/pixmaps/"
-
-  # Install license
-  install -Dm644 "$srcdir/LICENSE.txt" -t \
-    "$pkgdir/usr/share/licenses/${pkgname%-bin}/"
 }
