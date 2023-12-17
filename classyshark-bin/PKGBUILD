@@ -10,7 +10,7 @@ license=('Apache')
 depends=('java-runtime')
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("${pkgname%-bin}-$pkgver.jar::$url/releases/download/$pkgver/ClassyShark.jar"
+source=("ClassyShark-$pkgver.jar::$url/releases/download/$pkgver/ClassyShark.jar"
         "${pkgname%-bin}"
         "${pkgname%-bin}.desktop"
         "${pkgname%-bin}.png")
