@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/python-pynvml
+groups=('modified')
+
+pkgname=python-pynvml
+_name=${pkgname#python-}
+pkgver=11.5.0
+pkgrel=1
+pkgdesc="Python Bindings for the NVIDIA Management Library"
+arch=('any')
+url="https://pypi.org/project/pynvml"
+license=('BSD')
+depends=('nvidia-utils' 'python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('d027b21b95b1088b9fc278117f9f61b7c67f8e33a787e9f83f735f0f71ac32d0')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
