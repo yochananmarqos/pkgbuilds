@@ -1,0 +1,85 @@
+pkgname=('dflynav-common' 'dflynav-gtk' 'dflynav-qt')
+pkgbase=dflynav
+pkgver=22.10.1
+pkgrel=1
+pkgdesc="Dragonfly Navigator: A simple and efficient dual pane file manager for Linux."
+arch=('x86_64')
+url="https://github.com/suncore/dflynav"
+license=('GPL3')
+depends=('python-pillow' 'python-pyqt5-webengine')
+makedepends=('cmake' 'extra-cmake-modules' 'gtkmm3' 'kcoreaddons' 'ki18n' 'kio'
+             'ktextwidgets' 'kwidgetsaddons' 'kxmlgui')
+options=('!strip')
+source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+        'dragonfly.desktop')
+sha256sums=('9c086b20e7fd50c4b41754c9e23b7a02dbc922229f9f2d49cfc43433ac9f49af'
+            '1cf92ea01ca54ded59c781be04d7b86fe3a2777e75faf0ccb4a6aa89a896f0d3')
+
+prepare() {
+  cd "$pkgbase-$pkgver/src"
+  sed "s/VERSION/$pkgver/g" < helptext.html.pre > helptext.html
+}
+
+build() {
+  cd "$pkgbase-$pkgver/src"
+  pyuic5 mainwin.ui  > Df_UiMainwin.py
+  pyuic5 config.ui  > Df_UiConfig.py
+  pyuic5 jobstatus.ui  > Df_UiJobstatus.py
+  pyuic5 help.ui  > Df_UiHelp.py
+  pyuic5 find.ui  > Df_UiFind.py
+
+  cd openwith
+  cmake -B qt/build -S qt \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build qt/build
+
+  cmake -B gtk/build -S gtk \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build gtk/build
+}
+
+check() {
+  desktop-file-validate dragonfly.desktop
+}
+
+package_dflynav-common() {
+  pkgdesc="Dragonfly Navigator common files"
+
+  cd "$pkgbase-$pkgver/src"
+  install -Dm644 {*.py,helptext.html} -t "$pkgdir/usr/share/$pkgbase/"
+  cp -r 3pp icons vfs "$pkgdir/usr/share/$pkgbase/"
+
+  install -d "$pkgdir"/usr/{bin,share/{doc/"$pkgbase",pixmaps}}
+  ln -s "/usr/share/$pkgbase/dragonfly" "$pkgdir/usr/bin/"
+  ln -s "/usr/share/$pkgbase/icons/dragonfly.png" "$pkgdir/usr/share/pixmaps/"
+  ln -s "/usr/share/$pkgbase/helptext.html" "$pkgdir/usr/share/doc/$pkgbase/"
+
+  install -Dm644 "$srcdir/dragonfly.desktop" -t "$pkgdir/usr/share/applications/"
+}
+
+package_dflynav-gtk() {
+  pkgdesc+=" (Gtk GUI)"
+  depends=('dflynav-common' 'gnome-terminal' 'gtkmm3')
+  provides=('dflynav')
+  conflicts=('dflynav')
+
+  cd "$pkgbase-$pkgver/src"
+  install -Dm755 {dragonfly,terminal} -t "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 gtk/build/gtk-open-with \
+    "$pkgdir/usr/share/$pkgbase/openwith/openwith"
+}
+
+package_dflynav-qt() {
+  pkgdesc+=" (Qt GUI)"
+  depends=('dflynav-common' 'kcoreaddons' 'ki18n' 'konsole')
+  provides=('dflynav')
+  conflicts=('dflynav')
+
+  cd "$pkgbase-$pkgver/src"
+  install -Dm755 {dragonfly,terminal} -t "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 qt/build/openwith "$pkgdir/usr/share/$pkgbase/openwith/"
+}
