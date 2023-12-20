@@ -1,0 +1,32 @@
+# https://aur.archlinux.org/packages/pyinstaller-hooks-contrib
+groups=('modified')
+
+pkgname=pyinstaller-hooks-contrib
+pkgver=2023.11
+pkgrel=1
+pkgdesc="Community maintained hooks for PyInstaller"
+arch=('any')
+url="https://github.com/pyinstaller/pyinstaller-hooks-contrib"
+license=('custom')
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+checkdepends=('pyinstaller' 'python-psutil' 'python-pytest')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('e98c1a327b2f30583bbb335691c40a61bd793945343f65c656d33517c2e9f949')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  pytest src/_pyinstaller_hooks_contrib/tests
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE LICENSE{.APL,.GPL}.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
