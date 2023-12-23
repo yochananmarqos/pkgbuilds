@@ -1,0 +1,96 @@
+# https://aur.archlinux.org/packages/ferdium-electron
+groups=('modified')
+
+pkgname=ferdium-electron
+pkgver=6.7.0
+pkgrel=1
+_electronversion=27
+pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
+arch=('x86_64')
+url="https://ferdium.org"
+license=('Apache')
+depends=("electron${_electronversion}")
+makedepends=('asar' 'git' 'jq' 'nodejs>=20' 'pnpm' 'python')
+provides=('ferdium')
+conflicts=('ferdium')
+_commit=2f449ce766ec9f6a8666523087ea90e3ca5858ee  # tags/6.7.0^0
+source=("git+https://github.com/ferdium/ferdium-app#commit=${_commit}"
+        'git+https://github.com/ferdium/ferdium-recipes.git#branch=main'
+        'ferdium.desktop')
+sha256sums=('SKIP'
+            'SKIP'
+            'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
+
+pkgver() {
+  cd ferdium-app
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
+
+prepare() {
+  cd ferdium-app
+  git submodule init
+  git config submodule.recipes.url "$srcdir/ferdium-recipes"
+  git -c protocol.file.allow=always submodule update
+
+  local node_ver=$(node -v | sed -e 's/^v//')
+  local pnpm_ver=$(pnpm -v)
+  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+
+  sed -i "s/pnpm@8.10.0/pnpm@${node_ver}/g" package.json
+  local jq_expr=".engines.node = \"${node_ver}\" | \
+    .engines.pnpm = \"${pnpm_ver}\" | \
+    .volta.pnpm = \"${pnpm_ver}\" | \
+    .devDependencies.electron = \"${electronVer}\""
+
+  jq "${jq_expr}" package.json > package.tmp.json
+  mv package.tmp.json package.json
+
+  jq "${jq_expr}" recipes/package.json > package.tmp.json
+  mv package.tmp.json recipes/package.json
+
+  # Specify path for autostart file
+  sed -i -e "s#path: executablePath,#path: '/usr/bin/ferdium',#g" src/stores/AppStore.ts
+
+  # Set noUnusedLocals to false to avoid compilation error in AppStore.ts
+  sed -i -e 's#"noUnusedLocals": true#"noUnusedLocals": false#g' tsconfig.json
+}
+
+build() {
+  cd ferdium-app
+  electronDist="/usr/lib/electron${_electronversion}"
+  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+  export PNPM_HOME="$srcdir/pnpm-home"
+  export ELECTRON_CACHE="$srcdir/electron-cache"
+  export ELECTRON_BUILDER_CACHE="$srcdir/electron-builder-cache"
+  export CI=true
+  pnpm i --no-frozen-lockfile
+  pnpm prepare-code || true
+
+  pushd recipes
+  pnpm i --no-frozen-lockfile
+  pnpm package
+  popd
+
+  NODE_ENV=production pnpm run build --linux --x64 --dir \
+     $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
+}
+
+package() {
+  cd ferdium-app
+  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+  install -d "$pkgdir/usr/bin"
+  cat > "$pkgdir/usr/bin/ferdium" <<EOF
+#!/bin/sh
+ELECTRON_IS_DEV=0 exec /usr/bin/${electronVer} /usr/lib/ferdium "\$@"
+EOF
+  chmod +x "$pkgdir/usr/bin/ferdium"
+
+  install -d "$pkgdir/usr/lib/ferdium"
+  asar e out/linux-unpacked/resources/app.asar "$pkgdir/usr/lib/ferdium"
+
+  install -Dm0644 -t "$pkgdir/usr/share/applications/" "$srcdir/ferdium.desktop"
+  for _size in 16 24 32 48 64 96 128 256 512 1024; do
+    install -Dm644 "build-helpers/images/icons/${_size}x${_size}.png" \
+      "$pkgdir/usr/share/icons/hicolor/${_size}x${_size}/apps/ferdium.png"
+  done
+}
