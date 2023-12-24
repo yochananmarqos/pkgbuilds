@@ -10,7 +10,7 @@ arch=('x86_64')
 url="https://ferdium.org"
 license=('Apache')
 depends=("electron${_electronversion}")
-makedepends=('asar' 'git' 'jq' 'nodejs>=20' 'pnpm' 'python')
+makedepends=('asar' 'git' 'jq' 'nodejs>=20' 'pnpm')
 provides=('ferdium')
 conflicts=('ferdium')
 _commit=2f449ce766ec9f6a8666523087ea90e3ca5858ee  # tags/6.7.0^0
@@ -60,8 +60,6 @@ build() {
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
-  export ELECTRON_CACHE="$srcdir/electron-cache"
-  export ELECTRON_BUILDER_CACHE="$srcdir/electron-builder-cache"
   export CI=true
   pnpm i --no-frozen-lockfile
   pnpm prepare-code || true
@@ -77,11 +75,10 @@ build() {
 
 package() {
   cd ferdium-app
-  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   install -d "$pkgdir/usr/bin"
   cat > "$pkgdir/usr/bin/ferdium" <<EOF
 #!/bin/sh
-ELECTRON_IS_DEV=0 exec /usr/bin/${electronVer} /usr/lib/ferdium "\$@"
+ELECTRON_IS_DEV=0 exec /usr/bin/electron${_electronversion} /usr/lib/ferdium "\$@"
 EOF
   chmod +x "$pkgdir/usr/bin/ferdium"
 
