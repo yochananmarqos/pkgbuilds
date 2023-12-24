@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=simplesteamtinker-git
-pkgver=r33.eab556b
+pkgver=r38.642ca16
 pkgrel=1
 pkgdesc="A work-in-progress simple, fast and modern Adwaita alternative to SteamTinkerLaunch."
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
@@ -39,17 +39,12 @@ pkgver() {
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
+build() {
+  cd SimpleSteamTinker
+  make system
+}
+
 package() {
   cd SimpleSteamTinker
-  install -Dm755 sst -t "${pkgdir}/usr/bin/"
-  install -Dm644 assets/desktop/system.desktop \
-    "${pkgdir}/usr/share/applications/SimpleSteamTinker.desktop"
-  install -Dm644 assets/icons/256x256/${pkgname%-git}.png -t \
-    "${pkgdir}/usr/share/icons/hicolor/256x256/apps/"
-  install -Dm644 assets/icons/scalable/${pkgname%-git}.svg -t \
-    "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
-
-  install -Dm644 main.lua -t "${pkgdir}/usr/share/SimpleSteamTinker/"
-  cp -r modules "${pkgdir}/usr/share/SimpleSteamTinker/modules"
-  install -Dm644 ui/main.ui -t "${pkgdir}/usr/share/SimpleSteamTinker/ui/"
+  cp -r dist/* "$pkgdir/"
 }
