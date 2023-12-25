@@ -1,0 +1,7 @@
+[Desktop Entry]
+Categories=Development;
+Exec=xplorer
+Icon=xplorer
+Name=Xplorer
+Terminal=false
+Type=Application
