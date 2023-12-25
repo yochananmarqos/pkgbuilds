@@ -1,0 +1,39 @@
+## WIP
+
+pkgname=gearlever
+pkgver=1.0.19
+pkgrel=1
+pkgdesc="Manage AppImages with ease"
+arch=('x86_64')
+url="https://github.com/mijorus/gearlever"
+license=('GPL3')
+depends=('libadwaita' 'python-dbus' 'python-gobject' 'python-pyxdg')
+makedepends=('meson')
+checkdepends=('appstream-glib')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('b39a41427ba34682353d25a900e9c4c85b98ccc10c1cc128e119a1b9dbfff857')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  # remove stray meson.build files
+  rm "$pkgdir/usr/share/gearlever/gearlever/meson.build"
+  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/meson.build"
+
+  # conflicts with other packages like smile (AUR)
+  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/lightbulb-symbolic.svg"
+
+  # conflicts with other packages like notejot (AUR)
+  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/document-edit-symbolic.svg"
+}
