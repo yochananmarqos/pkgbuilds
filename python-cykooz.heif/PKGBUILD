@@ -1,0 +1,33 @@
+pkgname=python-cykooz.heif
+_name=${pkgname#python-}
+pkgver=0.14.0
+pkgrel=1
+pkgdesc="A simple python wrapper for the Rust library 'libheif-rs'."
+arch=('x86_64')
+url="https://github.com/Cykooz/cykooz.heif"
+license=('MIT')
+depends=('libheif' 'python-pillow')
+makedepends=('cargo' 'clang' 'python-build' 'python-installer' 'python-maturin' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('b03012b21940c6b584316cc4a5db9d288837929bed6502e70b9406e653be0222')
+
+prepare() {
+  cd "$_name-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "$_name-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
