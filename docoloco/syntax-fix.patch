@@ -1,0 +1,24 @@
+diff --unified --recursive --text a/docoloco/providers/dash_provider.py b/docoloco/providers/dash_provider.py
+--- a/docoloco/providers/dash_provider.py	2023-12-29 01:39:52.000000000 -0700
++++ b/docoloco/providers/dash_provider.py	2023-12-29 06:00:41.907253133 -0700
+@@ -215,7 +215,7 @@
+             if self.type != self.Type.DASH:
+                 columns_to_select = f"{columns_to_select}, fragment as fragment"
+ 
+-            query = f"SELECT {columns_to_select} FROM {self.table_name} WHERE {"OR ".join(like_conditions)} LIMIT {page_size} OFFSET {offset}"
++            query = f'SELECT {columns_to_select} FROM {self.table_name} WHERE {"OR ".join(like_conditions)} LIMIT {page_size} OFFSET {offset}'
+             rows = self.con.cursor().execute(query)
+ 
+             for row in rows.fetchall():
+diff --unified --recursive --text a/docoloco/providers/man_provider.py b/docoloco/providers/man_provider.py
+--- a/docoloco/providers/man_provider.py	2023-12-29 01:39:52.000000000 -0700
++++ b/docoloco/providers/man_provider.py	2023-12-29 06:02:21.899006928 -0700
+@@ -97,7 +97,7 @@
+         for section in soup.find_all("section"):
+             heading_elements = section.find_all("h1", {"id": True})
+             for heading in heading_elements:
+-                symbols[heading.get_text(strip=True).replace("\n", "")] = (self.index_file_path / f"#{heading["id"]}" ).as_uri()
++                symbols[heading.get_text(strip=True).replace("\n", "")] = (self.index_file_path / f'#{heading["id"]}' ).as_uri()
+         
+         with open(self.metadata_path, "w") as metadata_file:
+             json.dump(symbols, metadata_file)
