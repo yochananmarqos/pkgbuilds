@@ -6,10 +6,9 @@ pkgdesc="Dragonfly Navigator: A simple and efficient dual pane file manager for 
 arch=('x86_64')
 url="https://github.com/suncore/dflynav"
 license=('GPL3')
-depends=('python-pillow' 'python-pyqt5-webengine')
-makedepends=('cmake' 'extra-cmake-modules' 'gtkmm3' 'kcoreaddons' 'ki18n' 'kio'
-             'ktextwidgets' 'kwidgetsaddons' 'kxmlgui')
-options=('!strip')
+depends=('python-cykooz.heif' 'python-exifread' 'python-inotify-simple' 'python-pyqt5')
+makedepends=('cmake' 'extra-cmake-modules' 'gtkmm3' 'kcoreaddons5' 'ki18n5' 'kio5'
+             'ktextwidgets5' 'kwidgetsaddons5' 'kxmlgui5')
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
         'dragonfly.desktop')
 sha256sums=('9c086b20e7fd50c4b41754c9e23b7a02dbc922229f9f2d49cfc43433ac9f49af'
@@ -47,14 +46,15 @@ check() {
 }
 
 package_dflynav-common() {
-  pkgdesc="Dragonfly Navigator common files"
+  pkgdesc+=" (common files)"
 
   cd "$pkgbase-$pkgver/src"
-  install -Dm644 {*.py,helptext.html} -t "$pkgdir/usr/share/$pkgbase/"
-  cp -r 3pp icons vfs "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 terminal -t "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 openwith/openwith -t "$pkgdir/usr/share/$pkgbase/openwith/"
+  install -m644 {*.py,helptext.html} -t "$pkgdir/usr/share/$pkgbase/"
+  cp -r icons vfs "$pkgdir/usr/share/$pkgbase/"
 
-  install -d "$pkgdir"/usr/{bin,share/{doc/"$pkgbase",pixmaps}}
-  ln -s "/usr/share/$pkgbase/dragonfly" "$pkgdir/usr/bin/"
+  install -d "$pkgdir"/usr/share/{doc/"$pkgbase",pixmaps}
   ln -s "/usr/share/$pkgbase/icons/dragonfly.png" "$pkgdir/usr/share/pixmaps/"
   ln -s "/usr/share/$pkgbase/helptext.html" "$pkgdir/usr/share/doc/$pkgbase/"
 
@@ -68,18 +68,25 @@ package_dflynav-gtk() {
   conflicts=('dflynav')
 
   cd "$pkgbase-$pkgver/src"
-  install -Dm755 {dragonfly,terminal} -t "$pkgdir/usr/share/$pkgbase/"
-  install -Dm755 gtk/build/gtk-open-with \
-    "$pkgdir/usr/share/$pkgbase/openwith/openwith"
+  install -Dm755 dragonfly -t "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 openwith/gtk/build/gtk-open-with \
+    "$pkgdir/usr/share/$pkgbase/openwith/openwith.gtk"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/usr/share/$pkgbase/dragonfly" "$pkgdir/usr/bin/"
 }
 
 package_dflynav-qt() {
   pkgdesc+=" (Qt GUI)"
-  depends=('dflynav-common' 'kcoreaddons' 'ki18n' 'konsole')
+  depends=('dflynav-common' 'kcoreaddons5' 'ki18n5' 'konsole')
   provides=('dflynav')
   conflicts=('dflynav')
 
   cd "$pkgbase-$pkgver/src"
-  install -Dm755 {dragonfly,terminal} -t "$pkgdir/usr/share/$pkgbase/"
-  install -Dm755 qt/build/openwith "$pkgdir/usr/share/$pkgbase/openwith/"
+  install -Dm755 dragonfly -t "$pkgdir/usr/share/$pkgbase/"
+  install -Dm755 openwith/qt/build/openwith \
+    "$pkgdir/usr/share/$pkgbase/openwith/openwith.qt"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/usr/share/$pkgbase/dragonfly" "$pkgdir/usr/bin/"
 }
