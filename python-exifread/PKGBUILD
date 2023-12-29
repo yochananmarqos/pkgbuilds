@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/python-exifread
+groups=('modified')
+
+pkgname=python-exifread
+_name=exif-py
+pkgver=3.0.0
+pkgrel=2
+pkgdesc="Python library to extract EXIF data from tiff and jpeg files"
+arch=('any')
+url="https://github.com/ianare/exif-py"
+license=('BSD')'python-setuptools'
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('ed3042a06a46c74b606d25c4721ccb18ae1e0ec7d1c47583a7390a450aee3562')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
