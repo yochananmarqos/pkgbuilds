@@ -1,0 +1,32 @@
+pkgname=errands
+pkgver=45.1.1
+pkgrel=1
+pkgdesc="Todo application for those who prefer simplicity."
+arch=('any')
+url="https://github.com/mrvladus/Errands"
+license=('MIT')
+depends=('hicolor-icon-theme' 'libadwaita' 'libsecret' 'python-caldav'
+         'python-gobject' 'python-icalendar')
+makedepends=('meson')
+checkdepends=('appstream-glib')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('643ec3a2d66a20a94940503deac955b223593b7de16ac3c06664183354a3cf58')
+
+build() {
+  arch-meson "Errands-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  cd "Errands-$pkgver"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+
+  # Fix permissions
+  chmod 0755 "$pkgdir/usr/bin/$pkgname"
+}
