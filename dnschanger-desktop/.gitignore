@@ -5,6 +5,6 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!dnschanger-desktop.sh
+!dnschanger.sh
 !dnschanger.desktop
 !target.patch

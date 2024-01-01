@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.24.r16.g0a68a7f
+pkgver=1.1.25.r11.gc802cea
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')

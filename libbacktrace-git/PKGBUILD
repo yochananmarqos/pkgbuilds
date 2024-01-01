@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=libbacktrace-git
-pkgver=r73.ad106d5
+pkgver=r77.9ae4f4a
 pkgrel=1
 pkgdesc="Library to produce symbolic backtraces"
 arch=('x86_64')

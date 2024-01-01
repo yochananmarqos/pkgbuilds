@@ -6,7 +6,7 @@ arch=('x86_64')
 url="https://teejee2008.github.io/polo/"
 license=('GPL2')
 depends=('bzip2' 'gtk3' 'gvfs' 'libgee' 'libsoup' 'p7zip' 'pbzip2' 'pigz' 'pv'
-         'rclone' 'tar' 'trash-cli' 'vte3' 'wget')
+         'rclone' 'trash-cli' 'vte3' 'wget')
 makedepends=('git' 'lsb-release' 'vala')
 checkdepends=('appstream-glib')
 optdepends=('clamav: ClamAV antivirus scanner'

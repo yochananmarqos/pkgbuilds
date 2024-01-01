@@ -44,5 +44,6 @@ package() {
   install -Dm755 "$pkgname" -t "$pkgdir/usr/bin/"
   install -Dm644 "docs/man/dist/$pkgname.1" -t "$pkgdir/usr/share/man/man1/"
   install -Dm644 "docs/man/dist/$pkgname.yaml.5" -t "$pkgdir/usr/share/man/man5/"
+  install -Dm644 "docs/$pkgname.md" -t "$pkgdir/usr/share/doc/$pkgname/"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }

@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
 _uuid=AlphabeticalAppGrid@stuarthayhurst
-pkgver=35.0.r2.g7c89d4d
+pkgver=36.0.r0.g1b7db0a
 pkgrel=1
 pkgdesc="Restore the alphabetical ordering of the app grid, removed in GNOME 3.38 "
 arch=('any')
