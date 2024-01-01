@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!dnschanger-desktop.sh
+!dnschanger.desktop
+!target.patch

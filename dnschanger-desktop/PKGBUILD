@@ -1,0 +1,53 @@
+# https://aur.archlinux.org/packages/dnschanger-desktop
+groups=('modified')
+
+pkgname=dnschanger-desktop
+pkgver=2.1.11
+pkgrel=1
+_electronversion=23
+pkgdesc="DNS Changer for Windows, Mac and Linux operating systems"
+arch=('x86_64')
+url="https://dnschanger.github.io"
+license=('MIT')
+depends=("electron${_electronversion}" 'polkit')
+makedepends=('libxcrypt-compat' 'npm')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/DnsChanger/dnsChanger-desktop/archive/refs/tags/v$pkgver.tar.gz"
+        'target.patch'
+        'dnschanger.sh'
+        'dnschanger.desktop')
+sha256sums=('3743f8bb349d24f138a225d7042d6a89326953b94d6edf03cd903601df4eb24d'
+            '5a1752be96527fca70a42c4cf54b11b0476fd472fd5f71a80a2554d83ee1d1ec'
+            '1fab51d5910c582bcd1c7776600f94ee440afea4eeec643698e33db82ca7f4af'
+            'b15e65b68c67d83b02f8b69c2b853fb05c8aae65ab05edc35f4ad20fa154e760')
+
+prepare() {
+  cd "dnsChanger-desktop-${pkgver}"
+  export npm_config_cache="${srcdir}/npm_cache"
+  npm install
+
+  # Don't package AppImage or rpm
+  patch -Np1 -i ../target.patch
+}
+
+build() {
+  cd "dnsChanger-desktop-${pkgver}"
+  electronDist="/usr/lib/electron${_electronversion}"
+  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+  export npm_config_cache="$srcdir/npm_cache"
+  npm exec tsc
+  npm exec vite build
+  npm exec electron-builder --linux --dir \
+    $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
+}
+
+package() {
+  cd "dnsChanger-desktop-${pkgver}"
+  install -Dm644 "release/${pkgver}/linux-unpacked/resources/app.asar" -t "${pkgdir}/usr/lib/dnschanger/"
+
+  install -Dm644 public/icons/icon.png "${pkgdir}/usr/share/pixmaps/dnschanger.png"
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  install -Dm755 "$srcdir/dnschanger.sh" "${pkgdir}/usr/bin/dnschanger"
+  install -Dm644 "$srcdir/dnschanger.desktop" -t "${pkgdir}/usr/share/applications/"
+}
