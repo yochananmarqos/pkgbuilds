@@ -43,7 +43,8 @@ build() {
 
 package() {
   cd "dnsChanger-desktop-${pkgver}"
-  install -Dm644 "release/${pkgver}/linux-unpacked/resources/app.asar" -t "${pkgdir}/usr/lib/dnschanger/"
+  install -Dm644 "release/${pkgver}/linux-unpacked/resources/app.asar" -t \
+    "${pkgdir}/usr/lib/dnschanger/"
 
   install -Dm644 public/icons/icon.png "${pkgdir}/usr/share/pixmaps/dnschanger.png"
   install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
