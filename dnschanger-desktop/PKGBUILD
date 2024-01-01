@@ -11,7 +11,7 @@ url="https://dnschanger.github.io"
 license=('MIT')
 depends=("electron${_electronversion}" 'polkit')
 makedepends=('libxcrypt-compat' 'npm')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/DnsChanger/dnsChanger-desktop/archive/refs/tags/v$pkgver.tar.gz"
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/DnsChanger/dnsChanger-desktop/archive/refs/tags/v${pkgver}.tar.gz"
         'target.patch'
         'dnschanger.sh'
         'dnschanger.desktop')
@@ -34,7 +34,7 @@ build() {
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-  export npm_config_cache="$srcdir/npm_cache"
+  export npm_config_cache="${srcdir}/npm_cache"
   npm exec tsc
   npm exec vite build
   npm exec electron-builder --linux --dir \
@@ -48,6 +48,6 @@ package() {
   install -Dm644 public/icons/icon.png "${pkgdir}/usr/share/pixmaps/dnschanger.png"
   install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 
-  install -Dm755 "$srcdir/dnschanger.sh" "${pkgdir}/usr/bin/dnschanger"
-  install -Dm644 "$srcdir/dnschanger.desktop" -t "${pkgdir}/usr/share/applications/"
+  install -Dm755 "${srcdir}/dnschanger.sh" "${pkgdir}/usr/bin/dnschanger"
+  install -Dm644 "${srcdir}/dnschanger.desktop" -t "${pkgdir}/usr/share/applications/"
 }
