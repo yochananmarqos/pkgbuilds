@@ -2,7 +2,7 @@
 
 pkgname=docoloco
 _app_id=com.mepowerleo10.docoloco
-pkgver=0.1.4
+pkgver=0.1.5
 pkgrel=1
 pkgdesc="A documentation browser that utilizes documentation sets provided by Zeal Docs."
 arch=('any')
@@ -13,7 +13,7 @@ makedepends=('python-build' 'python-installer' 'python-poetry-core' 'python-whee
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.sh"
         'syntax-fix.patch')
-sha256sums=('4ad7abb6143efb065c143559d8dbfd1ed965f158dffe2b8a53fda23bf1b840a3'
+sha256sums=('a1c8269f63bf9208636214e92a772a0b8c9bf5faf36af2b80a0de868b40c92d6'
             'afdd7b9487606b3e43950e983218b10346c665a9cef3618a2172369d2e5f66e6'
             '0c3bd0fa15505f0a1360787061bc68662f0c5cd9735a16882ca1eb7f62d3298a')
 
