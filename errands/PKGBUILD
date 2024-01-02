@@ -1,5 +1,8 @@
+# https://aur.archlinux.org/packages/errands
+groups=('modified')
+
 pkgname=errands
-pkgver=45.1.1
+pkgver=45.1.2
 pkgrel=1
 pkgdesc="Todo application for those who prefer simplicity."
 arch=('any')
@@ -10,7 +13,7 @@ depends=('hicolor-icon-theme' 'libadwaita' 'libsecret' 'python-caldav'
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('643ec3a2d66a20a94940503deac955b223593b7de16ac3c06664183354a3cf58')
+sha256sums=('ace0bbd9315510a9a88f830364627ad04d99040fad7398ec6e90d0c949fc7644')
 
 build() {
   arch-meson "Errands-$pkgver" build
