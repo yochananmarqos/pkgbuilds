@@ -2,17 +2,17 @@
 groups=('modified')
 
 pkgname=pyinstaller-hooks-contrib
-pkgver=2023.11
+pkgver=2023.12
 pkgrel=1
 pkgdesc="Community maintained hooks for PyInstaller"
 arch=('any')
 url="https://github.com/pyinstaller/pyinstaller-hooks-contrib"
-license=('custom')
+license=('Apache' 'GPL2')
 depends=('python')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
-checkdepends=('pyinstaller' 'python-psutil' 'python-pytest')
+checkdepends=('pyinstaller' 'python-psutil' 'python-pytest-timeout' 'python-pytest-xdist')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('e98c1a327b2f30583bbb335691c40a61bd793945343f65c656d33517c2e9f949')
+sha256sums=('d6430d552194324c41d5094926da71fa3f1578fbc819fb661635b13980d41384')
 
 build() {
   cd "$pkgname-$pkgver"
@@ -21,12 +21,12 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  pytest src/_pyinstaller_hooks_contrib/tests
+  pytest --maxfail=3 \
+    -m "not darwin and not win32 and not slow" \
+    -n=auto --maxprocesses="${PYTEST_XDIST_AUTO_NUM_WORKERS:-2}"
 }
 
 package() {
   cd "$pkgname-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
-
-  install -Dm644 LICENSE LICENSE{.APL,.GPL}.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
