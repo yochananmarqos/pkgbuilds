@@ -16,7 +16,12 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/Daniele-rolli/Beaver-Notes/
         "$pkgname.sh")
 sha256sums=('0372805b3963024639e658a961cacbd1916d8476ce5136d91f1ce1ce6bfedd0a'
             'ed1109a5e1c72456970ba21539a6d02cf7187eec7cc60f4599cea519a29cbfe3'
-            'b8f8af3a4d2c68bf3eb0574c5599d9dca96a75c0d4efdc4180e6ab78b1a293f8')
+            'd21c665d70ad43c88f2fdd7581042b8a862d29c8e3398f3ebafad03b8f65c1e3')
+
+prepare() {
+  cd "Beaver-Notes-$pkgver"
+  sed -i "s|@ELECTRONVERSION@|${_electronversion}|" "$srcdir/$pkgname.sh"
+}
 
 build() {
   cd "Beaver-Notes-$pkgver"
