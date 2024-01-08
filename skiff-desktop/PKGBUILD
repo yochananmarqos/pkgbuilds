@@ -1,6 +1,6 @@
 pkgname=skiff-desktop
 _app_id=com.fyralabs.SkiffDesktop
-pkgver=0.1.6
+pkgver=0.1.7
 pkgrel=1
 pkgdesc="Privacy-first end-to-end encrypted email"
 arch=('x86_64')
@@ -10,7 +10,7 @@ depends=('libhelium' 'webkitgtk-6.0')
 makedepends=('blueprint-compiler' 'meson' 'vala')
 checkdepends=('appstream')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/FyraLabs/skiff-desktop/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('4dae2e3000a4bab2cdb590b98b478bdc80da51908fdd438b91e4bfee98585f43')
+sha256sums=('592184fe33a618955293ea50281967395acd0f37a268f02d0116c69d07dfb199')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
