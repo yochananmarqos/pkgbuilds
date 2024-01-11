@@ -10,8 +10,6 @@ license=('GPL3')
 depends=('libadwaita' 'python-dbus' 'python-gobject' 'python-pyxdg')
 makedepends=('meson')
 checkdepends=('appstream-glib')
-provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}")
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('0ccdd9749b96e8bff781f8d661794abbc95c8c104d8ec6ce9ccc0fdc038cf719')
 
