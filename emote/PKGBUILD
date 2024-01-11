@@ -30,9 +30,4 @@ build() {
 
 package() {
   meson install -C build --destdir "$pkgdir"
-
-  cd "Emote-$pkgver"
-
-  # Start automatically by default as intended
-  install -Dm644 static/com.tomjwatson.Emote.desktop -t "$pkgdir/etc/xdg/autostart/"
 }
