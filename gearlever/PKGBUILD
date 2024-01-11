@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=gearlever
-pkgver=1.0.19
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Manage AppImages with ease"
 arch=('x86_64')
@@ -13,7 +13,7 @@ checkdepends=('appstream-glib')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('b39a41427ba34682353d25a900e9c4c85b98ccc10c1cc128e119a1b9dbfff857')
+sha256sums=('0ccdd9749b96e8bff781f8d661794abbc95c8c104d8ec6ce9ccc0fdc038cf719')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
