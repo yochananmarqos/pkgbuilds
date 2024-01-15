@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!lfbwam@.service
+!lfbw.install
+!config.ini
+!readme.md
