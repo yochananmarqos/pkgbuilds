@@ -1,17 +1,17 @@
 ## WIP
 
 pkgname=gearlever
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Manage AppImages with ease"
 arch=('x86_64')
 url="https://github.com/mijorus/gearlever"
-license=('GPL3')
+license=('GPL-3.0-or-later')
 depends=('libadwaita' 'python-dbus' 'python-gobject' 'python-pyxdg')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('0ccdd9749b96e8bff781f8d661794abbc95c8c104d8ec6ce9ccc0fdc038cf719')
+sha256sums=('961f008af3647cb438227ae819d55fd34851e0d1ef4c00fc93b0e086ade2447c')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
