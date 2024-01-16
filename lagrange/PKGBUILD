@@ -2,18 +2,28 @@
 groups=('modified')
 
 pkgname=lagrange
-pkgver=1.17.5
+pkgver=1.17.6
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
 url="https://gmi.skyjake.fi/lagrange"
-license=('BSD')
-depends=('fribidi' 'harfbuzz' 'hicolor-icon-theme' 'libunistring' 'libwebp'
-         'mpg123' 'openssl' 'pcre2' 'sdl2' 'zlib')
+license=('BSD-2-Clause')
+depends=(
+  'fribidi'
+  'harfbuzz'
+  'hicolor-icon-theme'
+  'libunistring'
+  'libwebp'
+  'mpg123'
+  'openssl'
+  'pcre2'
+  'sdl2'
+  'zlib'
+)
 makedepends=('cmake' 'git' 'zip')
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('01ae2066a6865f0f861c5e159f192eb120c1b36b04d032cd0bfcf2ffcbd990e0'
+sha256sums=('b9d0982617fec495565ac9c09fb788a0be207d6fdf2324edc390e5cac8b1523b'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
