@@ -2,17 +2,17 @@
 groups=('modified')
 
 pkgname=pyinstaller-hooks-contrib
-pkgver=2023.12
+pkgver=2024.0
 pkgrel=1
 pkgdesc="Community maintained hooks for PyInstaller"
 arch=('any')
 url="https://github.com/pyinstaller/pyinstaller-hooks-contrib"
-license=('Apache' 'GPL2')
+license=('Apache-2.0' 'GPL-2.0-or-later')
 depends=('python')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 checkdepends=('pyinstaller' 'python-psutil' 'python-pytest-timeout' 'python-pytest-xdist')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('d6430d552194324c41d5094926da71fa3f1578fbc819fb661635b13980d41384')
+sha256sums=('cd21415348012e4f7a39bccc6de8f2f43bb10c031d5371d974b453f31d5fa7a2')
 
 build() {
   cd "$pkgname-$pkgver"
