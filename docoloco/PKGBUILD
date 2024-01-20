@@ -2,27 +2,21 @@
 
 pkgname=docoloco
 _app_id=com.mepowerleo10.docoloco
-pkgver=0.1.5
+pkgver=0.2.1
 pkgrel=1
 pkgdesc="A documentation browser that utilizes documentation sets provided by Zeal Docs."
 arch=('any')
 url="https://github.com/mepowerleo10/DocoLoco"
 license=('unknown')
-depends=('libadwaita' 'man' 'python-beautifulsoup4' 'python-gobject' 'webkitgtk-6.0' 'zeal')
+depends=('libadwaita' 'man' 'python-beautifulsoup4' 'python>=3.12' 'python-gobject' 'webkitgtk-6.0' 'zeal')
 makedepends=('python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
-        "$pkgname.sh"
-        'syntax-fix.patch')
-sha256sums=('a1c8269f63bf9208636214e92a772a0b8c9bf5faf36af2b80a0de868b40c92d6'
-            'afdd7b9487606b3e43950e983218b10346c665a9cef3618a2172369d2e5f66e6'
-            '0c3bd0fa15505f0a1360787061bc68662f0c5cd9735a16882ca1eb7f62d3298a')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('dfb272c81ea2d0c5dec18f1cfb5aaccd7b02b058771c51ff955a1cae05695429')
 
 prepare() {
   cd "DocoLoco-$pkgver"
   desktop-file-edit --set-key=Path --set-value="/usr/share/$pkgname" "data/${_app_id}.desktop"
   desktop-file-edit --set-key=Exec --set-value="$pkgname" "data/${_app_id}.desktop"
-
-  patch -Np1 -i ../syntax-fix.patch
 }
 
 build() {
@@ -34,8 +28,6 @@ package() {
   cd "DocoLoco-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -d "$pkgdir/usr/share/$pkgname/data/ui"
-  install -Dm644 data/ui/* "$pkgdir/usr/share/$pkgname/data/ui/"
+  install -Dm644 "data/${_app_id}.yaml" -t "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "data/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
-  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
 }
