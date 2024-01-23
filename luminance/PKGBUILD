@@ -1,0 +1,49 @@
+# https://aur.archlinux.org/packages/luminance
+groups=('modified')
+
+pkgname=luminance
+_app_id=com.sidevesh.Luminance
+pkgver=1.0.2
+pkgrel=1
+pkgdesc="A simple GTK application to control brightness of displays including external displays supporting DDC/CI"
+arch=('x86_64')
+url="https://github.com/sidevesh/Luminance"
+license=('GPL3')
+depends=('gtk3' 'ddcutil')
+makedepends=('git')
+_commit=fc5d8f200aa20a28e694fb394a2723cefbf2a288  # tags/1.0.2
+source=("git+https://github.com/sidevesh/Luminance.git#commit=${_commit}"
+        'git+https://github.com/ahshabbir/ddcbc-api.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+pkgver() {
+  cd Luminance
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd Luminance
+  git submodule init
+  git config submodule.ddcbc-api.url "$srcdir/ddcbc-api"
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  cd Luminance
+  sh build.sh
+}
+
+package() {
+  cd Luminance
+  install -Dm755 build/app "$pkgdir/usr/bin/${_app_id}"
+  ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 "install_files/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -Dm644 "install_files/${_app_id}.gschema.xml" -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+  install -Dm644 install_files/44-backlight-permissions.rules -t \
+    "$pkgdir/usr/lib/udev/rules.d/"
+  install -Dm644 icons/icon.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
+}
