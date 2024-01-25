@@ -1,5 +1,6 @@
 [Desktop Entry]
-Comment=Spacedrive
+Categories=System;FileTools;FileManager;
+Comment=File explorer from the future.
 Exec=spacedrive
 Icon=spacedrive
 Name=Spacedrive
