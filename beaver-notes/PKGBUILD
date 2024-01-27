@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=beaver-notes
-pkgver=2.5.0
+pkgver=2.6.0
 pkgrel=1
 _electronversion=28
 pkgdesc="A privacy-focused, cross-platform note-taking application."
@@ -14,7 +14,7 @@ makedepends=('libxcrypt-compat' 'yarn')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Daniele-rolli/Beaver-Notes/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('33c419603fe88a164660adb8a37abca66433260e98008e030615e8bc615a407f'
+sha256sums=('54abb953c84aead93501a6462f22127e4992c48aa46284e7b1f05eeee8008996'
             'ed1109a5e1c72456970ba21539a6d02cf7187eec7cc60f4599cea519a29cbfe3'
             'd21c665d70ad43c88f2fdd7581042b8a862d29c8e3398f3ebafad03b8f65c1e3')
 
