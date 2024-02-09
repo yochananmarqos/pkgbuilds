@@ -3,11 +3,11 @@ groups=('modified')
 
 pkgname=toggle-git
 _app_id=app.drey.Toggle
-pkgver=r125.a0fa837
+pkgver=r126.93f9333
 pkgrel=1
 pkgdesc="Like Tweaks, but with more Libadwaita!"
 arch=('any')
-url="https://gitlab.com/OroWith2Os/toggle"
+url="https://gitlab.gnome.org/World/toggle"
 license=('GPL3')
 depends=('gjs' 'libadwaita')
 makedepends=('blueprint-compiler' 'git' 'meson' 'setconf' 'typescript')
@@ -15,7 +15,7 @@ checkdepends=('appstream-glib')
 optdepends=('gnome-shell-extensions: enable Light Theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://gitlab.com/OroWith2Os/toggle.git'
+source=('git+https://gitlab.gnome.org/World/toggle.git'
         'git+https://gitlab.gnome.org/BrainBlasted/gi-typescript-definitions.git'
         'fix-build.patch')
 b2sums=('SKIP'
