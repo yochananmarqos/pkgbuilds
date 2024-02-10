@@ -6,7 +6,7 @@ groups=('modified')
 #  Package 'dav1d' has version '1.3.0', required version is '<= 1.2.1'
 
 pkgname=gst-plugins-rs
-pkgver=1.22.8
+pkgver=1.22.9
 pkgrel=1
 pkgdesc="GStreamer plugins written in Rust"
 arch=('x86_64')
@@ -18,7 +18,7 @@ makedepends=('cargo' 'cargo-c' 'clang' 'git' 'hotdoc' 'meson' 'nasm' 'python-tom
 provides=('gst-plugin-gtk4')
 conflicts=('gst-plugin-gtk4')
 options=('!lto')
-_commit=c03e1084870c8caca62772fce04ad78aa99521c2  # tags/gstreamer-1.22.8^0
+_commit=c03e1084870c8caca62772fce04ad78aa99521c2  # tags/gstreamer-1.22.9^0
 source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
 sha256sums=('SKIP')
 
