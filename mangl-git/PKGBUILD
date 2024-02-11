@@ -2,16 +2,16 @@
 groups=('modified')
 
 pkgname=mangl-git
-pkgver=1.1.2.r1.g1957140
+pkgver=1.1.3.r0.g17e019b
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
 url="https://github.com/zigalenarcic/mangl"
-license=('BSD')
-depends=('freetype2' 'glfw' 'libglvnd')
+license=('BSD-2-Clause')
+depends=('freetype2' 'libglvnd')
+depends+=('glfw-x11')
+#depends+=('glfw-wayland')
 makedepends=('git')
-makedepends+=('glfw-x11')
-#makedepends+=('glfw-wayland')
 optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -41,5 +41,5 @@ package() {
   install -Dm644 "${pkgname%-git}.1" -t "$pkgdir/usr/share/man/man1/"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm644 "$srcdir/manglrc_example" -t "$pkgdir/usr/share/doc/${pkgname%-git}/"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
