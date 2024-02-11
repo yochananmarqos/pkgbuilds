@@ -2,17 +2,28 @@
 groups=('modified')
 
 pkgname=gnome-extensions-cli
-pkgver=0.10.0
+pkgver=0.10.1
 pkgrel=1
 pkgdesc="Command line tool to manage your GNOME Shell extensions"
 arch=('any')
 url="https://github.com/essembeh/gnome-extensions-cli"
-license=('Apache')
-depends=('python-colorama' 'python-gobject' 'python-packaging' 'python-pydantic'
-         'python-requests')
-makedepends=('git' 'python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
+license=('Apache-2.0')
+depends=(
+  'python-colorama' 
+  'python-gobject'
+  'python-packaging'
+  'python-pydantic'
+  'python-requests'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-poetry-core'
+  'python-wheel'
+)
 optdepends=('dbus-python: communicate with GNOME Shell directly')
-_commit=5f3d0ed203f3d1df491e55d190b59298587f5198  # tags/0.10.0^0
+_commit=ffd09308c364e9d36b0ca948e6c7e9d6bc59ca23  # tags/0.10.1^0
 source=("git+https://github.com/essembeh/gnome-extensions-cli#commit=${_commit}")
 sha256sums=('SKIP')
 
