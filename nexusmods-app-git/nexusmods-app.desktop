@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=NexusMods.App NXM Handler
+Terminal=false
+Type=Application
+Path=/opt/NexusMods.App
+Exec=/opt/NexusMods.App/NexusMods.App protocol-invoke --url %u
+Icon=NexusMods.App
+MimeType=x-scheme-handler/nxm

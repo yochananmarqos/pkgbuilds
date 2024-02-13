@@ -1,0 +1,48 @@
+## WIP
+
+pkgname=nexusmods-app-git
+pkgver=0.2.1.r385.ge24eb978
+pkgrel=1
+pkgdesc="A mod installer, creator and manager for all your popular games"
+arch=('x86_64')
+url="https://github.com/Nexus-Mods/NexusMods.App"
+license=('GPL-3-or-later')
+depends=('dotnet-runtime>=8' 'fontconfig' 'java-runtime')
+makedepends=('dotnet-sdk>=8' 'git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+options=('!strip')
+source=('git+https://github.com/Nexus-Mods/NexusMods.App.git'
+        "${pkgname%-git}.desktop")
+sha256sums=('SKIP'
+            '85e4c1f05348f7108e11264fc75d96df58828e44f31d1d0376e649541f37c240')
+
+pkgver() {
+  cd NexusMods.App
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd NexusMods.App
+  dotnet clean
+  dotnet restore
+  dotnet publish src/NexusMods.App/NexusMods.App.csproj -c Release -r linux-x64 \
+    --output bin/linux-x64 --self-contained -p:PublishReadyToRun=true -p:PublishSingleFile=true
+}
+
+package() {
+  cd NexusMods.App
+  install -d "$pkgdir/opt/NexusMods.App"
+  cp -av bin/linux-x64/* "$pkgdir/opt/NexusMods.App/"
+
+  # Expects installation directory to be writable
+  chmod 0777 "$pkgdir/opt/NexusMods.App"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/NexusMods.App/NexusMods.App" "$pkgdir/usr/bin/"
+
+  install -Dm644 Nexus-Icon.png "$pkgdir/usr/share/pixmaps/NexusMods.App.png"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
+
+  rm -rf "$pkgdir"/opt/NexusMods.App/runtimes/{osx,win}-x64
+}
