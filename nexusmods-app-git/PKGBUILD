@@ -1,11 +1,11 @@
 ## WIP
 
 pkgname=nexusmods-app-git
-pkgver=0.2.1.r385.ge24eb978
+pkgver=0.3.r4.gd6e79c9a
 pkgrel=1
 pkgdesc="A mod installer, creator and manager for all your popular games"
 arch=('x86_64')
-url="https://github.com/Nexus-Mods/NexusMods.App"
+url="https://nexus-mods.github.io/NexusMods.App"
 license=('GPL-3-or-later')
 depends=('dotnet-runtime>=8' 'fontconfig' 'java-runtime')
 makedepends=('dotnet-sdk>=8' 'git')
