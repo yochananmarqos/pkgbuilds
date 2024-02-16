@@ -15,7 +15,7 @@ sha256sums=('b14a923dd2a40d4b517cac9bab9099ff2c4f8a52fd821d50b86d09d6a556b89d')
 
 prepare() {
   cd "$pkgname-$pkgver"
-  sed -i 's/Exec=cameractrlsgtk.py/Exec=cameractrlsgtk/g' "pkg/${_app_id}.desktop"
+  desktop-file-edit --set-key=Exec --set-value=cameractrlsgtk4 "pkg/${_app_id}.desktop"
 }
 
 package() {
@@ -31,7 +31,7 @@ package() {
 
   install -d "$pkgdir"/usr/{bin,share/icons/hicolor/scalable/apps}
   ln -s "${site_packages}/CameraCtrls/$pkgname.py" "$pkgdir/usr/bin/$pkgname"
-  ln -s "${site_packages}/CameraCtrls/${pkgname}gtk4.py" "$pkgdir/usr/bin/${pkgname}gtk"
+  ln -s "${site_packages}/CameraCtrls/${pkgname}gtk4.py" "$pkgdir/usr/bin/${pkgname}gtk4"
   ln -s "${site_packages}/CameraCtrls/images/${_app_id}.svg" \
     "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
 }
