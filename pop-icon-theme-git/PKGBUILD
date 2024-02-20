@@ -1,13 +1,12 @@
 # https://aur.archlinux.org/packages/pop-icon-theme-git
-groups=('modified')
 
 pkgname=pop-icon-theme-git
-pkgver=2.1.0.r2415.a5a10f9725
+pkgver=3.5.0.r2504.3126c6a3f6
 pkgrel=1
 pkgdesc="Pop Icons"
 arch=('any')
 url="https://github.com/pop-os/icon-theme"
-license=('CC-BY-SA-4.0')
+license=('CC-BY-SA-4.0 AND CC-BY-NC-SA-4.0')
 depends=('adwaita-icon-theme')
 makedepends=('git' 'dpkg' 'meson')
 provides=("${pkgname%-git}")
@@ -17,7 +16,7 @@ source=('git+https://github.com/pop-os/icon-theme.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/icon-theme"
+  cd icon-theme
   printf "%s.r%s.%s" "$(dpkg-parsechangelog --show-field Version | sed 's/1://;s/-/./')" \
     "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
@@ -30,6 +29,6 @@ build() {
 package() {
   DESTDIR="$pkgdir" meson install -C build
 
-  cd "$srcdir/icon-theme"
+  cd icon-theme
   install -Dm644 COPYING LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
 }
