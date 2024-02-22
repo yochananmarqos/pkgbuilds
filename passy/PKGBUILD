@@ -32,7 +32,7 @@ prepare() {
 build() {
   cd Passy
   export FLUTTER_HOME="${PWD}/submodules/flutter"
-  export PATH="${PATH}:${FLUTTER_HOME}/bin:"
+  export PATH="${FLUTTER_HOME}/bin:${PATH}"
   flutter --disable-analytics
   flutter pub get
   flutter build linux --dart-define=UPDATES_POPUP_ENABLED=false
