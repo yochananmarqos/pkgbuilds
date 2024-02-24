@@ -2,24 +2,39 @@
 groups=('modified')
 
 pkgname=smartgit
-pkgver=23.1.0
+pkgver=23.1.2
 pkgrel=1
 pkgdesc="Graphical Git client"
 arch=('x86_64')
 url="https://www.syntevo.com/smartgit"
 license=('custom')
 _jre_ver=21  # JRE 17 or higher required
-depends=('bash' 'curl' 'expat' 'git' 'gtk3' 'hicolor-icon-theme' "java-runtime=${_jre_ver}"
-         'lsb-release' 'openssh' 'openssl-1.1' 'perl' 'which' 'zlib')
-optdepends=('git-lfs: Large file support'
-            'mercurial: hg repositories support')
+depends=(
+  'bash'
+  'curl'
+  'expat'
+  'git'
+  'gtk3'
+  'hicolor-icon-theme'
+  "java-runtime=${_jre_ver}"
+  'lsb-release'
+  'openssh'
+  'openssl-1.1'
+  'perl'
+  'which'
+  'zlib'
+)
+optdepends=(
+  'git-lfs: Large file support'
+  'mercurial: hg repositories support'
+)
 source=("https://www.syntevo.com/downloads/${pkgname}/${pkgname}-linux-${pkgver//\./_}.tar.gz"
         "${pkgname}.desktop")
-sha256sums=('e8d985e7fa2d315101c6308e66a890cbf13bed04f3f4afca6ea8ce1fff82392c'
+sha256sums=('8177c79913d486cf2cec840884dd2f432c7c3692eb4b6f2e7cd35838c038017c'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 package() {
-  cd "${srcdir}/${pkgname}"
+  cd "${pkgname}"
 
   # Install application files
   install -Dm755 bin/*.sh -t "${pkgdir}/opt/${pkgname}/bin/"
