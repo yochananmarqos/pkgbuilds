@@ -1,0 +1,31 @@
+# https://aur.archlinux.org/packages/python-iso639
+groups=('modified')
+
+pkgname=python-iso639
+_name=${pkgname#python-}
+pkgver=0.4.5
+pkgrel=5
+pkgdesc="Python library for ISO 639 standard"
+arch=('any')
+url="https://github.com/noumar/iso639"
+license=('AGPL-3.0-or-later')
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+#checkdepends=('python-pycountry')
+source=("$_name-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('e68347887a438a0c49e6fe053206bf5d40348c4624f5ccffadc8bed2fa5e8ac9')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+#check() {
+#  cd "$_name-$pkgver"
+#  python -m unittest discover -vs tests
+#}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
