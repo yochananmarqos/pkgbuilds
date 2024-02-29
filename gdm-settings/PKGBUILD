@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gdm-settings
-pkgver=4.2
+pkgver=4.3
 pkgrel=1
 pkgdesc="A settings app for GNOME's Login Manager, GDM"
 arch=('any')
@@ -13,7 +13,7 @@ makedepends=('blueprint-compiler' 'meson')
 checkdepends=('appstream' 'appstream-glib')
 optdepends=('appstream-glib: Release information in About dialog')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gdm-settings/gdm-settings/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('0706eef5eb4317e3d3c9499950b27da65c670236f3982891cc8be1006ff121a9')
+sha256sums=('53a259be66ed0c1e02a959ba4f6083bd43fb59a1d3f7fb80332c80184bd90d58')
 
 build() {
   arch-meson "$pkgname-$pkgver" build --buildtype=release
