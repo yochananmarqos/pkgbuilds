@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=python-pywebview
 _name=${pkgname#python-}
-pkgver=5.0.3
+pkgver=5.0.5
 pkgrel=1
 pkgdesc="Build GUI for your Python program with JavaScript, HTML, and CSS."
 arch=('any')
@@ -20,7 +20,7 @@ optdepends=('pyside2: use with QtPy, PySide2)'
             'python-qtpy: use with Qt'
             'webkit2gtk-4.1: use with GTK')
 source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('b7fe887dc9cffd5cb7f5ed6bb56220007ad74d1e7f8b9dfd052897bbf346aec2')
+sha256sums=('f2a39682bc144cd95fb6cdb16522a44d2ffe7974966486ed570d81d2e0a41319')
 
 build() {
   cd "$_name-$pkgver"
