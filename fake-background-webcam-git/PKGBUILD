@@ -4,7 +4,7 @@ groups=('modified')
 ## WIP
 
 pkgname=fake-background-webcam-git
-pkgver=r260.2ac11a3
+pkgver=r264.12d04ee
 pkgrel=1
 pkgdesc="Faking your webcam background"
 arch=('x86_64')
@@ -37,7 +37,7 @@ source=('git+https://github.com/fangfufu/Linux-Fake-Background-Webcam.git'
         'readme.md'
         'config.ini')
 sha256sums=('SKIP'
-            'ea95498dc51501c4e14008695e9890bd8aa2044a4c45b6fe72a0b9ad17b247a9'
+            '04f963f9058217a6d9b6779770eb9dfb9460bb08d416813eae5fcfaab80fd9cc'
             '65bc57d62f4ac554835c4c7eb0f9bbfc922222337c196861c60d751ab68a54dd'
             '5b8a5cd8d556bd44ee2d42c58e851fea5dbffb12855816c395be7a388c391b98')
 
