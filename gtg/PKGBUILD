@@ -8,17 +8,32 @@ pkgdesc="Getting Things GNOME! is a personal tasks and TODO-list items organizer
 arch=('x86_64')
 url="https://wiki.gnome.org/Apps/GTG"
 license=('GPL')
-depends=('gtk3' 'gtksourceview4' 'libsecret' 'python-gobject' 'python-liblarch'
-         'python-lxml')
-makedepends=('itstool' 'meson')
-checkdepends=('python-caldav' 'python-mock' 'python-pytest') ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
-optdepends=('python-caldav: CalDAV syncronization'
-            'python-cheetah3: for the Export and print plugin'
-            'texlive-bin: pdflatex, for the Export and print plugin'
-            'texlive-core: pdfjam, for the Export and print plugin'
-            'pdftk: for the Export and print plugin'
-            'hamster-time-tracker: send a task to the Hamster time tracking applet'
-            'yelp: view user manual')
+depends=(
+  'gtk3'
+  'gtksourceview4'
+  'libsecret'
+  'python-gobject'
+  'python-liblarch'
+  'python-lxml'
+)
+makedepends=(
+  'itstool'
+  'meson'
+)
+checkdepends=(
+  'python-caldav'
+  'python-mock'  ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
+  'python-pytest'
+)
+optdepends=(
+  'python-caldav: CalDAV syncronization'
+  'python-cheetah3: for the Export and print plugin'
+  'texlive-bin: pdflatex, for the Export and print plugin'
+  'texlive-core: pdfjam, for the Export and print plugin'
+  'pdftk: for the Export and print plugin'
+  'hamster-time-tracker: send a task to the Hamster time tracking applet'
+  'yelp: view user manual'
+)
 source=("https://github.com/getting-things-gnome/gtg/releases/download/v$pkgver/$pkgname-$pkgver.0.tar.xz")
 sha256sums=('184bfd08db8328475e25493441c4136aa238139bb2961933d5ee41b41ed104e7')
 
