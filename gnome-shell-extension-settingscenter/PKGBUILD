@@ -1,6 +1,6 @@
 pkgname=gnome-shell-extension-settingscenter
 _uuid=SettingsCenter@lauinger-clan.de
-pkgver=46.2
+pkgver=46.3
 pkgrel=1
 pkgdesc="A customizable drop-down menu for quickly launching frequently used apps"
 arch=('any')
@@ -8,7 +8,7 @@ url="https://github.com/ChrisLauinger77/XES-Settings-Center-Extension"
 license=('GPL2')
 depends=('gnome-shell')
 makedepends=('git')
-_commit=657900836a88266e83d30208263f3bae387a4e62  # tags/v46.2^0
+_commit=100523d840a80891a0c5b8ac14fd01640cfe61bd  # tags/v46.3^0
 source=("git+$url.git#commit=${_commit}")
 sha256sums=('SKIP')
 
