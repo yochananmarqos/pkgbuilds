@@ -1,0 +1,28 @@
+pkgname=fafi-browser
+pkgver=0.12
+pkgrel=1
+pkgdesc="A Gemini browser built with Racket"
+arch=('x86_64')
+url="https://git.sr.ht/~soapdog/fafi-browser"
+license=('MIT')
+depends=('lz4' 'ncurses' 'zlib')
+makedepends=('racket')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('427acbd6cfa15b9a899f7dbe63c88b6350ce606a52ec5a190a4a7c44665d49a7')
+
+build() {
+  cd "$pkgname-v$pkgver"
+  raco pkg install --auto markdown xexpr-path
+  racket build.rkt
+}
+
+package() {
+  cd "$pkgname-v$pkgver"
+  install -Dm755 dist/bin/fafi -t "$pkgdir/opt/$pkgname/bin/"
+  cp -r dist/lib "$pkgdir/opt/$pkgname/"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/$pkgname/bin/fafi" "$pkgdir/usr/bin/"
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
