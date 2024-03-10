@@ -2,18 +2,18 @@
 groups=('modified')
 
 pkgname=ferdium-electron
-pkgver=6.7.0
+pkgver=6.7.1
 pkgrel=1
-_electronversion=27
+_electronversion=29
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
 arch=('x86_64')
 url="https://ferdium.org"
-license=('Apache')
+license=('Apache-2.0 AND MIT')
 depends=("electron${_electronversion}")
 makedepends=('asar' 'git' 'jq' 'nodejs>=20' 'pnpm')
 provides=('ferdium')
 conflicts=('ferdium')
-_commit=2f449ce766ec9f6a8666523087ea90e3ca5858ee  # tags/6.7.0^0
+_commit=f1f025639db0b891be7649b95a787af990df27ed  # tags/6.7.1^0
 source=("git+https://github.com/ferdium/ferdium-app#commit=${_commit}"
         'git+https://github.com/ferdium/ferdium-recipes.git#branch=main'
         'ferdium.desktop')
@@ -36,10 +36,8 @@ prepare() {
   local pnpm_ver=$(pnpm -v)
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
 
-  sed -i "s/pnpm@8.10.0/pnpm@${node_ver}/g" package.json
   local jq_expr=".engines.node = \"${node_ver}\" | \
     .engines.pnpm = \"${pnpm_ver}\" | \
-    .volta.pnpm = \"${pnpm_ver}\" | \
     .devDependencies.electron = \"${electronVer}\""
 
   jq "${jq_expr}" package.json > package.tmp.json
@@ -90,4 +88,6 @@ EOF
     install -Dm644 "build-helpers/images/icons/${_size}x${_size}.png" \
       "$pkgdir/usr/share/icons/hicolor/${_size}x${_size}/apps/ferdium.png"
   done
+
+  install -Dm0644 ferdium-recipes/LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
