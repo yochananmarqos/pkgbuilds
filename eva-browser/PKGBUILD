@@ -1,0 +1,45 @@
+# https://aur.archlinux.org/packages/eva-browser
+groups=('modified')
+
+pkgname=eva-browser
+_app_id=org.hitchhiker-linux.eva
+pkgver=0.4.1
+pkgrel=1
+pkgdesc="A Gemini protocol browser in Gtk4"
+arch=('x86_64')
+url="https://codeberg.org/jeang3nie/eva"
+license=('GPL-3.0-or-later')
+depends=('gtk4')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha512sums=('3841a9a26efc842b65a585c2a573498a0389b0c0b38bc1afbd60f630f4d68685ba34276c6fa1efa1cd70739a9c649edeba1a030ed38122409d66c0fbf7731754')
+
+prepare() {
+  cd eva
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # Rename binary & fix typo
+  desktop-file-edit \
+    --set-key=Exec --set-value="$pkgname" \
+    --set-key=DBusActivatable --set-value="true" \
+    "data/${_app_id}.desktop"
+}
+
+build() {
+  cd eva
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo build --release --all-features
+  cargo xtask dist
+}
+
+package() {
+  cd eva
+  install -Dm755 target/dist/bin/eva "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 "target/dist/share/applications/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -d "$pkgdir/usr/share/icons"
+  cp -r target/dist/share/icons/hicolor "$pkgdir/usr/share/icons"
+}
