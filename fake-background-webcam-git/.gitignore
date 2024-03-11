@@ -5,7 +5,7 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!lfbwam@.service
+!lfbw@.service
 !lfbw.install
 !config.ini
 !readme.md

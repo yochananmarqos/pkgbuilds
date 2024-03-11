@@ -4,10 +4,10 @@ groups=('modified')
 ## WIP
 
 pkgname=fake-background-webcam-git
-pkgver=r260.2ac11a3
+pkgver=r265.ffae907
 pkgrel=1
 pkgdesc="Faking your webcam background"
-arch=('x86_64')
+arch=('any')
 url="https://github.com/fangfufu/Linux-Fake-Background-Webcam"
 license=('GPL-3.0-or-later')
 depends=(
