@@ -2,17 +2,16 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.25.r11.gc802cea
+pkgver=1.1.26.r0.gd7f73b2
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
 url='https://github.com/pop-os/system76-power'
-license=('GPL')
+license=('GPL-3.0-or-later')
 depends=('dbus' 'libusb' 'polkit')
 makedepends=('cargo' 'git')
-optdepends=('system76-acpi-dkms: some systems might need this driver'
-            'system76-dkms: some systems might need this driver'
-            'system76-io-dkms: some systems might need this driver')
+optdepends=('system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
+            'system76-dkms: needed for systems with proprietary firmware')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!lto')
@@ -22,29 +21,28 @@ sha256sums=('SKIP'
             'e4417c1e2013e51d08a73705adf271939ff66b6d5cf6e3b67a1fe914ba769d05')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname%-git}"
-
-  # use mkinitcpio -P inplace of update-initramfs -u
-  patch -Np1 -i "${srcdir}/mkinitcpio.patch"
-
+  cd "${pkgname%-git}"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # use mkinitcpio -P inplace of update-initramfs -u
+  patch -Np1 -i "${srcdir}/mkinitcpio.patch"
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   make
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   make sysconfdir="/usr/lib" DESTDIR="${pkgdir}" install
 }
