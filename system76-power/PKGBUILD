@@ -1,0 +1,46 @@
+# https://aur.archlinux.org/packages/system76-power
+groups=('modified')
+
+pkgname=system76-power
+pkgver=1.1.26
+pkgrel=1
+pkgdesc="System76 Power Management"
+arch=('x86_64' 'aarch64')
+url="https://github.com/pop-os/system76-power"
+license=('GPL')
+depends=('dbus' 'libusb' 'polkit')
+makedepends=('cargo')
+optdepends=('system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
+            'system76-dkms: needed for systems with proprietary firmware')
+options=('!lto')
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+        'use-mkinitcpio.patch')
+sha256sums=('d78dd6b69d2ee0759652eae9b3bc29191d337f56a89c08d82d2d0ed30435b5c2'
+            'e4417c1e2013e51d08a73705adf271939ff66b6d5cf6e3b67a1fe914ba769d05')
+#validpgpkeys=('D3FB3AF9711C1CD12639C9F587F211AF2BE4C2FE') # Jeremy Soller (https://soller.dev) <jackpot51@gmail.com>
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+
+  # use mkinitcpio -P inplace of update-initramfs -u
+  patch -Np1 -i ../use-mkinitcpio.patch
+
+  # bump version
+  sed -i 's/version = "1.1.25"/version = "1.1.26"/g' Cargo.toml Cargo.lock
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make sysconfdir="/usr/lib" DESTDIR="${pkgdir}" install
+}
