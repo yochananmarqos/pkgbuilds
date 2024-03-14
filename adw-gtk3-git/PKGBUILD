@@ -4,7 +4,7 @@ groups=('modified')
 ## WIP
 
 pkgname=adw-gtk3-git
-pkgver=5.2.r1.24046cc
+pkgver=5.2.r7.9515748
 pkgrel=1
 pkgdesc="The theme from libadwaita ported to GTK-3"
 arch=('any')
@@ -13,7 +13,7 @@ license=('LGPL-2.1-or-later')
 makedepends=('git' 'meson' 'sassc')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-_adw_commit=fd5892e94ddd9baf44dcfb2faaa97211a2532d6d  # tags/1.4.2^0
+_adw_commit=f5a021d0ab0eb98455529dd8c055c45897c891df  # tags/1.4.4^0
 source=("git+https://github.com/lassekongo83/adw-gtk3.git"
         "git+https://gitlab.gnome.org/GNOME/libadwaita.git#commit=${_adw_commit}")
 sha256sums=('SKIP'
