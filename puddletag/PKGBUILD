@@ -1,0 +1,60 @@
+# https://aur.archlinux.org/packages/puddletag
+groups=('modified')
+
+pkgname=puddletag
+pkgver=2.3.0
+pkgrel=1
+pkgdesc='An audio tag editor for GNU/Linux'
+arch=('any')
+url="https://docs.puddletag.net/"
+license=('GPL-3.0-or-later')
+depends=(
+  'python-certifi'
+  'python-charset-normalizer'
+  'python-configobj'
+  'python-distro'
+  'python-idna'
+  'python-mutagen'
+  'python-pyparsing'
+  'python-pyqt5'
+  'python-rapidfuzz'
+  'python-requests'
+  'python-six'
+  'python-unidecode'
+  'python-urllib3'
+  'qt5-svg'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+optdepends=(
+  'python-levenshtein: faster duplicate matching'
+  'python-lxml: additional tag sources'
+  'python-pyacoustid: AcoustID support'
+  'python-audioread'  # Dependency of python-pyacoustid: https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyacoustid/-/issues/1
+  'quodlibet: QuodLibet library support'
+)
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/puddletag/puddletag/archive/${pkgver}.tar.gz"
+        'https://github.com/puddletag/puddletag/pull/880.patch')
+sha512sums=('7058526dfe0132bf8edc260538a18c3c169128162ad83646557e166af0bcb23166053de15e02d13eb84c2d68bdbc8bacd6a6730ade409ab34f8503ec9d69af46'
+            '4776f162621dec4c90655873657edefcadd71b95e4025be15c022e35b4390306c21ba1dd5ba2dde1e5a7155e81da7ee2e6107094ae7f6c80bc475ec15a791f3b')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+
+  # Update pyparsing usage to PEP-8
+  patch -Np1 -i ../880.patch
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  python -m installer --destdir="${pkgdir}" dist/*.whl
+}
