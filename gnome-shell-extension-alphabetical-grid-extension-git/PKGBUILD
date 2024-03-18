@@ -23,14 +23,14 @@ pkgver() {
 
 build() {
   cd alphabetical-grid-extension
-  make package
+  make build
 }
 
 package() {
   cd alphabetical-grid-extension
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
-  bsdtar xvf "build/$_uuid.shell-extension.zip" -C \
-    "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/" --no-same-owner
+  bsdtar xvf "build/${_uuid}.shell-extension.zip" -C \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
 
   mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share/"
 
