@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gnome-shell-extension-tiling-assistant
 _uuid=tiling-assistant@leleat-on-github
-pkgver=44
+pkgver=46
 pkgrel=1
 pkgdesc="A GNOME Shell extension to expand GNOME's native 2 column design."
 arch=('any')
@@ -12,7 +12,7 @@ license=('GPL2')
 depends=('gnome-shell')
 makedepends=('git')
 install='tiling-assistant.install'
-_commit=b1daf9d58b82d190ba5d2801ce32eda25f96bad4  # tags/v44^0
+_commit=8182ffdff2b838e46c31dd4366b7ea4fe22818dd  # tags/v46^0
 source=("git+https://github.com/Leleat/Tiling-Assistant.git#commit=${_commit}")
 sha256sums=('SKIP')
 
