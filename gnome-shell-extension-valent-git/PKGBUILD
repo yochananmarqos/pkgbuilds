@@ -2,13 +2,13 @@
 groups=('modified')
 
 pkgname=gnome-shell-extension-valent-git
-pkgver=r100.e9814ff
+pkgver=r109.58648c3
 pkgrel=1
 pkgdesc="GNOME Shell integration for Valent"
 arch=('any')
 url="https://valent.andyholmes.ca"
 license=('GPL3')
-depends=('gnome-shell>=1:45.0' 'valent')
+depends=('gnome-shell' 'valent')
 makedepends=('git' 'meson')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'gnome-shell-extension-gsconnect')
