@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=extension-manager
-pkgver=0.4.3
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="A native tool for browsing, installing, and managing GNOME Shell Extensions"
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=('libadwaita' 'libsoup3' 'text-engine')
 makedepends=('blueprint-compiler' 'meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/mjakeman/extension-manager/archive/v$pkgver.tar.gz")
-sha256sums=('0dff375888c68103dc1a48d0691c34e2bad9670d2d4050a1088f51c04342b956')
+sha256sums=('d1d1a2540c2cc74d3e3bb46dd58bf18d4d46e600293a973cd6269cc2467415dc')
 
 build() {
   arch-meson "$pkgname-$pkgver" build -Dbacktrace=false
