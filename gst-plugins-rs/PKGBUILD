@@ -33,7 +33,6 @@ makedepends=(
 )
 provides=('gst-plugin-gtk4')
 conflicts=('gst-plugin-gtk4')
-#options=('!lto')
 _commit=55b74c9a9af3539ea9cf8acdcd98deaf839898c3  # tags/gstreamer-1.24.0^0
 source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
 sha256sums=('SKIP')
