@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gst-plugins-rs
 pkgver=1.24.0
-pkgrel=1
+pkgrel=2
 pkgdesc="GStreamer plugins written in Rust"
 arch=('x86_64')
 url="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs"
@@ -33,7 +33,7 @@ makedepends=(
 )
 provides=('gst-plugin-gtk4')
 conflicts=('gst-plugin-gtk4')
-options=('!lto')
+#options=('!lto')
 _commit=55b74c9a9af3539ea9cf8acdcd98deaf839898c3  # tags/gstreamer-1.24.0^0
 source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
 sha256sums=('SKIP')
@@ -51,6 +51,7 @@ prepare() {
 }
 
 build() {
+  CFLAGS+=" -ffat-lto-objects"
   export CARGO_HOME="${srcdir}/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   arch-meson "${pkgname}" build \
