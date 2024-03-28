@@ -3,12 +3,12 @@
 groups=('modified')
 
 pkgname=mp3tag
-pkgver=3.24
+pkgver=3.25
 pkgrel=1
 pkgdesc="The universal tag editor."
 arch=('x86_64')
 url="https://www.mp3tag.de"
-license=('MPL-2.0' 'custom')
+license=('custom')
 depends=('wine')
 makedepends=('p7zip')
 options=('!strip')
@@ -17,7 +17,7 @@ source=("https://download.mp3tag.de/${pkgname}v${pkgver/./}-x64-setup.exe"
         "$pkgname"
         "$pkgname.desktop"
         "$pkgname.png")
-sha256sums=('0390b28ad8831d4ff9676145bbafcb7e77fd9724070f27d48bb714e1709af64e'
+sha256sums=('0456ebe1944ddfaf9694890958e1f04b2f960626c57d979ca5d61298db4297ec'
             'd50dc1b7913804e12e77afff95636a1e713ae2bb37c8b2c1f04507108ddf9333'
             '22d512a612804e9e165b96291b3dc07b096863e25de2c7c581258c9545dcb28d'
             'bc0c7b8a7a9f9ee92dfe2f1880ef5d91920473713b5d60e4afa361d69a446798'
