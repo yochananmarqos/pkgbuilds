@@ -1,8 +1,0 @@
-[Desktop Entry]
-Categories=System;FileTools;FileManager;
-Comment=File explorer from the future.
-Exec=spacedrive
-Icon=spacedrive
-Name=Spacedrive
-Terminal=false
-Type=Application
