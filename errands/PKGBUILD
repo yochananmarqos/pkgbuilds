@@ -2,18 +2,17 @@
 groups=('modified')
 
 pkgname=errands
-pkgver=45.1.2
+pkgver=45.1.9
 pkgrel=1
 pkgdesc="Todo application for those who prefer simplicity."
 arch=('any')
 url="https://github.com/mrvladus/Errands"
 license=('MIT')
-depends=('hicolor-icon-theme' 'libadwaita' 'libsecret' 'python-caldav'
-         'python-gobject' 'python-icalendar')
+depends=('gtksourceview5' 'hicolor-icon-theme' 'libadwaita' 'libsecret' 'python-caldav'
+         'python-gobject' 'python-icalendar' 'python-pycryptodomex')
 makedepends=('meson')
-checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('ace0bbd9315510a9a88f830364627ad04d99040fad7398ec6e90d0c949fc7644')
+sha256sums=('bf2f5cd985fa70d79626e20776d343130df7fe655a31ae4ed2f4411c4b12ab64')
 
 build() {
   arch-meson "Errands-$pkgver" build
@@ -27,9 +26,9 @@ check() {
 package() {
   meson install -C build --destdir "$pkgdir"
 
-  cd "Errands-$pkgver"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
-
   # Fix permissions
   chmod 0755 "$pkgdir/usr/bin/$pkgname"
+
+  cd "Errands-$pkgver"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
