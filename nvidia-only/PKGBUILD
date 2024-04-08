@@ -34,7 +34,7 @@ package_nvidia-only-lightdm() {
   depends+=('lightdm')
   install=lightdm.install
 
-  install -Dm755 display-setup.sh -t "$pkgdir/etc/lightdm/"
+  install -Dm755 display_setup.sh -t "$pkgdir/etc/lightdm/"
 }
 
 package_nvidia-only-sddm() {
