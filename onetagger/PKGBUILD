@@ -7,10 +7,9 @@ pkgrel=1
 pkgdesc="Music tagger with Beatport, Discogs, Musicbrainz, Spotify, Traxsource and many other platforms support."
 arch=('x86_64')
 url="https://onetagger.github.io"
-license=('GPL3')
+license=('GPL-3.0-or-later')
 depends=('alsa-lib' 'webkit2gtk')
 makedepends=('cargo' 'pnpm')
-options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Marekkon5/onetagger/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop")
 sha256sums=('ee8245d3a1b3e938e96dc6704d70f1913cfc20586c305ccec2502bc8503b17e2'
@@ -19,6 +18,7 @@ sha256sums=('ee8245d3a1b3e938e96dc6704d70f1913cfc20586c305ccec2502bc8503b17e2'
 prepare() {
   cd "$pkgname-$pkgver"
   export PNPM_HOME="$srcdir/pnpm-home"
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
 
   pushd client
@@ -30,7 +30,9 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
+  CFLAGS+=" -ffat-lto-objects"
   export PNPM_HOME="$srcdir/pnpm-home"
+  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
 
@@ -45,9 +47,9 @@ package() {
   cd "$pkgname-$pkgver"
   install -Dm755 target/release/{"$pkgname","$pkgname-cli"} -t "$pkgdir/usr/bin/"
 
-  for icon_size in 32x32 128x128 128x128@2x; do
-    install -Dm644 assets/${icon_size}.png \
-      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png"
+  for i in 32x32 128x128 128x128@2x; do
+    install -Dm644 assets/${i}.png \
+      "$pkgdir/usr/share/icons/hicolor/${i}/apps/$pkgname.png"
   done
 
   install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
