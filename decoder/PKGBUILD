@@ -1,0 +1,49 @@
+# https://aur.archlinux.org/packages/decoder
+groups=('modified')
+
+pkgname=decoder
+pkgver=0.5
+pkgrel=1
+pkgdesc="Scan and Generate QR Codes"
+arch=('x86_64' 'aarch64')
+url="https://apps.gnome.org/Decoder"
+license=('GPL-3.0-or-later')
+depends=(
+  'gst-plugins-bad'
+  'gst-plugins-base'
+  'gstreamer'
+  'libadwaita'
+  'zbar'
+)
+makedepends=(
+  'cargo'
+  'meson'
+)
+source=("https://gitlab.gnome.org/World/decoder/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('8837874883ee99152dde05a7ea9dbbbeccfee2cb6d64ca787e37aec4630c0180')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  CFLAGS+=" -ffat-lto-objects"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  CFLAGS+=" -ffat-lto-objects"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  meson test -C build --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
