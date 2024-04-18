@@ -3,27 +3,39 @@ groups=('modified')
 
 pkgname=python-pywebview
 _name=${pkgname#python-}
-pkgver=5.0.5
+pkgver=5.1
 pkgrel=1
 pkgdesc="Build GUI for your Python program with JavaScript, HTML, and CSS."
 arch=('any')
 url="https://pywebview.flowrl.com"
 license=('BSD-3-Clause')
-depends=('python-bottle' 'python-cryptography' 'python-proxy_tools' 'python-typing_extensions')
-makedepends=('python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
-optdepends=('pyside2: use with QtPy, PySide2)'
-            'pyside6: use with QtPy, PySide6)'
-            'python-gobject: use with GTK'
-            'python-pygobject-stubs: use with GTK'
-            'python-pyqt5: use with Qt'
-            'python-pyqt5-webengine: use with Qt'
-            'python-qtpy: use with Qt'
-            'webkit2gtk-4.1: use with GTK')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('f2a39682bc144cd95fb6cdb16522a44d2ffe7974966486ed570d81d2e0a41319')
+depends=(
+  'python-bottle'
+  'python-cryptography'
+  'python-proxy_tools'
+  'python-typing_extensions'
+ )
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools-scm'
+  'python-wheel'
+)
+optdepends=(
+  'pyside2: use with QtPy, PySide2)'
+  'pyside6: use with QtPy, PySide6)'
+  'python-gobject: use with GTK'
+  'python-pygobject-stubs: use with GTK'
+  'python-pyqt5: use with Qt'
+  'python-pyqt5-webengine: use with Qt'
+  'python-qtpy: use with Qt'
+  'webkit2gtk-4.1: use with GTK')
+source=("$_name-$pkgver.tar.gz::https://github.com/r0x0r/pywebview/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('9b25f76659a6b026389e5cb1b5c6ff820a34061ab6b18f460632a909e787839f')
 
 build() {
   cd "$_name-$pkgver"
+  export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
   python -m build --wheel --no-isolation
 }
 
