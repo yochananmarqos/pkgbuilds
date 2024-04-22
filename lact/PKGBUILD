@@ -88,7 +88,7 @@ package_lact-libadwaita() {
   depends+=('libadwaita')
 
   cd LACT
-  install -Dvm755 "target/release/$pkgbase-headless" "$pkgdir/usr/bin/$pkgbase"
+  install -Dvm755 "target/release/$pkgbase-adw" "$pkgdir/usr/bin/$pkgbase"
   install -Dvm644 res/lactd.service -t "$pkgdir/usr/lib/systemd/system/"
   install -Dvm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgbase/"
 }
