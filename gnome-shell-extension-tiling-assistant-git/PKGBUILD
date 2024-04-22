@@ -3,7 +3,7 @@ groups=('modifed')
 
 pkgname=gnome-shell-extension-tiling-assistant-git
 _uuid=tiling-assistant@leleat-on-github
-pkgver=46.r2.g932846b
+pkgver=47.r1.g4e63cbd
 pkgrel=1
 pkgdesc="Adds a Windows-like snap assist to the GNOME desktop environment"
 arch=('any')
