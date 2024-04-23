@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.26.r0.gd7f73b2
+pkgver=1.1.26.r1.g6bbe1c2
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,6 @@ optdepends=('system76-acpi-dkms: needed for systems with open firmware - only fo
             'system76-dkms: needed for systems with proprietary firmware')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-options=('!lto')
 source=('git+https://github.com/pop-os/system76-power.git'
         'mkinitcpio.patch')
 sha256sums=('SKIP'
@@ -37,6 +36,7 @@ prepare() {
 
 build() {
   cd "${pkgname%-git}"
+  CFLAGS+=" -ffat-lto-objects"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   make
