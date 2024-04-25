@@ -2,9 +2,9 @@
 groups=('modified')
 
 pkgname=ferdium-electron
-pkgver=6.7.2
+pkgver=6.7.3
 pkgrel=1
-_electronversion=29
+_electronversion=30
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
 arch=('x86_64')
 url="https://ferdium.org"
@@ -13,11 +13,10 @@ depends=("electron${_electronversion}")
 makedepends=('asar' 'git' 'jq' 'pnpm')
 provides=('ferdium')
 conflicts=('ferdium')
-_commit=ce7a8772c98a9dbf5e86d14f2f343c2ef06f1898  # tags/6.7.2^0
-source=("git+https://github.com/ferdium/ferdium-app#commit=${_commit}"
+source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
         'git+https://github.com/ferdium/ferdium-recipes.git'
         'ferdium.desktop')
-sha256sums=('e6bd12a78a4c0101c43d1b9a20729df7b9d1f731549142647f44a9a129e080e3'
+sha256sums=('6af421a483a142ce504a4b6ff22e6183bf214f521ccebec932cc560430e36faf'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
