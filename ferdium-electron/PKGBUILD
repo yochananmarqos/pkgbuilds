@@ -20,11 +20,6 @@ sha256sums=('6af421a483a142ce504a4b6ff22e6183bf214f521ccebec932cc560430e36faf'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
-pkgver() {
-  cd ferdium-app
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
-
 prepare() {
   cd ferdium-app
   git submodule init
@@ -33,7 +28,7 @@ prepare() {
 
   local node_ver=$(node -v | sed -e 's/^v//')
   local pnpm_ver=$(pnpm -v)
-  electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
+  local electronVer="$(cat "/usr/lib/electron${_electron}/version")"
 
   local jq_expr=".engines.node = \"${node_ver}\" | \
     .engines.pnpm = \"${pnpm_ver}\" | \
@@ -58,11 +53,10 @@ build() {
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
   export CI=true
-  pnpm i --no-frozen-lockfile
-  pnpm prepare-code || true
+  pnpm install --no-frozen-lockfile --ignore-script
 
   pushd recipes
-  pnpm i --no-frozen-lockfile
+  pnpm install --no-frozen-lockfile --ignore-script
   pnpm package
   popd
 
