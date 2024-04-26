@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=journal-viewer
-pkgver=0.4.0
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="A modern linux desktop application to visualize systemd logs."
 arch=('x86_64')
@@ -10,10 +10,8 @@ url="https://github.com/mingue/journal-viewer"
 license=('GPL3')
 depends=('systemd-libs' 'webkit2gtk')
 makedepends=('cargo' 'npm')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
-        "$pkgname.desktop")
-sha256sums=('f2f071bf9a711a2f19d861cc70c82ba9fa321244d4688b9ed019cdf07df0eca0'
-            '413001fffca9460ec2a5ff4e5515e12218034747a9bc41b018507a17a2a5ddfc')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('f898027f8c0fc5088ebad1b2d728e0a19de3829e5bddb0056a4bacac85544500')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -41,17 +39,16 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   install -Dm755 "src-tauri/target/release/$pkgname" -t "$pkgdir/usr/bin/"
-  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
 
-#  _bundle_dir="src-tauri/target/release/bundle/deb/${pkgname}_0.0.1_amd64"
+  _bundle_dir="src-tauri/target/release/bundle/deb/${pkgname}_0.0.1_amd64"
 
-#  install -Dm644 "${_bundle_dir}/data/usr/share/applications/$pkgname.desktop" -t \
-#    "$pkgdir/usr/share/applications/"
+  install -Dm644 "${_bundle_dir}/data/usr/share/applications/$pkgname.desktop" -t \
+    "$pkgdir/usr/share/applications/"
 
-#  for icon_size in 32x32 128x128; do
-#    install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png" -t \
-#      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/"
-#  done
-#  install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/256x256@2/apps/$pkgname.png" -t \
-#      "$pkgdir/usr/share/icons/hicolor/256x256@2/apps/"
+  for icon_size in 32x32 128x128; do
+    install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/${icon_size}/apps/$pkgname.png" -t \
+      "$pkgdir/usr/share/icons/hicolor/${icon_size}/apps/"
+  done
+  install -Dm644 "${_bundle_dir}/data/usr/share/icons/hicolor/256x256@2/apps/$pkgname.png" -t \
+      "$pkgdir/usr/share/icons/hicolor/256x256@2/apps/"
 }
