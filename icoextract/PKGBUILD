@@ -9,11 +9,12 @@ arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
 depends=('python-pefile')
-makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz")
-sha256sums=('9eddf003b2188a1c81805836fd7bd9b157c6ed16d0db1b51121f2bb8bee1963a')
+source=("git+https://github.com/jlu5/icoextract.git#tag=$pkgver?signed")
+sha256sums=('bc0c9aa074771ff176253d9ebf631ec882776ddd71892a136e1e00a711d44253')
+validpgpkeys=('D5D568B2D34AB32A337944D22EC3F60DE71C0B9D') # James Lu <james@overdrivenetworks.com>
 
 build() {
   cd "${pkgname}-${pkgver}"
