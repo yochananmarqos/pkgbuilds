@@ -7,19 +7,24 @@ pkgrel=3
 pkgdesc="Ambient Noise Library. Sounds and icons for Anoise Player"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
-license=('GPL3')
-makedepends=('python-build' 'python-distutils-extra' 'python-installer'
-             'python-setuptools' 'python-wheel')
+license=('GPL-3.0-or-later')
+makedepends=(
+  'python-build'
+  'python-distutils-extra'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
 source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
 sha256sums=('7ad6b20438687107d850fd4bad760f103e7f2eb5ec7b1b45296ad29433cc0f36')
 
 build() {
-  cd "$srcdir/media"
+  cd media
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$srcdir/media"
+  cd media
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
