@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=journal-viewer
-pkgver=0.5.0
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="A modern linux desktop application to visualize systemd logs."
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('GPL3')
 depends=('systemd-libs' 'webkit2gtk')
 makedepends=('cargo' 'npm')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('f898027f8c0fc5088ebad1b2d728e0a19de3829e5bddb0056a4bacac85544500')
+sha256sums=('70a5d8ef670d6426ac55643d280f69e3f882befa8ebf59813d500b8b429386b2')
 
 prepare() {
   cd "$pkgname-$pkgver"
