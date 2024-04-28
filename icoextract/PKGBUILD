@@ -2,39 +2,26 @@
 groups=('modified')
 
 pkgname=icoextract
-pkgver=0.1.4
-pkgrel=2
+pkgver=0.1.5
+pkgrel=1
 pkgdesc="Thumbnailer for Windows PE files (.exe/.dll)"
 arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
 depends=('python-pefile')
-makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
-_commit=182c3b34befebb7b3e949e878fc2ab8631864f0b  # tags/0.1.4^0
-source=("git+https://github.com/jlu5/icoextract.git#commit=${_commit}")
-sha256sums=('SKIP')
-
-pkgver() {
-  cd "$pkgname"
-  git describe --tags | sed 's/-/+/g'
-}
-
-prepare() {
-  cd "$pkgname"
-
-  # Add missing MIME type (#19)
-  git cherry-pick -n 31ce309a4b5ed345ede44bb1270ca06cc6f32aae
-}
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('9eddf003b2188a1c81805836fd7bd9b157c6ed16d0db1b51121f2bb8bee1963a')
 
 build() {
-  cd "$pkgname"
+  cd "${pkgname}-${pkgver}"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$pkgname"
+  cd "${pkgname}-${pkgver}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 exe-thumbnailer.thumbnailer -t "$pkgdir/usr/share/thumbnailers/"
