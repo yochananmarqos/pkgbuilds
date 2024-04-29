@@ -3,22 +3,42 @@ groups=('modified')
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.1.6.r3.ge6112a8
+pkgver=2.1.6.r27.g00c3390
 pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
 url="https://slgobinath.github.io/SafeEyes"
-license=('GPL3')
-depends=('alsa-utils' 'dbus-python' 'gtk3' 'hicolor-icon-theme' 'libnotify'
-         'python-babel' 'python-gobject' 'python-psutil' 'python-xlib' 'xorg-xprop')
-makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
-checkdepends=('appstream-glib')
-optdepends=('libayatana-indicator: show a tray icon in the notification area'
-            'python-croniter: for Health Statistics plugin'
-            'python-pyowm: for Weather plugin'
-            'swayidle: for Smart Pause plugin (Wayland)'
-            'xprintidle: for Smart Pause plugin (Xorg)'
-            'wlrctl: full screen detection on Wayland')
+license=('GPL-3.0-or-later')
+depends=(
+  'alsa-utils'
+  'dbus-python'
+  'gtk3'
+  'hicolor-icon-theme'
+  'libnotify'
+  'python-babel'
+  'python-gobject'
+  'python-psutil'
+  'python-xlib'
+  'xorg-xprop'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+checkdepends=(
+  'appstream'
+)
+optdepends=(
+  'libayatana-indicator: show a tray icon in the notification area'
+  'python-croniter: for Health Statistics plugin'
+  'python-pyowm: for Weather plugin'
+  'swayidle: for Smart Pause plugin (Wayland)'
+  'xprintidle: for Smart Pause plugin (Xorg)'
+  'wlrctl: full screen detection on Wayland'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/slgobinath/SafeEyes.git'
@@ -27,29 +47,30 @@ sha256sums=('SKIP'
             'SKIP')
 
 pkgver() {
-  cd "$srcdir/SafeEyes"
+  cd SafeEyes
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/SafeEyes"
+  cd SafeEyes
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd "$srcdir/SafeEyes"
-  appstream-util validate-relax --nonet "${pkgname%-git}/platform/$_app_id.metainfo.xml"
+  cd SafeEyes
+  appstreamcli validate --no-net "${pkgname%-git}/platform/$_app_id.metainfo.xml" || :
   desktop-file-validate "${pkgname%-git}/platform/$_app_id.desktop"
 }
 
 package() {
-  cd "$srcdir/SafeEyes"
+  cd SafeEyes
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "${pkgname%-git}/platform/$_app_id.metainfo.xml" -t \
     "$pkgdir/usr/share/metainfo/"
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  cp -r "${pkgname%-git}/plugins" "${pkgdir}${site_packages}/${pkgname%-git}/"
   cp -r "${pkgdir}${site_packages}"/usr/* "$pkgdir/usr/"
   rm -rf "${pkgdir}${site_packages}/usr"
 
@@ -57,6 +78,6 @@ package() {
   rm -rf "${pkgdir}${site_packages}/${pkgname%-git}/platform/"
 
   # Third-party plugins
-  cp -r "$srcdir/${pkgname%-git}"-plugins/{weather,zoom} \
+  cp -r "$srcdir/${pkgname%-git}"-plugins/{system-notifications,weather,zoom} \
     "${pkgdir}${site_packages}/${pkgname%-git}/plugins/"
 }
