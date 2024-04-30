@@ -2,17 +2,27 @@
 groups=('modified')
 
 pkgname=errands
-pkgver=45.1.9
+pkgver=46.0
 pkgrel=1
 pkgdesc="Todo application for those who prefer simplicity."
 arch=('any')
 url="https://github.com/mrvladus/Errands"
 license=('MIT')
-depends=('gtksourceview5' 'hicolor-icon-theme' 'libadwaita' 'libsecret' 'python-caldav'
-         'python-gobject' 'python-icalendar' 'python-pycryptodomex')
+depends=(
+  'gtksourceview5'
+  'hicolor-icon-theme'
+  'libadwaita'
+  'libgoa'
+  'libportal'
+  'libsecret'
+  'python-caldav'
+  'python-gobject'
+  'python-icalendar'
+  'python-pycryptodomex'
+)
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('bf2f5cd985fa70d79626e20776d343130df7fe655a31ae4ed2f4411c4b12ab64')
+sha256sums=('4376853db8827a2d3a5ad6bd7f97f8d5a978e91515193f213bb02acc1aff944a')
 
 build() {
   arch-meson "Errands-$pkgver" build
