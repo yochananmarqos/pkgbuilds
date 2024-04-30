@@ -6,14 +6,13 @@ pkgrel=1
 pkgdesc="A customizable, modern file manager"
 arch=('x86_64')
 url="https://xplorer.space"
-license=('Apache')
-depends=('webkit2gtk')
+license=('Apache-2.0')
+depends=('gtk3' 'webkit2gtk')
 makedepends=('cargo' 'git' 'yarn')
-options=('!lto')
 _commit=2eb6747a51b796e63911ec4e63374fc463ae59d0  # branch/master
 source=("git+https://github.com/kimlimjustin/xplorer.git#commit=${_commit}"
         "$pkgname.desktop")
-sha256sums=('SKIP'
+sha256sums=('de1ce33105c20b5f68526d9d947bc1c64bddd399ba5bbb73f8e1b6906901fa40'
             'cd0d2fb362668661b0ed2dc7e0637028fb5a9e27fd30f4771467bccab1468249')
 
 pkgver() {
@@ -43,6 +42,7 @@ prepare() {
 
 build() {
   cd "$pkgname"
+  CFLAGS+=" -ffat-lto-objects"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
