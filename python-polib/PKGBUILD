@@ -1,0 +1,28 @@
+# https://aur.archlinux.org/packages/python-polib
+groups=('modified')
+
+pkgname=python-polib
+_name=${pkgname#python-}
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="Pure python library to manipulate, create, modify gettext files (pot, po and mo files)."
+arch=('any')
+url="https://github.com/izimobil/polib"
+license=('MIT')
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('f3ef94aefed6e183e342a8a269ae1fc4742ba193186ad76f175938621dbfc26b')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
+
