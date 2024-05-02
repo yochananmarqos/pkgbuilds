@@ -1,0 +1,58 @@
+# https://aur.archlinux.org/packages/geany-git
+groups=('modified')
+
+pkgname=geany-git
+pkgver=2.0.0.r118.gef2255bce
+pkgrel=1
+pkgdesc="Fast and lightweight IDE"
+arch=('x86_64')
+url="https://www.geany.org"
+license=('GPL-2.0-or-later')
+depends=(
+  'gtk3'
+  'python'
+)
+makedepends=(
+#  'doxygen'  ## api-docs
+  'git'
+  'gtk-doc'  ## gtkdoc
+  'meson'
+#  'python-docutils'  ## html-docs
+#  'python-lxml'
+#  'rst2pdf'  ## pdf-docs
+  'vte3'
+)
+optdepends=(
+  'geany-plugins: additional functionality'
+  'vte3: enbedded terminal support'
+)
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/geany/geany.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  arch-meson "${pkgname%-git}" build \
+    -Dhtml-docs='disabled' \
+    -Dpdf-docs='disabled' \
+    -Dplugins='true' \
+    -Dapi-docs='disabled' \
+    -Dgtkdoc='true' \
+    -Dvte='true' \
+    -Dmac-integration='disabled'
+  meson compile -C build
+}
+
+check() {
+  export NO_AT_BRIDGE=1
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
