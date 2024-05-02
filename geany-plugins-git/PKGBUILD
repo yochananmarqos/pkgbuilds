@@ -1,0 +1,52 @@
+# https://aur.archlinux.org/packages/geany-plugins-git
+groups=('modified')
+
+pkgname=geany-plugins-git
+pkgver=2.0.0.r50.ge00f819d
+pkgrel=1
+pkgdesc="Plugins for Geany"
+arch=('x86_64')
+url="https://plugins.geany.org"
+license=('GPL')
+depends=(
+  'ctpl'
+  'geany-git'
+  'gpgme'
+  'gtkspell3'
+  'libgit2'
+  'lua51'
+  'python'
+  'vte3'
+  'webkit2gtk'
+)
+makedepends=(
+  'cppcheck'
+  'git'
+  'intltool'
+)
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" 'geany-plugin-markdown')
+source=('git+https://github.com/geany/geany-plugins.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgname%-git}"
+  autoreconf -fi
+}
+
+build() {
+  cd "${pkgname%-git}"
+  export CFLAGS+=' -w' PYTHON=/usr/bin/python
+  ./configure --prefix=/usr --libexecdir=/usr/lib
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+package() {
+  make -C "${pkgname%-git}" DESTDIR="$pkgdir" install
+}
