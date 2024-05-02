@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=gst-plugins-rs
-pkgver=1.24.1
+pkgver=1.24.3
 pkgrel=1
 pkgdesc="GStreamer plugins written in Rust"
 arch=('x86_64')
@@ -33,14 +33,8 @@ makedepends=(
 )
 provides=('gst-plugin-gtk4')
 conflicts=('gst-plugin-gtk4')
-_commit=5f6ed181c2a30c63e8895e42ee65789de5a50d16  # tags/gstreamer-1.24.1^0
-source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#commit=${_commit}")
-sha256sums=('b12c5ce33d46ab7395415ab080165c90c3ed875be9ad674452db7212e5272a24')
-
-pkgver() {
-  cd "${pkgname}"
-  git describe --tags | sed 's/^gstreamer-//;s/-/+/g'
-}
+source=("git+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#tag=gstreamer-$pkgver")
+sha256sums=('c350793466ebca167839156a30587c6a8cce29fdcbf3f33d665c57c8fb9cc2b2')
 
 prepare() {
   cd "${pkgname}"
