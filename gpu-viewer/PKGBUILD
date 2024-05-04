@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gpu-viewer
 _app_id=io.github.arunsivaramanneo.GPUViewer
-pkgver=3.02
+pkgver=3.04
 pkgrel=1
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
@@ -19,9 +19,9 @@ depends=(
   'vulkan-tools'
 )
 makedepends=('meson')
-checkdepends=('appstream-glib')
+checkdepends=('appstream')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('0cb3bd5788e0ab72148592cb965485ce8c551d53f1479b30e6eceade953a1508')
+sha256sums=('cb45a5e8bcd43e678f5a19e9f001573dea2ebca4fb5f8d5d3909c6b4a72827b0')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
@@ -30,7 +30,7 @@ build() {
 
 check() {
   cd GPU-Viewer-$pkgver
-  appstream-util validate-relax --nonet "data/$_app_id.metainfo.xml"
+  appstreamcli validate --no-net "data/$_app_id.metainfo.xml"
   desktop-file-validate "data/$_app_id.desktop"
 }
 
