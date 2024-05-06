@@ -1,7 +1,10 @@
+# https://aur.archlinux.org/packages/gearlever
+groups=('modified')
+
 ## WIP
 
 pkgname=gearlever
-pkgver=1.5.0
+pkgver=1.5.2
 pkgrel=1
 pkgdesc="Manage AppImages with ease"
 arch=('x86_64')
@@ -11,7 +14,14 @@ depends=('libadwaita' 'python-dbus' 'python-gobject' 'python-pyxdg')
 makedepends=('meson')
 checkdepends=('appstream-glib')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('a7c20bf91de6a9f568559f61f715a4c8ebb91b5fe89bc925b076bb9f36e8e9d1')
+sha256sums=('f5c50f57de300917ea8d313563fab443c1a50206e5db5c3d1ccb5e81459acc82')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Change flatpak-spawn to instead execute the command natively since we are not inside a flatpak.
+  sed -i 's/cmd = \['\''flatpak-spawn'\'', '\''--host'\'', \*command\]/cmd = \[\*command\]/g' src/lib/terminal.py
+}
 
 build() {
   arch-meson "$pkgname-$pkgver" build
@@ -30,8 +40,8 @@ package() {
   rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/meson.build"
 
   # conflicts with other packages like smile (AUR)
-  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/lightbulb-symbolic.svg"
+#  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/lightbulb-symbolic.svg"
 
   # conflicts with other packages like notejot (AUR)
-  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/document-edit-symbolic.svg"
+#  rm "$pkgdir/usr/share/icons/hicolor/scalable/actions/document-edit-symbolic.svg"
 }
