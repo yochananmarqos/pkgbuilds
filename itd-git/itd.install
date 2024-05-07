@@ -1,0 +1,12 @@
+post_install() {
+  echo "Enable the daemon:"
+  echo "systemctl --user enable --now itd"
+  echo ""
+}
+
+post_upgrade() {
+  echo "Restart the daemon:"
+  echo "systemctl --user daemon-reload"
+  echo "systemctl --user restart itd"
+  echo ""
+}

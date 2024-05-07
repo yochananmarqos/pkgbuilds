@@ -1,0 +1,72 @@
+# https://aur.archlinux.org/packages/itd-git
+groups=('modified')
+
+pkgname=itd-git
+pkgver=1.1.0.r16.e6b3649
+pkgrel=1
+pkgdesc="Daemon that interfaces with InfiniTime firmware on the PineTime smartwatch"
+arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64')
+url="https://gitea.elara.ws/Elara6331/itd"
+license=('GPL-3.0-or-later')
+depends=(
+  'bluez'
+  'dbus'
+  'libglvnd'
+)
+makedepends=(
+  'git'
+  'glfw'
+  'go'
+  'libpulse'
+  'libxcursor'
+  'libxi'
+  'libxinerama'
+  'libxrandr'
+)
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+backup=("etc/${pkgname%-git}.toml")
+install="${pkgname%-git}.install"
+source=('git+https://gitea.elara.ws/Elara6331/itd.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgname%-git}"
+  export GOPATH="$srcdir/gopath"
+
+  # download dependencies
+  go mod download -x
+
+  # create directory for build output
+  mkdir -p build
+
+  printf "$pkgver" > version.txt
+}
+
+build() {
+  cd "${pkgname%-git}"
+  export GOPATH="$srcdir/gopath"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  go build -v -o build .
+  go build -v -o build ./cmd/...
+
+  # Clean module cache for makepkg -C
+  go clean -modcache
+}
+
+package() {
+  cd "${pkgname%-git}"
+  install -Dm755 build/{itctl,itd,itgui} -t "$pkgdir/usr/bin/"
+  install -Dm644 "${pkgname%-git}.service" -t "$pkgdir/usr/lib/systemd/user/"
+  install -Dm644 "${pkgname%-git}.toml" -t "$pkgdir/etc/"
+  install -Dm644 itgui.desktop -t "$pkgdir/usr/share/applications/"
+}
