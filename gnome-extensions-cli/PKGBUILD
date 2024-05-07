@@ -16,28 +16,23 @@ depends=(
   'python-requests'
 )
 makedepends=(
-  'git'
   'python-build'
   'python-installer'
   'python-poetry-core'
   'python-wheel'
 )
-optdepends=('dbus-python: communicate with GNOME Shell directly')
-_commit=ffd09308c364e9d36b0ca948e6c7e9d6bc59ca23  # tags/0.10.1^0
-source=("git+https://github.com/essembeh/gnome-extensions-cli#commit=${_commit}")
-sha256sums=('SKIP')
-
-pkgver() {
-  cd "$pkgname"
-  git describe --tags | sed 's/-/+/g'
-}
+optdepends=(
+  'dbus-python: communicate with GNOME Shell directly'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('0695ce3e88713a8c96fe8399ed069bd39b5264b97d92ae29fdaed4cd652e29d2')
 
 build() {
-  cd "$pkgname"
+  cd "$pkgname-$pkgver"
   GIT_DIR='.' python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$pkgname"
+  cd "$pkgname-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
 }
