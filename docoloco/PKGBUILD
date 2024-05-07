@@ -1,21 +1,33 @@
 ## WIP
 
 pkgname=docoloco
-_app_id=com.mepowerleo10.docoloco
-pkgver=0.2.1
+_app_id=io.github.mepowerleo10.DocoLoco
+pkgver=0.2.4
 pkgrel=1
 pkgdesc="A documentation browser that utilizes documentation sets provided by Zeal Docs."
 arch=('any')
 url="https://github.com/mepowerleo10/DocoLoco"
-license=('unknown')
-depends=('libadwaita' 'man' 'python-beautifulsoup4' 'python>=3.12' 'python-gobject' 'webkitgtk-6.0' 'zeal')
-makedepends=('python-build' 'python-installer' 'python-poetry-core' 'python-wheel')
+license=('MIT')
+depends=(
+  'libadwaita'
+  'mandoc'
+  'python-beautifulsoup4'
+  'python-gobject'
+  'python-yaml'
+  'webkitgtk-6.0'
+  'zeal'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-poetry-core'
+  'python-wheel'
+)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('dfb272c81ea2d0c5dec18f1cfb5aaccd7b02b058771c51ff955a1cae05695429')
+sha256sums=('f44c20561f0e5943fd75a13f643796969c586b2b93c81605fd075c8d3766ff60')
 
 prepare() {
   cd "DocoLoco-$pkgver"
-  desktop-file-edit --set-key=Path --set-value="/usr/share/$pkgname" "data/${_app_id}.desktop"
   desktop-file-edit --set-key=Exec --set-value="$pkgname" "data/${_app_id}.desktop"
 }
 
@@ -28,6 +40,8 @@ package() {
   cd "DocoLoco-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -Dm644 "data/${_app_id}.yaml" -t "$pkgdir/usr/share/$pkgname/"
+#  install -Dm644 "data/${_app_id}.yaml" -t "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "data/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "data/${_app_id}.png" -t "$pkgdir/usr/share/icons/hicolor/512x512/apps/"
+#  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
