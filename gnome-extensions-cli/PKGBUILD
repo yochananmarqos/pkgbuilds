@@ -9,7 +9,7 @@ arch=('any')
 url="https://github.com/essembeh/gnome-extensions-cli"
 license=('Apache-2.0')
 depends=(
-  'python-colorama' 
+  'python-colorama'
   'python-gobject'
   'python-packaging'
   'python-pydantic'
