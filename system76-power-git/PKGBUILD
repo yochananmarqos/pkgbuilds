@@ -2,18 +2,18 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.26.r2.g51cf922
+pkgver=1.2.0.r0.ga546efa
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
-url='https://github.com/pop-os/system76-power'
+url="https://github.com/pop-os/system76-power"
 license=('GPL-3.0-or-later')
 depends=('dbus' 'libusb' 'polkit')
 makedepends=('cargo' 'git')
 optdepends=('system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
             'system76-dkms: needed for systems with proprietary firmware')
-provides=("${pkgname%-git}")
-conflicts=("${pkgname%-git}")
+provides=("${pkgname%-git}" 'power-profiles-daemon')
+conflicts=("${pkgname%-git}" 'power-profiles-daemon')
 source=('git+https://github.com/pop-os/system76-power.git'
         'mkinitcpio.patch')
 sha256sums=('SKIP'
@@ -28,7 +28,8 @@ prepare() {
   cd "${pkgname%-git}"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$CARCH-unknown-linux-gnu"
+#  make vendor
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 
   # use 'mkinitcpio -P' in place of 'update-initramfs -u'
   patch -Np1 -i "$srcdir/mkinitcpio.patch"
@@ -39,10 +40,12 @@ build() {
   CFLAGS+=" -ffat-lto-objects"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  make
+#  make VENDORED=1
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release
 }
 
 package() {
   cd "${pkgname%-git}"
-  make sysconfdir="/usr/lib" DESTDIR="${pkgdir}" install
+  make DESTDIR="${pkgdir}" install
 }
