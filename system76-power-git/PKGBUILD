@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=system76-power-git
-pkgver=1.1.26.r1.g6bbe1c2
+pkgver=1.1.26.r2.g51cf922
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
@@ -30,8 +30,8 @@ prepare() {
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
 
-  # use mkinitcpio -P inplace of update-initramfs -u
-  patch -Np1 -i "${srcdir}/mkinitcpio.patch"
+  # use 'mkinitcpio -P' in place of 'update-initramfs -u'
+  patch -Np1 -i "$srcdir/mkinitcpio.patch"
 }
 
 build() {
