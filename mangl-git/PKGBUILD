@@ -2,15 +2,13 @@
 groups=('modified')
 
 pkgname=mangl-git
-pkgver=1.1.3.r0.g17e019b
+pkgver=1.1.5.r0.g09097d3
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
 url="https://github.com/zigalenarcic/mangl"
 license=('BSD-2-Clause')
-depends=('freetype2' 'libglvnd')
-depends+=('glfw-x11')
-#depends+=('glfw-wayland')
+depends=('freetype2' 'glfw' 'libglvnd')
 makedepends=('git')
 optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
@@ -23,23 +21,19 @@ sha256sums=('SKIP'
             '527eb963486647d759f3884beff0acb24424a93b02d285008d475bcb26534e80')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   ./configure
   make
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
-#  make PREFIX=/usr DESTDIR="$pkgdir" install
+  cd "${pkgname%-git}"
+  make BINDIR=/usr/bin MANDIR=/usr/share/man DESTDIR="$pkgdir" install
 
-  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin/"
-  install -Dm644 "${pkgname%-git}.1" -t "$pkgdir/usr/share/man/man1/"
-  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
-  install -Dm644 "$srcdir/manglrc_example" -t "$pkgdir/usr/share/doc/${pkgname%-git}/"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
