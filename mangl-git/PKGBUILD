@@ -33,6 +33,6 @@ package() {
   cd "${pkgname%-git}"
   make BINDIR=/usr/bin MANDIR=/usr/share/man DESTDIR="$pkgdir" install
 
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
   install -Dm644 "$srcdir/manglrc_example" -t "$pkgdir/usr/share/doc/${pkgname%-git}/"
 }
