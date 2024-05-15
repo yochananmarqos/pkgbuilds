@@ -93,7 +93,7 @@ build() {
     -DUSE_SYSTEM_QT='ON' \
     -DLUA_MODULES_PATH='/usr/lib/lua/5.4' \
     -DGENERATE_APPDATA='ON' \
-    -DENABLE_UPDATE_OVER_GUI=OFF \
+    -DENABLE_UPDATE_OVER_GUI='OFF' \
     -Wno-dev
   cmake --build build
 }
