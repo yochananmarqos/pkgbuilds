@@ -32,9 +32,11 @@ checkdepends=(
   'appstream'
   'desktop-file-utils'
 )
-optdepends=('git: needed for the credential helpers'
-            'git-lfs: git LFS support'
-            'libgnome-keyring: for GNOME Keyring for auth credentials')
+optdepends=(
+  'git: needed for the credential helpers'
+  'git-lfs: git LFS support'
+  'libgnome-keyring: for GNOME Keyring for auth credentials'
+)
 source=("git+https://github.com/Murmele/Gittyup.git#tag=${pkgname}_v$pkgver"
         'git+https://github.com/stinb/libgit2.git'
         'git+https://github.com/libssh2/libssh2.git'
