@@ -14,11 +14,9 @@ optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/zigalenarcic/mangl.git'
-        "${pkgname%-git}.desktop"
         'manglrc_example')
 sha256sums=('SKIP'
-            '370e454df24a2bf0bf185988d92083c0ec5bd72548a5fba9c44867e76a1d8d91'
-            '527eb963486647d759f3884beff0acb24424a93b02d285008d475bcb26534e80')
+            'e2424f8303abb6c84ea9f7b1f8c25a4bee4f5748249fecb57c4ce7d606b405e4')
 
 pkgver() {
   cd "${pkgname%-git}"
@@ -36,4 +34,5 @@ package() {
   make BINDIR=/usr/bin MANDIR=/usr/share/man DESTDIR="$pkgdir" install
 
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 "$srcdir/manglrc_example" -t "$pkgdir/usr/share/doc/${pkgname%-git}/"
 }
