@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=ferdium-electron
-pkgver=6.7.3
+pkgver=6.7.4
 pkgrel=1
 _electronversion=30
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
@@ -16,7 +16,7 @@ conflicts=('ferdium')
 source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
         'git+https://github.com/ferdium/ferdium-recipes.git'
         'ferdium.desktop')
-sha256sums=('6af421a483a142ce504a4b6ff22e6183bf214f521ccebec932cc560430e36faf'
+sha256sums=('259f5025c001fff0918cc5f4afb25c24714cb2bc1dc9d1eb4add259230a7be23'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
@@ -27,13 +27,9 @@ prepare() {
   git -c protocol.file.allow=always submodule update
 
   local node_ver=$(node -v | sed -e 's/^v//')
-  local pnpm_ver=$(pnpm -v)
   local electronVer="$(cat "/usr/lib/electron${_electron}/version")"
 
-  local jq_expr=".engines.node = \"${node_ver}\" | \
-    .engines.pnpm = \"${pnpm_ver}\" | \
-    .devDependencies.electron = \"${electronVer}\""
-
+  local jq_expr=".engines.node = \"$node_ver\" | .devDependencies.electron = \"$electronVer\""
   jq "${jq_expr}" package.json > package.tmp.json
   mv package.tmp.json package.json
 
@@ -45,6 +41,8 @@ prepare() {
 
   # Set noUnusedLocals to false to avoid compilation error in AppStore.ts
   sed -i -e 's#"noUnusedLocals": true#"noUnusedLocals": false#g' tsconfig.json
+
+  mkdir -p "$srcdir/.buildtools"
 }
 
 build() {
@@ -53,6 +51,8 @@ build() {
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
   export CI=true
+  export PATH="$srcdir/.buildtools:$PATH"
+  corepack enable --install-directory "$srcdir/.buildtools"
   pnpm install --no-frozen-lockfile --ignore-script
 
   pushd recipes
