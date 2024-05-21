@@ -3,16 +3,26 @@ groups=('modified')
 
 pkgname=toggle-git
 _app_id=app.drey.Toggle
-pkgver=r130.814b298
+pkgver=0.99.0.a.r0.g814b298
 pkgrel=1
 pkgdesc="Toggle extra GNOME settings"
 arch=('any')
 url="https://gitlab.gnome.org/World/toggle"
 license=('GPL-3.0-or-later')
-depends=('gjs' 'libadwaita')
-makedepends=('blueprint-compiler' 'git' 'meson' 'setconf' 'typescript')
-checkdepends=('appstream')
-optdepends=('gnome-shell-extensions: enable Light Theme')
+depends=(
+  'gjs'
+  'libadwaita'
+)
+makedepends=(
+  'blueprint-compiler'
+  'git'
+  'meson'
+  'setconf'
+  'typescript'
+)
+optdepends=(
+  'gnome-shell-extensions: enable Light Theme'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://gitlab.gnome.org/World/toggle.git'
