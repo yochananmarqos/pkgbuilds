@@ -1,24 +1,25 @@
 # https://aur.archlinux.org/packages/gittyup
 groups=('modified')
 
-## WIP
-
 pkgname=gittyup
 _app_id='com.github.Murmele.Gittyup'
 pkgver=1.4.0
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
-arch=('x86_64')
+arch=('x86_64' 'aarch64')
 url="https://murmele.github.io/Gittyup"
 license=('MIT')
 depends=(
   'cmark'
+  'git'
   'hicolor-icon-theme'
   'hunspell'
   'libgit2'
   'libsecret'
+  'libssh2'
   'libzip'
   'lua'
+  'openssl'
   'pcre'
   'qt5-base'
 )
@@ -33,7 +34,6 @@ checkdepends=(
   'desktop-file-utils'
 )
 optdepends=(
-  'git: needed for the credential helpers'
   'git-lfs: git LFS support'
   'libgnome-keyring: for GNOME Keyring for auth credentials'
 )
@@ -60,6 +60,10 @@ sha256sums=('06e1d79a3a3062c2ab37ad3a0a8f67d74d0c19210a9defac2b5e9e68e70feb1f'
 
 prepare() {
   cd Gittyup
+
+  # https://github.com/Murmele/Gittyup/issues/766
+  git cherry-pick -n d36eba172a01d541945d59427b4f643aaed55da0
+
   git submodule init
 
   for submodule in cmark git hunspell libssh2 openssl; do
@@ -75,16 +79,12 @@ prepare() {
 
 build() {
 
-  # prevent static lib mangling with LTO
-  CFLAGS+=" -ffat-lto-objects"
-
   # Build fails with `-DUSE_SYSTEM_LIBGIT2='ON'`
 
   cmake -B build -S Gittyup \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DCMAKE_INSTALL_DATADIR='share' \
-    -DENABLE_REPRODUCIBLE_BUILDS='ON' \
     -DBUILD_SHARED_LIBS='OFF' \
     -DUSE_SYSTEM_CMARK='ON' \
     -DUSE_SYSTEM_GIT='ON' \
@@ -109,10 +109,7 @@ check() {
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  cd Gittyup
-  install -Dm644 LICENSE.md -t  "$pkgdir/usr/share/licenses/$pkgname/"
-
   cd "$pkgdir/usr"
-  rm -f lib/libQt*.so.* lib/*.a
-  rm -rf include lib/{cmake,pkgconfig,Plugins}
+  rm -rf include lib
+  mv bin/{indexer,relauncher} share/Gittyup
 }
