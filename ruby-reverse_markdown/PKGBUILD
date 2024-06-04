@@ -17,6 +17,13 @@ makedepends=(
   'git'
   'rubygems'
 )
+#checkdepends=(
+#  'ruby-byebug'
+##  'ruby-codeclimate-test-reporter'  ## TODO
+#  'ruby-kramdown'
+#  'ruby-simplecov'
+#  'ruby-rspec-core'
+#)
 source=("git+https://github.com/xijo/reverse_markdown.git#tag=v$pkgver")
 sha256sums=('600d99085b7eb3cf094964889488725802c6a145bf151cf554b4e9d2cc96e8f5')
 
