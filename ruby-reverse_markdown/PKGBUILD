@@ -1,0 +1,85 @@
+# https://aur.archlinux.org/packages/ruby-reverse_markdown
+groups=('modified')
+
+pkgname=ruby-reverse_markdown
+_name=${pkgname#ruby-}
+pkgver=2.1.1
+pkgrel=3
+pkgdesc="Ruby gem to convert html into markdown"
+arch=('any')
+url="https://github.com/xijo/reverse_markdown"
+license=('WTFPL')
+depends=(
+  'ruby'
+  'ruby-nokogiri'
+)
+makedepends=(
+  'git'
+  'rubygems'
+)
+source=("git+https://github.com/xijo/reverse_markdown.git#tag=v$pkgver")
+sha256sums=('600d99085b7eb3cf094964889488725802c6a145bf151cf554b4e9d2cc96e8f5')
+
+prepare() {
+  cd "${_name}"
+
+  # update gemspec/Gemfile to allow newer version of the dependencies
+  sed -i -r 's|~>|>=|g' "${_name}.gemspec"
+}
+
+build() {
+  cd "${_name}"
+  local _gemdir="$(gem env gemdir)"
+
+  gem build "${_name}.gemspec"
+
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/${_gemdir}" \
+    --bindir "tmp_install/usr/bin" \
+    "${_name}-$pkgver.gem"
+
+  # remove unrepreducible files
+  rm -rfv \
+    "tmp_install/${_gemdir}/cache/" \
+    "tmp_install/${_gemdir}/gems/${_name}-$pkgver/vendor/" \
+    "tmp_install/${_gemdir}/doc/${_name}-$pkgver/ri/ext/"
+
+  find "tmp_install/${_gemdir}/gems/" \
+    -type f \
+    \( \
+      -iname "*.o" -o \
+      -iname "*.c" -o \
+      -iname "*.so" -o \
+      -iname "*.time" -o \
+      -iname "gem.build_complete" -o \
+      -iname "Makefile" \
+    \) \
+    -delete
+
+  find "tmp_install/${_gemdir}/extensions/" \
+    -type f \
+    \( \
+      -iname "mkmf.log" -o \
+      -iname "gem_make.out" \
+    \) \
+    -delete
+}
+
+#check() {
+#  cd "${_name}"
+#  local _gemdir="$(gem env gemdir)"
+
+#  GEM_HOME="tmp_install/${_gemdir}" rake test
+#}
+
+package() {
+  cd "${_name}"
+  cp -av tmp_install/* "$pkgdir"
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644  *.md -t "$pkgdir/usr/share/doc/$pkgname/"
+}
