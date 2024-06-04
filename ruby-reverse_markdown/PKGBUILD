@@ -36,7 +36,7 @@ prepare() {
 
 build() {
   cd "${_name}"
-  local _gemdir="$(gem env gemdir)"
+  local gemdir="$(gem env gemdir)"
 
   gem build "${_name}.gemspec"
 
@@ -45,17 +45,17 @@ build() {
     --verbose \
     --ignore-dependencies \
     --no-user-install \
-    --install-dir "tmp_install/${_gemdir}" \
+    --install-dir "tmp_install/${gemdir}" \
     --bindir "tmp_install/usr/bin" \
     "${_name}-$pkgver.gem"
 
   # remove unrepreducible files
   rm -rfv \
-    "tmp_install/${_gemdir}/cache/" \
-    "tmp_install/${_gemdir}/gems/${_name}-$pkgver/vendor/" \
-    "tmp_install/${_gemdir}/doc/${_name}-$pkgver/ri/ext/"
+    "tmp_install/${gemdir}/cache/" \
+    "tmp_install/${gemdir}/gems/${_name}-$pkgver/vendor/" \
+    "tmp_install/${gemdir}/doc/${_name}-$pkgver/ri/ext/"
 
-  find "tmp_install/${_gemdir}/gems/" \
+  find "tmp_install/${gemdir}/gems/" \
     -type f \
     \( \
       -iname "*.o" -o \
@@ -67,7 +67,7 @@ build() {
     \) \
     -delete
 
-  find "tmp_install/${_gemdir}/extensions/" \
+  find "tmp_install/${gemdir}/extensions/" \
     -type f \
     \( \
       -iname "mkmf.log" -o \
@@ -78,9 +78,9 @@ build() {
 
 #check() {
 #  cd "${_name}"
-#  local _gemdir="$(gem env gemdir)"
+#  local gemdir="$(gem env gemdir)"
 
-#  GEM_HOME="tmp_install/${_gemdir}" rake test
+#  GEM_HOME="tmp_install/${gemdir}" rake test
 #}
 
 package() {
