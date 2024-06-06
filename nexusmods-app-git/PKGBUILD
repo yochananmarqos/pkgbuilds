@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=nexusmods-app-git
-pkgver=0.3.r4.gd6e79c9a
+pkgver=0.5.r115.gdd45e9287
 pkgrel=1
 pkgdesc="A mod installer, creator and manager for all your popular games"
 arch=('x86_64')
@@ -13,13 +13,25 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
 source=('git+https://github.com/Nexus-Mods/NexusMods.App.git'
+        'git+https://github.com/Nexus-Mods/NexusMods.MkDocsMaterial.Themes.Next.git'
+        'git+https://github.com/Pathoschild/SMAPI.git'
         "${pkgname%-git}.desktop")
 sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
             '85e4c1f05348f7108e11264fc75d96df58828e44f31d1d0376e649541f37c240')
 
 pkgver() {
   cd NexusMods.App
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd NexusMods.App
+  git submodule init
+  git config submodule.docs/Nexus.url "$srcdir/NexusMods.MkDocsMaterial.Themes.Next"
+  git config submodule.extern/SMAPI.url "$srcdir/SMAPI"
+  git -c protocol.file.allow=always submodule update
 }
 
 build() {
