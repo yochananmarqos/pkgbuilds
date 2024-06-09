@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.1.6.r27.g00c3390
+pkgver=2.1.8.r1.gba14a68
 pkgrel=1
 pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
 arch=('any')
@@ -11,11 +11,11 @@ url="https://slgobinath.github.io/SafeEyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
-  'dbus-python'
   'gtk3'
   'hicolor-icon-theme'
   'libnotify'
   'python-babel'
+  'python-dbus'
   'python-gobject'
   'python-psutil'
   'python-xlib'
@@ -58,15 +58,15 @@ build() {
 
 check() {
   cd SafeEyes
-  appstreamcli validate --no-net "${pkgname%-git}/platform/$_app_id.metainfo.xml" || :
-  desktop-file-validate "${pkgname%-git}/platform/$_app_id.desktop"
+  appstreamcli validate --no-net "${pkgname%-git}/platform/${_app_id}.metainfo.xml" || :
+  desktop-file-validate "${pkgname%-git}/platform/${_app_id}.desktop"
 }
 
 package() {
   cd SafeEyes
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -Dm644 "${pkgname%-git}/platform/$_app_id.metainfo.xml" -t \
+  install -Dm644 "${pkgname%-git}/platform/${_app_id}.metainfo.xml" -t \
     "$pkgdir/usr/share/metainfo/"
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
