@@ -23,6 +23,10 @@ sha256sums=('1e50a44c7cb6e4c1d966417eeacc750a636b0687ba3e3d6fee7cbdde3cdddf0c'
 package() {
   install -d "${pkgdir}/opt/NexusMods.App"
   bsdtar -xvf "NexusMods.App-${pkgver}-1.linux-x64.zip" -C "${pkgdir}/opt/NexusMods.App/"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/NexusMods.App/NexusMods.App" "$pkgdir/usr/bin/"
+
   install -Dm644 "${pkgname%-bin}.desktop" -t "${pkgdir}/usr/share/applications/"
   install -Dm644 "nexus-logo.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/nexusmods-app.svg"
 }
