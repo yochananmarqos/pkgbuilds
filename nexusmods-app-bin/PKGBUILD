@@ -29,4 +29,6 @@ package() {
 
   install -Dm644 "${pkgname%-bin}.desktop" -t "${pkgdir}/usr/share/applications/"
   install -Dm644 "nexus-logo.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/nexusmods-app.svg"
+
+  rm -rf "$pkgdir"/opt/NexusMods.App/runtimes/{osx,win}-x64
 }
