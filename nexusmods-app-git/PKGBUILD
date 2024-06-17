@@ -36,6 +36,9 @@ prepare() {
 
 build() {
   cd NexusMods.App
+  # https://nexus-mods.github.io/NexusMods.App/Contributing/#for-package-maintainers
+#  export NEXUSMODS_APP_USE_SYSTEM_EXTRACTOR=1  # requires 7zz to be in $PATH
+  export INSTALLATION_METHOD_PACKAGE_MANAGER
   dotnet clean
   dotnet restore
   dotnet publish src/NexusMods.App/NexusMods.App.csproj -c Release -r linux-x64 \
