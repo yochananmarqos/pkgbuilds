@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=toggle-git
 _app_id=app.drey.Toggle
-pkgver=0.99.0.a.r0.g814b298
+pkgver=0.99.0.a.r2.gd3705da
 pkgrel=1
 pkgdesc="Toggle extra GNOME settings"
 arch=('any')
@@ -34,10 +34,7 @@ b2sums=('SKIP'
 
 pkgver() {
   cd "${pkgname%-git}"
-  ( set -o pipefail
-    git describe --long --abbrev=7 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
-  )
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
