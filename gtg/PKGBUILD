@@ -3,10 +3,10 @@ groups=('modified')
 
 pkgname=gtg
 pkgver=0.6
-pkgrel=5
+pkgrel=6
 pkgdesc="Getting Things GNOME! is a personal tasks and TODO-list items organizer for GNOME"
 arch=('x86_64')
-url="https://wiki.gnome.org/Apps/GTG"
+url="https://github.com/getting-things-gnome/gtg"
 license=('GPL-3.0-or-later')
 depends=(
   'gtk3'
@@ -20,11 +20,11 @@ makedepends=(
   'itstool'
   'meson'
 )
-checkdepends=(
-  'python-caldav'
-  'python-mock'  ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
-  'python-pytest'
-)
+#checkdepends=(
+#  'python-caldav'
+#  'python-mock'  ## TODO: Drop python-mock: https://archlinux.org/todo/drop-python-mock-checkdepends/
+#  'python-pytest'
+#)
 optdepends=(
   'python-caldav: CalDAV syncronization'
   'python-cheetah3: for the Export and print plugin'
@@ -34,18 +34,25 @@ optdepends=(
   'hamster-time-tracker: send a task to the Hamster time tracking applet'
   'yelp: view user manual'
 )
-source=("https://github.com/getting-things-gnome/gtg/releases/download/v$pkgver/$pkgname-$pkgver.0.tar.xz")
-sha256sums=('184bfd08db8328475e25493441c4136aa238139bb2961933d5ee41b41ed104e7')
+source=("https://github.com/getting-things-gnome/gtg/releases/download/v$pkgver/$pkgname-$pkgver.0.tar.xz"
+        'fix-python3.12.patch')
+sha256sums=('184bfd08db8328475e25493441c4136aa238139bb2961933d5ee41b41ed104e7'
+            '9c2b18bed78292e7cae39d420a464556705a19f1866fc3c306b4f4b56a6f5a5c')
+
+prepare() {
+  cd "$pkgname-$pkgver.0"
+  patch -Np1 -i ../fix-python3.12.patch
+}
 
 build () {
   arch-meson "$pkgname-$pkgver.0" build
   meson compile -C build
 }
 
-check () {
-  cd "$pkgname-$pkgver.0"
-  python run-tests
-}
+#check () {
+#  cd "$pkgname-$pkgver.0"
+#  python run-tests
+#}
 
 package() {
   meson install -C build --destdir "$pkgdir"

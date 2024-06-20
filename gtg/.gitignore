@@ -5,3 +5,4 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!fix-python3.12.patch
