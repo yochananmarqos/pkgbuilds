@@ -41,13 +41,10 @@ build() {
   export INSTALLATION_METHOD_PACKAGE_MANAGER
   dotnet clean
   dotnet restore
-  dotnet build
 #  dotnet publish -p:Version=${pkgver} \
-#    --self-contained true \
-#    -c Release \
-#    -p:TieredCompilation=true \
-#    -p:PublishReadyToRun=true \
-#    -p:PublishSingleFile=true
+  dotnet publish \
+    -c Release \
+    -p:TieredCompilation=true
 }
 
 package() {
@@ -62,6 +59,8 @@ package() {
   ln -s "/opt/NexusMods.App/NexusMods.App" "$pkgdir/usr/bin/"
 
   install -Dm644 Nexus-Icon.png "$pkgdir/usr/share/pixmaps/NexusMods.App.png"
+  install -Dm644 src/NexusMods.App/src/NexusMods.App/app.metainfo.xml \
+    "$pkgdir/usr/share/metainfo/NexusMods.App.metainfo.xml"
   install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
 
   rm -rf "$pkgdir"/opt/NexusMods.App/runtimes/{osx,win}-x64
