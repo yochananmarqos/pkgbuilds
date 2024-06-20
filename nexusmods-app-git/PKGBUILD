@@ -1,7 +1,7 @@
 ## WIP
 
 pkgname=nexusmods-app-git
-pkgver=0.4.9.3.r488.g6211646
+pkgver=0.4.9.3.r552.g2e72a5f
 pkgrel=1
 pkgdesc="A mod installer, creator and manager for all your popular games"
 arch=('x86_64')
@@ -19,7 +19,7 @@ source=('git+https://github.com/Nexus-Mods/NexusMods.App.git'
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
-            '85e4c1f05348f7108e11264fc75d96df58828e44f31d1d0376e649541f37c240')
+            '076952d155049f2625eebd1565b60e5a4bcd1190424fd9db5e38b98d55f0c2cb')
 
 pkgver() {
   cd NexusMods.App
@@ -42,12 +42,12 @@ build() {
   dotnet clean
   dotnet restore
   dotnet build
-  dotnet publish -p:Version=${pkgver} \
-    --self-contained true \
-    -c Release \
-    -p:TieredCompilation=true \
-    -p:PublishReadyToRun=true \
-    -p:PublishSingleFile=true
+#  dotnet publish -p:Version=${pkgver} \
+#    --self-contained true \
+#    -c Release \
+#    -p:TieredCompilation=true \
+#    -p:PublishReadyToRun=true \
+#    -p:PublishSingleFile=true
 }
 
 package() {
