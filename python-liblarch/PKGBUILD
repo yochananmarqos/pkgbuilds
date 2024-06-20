@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=python-liblarch
 pkgver=3.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Python library to easily handle data structure"
 arch=('any')
 url="https://wiki.gnome.org/Projects/liblarch"
