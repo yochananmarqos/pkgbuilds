@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=beaver-notes
-pkgver=3.2.0
+pkgver=3.3.0
 pkgrel=1
 _electronversion=28
 pkgdesc="A privacy-focused, cross-platform note-taking application."
@@ -14,12 +14,15 @@ makedepends=('libxcrypt-compat' 'yarn')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Daniele-rolli/Beaver-Notes/archive/refs/tags/$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('ec8bf4038172a37263e068bba56322320d6da89570a3cb93e4bddd809c2c75cb'
+sha256sums=('baa830f3fe71c3b49e26c9d932132c7d05ae1dd7c26118410190e13e45c8f314'
             'ed1109a5e1c72456970ba21539a6d02cf7187eec7cc60f4599cea519a29cbfe3'
             'd21c665d70ad43c88f2fdd7581042b8a862d29c8e3398f3ebafad03b8f65c1e3')
 
 prepare() {
   cd "Beaver-Notes-$pkgver"
+  export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
+  yarn install
+
   sed -i "s|@ELECTRONVERSION@|${_electronversion}|" "$srcdir/$pkgname.sh"
 }
 
@@ -29,7 +32,6 @@ build() {
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-  yarn install
   yarn build
   yarn electron-builder build --config electron-builder.config.cjs --linux deb \
     $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
