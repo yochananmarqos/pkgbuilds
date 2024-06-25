@@ -1,0 +1,47 @@
+## WIP
+
+No icon yet: https://github.com/DaKnig/DewDuct/issues/5
+
+pkgname=dewduct
+_app_id="null.daknig.$pkgname"
+pkgver=0.2.3
+pkgrel=1
+pkgdesc="An alternative Invidious client"
+arch=('x86_64' 'aarch64')
+url="https://github.com/DaKnig/DewDuct"
+license=('GPL-3.0-or-later')
+depends=('libadwaita' 'mpv' 'openssl' 'yt-dlp')
+makedepends=('appstream' 'cargo')
+source=("DewDuct-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('b7b80756246bf811c4e9f51a544c6c8a1f4895e63e8d894699c85f0745b3b76c')
+
+prepare() {
+  cd "DewDuct-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "DewDuct-$pkgver"
+  appstreamcli make-desktop-file "data/${_app_id}.metainfo.xml" "${_app_id}.desktop"
+
+  CFLAGS+=" -ffat-lto-objects"
+  export CARGO_HOME="$srcdir/cargo-home"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release --all-features
+}
+
+check() {
+  cd "DewDuct-$pkgver"
+  appstreamcli validate --no-net "data/${_app_id}.metainfo.xml"
+  desktop-file-validate "${_app_id}.desktop"
+}
+
+package() {
+  cd "DewDuct-$pkgver"
+  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm644 "data/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
+}
