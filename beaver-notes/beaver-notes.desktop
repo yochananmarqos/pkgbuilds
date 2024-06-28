@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Beaver-notes
-Exec=beaver-notes %U
-Terminal=false
-Type=Application
-Icon=beaver-notes
-StartupWMClass=Beaver-notes
-Comment=Your Personal Note-Taking Haven for Privacy and Efficiency
-Categories=Productivity;
