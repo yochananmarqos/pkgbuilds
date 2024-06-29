@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=sif-git
-pkgver=2023.05.01.r0.gcb2bf59
+pkgver=2023.05.01.r5.g9482d41
 pkgrel=1
 pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
 arch=('any')

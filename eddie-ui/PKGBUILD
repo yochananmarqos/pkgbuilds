@@ -2,52 +2,76 @@
 groups=('modified')
 
 pkgname=eddie-ui
-pkgver=2.23.2
+pkgver=2.24.2
 pkgrel=1
 pkgdesc='Eddie - VPN tunnel - UI'
-arch=('x86_64')
+arch=('x86_64' 'aarch64' 'armv7l')
 url="https://eddie.website"
 license=('GPL3')
-depends=('gtk3' 'libayatana-appindicator' 'libnotify' 'mono' 'openvpn' 'sudo')
-makedepends=('desktop-file-utils' 'git' 'mono-msbuild' 'patchelf')
+depends=('gtk3' 'libayatana-appindicator' 'libnotify' 'mono' 'openvpn' 'polkit' 'sudo')
+makedepends=('git' 'dotnet-sdk-7.0' 'mono-msbuild' 'patchelf')
 optdepends=('hummingbird: increased OpenVPN performance'
             'openssh: VPN over SSH'
             'stunnel: VPN over SSL')
 conflicts=('airvpn')
 #source=("Eddie-$pkgver.tar.gz::https://github.com/AirVPN/Eddie/archive/$pkgver.tar.gz")
-_commit=a9ebf22515133616811b630caee762b3ef970149  # 2.23.2
+_commit=c201d5605664e3a22db4af1b2b038aaba9a50211  # 2.24.2
 source=("git+https://github.com/AirVPN/Eddie.git#commit=${_commit}")
 sha256sums=('SKIP')
 
+ARCH=$CARCH
+RID=linux-$CARCH
+if [ "${RID}" = "linux-x86_64" ]; then
+  ARCH=x64
+  RID=linux-x64
+elif [ "${RID}" = "linux-aarch64" ]; then
+  RID=linux-arm64
+elif [ "${RID}" = "linux-armv7l" ]; then
+  RID=linux-arm
+fi
+
 build() {
+  cd Eddie
 
-  # Compile C# sources
-  cd "$srcdir/Eddie"
-  if [ "ui" = "cli" ]; then
-    msbuild /verbosity:minimal \
-      /p:Configuration="Release" \
-      /p:Platform="x64" src/eddie.linux.cli.sln
-  elif [ "ui" = "ui" ]; then
-    msbuild /verbosity:minimal /p:Configuration="Release" \
-    /p:Platform="x64" \src/eddie2.linux.ui.sln
-  fi
-
-  # Compile C sources
-  chmod +x src/linux_postbuild.sh
+  # CLI
+  chmod +x src/App.CLI.Linux/postbuild.sh
   chmod +x src/Lib.Platform.Linux.Native/build.sh
-  chmod +x src/UI.GTK.Linux.Tray/build.sh
-  
-  if [ "ui" = "cli" ]; then
-    src/linux_postbuild.sh \
-      "src/App.CLI.Linux/bin/x64/Release/" ui x64 Release
-  elif [ "ui" = "ui" ]; then
-    src/linux_postbuild.sh \
-      "src/App.Forms.Linux/bin/x64/Release/" ui x64 Release
+
+  pushd src/App.CLI.Linux
+  dotnet publish App.CLI.Linux.net7.csproj \
+    --configuration Release \
+    --runtime "${RID}" \
+    --self-contained true \
+    -p:PublishTrimmed=true \
+    -p:EnableCompressionInSingleFile=true
+  popd
+
+  # UI
+  chmod +x src/App.UI.Linux/build.sh
+  src/App.UI.Linux/build.sh Release
+
+  msbuild /verbosity:minimal /p:Configuration=Release /p:Platform=x64 /t:Rebuild src/App.Forms.Linux//App.Forms.Linux.sln /p:DefineConstants="EDDIEMONO4LINUX"
+
+  # msbuild/Mono under Linux doesn't honor the postbuild event, called manually
+  src/App.Forms.Linux/postbuild.sh src/App.Forms.Linux/bin/x64/Release/ "${ARCH}" Release
+
+  # mkbundle
+  if [ $ARCH = "x64" ]; then
+    MKBUNDLECROSSTARGET="mono-6.8.0-debian-10-x64"
+  elif [ $ARCH = "armv7l" ]; then
+    MKBUNDLECROSSTARGET="mono-6.0.0-raspbian-9-arm"
+  elif [ $ARCH = "aarch64" ]; then
+    MKBUNDLECROSSTARGET="mono-6.6.0-debian-10-arm64"
+  else
+    MKBUNDLECROSSTARGET="mono-6.8.0-debian-10-${ARCH}"
   fi
+
+  # Generate man
+  "src/App.CLI.Linux/bin/Release/net7.0/${RID}/publish/eddie-cli" --path.resources="../../../../../../resources" --help --help.format=man >"eddie-cli.8"
 }
 
 package() {
-  cd "$srcdir/Eddie"
+  cd Eddie
   install -Dm755 "src/App.CLI.Linux.Elevated/bin/eddie-cli-elevated" \
     "$pkgdir/usr/lib/$pkgname/eddie-cli-elevated"
   install -Dm644 "src/Lib.Core/bin/x64/Release/Lib.Core.dll" \
@@ -60,7 +84,6 @@ package() {
     "$pkgdir/usr/bin/$pkgname"
   install -Dm644 common/manifest.json "$pkgdir/usr/share/$pkgname/manifest.json"
   install -Dm644 common/libraries.txt "$pkgdir/usr/share/$pkgname/libraries.txt"
-  install -Dm644 common/gpl3.txt "$pkgdir/usr/share/$pkgname/gpl3.txt"
   install -Dm644 common/cacert.pem "$pkgdir/usr/share/$pkgname/cacert.pem"
   install -Dm644 common/icon.png "$pkgdir/usr/share/$pkgname/icon.png"
   install -Dm644 common/icon_gray.png "$pkgdir/usr/share/$pkgname/icon_gray.png"
@@ -72,8 +95,6 @@ package() {
   install -Dm644 common/providers/OpenVPN.json "$pkgdir/usr/share/$pkgname/providers/OpenVPN.json"
   install -Dm644 common/providers/WireGuard.json \
     "$pkgdir/usr/share/$pkgname/providers/WireGuard.json"
-  install -Dm644 "repository/linux_arch/bundle/$pkgname/usr/share/doc/$pkgname/copyright" \
-    "$pkgdir/usr/share/doc/$pkgname/copyright"
   install -Dm644 "repository/linux_arch/bundle/$pkgname/usr/share/polkit-1/actions/org.airvpn.eddie.ui.elevated.policy" \
     "$pkgdir/usr/share/polkit-1/actions/org.airvpn.eddie.ui.elevated.policy"
 
@@ -90,34 +111,5 @@ package() {
     install -Dm755 "src/UI.GTK.Linux.Tray/bin/eddie-tray" "$pkgdir/usr/lib/$pkgname/eddie-tray"
     install -Dm644 "repository/linux_arch/bundle/$pkgname/usr/share/pixmaps/$pkgname.png" \
       "$pkgdir/usr/share/pixmaps/$pkgname.png"
-  fi
-
-  # Generate changelog
-  curl "https://eddie.website/changelog/?software=client&format=debian&hidden=yes" -o \
-    "$pkgdir/usr/share/doc/$pkgname/changelog"
-  gzip -n -9 "$pkgdir/usr/share/doc/$pkgname/changelog"
-
-  # Generate man
-  mkdir -p "$pkgdir/usr/share/man/man8/"
-  mono "$pkgdir/usr/lib/$pkgname/$pkgname.exe" \
-    --cli --path.resources="$pkgdir/usr/share/$pkgname/" \
-    --help --help.format=man >"$pkgdir/usr/share/man/man8/$pkgname.8"
-
-  if [ "ui" = "ui" ]; then
-    ## Fix .desktop file for KDE
-    _desktop_session=$(printf "%s" "$DESKTOP_SESSION" | awk -F "/" '{print $NF}')
-    if [ "$_desktop_session" = "plasma" ]; then
-      msg2 "Installing desktop file for KDE..."
-      desktop-file-install -m 644 --set-comment="OpenVPN UI" \
-      --dir="$pkgdir/usr/share/applications/" \
-      --set-icon="$pkgname" \
-      "repository/linux_arch/bundle/$pkgname/usr/share/applications/$pkgname.desktop"
-    else
-      msg2 "Installing desktop file..."
-      desktop-file-install -m 644 --set-comment="OpenVPN UI" \
-      --dir="$pkgdir/usr/share/applications/" \
-      --set-icon="$pkgname" \
-      "repository/linux_arch/bundle/$pkgname/usr/share/applications/$pkgname.desktop"
-    fi
   fi
 }

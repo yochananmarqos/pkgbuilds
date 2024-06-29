@@ -1,14 +1,20 @@
 pkgname=update-all-the-things
 pkgver=0.1
 pkgrel=1
-pkgdesc="Comprehensive meta package for updating your system"
+pkgdesc="Comprehensive meta package for updating your system using Topgrade"
 arch=('any')
 url="https://github.com/yochananmarqos/pkgbuilds"
 license=()
-depends=('meld' 'needrestart' 'pacman-contrib' 'rebuild-detector' 'topgrade')
-optdepends=()
-backup=()
-install=
+depends=(
+  'bash'
+  'fwupd'
+  'needrestart'
+  'pacman'
+  'pacman-contrib'
+  'rebuild-detector'
+  'topgrade'
+)
+#backup=('etc/topgrade/topgrade.toml')
 source=('90-mkinitcpio-dkms-linux.hook'
         'orphans.hook'
         'uatt.sh')

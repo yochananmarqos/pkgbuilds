@@ -2,17 +2,25 @@
 groups=('modified')
 
 pkgname=python-apt
-pkgver=2.5.3
+pkgver=2.8.0
 pkgrel=1
 pkgdesc="Python 3 interface to libapt-pkg"
 arch=('x86_64')
 url="https://tracker.debian.org/pkg/python-apt"
-license=('GPL2')
-depends=('apt' 'python')
-makedepends=('python-build' 'python-distutils-extra' 'python-installer'
-             'python-setuptools' 'python-wheel')
+license=('GPL-2.0-or-later')
+depends=(
+  'apt'
+  'python'
+)
+makedepends=(
+  'python-build'
+  'python-distutils-extra'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
 source=("https://salsa.debian.org/apt-team/python-apt/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('82304ae26db7cc3ee851eb834dbdc605edff979aad227382d55bfc2f19c27773')
+sha256sums=('8bd8c8304d3dab00d5645e1652d3e057da9dcd093e2b589daa8d35865c9485f7')
 
 build() {
   cd "$pkgname-$pkgver"
