@@ -1,0 +1,71 @@
+# https://aur.archlinux.org/packages/localsend
+groups=('modified')
+
+pkgname=localsend
+pkgver=1.14.0
+pkgrel=1
+_flutterver=3.13.9
+pkgdesc="An open source cross-platform alternative to AirDrop."
+arch=('x86_64' 'aarch64')
+url="https://localsend.org"
+license=('MIT')
+depends=('fuse2' 'gtk3' 'libayatana-appindicator' 'xdg-user-dirs')
+makedepends=('clang' 'cmake' 'fvm' 'ninja')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/localsend/localsend/archive/refs/tags/v$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha256sums=('06dab4ced0c434d617e355dbe64f4cd793ddedd86939fd65b308590d122b3a06'
+            '14a041f5f0606e9f71cd037c9d7baee8fb6fbfaae54acd912980d7dfd3b87862')
+
+prepare() {
+  cd "$pkgname-$pkgver/app"
+  export FVM_CACHE_PATH="$srcdir/fvm"
+  fvm install "${_flutterver}"
+  fvm global "${_flutterver}"
+
+  # Disable analytics
+  fvm flutter --disable-telemetry
+  fvm dart --disable-analytics
+
+  # Pull dependencies within prepare, allowing for offline builds later on
+  fvm flutter pub get
+}
+
+build() {
+  cd "$pkgname/app"
+  export FVM_CACHE_PATH="$srcdir/fvm"
+  fvm dart run build_runner build -d
+  fvm flutter build linux
+}
+
+check() {
+  cd "$pkgname/app"
+  export FVM_CACHE_PATH="$srcdir/fvm"
+  fvm flutter test
+}
+
+package() {
+  cd "$pkgname"
+
+  if [ "$CARCH" == "aarch64" ]; then
+    FLUTTER_ARCH=arm64
+  else
+    FLUTTER_ARCH=x64
+  fi
+
+  install -Dm755 "app/build/linux/${FLUTTER_ARCH}/release/bundle/${pkgname}_app" -t \
+    "$pkgdir/opt/$pkgname/"
+  cp -r app/build/linux/${FLUTTER_ARCH}/release/bundle/{data,lib} "$pkgdir/opt/$pkgname"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/$pkgname/${pkgname}_app" "$pkgdir/usr/bin/$pkgname"
+
+  for i in 32 128 256 512; do
+    install -Dm644 app/assets/img/logo-${i}.png \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
+  done
+
+  install -Dm644 "$srcdir/$pkgname.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
