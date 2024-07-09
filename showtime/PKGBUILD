@@ -1,0 +1,27 @@
+# https://aur.archlinux.org/packages/showtime
+groups=('modified')
+
+pkgname=showtime
+pkgver=46.3
+pkgrel=1
+pkgdesc="Watch without distraction"
+arch=('x86_64')
+url="https://apps.gnome.org/Showtime"
+license=('GPL-3.0-or-later')
+depends=('libadwaita' 'gst-plugin-gtk4' 'python-gobject')
+makedepends=('blueprint-compiler' 'git' 'meson')
+source=("git+https://gitlab.gnome.org/GNOME/Incubator/showtime.git#tag=$pkgver")
+sha256sums=('49cfd20d2e70cf43bc706fbb5a28710fdddfda6415e74a2a70a0aa2380233fba')
+
+build() {
+  arch-meson "$pkgname" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
