@@ -1,0 +1,22 @@
+diff --unified --recursive --text a/cmake/tests.cmake b/cmake/tests.cmake
+--- a/cmake/tests.cmake	2024-07-10 14:07:16.913762394 -0600
++++ b/cmake/tests.cmake	2024-07-10 14:08:39.335998513 -0600
+@@ -222,12 +222,12 @@
+     endif()
+ else()
+     set(LOOT_QT_TEST_RESOURCES
+-        libicudata.so.73
+-        libicudata.so.73.2
+-        libicui18n.so.73
+-        libicui18n.so.73.2
+-        libicuuc.so.73
+-        libicuuc.so.73.2
++        libicudata.so.75
++        libicudata.so.75.2
++        libicui18n.so.75
++        libicui18n.so.75.2
++        libicuuc.so.75
++        libicuuc.so.75.2
+         libQt6Concurrent.so.6
+         libQt6Concurrent.so.6.7.2
+         libQt6Core.so.6
