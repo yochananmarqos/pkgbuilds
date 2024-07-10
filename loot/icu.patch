@@ -12,11 +12,11 @@ diff --unified --recursive --text a/cmake/tests.cmake b/cmake/tests.cmake
 -        libicuuc.so.73
 -        libicuuc.so.73.2
 +        libicudata.so.75
-+        libicudata.so.75.2
++        libicudata.so.75.1
 +        libicui18n.so.75
-+        libicui18n.so.75.2
++        libicui18n.so.75.1
 +        libicuuc.so.75
-+        libicuuc.so.75.2
++        libicuuc.so.75.1
          libQt6Concurrent.so.6
          libQt6Concurrent.so.6.7.2
          libQt6Core.so.6

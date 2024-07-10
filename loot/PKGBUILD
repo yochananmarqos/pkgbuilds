@@ -28,7 +28,7 @@ source=("git+https://github.com/loot/loot.git#tag=$pkgver"
 sha256sums=('0fa8e11acd628dfd16b82cf85f6d96b8162e90fe40353b5485f00aab2a3c6130'
             '319821c84df81815fd61eeb1a8602948c8cda22175b9a097aab7f8487a75fd1a'
             '3dd063fdbe33dc82a4298bd5bcd3b4e7490adab4128389c153d12c6b074b27fb'
-            'f08595adbdc7d93d923bc8c98fd5eb5551dd68d8615085ffd3b11eaf78928dcf')
+            'b37b8853966340764ee811222d95df837a9c0d3b5169b39dfac650aaaeaac377')
 
 prepare() {
   mkdir -p "lib${pkgname}/pkg/lib"
