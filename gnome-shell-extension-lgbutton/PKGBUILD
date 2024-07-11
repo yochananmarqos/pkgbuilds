@@ -1,6 +1,6 @@
 pkgname=gnome-shell-extension-lgbutton
 _uuid=lgbutton@glerro.gnome.gitlab.io
-pkgver=16
+pkgver=17
 pkgrel=1
 pkgdesc="Toggle the Looking Glass visibility by clicking on a panel icon."
 arch=('any')
@@ -8,14 +8,8 @@ url="https://gitlab.gnome.org/glerro/gnome-shell-extension-lgbutton"
 license=('GPL-3.0-or-later')
 depends=('gnome-shell')
 makedepends=('git' 'meson')
-_commit=b7e1870b653a71f2e89b388d10d7a1994041e02c  # tags/v16^0
-source=("git+https://gitlab.gnome.org/glerro/gnome-shell-extension-lgbutton.git#commit=${_commit}")
-sha256sums=('SKIP')
-
-pkgver() {
-  cd "$pkgname"
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
+source=("git+https://gitlab.gnome.org/glerro/gnome-shell-extension-lgbutton.git#tag=v$pkgver")
+sha256sums=('efb8f747a5cb9e684c56f1519b16c0452ff548fc85660fefbf52fe8cb8ca8aa1')
 
 build() {
   arch-meson "$pkgname" build
@@ -25,9 +19,9 @@ build() {
 package() {
   meson install -C build --destdir "$pkgdir"
 
-  mv "$pkgdir/usr/share/gnome-shell/extensions/$_uuid/locale" "$pkgdir/usr/share/"
+  mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share/"
 
-  install -Dm644 "$pkgname/$_uuid/schemas/org.gnome.shell.extensions.lgbutton.gschema.xml" -t \
+  install -Dm644 "$pkgname/${_uuid}/schemas/org.gnome.shell.extensions.lgbutton.gschema.xml" -t \
     "$pkgdir/usr/share/glib-2.0/schemas/"
-  rm -rf "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
+  rm -vr "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
 }
