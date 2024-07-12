@@ -13,7 +13,6 @@ makedepends=('cargo')
 optdepends=('system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
             'system76-dkms: needed for systems with proprietary firmware')
 provides=('power-profiles-daemon')
-conflicts=('power-profiles-daemon')
 install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'use-mkinitcpio.patch')
@@ -24,8 +23,7 @@ prepare() {
   cd "$pkgname-$pkgver"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-#  make vendor
-  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+  make vendor
 
   # use 'mkinitcpio -P' in place of 'update-initramfs -u'
   patch -Np1 -i "$srcdir/use-mkinitcpio.patch"
@@ -36,9 +34,7 @@ build() {
   CFLAGS+=" -ffat-lto-objects"
   export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-#  make VENDORED=1
-  export CARGO_TARGET_DIR=target
-  cargo build --frozen --release
+  make VENDOR=1
 }
 
 package() {
