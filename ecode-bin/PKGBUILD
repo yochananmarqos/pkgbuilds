@@ -1,0 +1,40 @@
+pkgname=ecode-bin
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="Lightweight multi-platform code editor designed for modern hardware with a focus on responsiveness and performance."
+arch=('x86_64' 'aarch64')
+url="https://github.com/SpartanJ/ecode"
+license=('MIT')
+depends=('hicolor-icon-theme' 'libglvnd' 'sdl2')
+provides=("${pkgname%-bin}" 'libeepp.so')
+conflicts=("${pkgname%-bin}")
+source=("https://github.com/SpartanJ/ecode/archive/refs/tags/${pkgname%-bin}-$pkgver.tar.gz"
+        "${pkgname%-bin}.desktop")
+source_x86_64=("$url/releases/download/${pkgname%-bin}-$pkgver/${pkgname%-bin}-linux-$pkgver-x86_64.tar.gz")
+source_aarch64=("$url/releases/download/${pkgname%-bin}-$pkgver/${pkgname%-bin}-linux-$pkgver-aarch64.tar.gz")
+noextract=("${pkgname%-bin}-linux-$pkgver-${CARCH}.tar.gz")
+sha256sums=('d6227414e46b5480b900adeafbd35b9abe14c6228f5b092402a966d7a2a46732'
+            '574cf0a97a09a5da40411dc5013c8c1122d919cc2862bb5e253a9ce571a6aa19')
+sha256sums_x86_64=('e12b65e5f413b810d5d4154f309bc7ce4f14c6f7dede0aa55ce03582e5021c5b')
+sha256sums_aarch64=('820500dcda1071be0e2fccd6caccd54bda1a63c0bf2b0416762f03a252ed031d')
+
+prepare() {
+  mkdir -p "${pkgname%-bin}-$pkgver"
+  bsdtar xf "${pkgname%-bin}-linux-$pkgver-${CARCH}.tar.gz" -C "${pkgname%-bin}-$pkgver"
+}
+
+package() {
+  cd "${pkgname%-bin}-$pkgver/${pkgname%-bin}"
+  install -Dm755 "${pkgname%-bin}.bin" "$pkgdir/opt/${pkgname%-bin}/${pkgname%-bin}"
+  install -Dm755 libs/libeepp.so -t "$pkgdir/usr/lib/"
+  install -Dm644 "${pkgname%-bin}.png" -t "$pkgdir/usr/share/pixmaps/"
+  cp -r assets "$pkgdir/opt/${pkgname%-bin}/"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/${pkgname%-bin}/${pkgname%-bin}" "$pkgdir/usr/bin/"
+
+  install -Dm644 "$srcdir/${pkgname%-bin}.desktop" -t "$pkgdir/usr/share/applications/"
+
+  install -Dm644 "$srcdir/${pkgname%-bin}-${pkgname%-bin}-$pkgver/LICENSE" -t \
+    "$pkgdir/usr/share/licenses/${pkgname%-bin}/"
+}
