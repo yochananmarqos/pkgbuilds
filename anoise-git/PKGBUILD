@@ -6,41 +6,53 @@ pkgrel=2
 pkgdesc="Ambient Noise Player. Relax or concentrate with a noise"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
-license=('GPL3')
-depends=('gst-python' 'webkit2gtk' 'anoise-media')
-makedepends=('git' 'python-build' 'python-distutils-extra' 'python-installer'
-             'python-setuptools' 'python-wheel')
-optdepends=('anoise-community-extension1: Sounds and icons from the users'
-            'anoise-community-extension2: Sounds and icons from the users'
-            'anoise-community-extension3: Sounds and icons from the users'
-            'anoise-community-extension4: Sounds and icons from the users'
-            'anoise-community-extension5: Sounds and icons from the users'
-            'anoise-gui: GUI for anoise'
-            'libappindicator-gtk3: tray icon')
+license=('GPL-3.0-or-later')
+depends=(
+  'anoise-media'
+  'gst-python'
+  'webkit2gtk'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-distutils-extra'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+optdepends=(
+  'anoise-community-extension1: Sounds and icons from the users'
+  'anoise-community-extension2: Sounds and icons from the users'
+  'anoise-community-extension3: Sounds and icons from the users'
+  'anoise-community-extension4: Sounds and icons from the users'
+  'anoise-community-extension5: Sounds and icons from the users'
+  'anoise-gui: GUI for anoise'
+  'libappindicator-gtk3: tray icon'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/costales/anoise.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   printf "%s.r%s.%s" "$(head -n 1 debian/changelog | cut -d'(' -f 2 | cut -d')' -f 1 | \
-    sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    sed 's/-/./')" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   # This file is included in anoise-gui
-  rm "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
+  rm -v "$pkgdir/usr/share/${pkgname%-git}/${pkgname%-git}.ui"
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  cp -r "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
-  rm -rf "${pkgdir}${site_packages}/usr"
+  cp -rv "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
+  rm -rv "${pkgdir}${site_packages}/usr"
 }
