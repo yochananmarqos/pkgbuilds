@@ -7,22 +7,33 @@ pkgrel=4
 pkgdesc="Ambient Noise Community Library Package 5"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
-license=('GPL3')
-makedepends=('python-build' 'python-distutils-extra' 'python-installer'
-             'python-setuptools' 'python-wheel')
+license=('GPL-3.0-or-later')
+makedepends=(
+  'python-build'
+  'python-distutils-extra'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
 source=("https://launchpad.net/~costales/+archive/ubuntu/anoise/+sourcefiles/$pkgname/$pkgver/${pkgname}_${pkgver}.tar.gz")
+noextract=("${pkgname}_${pkgver}.tar.gz")
 sha256sums=('3d47b51b7ad05913bfe20e016e698396d7964d957cedcc48482639441b98974b')
 
+prepare() {
+  mkdir -p "$pkgname-$pkgver"
+  bsdtar xf "${pkgname}_${pkgver}.tar.gz" -C "$pkgname-$pkgver"
+}
+
 build() {
-  cd "$srcdir/${pkgname#anoise-}"
+  cd "$pkgname-$pkgver/${pkgname#anoise-}"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$srcdir/${pkgname#anoise-}"
+  cd "$pkgname-$pkgver/${pkgname#anoise-}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  cp -r "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
-  rm -rf "${pkgdir}${site_packages}/usr"
+  cp -rv "${pkgdir}${site_packages}/usr/share" "$pkgdir/usr/"
+  rm -rv "${pkgdir}${site_packages}/usr"
 }
