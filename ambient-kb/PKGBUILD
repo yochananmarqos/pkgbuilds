@@ -15,9 +15,8 @@ sha256sums=('26b430b4d93ba586c10d545b131ae5efcc90bd1c77869b84c72f2d9e8ab46193')
 
 prepare() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$CARCH-unknown-linux-gnu"
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Adjust path for serw12
 #  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
@@ -25,7 +24,6 @@ prepare() {
 
 build() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   cargo build --release --all-features
