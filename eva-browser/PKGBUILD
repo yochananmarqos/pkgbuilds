@@ -16,9 +16,8 @@ sha512sums=('3841a9a26efc842b65a585c2a573498a0389b0c0b38bc1afbd60f630f4d68685ba3
 
 prepare() {
   cd eva
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$CARCH-unknown-linux-gnu"
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Rename binary & fix typo
   desktop-file-edit \
@@ -29,7 +28,6 @@ prepare() {
 
 build() {
   cd eva
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo build --release --all-features
   cargo xtask dist
