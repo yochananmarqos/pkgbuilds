@@ -15,9 +15,8 @@ sha256sums=('ed57c92a88e8ebe8db286daad9677ffb99287d164d3193d17f8134bb77de5ae1')
 
 prepare() {
   cd "$pkgname-$pkgver"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Don't run update-desktop-database during install
   sed -i '/update-desktop-database/d' Makefile
@@ -25,7 +24,6 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   cargo build --frozen --release --all-features
@@ -33,7 +31,6 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo test --frozen --all-features -- --test-threads=1
 }
