@@ -31,14 +31,12 @@ sha256sums=('e7e6eba1f830651677ab36318621a8c11718d0364841bc249b4f0d1ac57e2bb6')
 
 prepare() {
   cd LACT
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 }
 
 build() {
   cd LACT
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
 
