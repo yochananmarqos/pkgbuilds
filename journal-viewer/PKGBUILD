@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="A modern linux desktop application to visualize systemd logs."
 arch=('x86_64')
 url="https://github.com/mingue/journal-viewer"
-license=('GPL3')
+license=('GPL-3.0-or-later')
 depends=('systemd-libs' 'webkit2gtk')
 makedepends=('cargo' 'npm')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
@@ -19,9 +19,8 @@ prepare() {
   npm install
 
   cd src-tauri
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$CARCH-unknown-linux-gnu"
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Don't bundle AppImage
   sed -i 's/"targets": "all",/"targets": "deb",/g' tauri.conf.json
@@ -29,7 +28,6 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   export npm_config_cache="$srcdir/npm_cache"
   npm run build
