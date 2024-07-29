@@ -4,12 +4,12 @@ pkgname=('nvidia-only-gdm'
          )
 pkgbase=nvidia-only
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Display manager scripts for using NVIDIA graphics only on Optimus laptops"
 arch=('any')
 url="https://wiki.archlinux.org/title/NVIDIA_Optimus#Display_managers"
 license=('none')
-depends=('nvidia' 'xorg-xrandr')
+depends=('NVIDIA-MODULE' 'xorg-xrandr')
 source=('display_setup.sh'
         'optimus-greeter.desktop'
         'optimus-xdg.desktop'
