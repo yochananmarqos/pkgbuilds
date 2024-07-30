@@ -21,7 +21,6 @@ sha256sums=('c2038fe46adca52f4fc1422231d743553cc7ef882b68c3697da874013c97cef9'
 
 prepare() {
   cd "$pkgname-$pkgver"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   make vendor
 
@@ -32,7 +31,6 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   CFLAGS+=" -ffat-lto-objects"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   make VENDOR=1
 }
