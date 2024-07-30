@@ -34,7 +34,6 @@ prepare() {
   # Don't bundle AppImage
   sed -i 's/"targets": "all",/"targets": "deb",/g' tauri.conf.json
 
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$CARCH-unknown-linux-gnu"
   popd
@@ -44,7 +43,6 @@ build() {
   cd "$pkgname"
   CFLAGS+=" -ffat-lto-objects"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   yarn compile
   yarn build
@@ -55,7 +53,6 @@ check() {
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
   yarn test
 
-  export CARGO_HOME="$srcdir/cargo-home"
   export RUSTUP_TOOLCHAIN=stable
   pushd src-tauri
   cargo test
