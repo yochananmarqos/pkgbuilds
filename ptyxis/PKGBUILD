@@ -3,7 +3,6 @@
 pkgname=ptyxis
 pkgver=46.5
 pkgrel=2
-_vtever=0.76.3
 pkgdesc="A terminal for GNOME with first-class support for containers."
 arch=('x86_64')
 url="https://gitlab.gnome.org/chergert/ptyxis"
@@ -34,8 +33,7 @@ makedepends=(
   'meson'
 )
 source=("git+https://gitlab.gnome.org/chergert/ptyxis#tag=$pkgver"
-        '0001-build-drop-libc-compat-for-x86.patch'
-        )
+        '0001-build-drop-libc-compat-for-x86.patch')
 sha256sums=('36c33dcf871f205998134fbd34586690b3412a74d0f452e4157d85f87fbe86df'
             'dabb9b8c9694e74b07907df83175931f84e3c7ecfc2297668ca3d8ab56ea6169')
 
