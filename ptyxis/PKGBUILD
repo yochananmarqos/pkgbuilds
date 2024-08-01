@@ -1,0 +1,58 @@
+## WIP
+
+pkgname=ptyxis
+pkgver=46.5
+pkgrel=2
+_vtever=0.76.3
+pkgdesc="A terminal for GNOME with first-class support for containers."
+arch=('x86_64')
+url="https://gitlab.gnome.org/chergert/ptyxis"
+license=('GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-3.0-or-later AND LGPL-2.0-or-later AND CC0-1.0')
+depends=(
+  'cairo'
+  'dconf'
+  'fribidi'
+  'gcc-libs'
+  'glib2'
+  'glibc'
+  'gnutls'
+  'gtk4'
+  'hicolor-icon-theme'
+  'icu'
+  'json-glib'
+  'libadwaita'
+  'libportal-gtk4'
+  'lz4'
+  'pango'
+  'pcre2'
+  'systemd-libs'
+  'vte4'
+)
+makedepends=(
+  'git'
+  'glib2-devel'
+  'meson'
+)
+source=("git+https://gitlab.gnome.org/chergert/ptyxis#tag=$pkgver"
+        '0001-build-drop-libc-compat-for-x86.patch'
+        )
+sha256sums=('36c33dcf871f205998134fbd34586690b3412a74d0f452e4157d85f87fbe86df'
+            'dabb9b8c9694e74b07907df83175931f84e3c7ecfc2297668ca3d8ab56ea6169')
+
+prepare() {
+  cd "$pkgname"
+  patch -Np1 -i ../0001-build-drop-libc-compat-for-x86.patch
+}
+
+build() {
+  arch-meson "$pkgname" build -Dgeneric=terminal
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
