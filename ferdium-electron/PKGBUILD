@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=ferdium-electron
-pkgver=6.7.5
+pkgver=6.7.6
 pkgrel=1
 _electronversion=31
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
@@ -16,7 +16,7 @@ conflicts=('ferdium')
 source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
         'git+https://github.com/ferdium/ferdium-recipes.git'
         'ferdium.desktop')
-sha256sums=('4a7dafb0a68a2e851bb54594620c24bbbef693255c6c51dc61dfc15fe50a85a6'
+sha256sums=('86f28e51295af76f4fdad8cc9f1d331f8cf10477e60fea870510d610859df86f'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
@@ -60,7 +60,7 @@ build() {
   pnpm package
   popd
 
-  NODE_ENV=production pnpm run build --linux --x64 --dir \
+  NODE_ENV=production pnpm build --linux --x64 --dir \
      $dist -c.electronDist=$electronDist -c.electronVersion=$electronVer
 }
 
