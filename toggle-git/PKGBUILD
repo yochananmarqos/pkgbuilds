@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=toggle-git
 _app_id=app.drey.Toggle
-pkgver=0.99.0.a.r11.gaabe380
+pkgver=0.99.0.a.r17.g80e3ce0
 pkgrel=1
 pkgdesc="Toggle extra GNOME settings"
 arch=('any')
