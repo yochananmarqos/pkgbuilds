@@ -5,7 +5,7 @@ pkgrel=1
 pkgdesc="A customizable drop-down menu for quickly launching frequently used apps"
 arch=('any')
 url="https://github.com/ChrisLauinger77/XES-Settings-Center-Extension"
-license=('GPL2')
+license=('GPL-2.0-or-later')
 depends=('gnome-shell')
 makedepends=('git')
 source=("git+$url.git#tag=v$pkgver")
