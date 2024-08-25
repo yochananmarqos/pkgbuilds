@@ -22,11 +22,6 @@ makedepends=(
 source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/libloot/archive/$pkgver.tar.gz")
 sha256sums=('3406c8f646d633b1115ce4c593f803b0e881b2b7a78fd0a19153c5f83565d1b6')
 
-#prepare() {
-#  export RUSTUP_TOOLCHAIN=stable
-#  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
-#}
-
 build() {
   export RUSTUP_TOOLCHAIN=stable
   cmake -B build -S "$pkgname-$pkgver" \
