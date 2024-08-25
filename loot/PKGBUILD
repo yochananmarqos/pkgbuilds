@@ -1,0 +1,51 @@
+# https://aur.archlinux.org/packages/loot
+groups=('modified')
+
+pkgname=loot
+pkgver=0.23.1
+pkgrel=1
+pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
+arch=('x86_64')
+url="https://loot.github.io"
+license=('GPL-3.0-only')
+depends=(
+  'hicolor-icon-theme'
+  'libloot'
+  'qt6-base'
+)
+makedepends=(
+  'boost'
+  'cmake'
+#  'doxygen'  # docs
+#  'python-sphinx'  # docs
+#  'python-sphinx_rtd_theme'  # docs
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/loot/archive/$pkgver.tar.gz"
+        'loot.desktop')
+sha256sums=('8091189e8ad83d0322d8c4061f06f747ad7b782cb4440b0c56b55b12b9cda0b8'
+            'c8a8776d7a752f227c5c90d23bab6800b18c3da11376a3ca8279532cd1695901')
+
+build() {
+  CFLAGS+=" -ffat-lto-objects"
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DLOOT_BUILD_TESTS='OFF' \
+    -Wno-dev
+  cmake --build build
+
+  # docs
+#  cd "$pkgname-$pkgver"
+#  sphinx-build -b html docs build/docs/html
+}
+
+#check() {
+#  ctest --test-dir build --output-on-failure
+#}
+
+package() {
+  install -Dm755 build/LOOT -t "$pkgdir/usr/bin/"
+  install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "$pkgname-$pkgver/resources/icons/$pkgname.svg" -t \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+}
