@@ -1,0 +1,51 @@
+pkgname=libloot
+pkgver=0.23.1
+pkgrel=1
+pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
+arch=('x86_64')
+url="https://github.com/loot/libloot"
+license=('GPL-3.0-only')
+depends=(
+  'icu'
+  'onetbb'
+)
+makedepends=(
+  'boost'
+  'cargo'
+  'cbindgen'
+  'cmake'
+#  'doxygen'  # docs
+#  'python-breathe'  # docs
+#  'python-sphinx'  # docs
+#  'python-sphinx_rtd_theme'  # docs
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/libloot/archive/$pkgver.tar.gz")
+sha256sums=('3406c8f646d633b1115ce4c593f803b0e881b2b7a78fd0a19153c5f83565d1b6')
+
+#prepare() {
+#  export RUSTUP_TOOLCHAIN=stable
+#  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+#}
+
+build() {
+  export RUSTUP_TOOLCHAIN=stable
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DLIBLOOT_BUILD_TESTS='OFF' \
+    -DLIBLOOT_INSTALL_DOCS='OFF' \
+    -Wno-dev
+  cmake --build build
+
+  # docs
+#  cd "$pkgname-$pkgver"
+#  sphinx-build -b html docs build/docs/html
+}
+
+#check() {
+#  ctest --test-dir build --output-on-failure
+#}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
