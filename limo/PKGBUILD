@@ -1,0 +1,81 @@
+## WIP
+
+pkgname=limo
+_app_id="io.github.${pkgname}_app.$pkgname"
+pkgver=1.0.5
+pkgrel=1
+pkgdesc="A simple Qt based mod manager"
+arch=('x86_64')
+url="https://github.com/limo-app/limo"
+license=('GPL-3.0-or-later')
+depends=(
+  'cpr'
+  'hicolor-icon-theme'
+  'jsoncpp'
+  'libarchive'
+  'libloot'
+  'pugixml'
+  'qt5-base'
+  'qt5-svg'
+)
+makedepends=(
+  'cmake'
+#  'doxygen'  # docs
+  'git'
+)
+checkdepends=(
+  'catch2'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        'git+https://github.com/aawc/unrar.git')
+sha256sums=('238e845f53c14a9e5efff6ff094064e8f029816848f8554d06dee45b037ec989'
+            'SKIP')
+
+prepare() {
+  cp -rf "$srcdir/unrar" "$pkgname-$pkgver"
+}
+
+build() {
+  pushd "$pkgname-$pkgver"
+
+  pushd unrar
+  make lib
+  popd
+
+  popd
+
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
+
+  cd "$pkgname-$pkgver"
+
+  # build documentation
+#  doxygen src/lmm_Doxyfile
+
+  # build tests
+#  cmake -B tests/build -S tests \
+#    -DCMAKE_BUILD_TYPE='None'
+#  cmake --build tests/build
+}
+
+#check() {
+#  cd "$pkgname-$pkgver"
+#  tests/build/tests
+#}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  cd "$pkgname-$pkgver"
+  install -Dm644 "flatpak/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "flatpak/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "flatpak/${_app_id}.png" -t \
+    "$pkgdir/usr/share/icons/hicolor/512x512/apps/"
+  install -Dm644 resources/logo.png \
+    "$pkgdir/usr/share/icons/hicolor/1024x1024/apps/${_app_id}.png"
+  install -Dm644 resources/logo_small.png \
+    "$pkgdir/usr/share/icons/hicolor/64x64/apps/${_app_id}.png"
+}
