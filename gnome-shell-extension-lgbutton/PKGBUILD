@@ -1,6 +1,6 @@
 pkgname=gnome-shell-extension-lgbutton
 _uuid=lgbutton@glerro.gnome.gitlab.io
-pkgver=17
+pkgver=2.3.0
 pkgrel=1
 pkgdesc="Toggle the Looking Glass visibility by clicking on a panel icon."
 arch=('any')
@@ -9,7 +9,7 @@ license=('GPL-3.0-or-later')
 depends=('gnome-shell')
 makedepends=('git' 'meson')
 source=("git+https://gitlab.gnome.org/glerro/gnome-shell-extension-lgbutton.git#tag=v$pkgver")
-sha256sums=('efb8f747a5cb9e684c56f1519b16c0452ff548fc85660fefbf52fe8cb8ca8aa1')
+sha256sums=('3e096e606f8e3c25694e5bb49bcb84c3899ef616b64211beb24415a98181ccc7')
 
 build() {
   arch-meson "$pkgname" build
