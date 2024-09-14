@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=paru
-pkgver=2.0.3
+pkgver=2.0.3+rebuild.1+1+g90656a9
 pkgrel=1
 pkgdesc="Feature packed AUR helper"
 arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
@@ -13,9 +13,9 @@ makedepends=('cargo')
 optdepends=('bat: colored pkgbuild printing'
             'devtools: build in chroot and download pkgbuilds')
 backup=("etc/$pkgname.conf")
-_commit=130a7c678610421a077659fbe1a70355c958d2f2  # tags/v2.0.3^0
+_commit=90656a901479b77cb3b7a54e393dff9a0ca6a45f
 source=("git+https://github.com/morganamilo/paru.git#commit=${_commit}?signed")
-sha256sums=('SKIP')
+sha256sums=('b1385075347c3ec2c4dda8055fd74cb9106ea5e2ee92d76a56a9c7707932221f')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
 pkgver() {
