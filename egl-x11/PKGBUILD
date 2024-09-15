@@ -1,0 +1,46 @@
+pkgname=egl-x11
+pkgver=r41.2be2296
+pkgrel=1
+pkgdesc="The X11/XCB external platform library"
+arch=('x86_64')
+url="https://github.com/NVIDIA/egl-x11"
+license=('Apache-2.0')
+depends=(
+  'eglexternalplatform'
+  'libx11'
+  'libdrm'
+  'libxcb'
+  'mesa'
+)
+makedepends=(
+  'git'
+  'meson'
+)
+provides=('libnvidia-egl-xcb.so=1' 'libnvidia-egl-xlib.so=1')
+_commit=2be2296e1439b2e4a7f73d976d63982383ae2938
+source=("git+https://github.com/NVIDIA/egl-x11.git#commit=${_commit}")
+sha256sums=('0ff4eef51a29cebebd8ba8eb954483a10748130e345966de1c2662942edbc179')
+
+pkgver() {
+  cd "$pkgname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+prepare() {
+  cd "$pkgname"
+
+  # Fix the Meson project name
+  # https://github.com/NVIDIA/egl-x11/pull/1
+  sed -i 's/nvidia-egl-platform-base/egl-x11/g' meson.build
+}
+
+build() {
+  arch-meson "$pkgname" build \
+    -D xcb=true \
+    -D xlib=enabled
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
