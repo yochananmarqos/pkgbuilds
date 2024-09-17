@@ -2,7 +2,7 @@
 
 pkgname=limo
 _app_id="io.github.${pkgname}_app.$pkgname"
-pkgver=1.0.5.1
+pkgver=1.0.6
 pkgrel=1
 pkgdesc="A simple Qt based mod manager"
 arch=('x86_64')
@@ -28,7 +28,7 @@ checkdepends=(
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         'git+https://github.com/aawc/unrar.git')
-sha256sums=('c7e83b4d08e66026c750d1069ef073c92082fffdf406cc1411a47430e8a390e1'
+sha256sums=('0a1945ac7ff42888cc20732453f91c101e86952a6b5ecdcb5848df3aedf64ae4'
             'SKIP')
 
 prepare() {
