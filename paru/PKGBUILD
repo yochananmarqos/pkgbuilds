@@ -2,26 +2,28 @@
 groups=('modified')
 
 pkgname=paru
-pkgver=2.0.3+rebuild.1+1+g90656a9
+pkgver=2.0.4
 pkgrel=1
 pkgdesc="Feature packed AUR helper"
 arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
 url="https://github.com/morganamilo/paru"
 license=('GPL-3.0-or-later')
-depends=('git' 'pacman>=6.1.0')
-makedepends=('cargo')
-optdepends=('bat: colored pkgbuild printing'
-            'devtools: build in chroot and download pkgbuilds')
+depends=(
+  'git'
+  'libalpm.so>=15'
+  'pacman'
+)
+makedepends=(
+  'cargo'
+)
+optdepends=(
+  'bat: colored pkgbuild printing'
+  'devtools: build in chroot and download pkgbuilds'
+)
 backup=("etc/$pkgname.conf")
-_commit=90656a901479b77cb3b7a54e393dff9a0ca6a45f
-source=("git+https://github.com/morganamilo/paru.git#commit=${_commit}?signed")
-sha256sums=('b1385075347c3ec2c4dda8055fd74cb9106ea5e2ee92d76a56a9c7707932221f')
+source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed")
+sha256sums=('28cfd13aa496b4ecb4d6b9cb3f02ac59b98307e10ed98739b05c747db761eabc')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
-
-pkgver() {
-  cd "$pkgname"
-  git describe --tags --abbrev=7 | sed 's/^v//;s/-/+/g'
-}
 
 prepare() {
   cd "$pkgname"
@@ -34,15 +36,11 @@ build () {
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
 
-  if pacman -T pacman-git > /dev/null; then
-    _features+="git,"
-  fi
-
   if [[ $CARCH != x86_64 ]]; then
     export CARGO_PROFILE_RELEASE_LTO=off
   fi
 
-  cargo build --frozen  --release --features "${_features:-}"
+  cargo build --frozen  --release
   ./scripts/mkmo locale/
 }
 
