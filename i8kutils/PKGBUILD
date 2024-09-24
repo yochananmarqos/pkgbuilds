@@ -27,7 +27,7 @@ prepare() {
 }
 
 build() {
-  arch-meson "$pkgname-$pkgver" build -Dmoduledir='/usr/lib/tcl8/8.6'
+  arch-meson "$pkgname-$pkgver" build -Dmoduledir='/usr/lib/tcl8.6'
   meson compile -C build
 }
 
