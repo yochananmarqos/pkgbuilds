@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=eartag
-pkgver=0.6.1
+pkgver=0.6.2
 pkgrel=1
 pkgdesc="Simple music tag editor"
 arch=('any')
@@ -26,7 +26,7 @@ checkdepends=(
   'python-pytest'
 )
 source=("$url/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('56382b7be54fd452d089c6ea754e726b99422d6cca0b3db256cfe2335fdd6aac42e15cc3fcad9752b82bac76fcda4ff2b1d020f0251d015c5a109f0e7026cb88')
+b2sums=('eb633d85596cf247eaf9cf94319d6e360b1e776c1e715d99b6506acff3a4a41a5a6de762e166d93c97e859368804ac626ebb17f2c8a8b4e3c0f4481c13a0a2ba')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
