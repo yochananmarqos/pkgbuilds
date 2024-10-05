@@ -1,5 +1,5 @@
 pkgname=libloot
-pkgver=0.23.1
+pkgver=0.24.3
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
@@ -20,11 +20,12 @@ makedepends=(
 #  'python-sphinx_rtd_theme'  # docs
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/libloot/archive/$pkgver.tar.gz")
-sha256sums=('3406c8f646d633b1115ce4c593f803b0e881b2b7a78fd0a19153c5f83565d1b6')
+sha256sums=('860acf6a175e50fa8dff661008598c4e4f8cbff2d1b59d3d2b423a65da94d5db')
 
 build() {
+  cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  cmake -B build -S "$pkgname-$pkgver" \
+  cmake -B build -S . \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLIBLOOT_BUILD_TESTS='OFF' \
@@ -33,14 +34,15 @@ build() {
   cmake --build build
 
   # docs
-#  cd "$pkgname-$pkgver"
 #  sphinx-build -b html docs build/docs/html
 }
 
 #check() {
+#  cd "$pkgname-$pkgver"
 #  ctest --test-dir build --output-on-failure
 #}
 
 package() {
+  cd "$pkgname-$pkgver"
   DESTDIR="$pkgdir" cmake --install build
 }
