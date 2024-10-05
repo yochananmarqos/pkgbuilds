@@ -5,4 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!add-missing-algorithm-include.patch
 !loot.desktop
