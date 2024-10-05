@@ -1,0 +1,72 @@
+# https://aur.archlinux.org/packages/nyrna
+groups=('modified')
+
+pkgname=nyrna
+_app_id=codes.merritt.Nyrna
+pkgver=2.23.0
+pkgrel=1
+_flutter_ver=3.24.3
+pkgdesc="Suspend games and applications at any time and resume whenever you wish"
+arch=('x86_64' 'aarch64')
+url="https://nyrna.merritt.codes"
+license=('GPL-3.0-or-later')
+depends=(
+  'gtk3'
+  'libappindicator-gtk3'
+  'libkeybinder3'
+  'util-linux' 
+  'wmctrl' 
+  'xdotool'
+  'xz'
+)
+makedepends=(
+  'clang'
+  'cmake'
+  'fvm'
+  'git'
+  'ninja'
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Merrit/nyrna/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('af2f81b134bfa255a2bd5e13e53147b29d483d87255e8dd67bc0daf954c625eb')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export FVM_CACHE_PATH="$srcdir/fvm"
+  fvm install "${_flutter_ver}"
+  fvm global "${_flutter_ver}"
+
+  # Disable analytics
+  fvm dart --disable-analytics
+  fvm flutter --disable-analytics
+
+  # Download dependencies
+  fvm flutter pub get
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export FVM_CACHE_PATH="$srcdir/fvm"
+  fvm dart run build_runner build --delete-conflicting-outputs
+  fvm flutter build linux
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  if [ $CARCH == "aarch64" ]; then
+    FLUTTER_ARCH=arm64
+  else
+    FLUTTER_ARCH=x64
+  fi
+
+  install -Dm755 "build/linux/${FLUTTER_ARCH}/release/bundle/$pkgname" -t \
+    "$pkgdir/opt/$pkgname/"
+  cp -r build/linux/${FLUTTER_ARCH}/release/bundle/{data,lib} "$pkgdir/opt/$pkgname"
+
+  install -d "$pkgdir/usr/bin/"
+  ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
+
+  install -Dm644 "packaging/linux/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "packaging/linux/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "assets/icons/${_app_id}.png" -t "$pkgdir/usr/share/pixmaps/"
+}
