@@ -1,8 +1,7 @@
 # https://aur.archlinux.org/packages/system76-power
-groups=('modified')
 
 pkgname=system76-power
-pkgver=1.2.0
+pkgver=1.2.1
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
@@ -16,13 +15,13 @@ provides=('power-profiles-daemon')
 install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'use-mkinitcpio.patch')
-sha256sums=('c2038fe46adca52f4fc1422231d743553cc7ef882b68c3697da874013c97cef9'
+sha256sums=('90b796e72a442a7968fc80b269ed2a936c6541bcba939a72612898082fbd7ec3'
             'e4417c1e2013e51d08a73705adf271939ff66b6d5cf6e3b67a1fe914ba769d05')
 
 prepare() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  make vendor
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # use 'mkinitcpio -P' in place of 'update-initramfs -u'
   patch -Np1 -i "$srcdir/use-mkinitcpio.patch"
@@ -32,7 +31,7 @@ build() {
   cd "$pkgname-$pkgver"
   CFLAGS+=" -ffat-lto-objects"
   export RUSTUP_TOOLCHAIN=stable
-  make VENDOR=1
+  ARGS+="--frozen" make
 }
 
 package() {
