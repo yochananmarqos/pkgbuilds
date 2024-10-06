@@ -36,7 +36,7 @@ build() {
   cd "${pkgname%-git}"
   CFLAGS+=" -ffat-lto-objects"
   export RUSTUP_TOOLCHAIN=stable
-  ARGS+="--frozen" make
+  ARGS+=" --frozen" make
 }
 
 package() {
