@@ -17,8 +17,6 @@ makedepends=(
   'qt6-svg'
   'qt6-wayland'
 )
-provides=("${pkgbase%-git}")
-conflicts=("${pkgbase%-git}")
 source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
 sha256sums=('SKIP')
 
