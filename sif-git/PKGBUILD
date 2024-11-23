@@ -2,27 +2,38 @@
 groups=('modified')
 
 pkgname=sif-git
-pkgver=2023.05.01.r5.g9482d41
+pkgver=2023.05.01.r12.gcf832f1
 pkgrel=1
 pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
 arch=('any')
 url="https://github.com/BlueManCZ/SIF"
-license=('Apache')
-depends=('desktop-file-utils' 'gtk3' 'python-gobject' 'python-requests' 'python-vdf'
-         'xdotool')
+license=('Apache-2.0')
+depends=(
+  'desktop-file-utils'
+  'gtk3'
+  'python-gobject'
+  'python-requests'
+  'python-vdf'
+  'xdotool'
+)
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("${pkgname%-git}::git+https://github.com/BlueManCZ/SIF.git")
+source=('git+https://github.com/BlueManCZ/SIF.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
+  cd SIF
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+check() {
+  cd SIF
+  python -m unittest -v
+}
+
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd SIF
   install -Dm755 fix-wm-class.sh "${pkgname%-git}.py" -t \
     "$pkgdir/opt/${pkgname%-git}"
   install -Dm644 database.json -t "$pkgdir/opt/${pkgname%-git}"
