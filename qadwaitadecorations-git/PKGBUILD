@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=('qadwaitadecorations-qt5-git' 'qadwaitadecorations-qt6-git')
 pkgbase=qadwaitadecorations-git
-pkgver=0.1.5.r3.g10527c7
+pkgver=0.1.6.r0.gd70c24a
 pkgrel=1
 pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
 arch=('x86_64')
