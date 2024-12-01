@@ -3,7 +3,7 @@ groups=('modified')
 
 pkgname=gpu-viewer
 _app_id=io.github.arunsivaramanneo.GPUViewer
-pkgver=3.06
+pkgver=3.08
 pkgrel=1
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
@@ -20,7 +20,7 @@ depends=(
 )
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('6d108fe4c206caea717c29d03742aef4c73c582e1f4cb9a9a88bcc3ee3b706f8')
+sha256sums=('f0067022789556bee468243223bd087c44d38628c7bbe3b0fd6c42ba1c3f2c87')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
