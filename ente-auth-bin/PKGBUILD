@@ -14,7 +14,6 @@ depends=(
   'libsecret'
   'libsodium-1.0.18'
   'sqlite'
-  'webkit2gtk'
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
