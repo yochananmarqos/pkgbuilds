@@ -5,8 +5,8 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!10-nvidia-drm-outputclass.conf
 !display_setup.sh
 !lightdm.install
-!optimus-greeter.desktop
-!optimus-xdg.desktop
+!optimus.desktop
 !Xsetup
