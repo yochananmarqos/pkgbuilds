@@ -11,11 +11,9 @@ url="https://wiki.archlinux.org/title/NVIDIA_Optimus#Display_managers"
 license=('none')
 depends=('NVIDIA-MODULE' 'xorg-xrandr')
 source=('display_setup.sh'
-        'optimus-greeter.desktop'
-        'optimus-xdg.desktop'
+        'optimus.desktop'
         'Xsetup')
 sha256sums=('5d1b768f8a3779f63cdd145531fa6d6163ea1bb6d84f55d57da1f4fc2e3397ea'
-            '9d4ad5acddfe391dcc7dd07fcc82dd04607ba50276e5bdea1009cf585b0ac266'
             '9d4ad5acddfe391dcc7dd07fcc82dd04607ba50276e5bdea1009cf585b0ac266'
             'cdb9a260d26868e996bbd44f5b1624f3f565e76481068e2059bc3683ea2f5df3')
 
@@ -23,9 +21,9 @@ package_nvidia-only-gdm() {
   pkgdesc+=" (GDM)"
   depends+=('gdm')
 
-  install -Dm644 optimus-greeter.desktop \
+  install -Dm644 optimus.desktop \
     "$pkgdir/usr/share/gdm/greeter/autostart/optimus.desktop"
-  install -Dm644 optimus-xdg.desktop \
+  install -Dm644 optimus.desktop \
     "$pkgdir/etc/xdg/autostart/optimus.desktop"
 }
 
