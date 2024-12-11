@@ -7,7 +7,7 @@ pkgname=(
   'lact-libadwaita'
 )
 pkgbase=lact
-pkgver=0.5.5
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="AMDGPU Controller application"
 arch=('x86_64' 'aarch64')
@@ -27,7 +27,7 @@ makedepends=(
 )
 install="$pkgbase.install"
 source=("git+https://github.com/ilya-zlobintsev/LACT.git#tag=v$pkgver")
-sha256sums=('e7e6eba1f830651677ab36318621a8c11718d0364841bc249b4f0d1ac57e2bb6')
+sha256sums=('86091bd9a2de430d36fd824e3dce9b6267271247f1ebfccdec2bd234cfd8d5cb')
 
 prepare() {
   cd LACT
