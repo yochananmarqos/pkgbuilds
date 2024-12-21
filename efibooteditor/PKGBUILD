@@ -2,7 +2,7 @@
 groups=('modified')
 
 pkgname=efibooteditor
-pkgver=1.5.0
+pkgver=1.5.2
 pkgrel=1
 pkgdesc="GUI for editing EFI Boot Manager entries"
 arch=('x86_64')
@@ -14,14 +14,16 @@ depends=(
 )
 makedepends=(
   'cmake'
+  'git'
   'qt6-tools'
 )
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('99a9824fc2d2c573803db91a7e1bf22de50758f43f5c50072da1fef17f695b7f')
+source=("git+https://github.com/Neverous/efibooteditor.git#tag=v$pkgver?signed")
+sha256sums=('e2e2ae15c0b2b7e62a0afb803c5798ac1bf86a6a80c0a5a63694379b9a750101')
+validpgpkeys=('9E76A390AAF9772C8448DCCEE4F948F71FEE7375') # Maciej Szeptuch <neverous@neverous.info>
 
 build() {
   export BUILD_VERSION="$pkgver"
-  cmake -B build -S "$pkgname-$pkgver" \
+  cmake -B build -S "$pkgname" \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DQT_VERSION_MAJOR='6' \
