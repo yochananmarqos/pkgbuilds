@@ -17,12 +17,12 @@ sha256sums=('bc0c9aa074771ff176253d9ebf631ec882776ddd71892a136e1e00a711d44253')
 validpgpkeys=('D5D568B2D34AB32A337944D22EC3F60DE71C0B9D') # James Lu <james@overdrivenetworks.com>
 
 build() {
-  cd "${pkgname}-${pkgver}"
+  cd "${pkgname}"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "${pkgname}-${pkgver}"
+  cd "${pkgname}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 exe-thumbnailer.thumbnailer -t "$pkgdir/usr/share/thumbnailers/"
