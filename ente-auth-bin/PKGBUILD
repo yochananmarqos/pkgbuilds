@@ -10,7 +10,7 @@ url="https://ente.io/auth"
 license=('AGPL-3.0-or-later')
 depends=(
   'gtk3'
-  'libayatana-appindicator'
+  'libappindicator-gtk3'
   'libsecret'
   'libsodium-1.0.18'
   'sqlite'
