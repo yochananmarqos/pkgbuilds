@@ -1,0 +1,4 @@
+[libsfdo]
+source = "git"
+git = "https://gitlab.freedesktop.org/vyivel/libsfdo.git"
+prefix = "v"
