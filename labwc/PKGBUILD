@@ -1,0 +1,69 @@
+## WIP
+
+pkgname=labwc
+pkgver=0.8.2
+pkgrel=2
+pkgdesc="A Wayland window-stacking compositor"
+arch=('x86_64')
+url="https://labwc.github.io"
+license=('GPL-2.0-only')
+depends=(
+  'cairo'
+  'glib2'
+  'glibc'
+  'hicolor-icon-theme'
+  'libinput'
+  'libpng'
+  'librsvg'
+  'libsfdo'  ## AUR
+  'libxcb'
+  'libxkbcommon'
+  'libxml2'
+  'pango'
+  'pixman'
+  'wlroots>=0.18.1'
+  'wayland'
+  'xdg-desktop-portal-wlr'
+  'xorg-xwayland'
+)
+makedepends=(
+  'meson'
+  'scdoc'
+  'wayland-protocols'
+)
+# https://github.com/labwc/labwc?tab=readme-ov-file#7-integration
+# https://labwc.github.io/integration.html
+optdepends=(
+  'alacritty: Terminal option'
+  'bemenu: Launcher option'
+  'fuzzel: Launcher option'
+  'grim: Screen shooter'
+  'kanshi: Output manager option'
+#  'lavalauncher: Panel option'  ## AUR
+  'lxqt-panel: Panel option'
+#  'sfwbar: Panel option'  ## AUR
+  'swaybg: Background image'
+  'swaylock: Screen locker'
+  'waybar: Panel option'
+  'wf-recorder: Screen recorder'
+  'wlopm: Output manager option'
+  'wlr-randr: Output manager option'
+  'wofi: Launcher option'
+  'xfce4-panel: Panel option'
+  'yambar: Panel option'
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/labwc/labwc/archive/$pkgver.tar.gz")
+sha256sums=('1adba1c87ec26f2f00409b47a0b79ccfd68bd160e1abc41822fb01f0a76ee947')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
