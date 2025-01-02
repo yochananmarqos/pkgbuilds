@@ -33,7 +33,6 @@ optdepends=(
   'python-levenshtein: faster duplicate matching'
   'python-lxml: additional tag sources'
   'python-pyacoustid: AcoustID support'
-  'python-audioread'  # Dependency of python-pyacoustid: https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyacoustid/-/issues/1
   'quodlibet: QuodLibet library support'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/puddletag/puddletag/archive/${pkgver}.tar.gz")
