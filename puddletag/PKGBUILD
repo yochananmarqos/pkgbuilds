@@ -19,7 +19,6 @@ depends=(
   'python-pyqt5'
   'python-rapidfuzz'
   'python-requests'
-  'python-six'
   'python-unidecode'
   'python-urllib3'
   'qt5-svg'
