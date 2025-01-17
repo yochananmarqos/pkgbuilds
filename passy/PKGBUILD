@@ -10,23 +10,36 @@ arch=('x86_64' 'aarch64')
 url="https://glitterware.github.io/Passy"
 license=('GPL-3.0-or-later')
 depends=('gtk3')
-makedepends=('chrpath' 'clang' 'cmake' 'git' 'ninja' 'unzip')
-_commit=7fee2f6210bb358e89a95f1d0dab625875f1c9d8  # tags/1.8.0^0
-source=("git+https://github.com/GlitterWare/Passy.git#commit=${_commit}"
+makedepends=(
+  'chrpath'
+  'clang'
+  'cmake'
+  'git'
+  'ninja'
+  'unzip'
+)
+source=("git+https://github.com/GlitterWare/Passy.git#tag=v$pkgver"
         'git+https://github.com/flutter/flutter.git')
-sha256sums=('SKIP'
+sha256sums=('47237d10879734e2b2771e425f5af8b00aecc61677183f9f799b1c50884e0695'
             'SKIP')
-
-pkgver() {
-  cd Passy
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
 
 prepare() {
   cd Passy
   git submodule init
   git config submodule.submodules/flutter.url "$srcdir/flutter"
   git -c protocol.file.allow=always submodule update
+
+  export FLUTTER_HOME="${PWD}/submodules/flutter"
+  export PATH="${FLUTTER_HOME}/bin:${PATH}"
+
+  # Disable analytics
+  flutter --disable-analytics
+
+  # Ensure no build artifacts are cached
+  flutter clean
+
+  # Download dependencies
+  flutter pub get
 }
 
 build() {
@@ -34,20 +47,23 @@ build() {
   export FLUTTER_HOME="${PWD}/submodules/flutter"
   export PATH="${FLUTTER_HOME}/bin:${PATH}"
   flutter --disable-analytics
-  flutter pub get
   flutter build linux --dart-define=UPDATES_POPUP_ENABLED=false
 }
 
 package() {
   cd Passy
 
-  if [ $CARCH == "aarch64" ]; then
+  if [ "$CARCH" == "aarch64" ]; then
     FLUTTER_ARCH=arm64
   else
     FLUTTER_ARCH=x64
   fi
 
   install -Dm755 "build/linux/${FLUTTER_ARCH}/release/bundle/$pkgname" -t \
+    "$pkgdir/opt/$pkgname/"
+  install -m755 "build/linux/${FLUTTER_ARCH}/release/bundle/${pkgname}"{_cli,_cli_native_messaging.sh} -t \
+    "$pkgdir/opt/$pkgname/"
+  install -m644 "build/linux/${FLUTTER_ARCH}/release/bundle/${pkgname}_cli_native_messaging.json" -t \
     "$pkgdir/opt/$pkgname/"
   cp -r "build/linux/${FLUTTER_ARCH}/release/bundle"/{data,lib} "$pkgdir/opt/$pkgname"
 
