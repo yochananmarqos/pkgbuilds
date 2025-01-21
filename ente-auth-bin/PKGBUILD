@@ -1,5 +1,5 @@
 # https://aur.archlinux.org/packages/ente-auth-bin
-groups=('modified')
+#groups=('modified')
 
 pkgname=ente-auth-bin
 pkgdesc="2FA app with free end-to-end encrypted backup and sync"
