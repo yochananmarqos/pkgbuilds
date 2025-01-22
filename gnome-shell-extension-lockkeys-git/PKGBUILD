@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-lockkeys-git
-groups=('modified')
 
 pkgname=gnome-shell-extension-lockkeys-git
 _uuid=lockkeys@vaina.lt
