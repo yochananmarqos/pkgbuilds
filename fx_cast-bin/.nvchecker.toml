@@ -1,0 +1,4 @@
+[fx_cast-bin]
+source = "git"
+git = "https://github.com/hensm/fx_cast.git"
+prefix = "v"
