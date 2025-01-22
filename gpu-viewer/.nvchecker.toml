@@ -1,0 +1,4 @@
+[gpu-viewer]
+source = "git"
+git = "https://github.com/arunsivaramanneo/GPU-Viewer.git"
+prefix = "v"

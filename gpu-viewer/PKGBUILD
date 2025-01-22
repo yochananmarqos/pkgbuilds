@@ -1,9 +1,8 @@
 # https://aur.archlinux.org/packages/gpu-viewer
-groups=('modified')
 
 pkgname=gpu-viewer
 _app_id=io.github.arunsivaramanneo.GPUViewer
-pkgver=3.08
+pkgver=3.10
 pkgrel=1
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
@@ -20,7 +19,7 @@ depends=(
 )
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('f0067022789556bee468243223bd087c44d38628c7bbe3b0fd6c42ba1c3f2c87')
+sha256sums=('228204e165f20cb311d6874aa846be695593f8063fa28f148369edd2bacf35ec')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
@@ -34,5 +33,5 @@ check() {
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 }
