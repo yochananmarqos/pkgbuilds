@@ -1,16 +1,20 @@
 # https://aur.archlinux.org/packages/ferdium-electron
-groups=('modified')
 
 pkgname=ferdium-electron
 pkgver=7.0.0
-pkgrel=1
+pkgrel=2
 _electronversion=33
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
 arch=('x86_64')
 url="https://ferdium.org"
 license=('Apache-2.0 AND MIT')
 depends=("electron${_electronversion}")
-makedepends=('asar' 'git' 'jq' 'pnpm')
+makedepends=(
+  'asar'
+  'git'
+  'jq'
+  'pnpm'
+)
 provides=('ferdium')
 conflicts=('ferdium')
 source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
