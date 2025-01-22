@@ -1,14 +1,16 @@
 # https://aur.archlinux.org/packages/castor
-groups=('modified')
 
 pkgname=castor
 pkgver=0.9.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A Gemini, Gopher and Finger protocol client"
 arch=('x86_64')
 url="https://git.sr.ht/~julienxx/castor"
 license=('MIT')
-depends=('gtk3' 'openssl')
+depends=(
+  'gtk3'
+  'openssl'
+)
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::https://git.sr.ht/~julienxx/castor/archive/$pkgver.tar.gz")
 sha256sums=('ed57c92a88e8ebe8db286daad9677ffb99287d164d3193d17f8134bb77de5ae1')
