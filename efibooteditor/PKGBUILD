@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/efibooteditor
-groups=('modified')
 
 pkgname=efibooteditor
 pkgver=1.5.2

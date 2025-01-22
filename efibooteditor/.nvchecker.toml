@@ -1,0 +1,4 @@
+[efibooteditor]
+source = "git"
+git = "https://github.com/Neverous/efibooteditor.git"
+prefix = "v"
