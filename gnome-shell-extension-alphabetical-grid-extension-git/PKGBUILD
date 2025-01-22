@@ -1,9 +1,8 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-alphabetical-grid-extension-git
-groups=('modified')
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
 _uuid=AlphabeticalAppGrid@stuarthayhurst
-pkgver=41.0.r0.gd2b2fda
+pkgver=41.0.r7.g30406f5
 pkgrel=1
 pkgdesc="Restore the alphabetical ordering of the app grid, removed in GNOME 3.38 "
 arch=('any')
