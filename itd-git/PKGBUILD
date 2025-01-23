@@ -1,8 +1,7 @@
 # https://aur.archlinux.org/packages/itd-git
-groups=('modified')
 
 pkgname=itd-git
-pkgver=1.1.0.r16.e6b3649
+pkgver=1.1.0.r20.g37c6169
 pkgrel=1
 pkgdesc="Daemon that interfaces with InfiniTime firmware on the PineTime smartwatch"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64')
@@ -32,7 +31,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "${pkgname%-git}"
-  git describe --long | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
