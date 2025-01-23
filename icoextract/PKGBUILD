@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/icoextract
-groups=('modified')
 
 pkgname=icoextract
 pkgver=0.1.5
@@ -9,7 +8,13 @@ arch=('any')
 url="https://github.com/jlu5/icoextract"
 license=('MIT')
 depends=('python-pefile')
-makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
 source=("git+https://github.com/jlu5/icoextract.git#tag=$pkgver?signed")
