@@ -5,6 +5,6 @@ Comment=The future of modding with Nexus Mods.
 Exec=/opt/nexusmods-app/NexusMods.App
 Terminal=false
 Type=Application
-Icon=nexusmods-app
+Icon=com.nexusmods.app
 Categories=Game;
 StartupWMClass=NexusMods.App

@@ -5,4 +5,5 @@
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!nexusmods-app.desktop
+!com.nexusmods.app.appdata.xml
+!com.nexusmods.app.desktop
