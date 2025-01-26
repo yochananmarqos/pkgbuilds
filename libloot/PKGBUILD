@@ -1,3 +1,5 @@
+# https://aur.archlinux.org/packages/libloot
+
 pkgname=libloot
 pkgver=0.24.5
 pkgrel=1
