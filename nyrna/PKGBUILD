@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/nyrna
-groups=('modified')
 
 pkgname=nyrna
 _app_id=codes.merritt.Nyrna
