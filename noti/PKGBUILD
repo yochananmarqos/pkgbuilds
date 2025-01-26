@@ -1,15 +1,17 @@
 # https://aur.archlinux.org/packages/noti
-groups=('modified')
 
 pkgname=noti
 pkgver=3.7.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Monitor a process and trigger a notification"
 arch=('x86_64')
 url="https://github.com/variadico/noti"
 license=('MIT')
 depends=('glibc')
-makedepends=('git' 'go')
+makedepends=(
+  'git'
+  'go'
+)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('f970a4dd242e6b58edf51320aa237bb20d689bbc8fd0f7d0db5aa1980a2dc269')
 
