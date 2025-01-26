@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/loot
-groups=('modified')
 
 pkgname=loot
 pkgver=0.24.1
