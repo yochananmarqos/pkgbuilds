@@ -1,14 +1,17 @@
 # https://aur.archlinux.org/packages/mangl-git
-groups=('modified')
 
 pkgname=mangl-git
-pkgver=1.1.5.r0.g09097d3
+pkgver=1.1.5.r2.g9d369fb
 pkgrel=1
 pkgdesc="Graphical man page viewer"
 arch=('x86_64')
 url="https://github.com/zigalenarcic/mangl"
 license=('BSD-2-Clause')
-depends=('freetype2' 'glfw' 'libglvnd')
+depends=(
+  'freetype2'
+  'glfw'
+  'libglvnd'
+)
 makedepends=('git')
 optdepends=('fontconfig: set custom font')
 provides=("${pkgname%-git}")
@@ -20,7 +23,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "${pkgname%-git}"
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
