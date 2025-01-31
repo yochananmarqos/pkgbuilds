@@ -1,0 +1,45 @@
+# https://aur.archlinux.org/packages/turnon
+
+pkgname=turnon
+_app_id="de.swsnr.$pkgname"
+pkgver=2.3.1
+pkgrel=1
+pkgdesc="Turn on devices in your local network"
+arch=('x86_64' 'aarch64')
+url="https://github.com/swsnr/turnon"
+license=('MPL-2.0')
+depends=('libadwaita')
+makedepends=(
+  'blueprint-compiler'
+  'cargo'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('236236c3c515faa7a8eb88d161c8e862181788da9ad5b4964e3c707c12f72bd5')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release --all-features
+
+  make msgfmt
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo test --frozen --all-features
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTPREFIX="$pkgdir/usr" install
+
+  ln -s "/usr/bin/${_app_id}" "${pkgdir}/usr/bin/$pkgname"
+}
