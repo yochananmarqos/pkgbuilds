@@ -1,18 +1,18 @@
 pkgname=gnome-shell-extension-settingscenter
 _uuid=SettingsCenter@lauinger-clan.de
-pkgver=47.1
+pkgver=47.2
 pkgrel=1
-pkgdesc="A customizable drop-down menu for quickly launching frequently used apps"
+pkgdesc="A customizable drop-down menu for quickly launching frequently used apps in Gnome Shell via the quicksettings menu."
 arch=('any')
-url="https://github.com/ChrisLauinger77/XES-Settings-Center-Extension"
+url="https://github.com/ChrisLauinger77/gnome-shell-extension-SettingsCenter"
 license=('GPL-2.0-or-later')
 depends=('gnome-shell')
 makedepends=('git')
 source=("git+$url.git#tag=v$pkgver")
-sha256sums=('823f729869798ff11157d5e79039fdf4c9766ab474907b3fb8d6690f99bdd4f7')
+sha256sums=('74a19280422806959bf112f58c246e4dba078b09960697a4147a82c920b53dab')
 
 build() {
-  cd XES-Settings-Center-Extension
+  cd gnome-shell-extension-SettingsCenter
   gnome-extensions pack "${_uuid}" \
     --podir=../po/ \
     --extra-source=menu_items.js \
@@ -21,7 +21,7 @@ build() {
 }
 
 package() {
-  cd XES-Settings-Center-Extension
+  cd gnome-shell-extension-SettingsCenter
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
