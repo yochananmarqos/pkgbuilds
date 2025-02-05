@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/onetagger
-groups=('modified')
 
 pkgname=onetagger
 pkgver=1.7.0
