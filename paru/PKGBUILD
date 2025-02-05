@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/paru
-groups=('modified')
 
 pkgname=paru
 pkgver=2.0.4
