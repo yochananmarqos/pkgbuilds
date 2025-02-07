@@ -1,9 +1,8 @@
 # https://aur.archlinux.org/packages/puddletag
-groups=('modified')
 
 pkgname=puddletag
 pkgver=2.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc='An audio tag editor for GNU/Linux'
 arch=('any')
 url="https://docs.puddletag.net/"
