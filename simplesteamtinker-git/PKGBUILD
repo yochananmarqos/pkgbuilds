@@ -1,23 +1,23 @@
 # https://github.com/JordanViknar/SimpleSteamTinker/blob/main/install/archlinux/PKGBUILD
-groups=('modified')
 
 pkgname=simplesteamtinker-git
-pkgver=r39.082c82f
+pkgver=r46.f16d9cd
 pkgrel=1
 pkgdesc="A work-in-progress simple, fast and modern Adwaita alternative to SteamTinkerLaunch."
 arch=('any')
 url="https://github.com/JordanViknar/SimpleSteamTinker"
-license=('MPL2')
+license=('MPL-2.0')
 depends=(
   'gtk4'
   'libadwaita'
+  'libnotify'
   'lua'
-  'lua-dkjson' # Used for json parsing
-  'lua-filesystem' # Used for some filesystem operations
-  'lua-lgi-git' # Required for Libadwaita support & notifications
-  'lua-sec' # Used for secure https interactions
-  'lua-socket' # Used for network operations
-  'xclip' # Used for copying to clipboard
+  'lua-dkjson'
+  'lua-filesystem'
+  'lua-lgi-git'
+  'lua-sec'
+  'lua-socket'
+  'xclip'
 )
 makedepends=('git')
 optdepends=(
@@ -31,19 +31,22 @@ optdepends=(
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/JordanViknar/SimpleSteamTinker')
-md5sums=('SKIP')
+sha256sums=('SKIP')
 
 pkgver() {
   cd SimpleSteamTinker
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
-build() {
+prepare() {
   cd SimpleSteamTinker
-  make system
+
+  desktop-file-edit --set-key=Exec --set-value=sst \
+    --set-key=StartupWMClass --set-value=JordanViknar.SimpleSteamTinker \
+    assets/desktop/system.desktop
 }
 
 package() {
   cd SimpleSteamTinker
-  cp -r dist/* "$pkgdir/"
+  make BUILD_FOLDER="$pkgdir/" system
 }
