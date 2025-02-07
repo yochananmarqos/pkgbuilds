@@ -1,13 +1,12 @@
 # https://aur.archlinux.org/packages/refind-theme-regular-git/
-groups=('modified')
 
 pkgname=refind-theme-regular-git
-pkgver=r78.3f93f53
+pkgver=r87.3969875
 pkgrel=1
 pkgdesc="A simplistic clean and minimal theme for rEFInd"
 arch=('any')
 url="https://github.com/bobafetthotmail/refind-theme-regular"
-license=('AGPL3' 'OFL' 'UFL')
+license=('AGPL-3.0-or-later AND OFL-1.1 AND Ubuntu-font-1.0')
 depends=('refind')
 makedepends=('git')
 provides=("${pkgname%-git}")
@@ -18,8 +17,8 @@ source=('git+https://github.com/bobafetthotmail/refind-theme-regular.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
 package() {
@@ -27,11 +26,11 @@ package() {
   _refind_home="$pkgdir/boot/efi/EFI/refind"
 #  _refind_home="$pkgdir/boot/efi/EFI/BOOT"
 
-  cd "$srcdir/${pkgname%-git}"
-  install -Dm644 theme.conf -t "$_refind_home/themes/${pkgname%-git}"
+  cd "${pkgname%-git}"
+  install -Dm644 theme.conf -t "$_refind_home/themes/${pkgname%-git}/"
   cp -r fonts icons "$_refind_home/themes/${pkgname%-git}"
 
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 
   warning 'To enable the theme add "include themes/refind-theme-regular/theme.conf"
            at the end of refind.conf, and comment out or delete any other themes
