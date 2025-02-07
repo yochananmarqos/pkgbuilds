@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/sif-git
-groups=('modified')
 
 pkgname=sif-git
 pkgver=2023.05.01.r12.gcf832f1
