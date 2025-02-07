@@ -1,0 +1,9 @@
+# Ignore everything
+/*
+
+# But not these files...
+!.gitignore
+!PKGBUILD
+!.SRCINFO
+!r2modman.desktop
+!r2modman.sh
