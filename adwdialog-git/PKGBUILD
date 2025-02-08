@@ -1,15 +1,21 @@
 # https://aur.archlinux.org/packages/adwdialog-git
-groups=('modified')
 
 pkgname=adwdialog-git
-pkgver=r11.20a17be
+pkgver=0.2.0.r9.g39e44ee
 pkgrel=1
 pkgdesc="Display GTK4/libadwaita dialogs from terminal and scripts."
 arch=('any')
 url="https://github.com/Vanilla-OS/AdwDialog"
-license=('GPL3')
-depends=('libadwaita' 'libjpeg-turbo' 'python-gobject')
-makedepends=('git' 'meson')
+license=('GPL-3.0-or-later')
+depends=(
+  'libadwaita'
+  'libjpeg-turbo'
+  'python-gobject'
+)
+makedepends=(
+  'git'
+  'meson'
+)
 checkdepends=('appstream-glib')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -18,7 +24,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd AdwDialog
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -27,9 +33,9 @@ build() {
 }
 
 check() {
-  meson test -C build --print-errorlogs || :
+  meson test -C build --no-rebuild --print-errorlogs || :
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 }
