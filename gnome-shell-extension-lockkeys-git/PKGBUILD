@@ -2,13 +2,16 @@
 
 pkgname=gnome-shell-extension-lockkeys-git
 _uuid=lockkeys@vaina.lt
-pkgver=65.r0.gd04fa71
+pkgver=65.r2.g067d0e4
 pkgrel=1
 pkgdesc="Numlock and Capslock indicator for gnome-shell"
 arch=('any')
 url="https://github.com/kazysmaster/gnome-shell-extension-lockkeys"
 license=('LicenseRef-unknown')
-depends=('gnome-shell' 'hicolor-icon-theme')
+depends=(
+  'gnome-shell'
+  'hicolor-icon-theme'
+)
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
