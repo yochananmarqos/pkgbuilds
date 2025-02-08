@@ -1,15 +1,17 @@
 # https://aur.archlinux.org/packages/4pane
-groups=('modified')
 
 pkgname=4pane
 pkgver=8.0
 pkgrel=1
 pkgdesc="Multi-pane, detailed-list file manager"
 arch=('x86_64')
-url="https://www.4pane.co.uk/index.html"
-license=('GPL3')
-depends=('bzip2' 'wxwidgets-gtk3')
-checkdepends=('appstream-glib')
+url="https://www.4pane.co.uk"
+license=('GPL-3.0-or-later')
+depends=(
+  'bzip2'
+  'wxwidgets-gtk3'
+)
+checkdepends=('appstream')
 source=("https://downloads.sourceforge.net/project/fourpane/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('0a5f9e08cd284a1edf0f93dc49a8a7faab86f9795c06116e167043b80ee0bafb'
             'SKIP')
@@ -26,14 +28,14 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  desktop-file-validate rc/4Pane.desktop || :
-  appstream-util validate-relax --nonet 4Pane.appdata.xml
+  desktop-file-validate rc/4Pane.desktop
+  appstreamcli validate --no-net 4Pane.appdata.xml || :
 }
 
 package() {
   cd "$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
 
-  install -Dm644 rc/4Pane.desktop -t "$pkgdir/usr/share/applications/"
-  install -Dm644 4Pane.1 -t "$pkgdir/usr/share/man/man1/"
+  install -Dvm644 rc/4Pane.desktop -t "$pkgdir/usr/share/applications/"
+  install -Dvm644 4Pane.1 -t "$pkgdir/usr/share/man/man1/"
 }
