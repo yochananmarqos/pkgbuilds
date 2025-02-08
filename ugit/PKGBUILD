@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/ugit
-groups=('modified')
 
 pkgname=ugit
 pkgver=5.8
@@ -8,7 +7,15 @@ pkgdesc="Helps you undo your last git command with grace. Your damage control gi
 arch=('any')
 url="https://github.com/Bhupesh-V/ugit"
 license=('MIT')
-depends=('awk' 'bash' 'coreutils' 'findutils' 'fzf' 'git' 'ncurses')
+depends=(
+  'awk'
+  'bash'
+  'coreutils'
+  'findutils'
+  'fzf'
+  'git'
+  'ncurses'
+)
 #conflicts=('git-extras')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('aedc5fd10b82ed8f3c2fc3ffb9d912863a7fec936a9e444a25e8a41123e2e90f')
