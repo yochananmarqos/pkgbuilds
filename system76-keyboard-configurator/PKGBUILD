@@ -1,0 +1,52 @@
+# https://aur.archlinux.org/packages/system76-keyboard-configurator
+
+pkgname=system76-keyboard-configurator
+_app_id=com.system76.keyboardconfigurator
+pkgver=1.3.12
+pkgrel=1
+pkgdesc="Configures keymap and backlight of System76 keyboards."
+arch=('x86_64' 'aarch64')
+url="https://github.com/pop-os/keyboard-configurator"
+license=('GPL-3.0-or-later')
+depends=(
+  'gtk3'
+  'hidapi'
+  'polkit'
+  'xz'
+)
+makedepends=(
+  'cargo'
+  'systemd'
+)
+checkdepends=('appstream')
+source=("keyboard-configurator-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('cc9af4537d9ff3284fa0dd7502d81dc237ae2683950a9b9ef8517b51581e2b66')
+
+prepare() {
+  cd "keyboard-configurator-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "keyboard-configurator-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  ARGS+=" --frozen" make prefix=/usr
+}
+
+check() {
+  cd "keyboard-configurator-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo test --frozen
+
+  	desktop-file-validate "linux/${_app_id}.desktop"
+  appstreamcli validate --no-net "linux/${_app_id}.appdata.xml"
+}
+
+package() {
+  cd "keyboard-configurator-$pkgver"
+  make prefix=/usr DESTDIR="$pkgdir" install
+
+  install -Dvm644 debian/com.system76.pkexec.keyboardconfigurator.policy -t \
+    "$pkgdir/usr/share/polkit-1/actions/"
+}
