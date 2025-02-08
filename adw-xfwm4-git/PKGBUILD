@@ -1,0 +1,23 @@
+pkgname=adw-xfwm4-git
+pkgver=r5.b0b163b
+pkgrel=1
+pkgdesc="https://github.com/FabianOvrWrt/adw-xfwm4"
+arch=('any')
+url="Libadwaita theme for xfwm4 that follows the default GNOME style emulated by adw-gtk3"
+license=('LGPL-2.1-or-later')
+depends=('adw-gtk-theme')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/FabianOvrWrt/adw-xfwm4.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+package() {
+  cd "${pkgname%-git}"
+  install -d "$pkgdir/usr/share"
+  cp -r themes "$pkgdir/usr/share"
+}
