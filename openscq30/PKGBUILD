@@ -1,0 +1,83 @@
+# https://aur.archlinux.org/pkgbase/openscq30
+
+pkgname=('openscq30-cli' 'openscq30-gui')
+pkgbase=openscq30
+pkgver=1.19.3
+pkgrel=1
+pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
+arch=('x86_64')
+url="https://github.com/Oppzippy/OpenSCQ30"
+license=('GPL-3.0-or-later')
+makedepends=(
+  'cargo'
+  'just'
+)
+depends=(
+  'dbus'
+  'gcc-libs'
+  'gtk4'
+  'libadwaita'
+  'xdg-utils'
+)
+checkdepends=('xorg-server-xvfb')
+source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        'script.patch')
+sha256sums=('f31b7fefa48d9edbade98b409a0d595a598f3b71254e57b0a0c2724459914d38'
+            '222655bded14fae6671f150f7bdc6d62fbb29c6b59fd04833c9ae271fe0eeab1')
+
+prepare() {
+	cd "OpenSCQ30-$pkgver"
+	export RUSTUP_TOOLCHAIN=stable
+	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+
+  # Fix install script directories
+  # Don't build during gui install
+  patch -Np1 -i ../script.patch
+}
+
+build() {
+	cd "OpenSCQ30-$pkgver"
+	export RUSTUP_TOOLCHAIN=stable
+	export CARGO_TARGET_DIR=target
+	export CARGO_PROFILE_RELEASE_LTO=true
+  just cli/ build release
+  just gui/ build release
+}
+
+check() {
+	cd "OpenSCQ30-$pkgver"
+	export RUSTUP_TOOLCHAIN=stable
+  just lib/ test
+  just cli/ test
+  xvfb-run --auto-servernum just gui/ test
+}
+
+package_openscq30-cli() {
+	pkgdesc+=" - CLI application"
+	depends=(
+	  'dbus'
+	  'gcc-libs'
+	)
+
+	cd "OpenSCQ30-$pkgver"
+  just cli/ install "$pkgdir/usr"
+
+  # Install completions
+  cd cli
+  install -d "$pkgdir"/usr/share/{bash-completions/completions,fish/vendor_completions.d,zsh/site-functions}
+  ./"target/release/${pkgbase}_cli" completions bash > \
+    "$pkgdir/usr/share/bash-completions/completions/${pkgbase}_cli"
+#  ./"target/release/${pkgbase}_cli" completions elvish > \
+#    "$pkgdir/usr/share/ ?"
+  ./"target/release/${pkgbase}_cli" completions fish > \
+    "$pkgdir/usr/share/fish/vendor_completions.d/${pkgbase}_cli.fish"
+  ./"target/release/${pkgbase}_cli" completions zsh > \
+    "$pkgdir/usr/share/zsh/site-functions/_${pkgbase}_cli"
+}
+
+package_openscq30-gui() {
+	pkgdesc+=" - GUI application"
+
+	cd "OpenSCQ30-$pkgver"
+	just gui/ install "$pkgdir/usr"
+}
