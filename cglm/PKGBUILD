@@ -1,0 +1,30 @@
+# https://aur.archlinux.org/packages/cglm
+
+pkgname=cglm
+pkgver=0.9.4
+pkgrel=1
+pkgdesc="Highly Optimized 2D / 3D Graphics Math (glm) for C"
+arch=('x86_64')
+url="https://github.com/recp/cglm"
+license=('MIT')
+depends=('glibc')
+makedepends=('meson')
+provides=('libcglm.so=0')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/recp/cglm/archive/v$pkgver.tar.gz")
+sha256sums=('101376d9f5db7139a54db35ccc439e40b679bc2efb756d3469d39ee38e69c41b')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build -Dbuild_tests=true
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+
+  cd "$pkgname-$pkgver"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
