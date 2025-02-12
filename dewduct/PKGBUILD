@@ -1,7 +1,3 @@
-## WIP
-
-No icon yet: https://github.com/DaKnig/DewDuct/issues/5
-
 pkgname=dewduct
 _app_id="null.daknig.$pkgname"
 pkgver=0.2.3
@@ -10,20 +6,34 @@ pkgdesc="An alternative Invidious client"
 arch=('x86_64' 'aarch64')
 url="https://github.com/DaKnig/DewDuct"
 license=('GPL-3.0-or-later')
-depends=('libadwaita' 'mpv' 'openssl' 'yt-dlp')
-makedepends=('appstream' 'cargo')
-source=("DewDuct-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('b7b80756246bf811c4e9f51a544c6c8a1f4895e63e8d894699c85f0745b3b76c')
+depends=(
+  'libadwaita'
+  'mpv'
+  'openssl'
+  'yt-dlp'
+)
+makedepends=(
+  'cargo'
+  'git'
+)
+source=("git+https://github.com/DaKnig/DewDuct.git#tag=v$pkgver")
+sha256sums=('e1dec22b8e76211ca4b35e8bd0739430f725feb67febd469db8bd7c6e05708c5')
 
 prepare() {
-  cd "DewDuct-$pkgver"
+  cd DewDuct
+
+  # app icon
+  git cherry-pick -n 013ba607ae73ee6c21b0a36f5402b3387b359df6
+
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 }
 
 build() {
-  cd "DewDuct-$pkgver"
+  cd DewDuct
   appstreamcli make-desktop-file "data/${_app_id}.metainfo.xml" "${_app_id}.desktop"
+  desktop-file-edit --set-key=Icon --set-value="${_app_id}" \
+    "${_app_id}".desktop
 
   CFLAGS+=" -ffat-lto-objects"
   export RUSTUP_TOOLCHAIN=stable
@@ -32,14 +42,18 @@ build() {
 }
 
 check() {
-  cd "DewDuct-$pkgver"
+  cd DewDuct
   appstreamcli validate --no-net "data/${_app_id}.metainfo.xml"
   desktop-file-validate "${_app_id}.desktop"
 }
 
 package() {
-  cd "DewDuct-$pkgver"
+  cd DewDuct
   install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
   install -Dm644 "data/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
   install -Dm644 "${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "data/icons/${_app_id}.svg" -t \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+  install -Dm644 "data/icons/${_app_id}-symbolic.svg" -t \
+    "$pkgdir/usr/share/icons/hicolor/symbolic/apps/"
 }
