@@ -1,15 +1,20 @@
 # https://aur.archlinux.org/pkgbase/gnome-shell-extension-valent-git/
-groups=('modified')
 
 pkgname=gnome-shell-extension-valent-git
-pkgver=r133.025ea26
+pkgver=r138.99ff268
 pkgrel=1
 pkgdesc="GNOME Shell integration for Valent"
 arch=('any')
 url="https://valent.andyholmes.ca"
 license=('GPL-3.0-or-later')
-depends=('gnome-shell' 'valent')
-makedepends=('git' 'meson')
+depends=(
+  'gnome-shell'
+  'valent'
+)
+makedepends=(
+  'git'
+  'meson'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'gnome-shell-extension-gsconnect')
 source=('git+https://github.com/andyholmes/gnome-shell-extension-valent.git')
@@ -26,5 +31,5 @@ build() {
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 }
