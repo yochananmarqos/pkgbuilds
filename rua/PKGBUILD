@@ -2,7 +2,7 @@
 
 pkgname=rua
 pkgver=0.19.10
-pkgrel=1
+pkgrel=2
 pkgdesc="AUR helper in Rust providing control, review, patch application and safe build options"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url="https://github.com/vn971/rua"
@@ -22,7 +22,6 @@ optdepends=(
   'shellcheck: allows checking PKGBUILD scripts, taking care of special variables'
   'sudo: allows package installation via sudo, if desired'
 )
-#options+=(!strip)  # uncomment if you want readable stack traces
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/vn971/rua/archive/v${pkgver}.tar.gz")
 b2sums=('35634176f7d5939dd5ef5f013f8a1163bd2612fdaa4ecf477347a75a7ad790edfec04a5663723d677f982a27dc72eb41b27304bcbc97ad8fb4a5c119d17fe32e')
 
@@ -58,5 +57,5 @@ package() {
   install -Dm0644 "target/completions/$pkgname.fish" -t \
     "${pkgdir}/usr/share/fish/completions/"
   install -Dm0644 "target/completions/_${pkgname}" -t \
-    "${pkgdir}/usr/share/zsh/functions/Completion/Linux/"
+    "${pkgdir}/usr/share/zsh/site-functions/"
 }
