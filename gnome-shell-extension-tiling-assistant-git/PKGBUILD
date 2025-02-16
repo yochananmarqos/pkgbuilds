@@ -3,7 +3,7 @@ groups=('modifed')
 
 pkgname=gnome-shell-extension-tiling-assistant-git
 _uuid=tiling-assistant@leleat-on-github
-pkgver=47.r1.g4e63cbd
+pkgver=51.r0.g9373d10
 pkgrel=1
 pkgdesc="A GNOME Shell extension which adds a Windows-like snap assist to the GNOME desktop"
 arch=('any')
@@ -14,12 +14,21 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 install='tiling-assistant.install'
-source=('git+https://github.com/Leleat/Tiling-Assistant.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/Leleat/Tiling-Assistant.git'
+        'shell-version.patch')
+sha256sums=('SKIP'
+            '65a36204f0ee6993873f2126704c6f40b5baaa430728c26cdc2388eaf6b316fb')
 
 pkgver() {
   cd Tiling-Assistant
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd Tiling-Assistant
+
+  # Keep support for GNOME 47
+  patch -Np1 -i ../shell-version.patch
 }
 
 build() {
