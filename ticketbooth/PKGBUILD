@@ -1,18 +1,24 @@
 # https://aur.archlinux.org/packages/ticketbooth
-groups=('modified')
 
 pkgname=ticketbooth
-pkgver=1.0.3.1
+pkgver=1.1
 pkgrel=1
 pkgdesc="Keep track of your favorite shows"
 arch=('any')
 url="https://github.com/aleiepure/ticketbooth"
-license=('CC0-1.0' 'LGPL-3.0-only' 'GPL-3.0-or-later')
-depends=('libadwaita' 'python-gobject' 'python-pillow' 'python-tmdbsimple')
-makedepends=('blueprint-compiler' 'meson')
-checkdepends=('appstream')
+license=('CC0-1.0 AND LGPL-3.0-only AND GPL-3.0-or-later')
+depends=(
+  'libadwaita'
+  'python-gobject'
+  'python-pillow'
+  'python-tmdbsimple'
+)
+makedepends=(
+  'blueprint-compiler'
+  'meson'
+)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('a6a1c753615dfb39dea430c4f1ef0072965606b1c8e23a2d2d3a63ea828147ca')
+sha256sums=('0b6afc0e8c1322abc530f7ef90f1e92a11c2dd8f79af933d8815ca1e1dd44aa0')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -27,11 +33,11 @@ build() {
 }
 
 check() {
-  meson test -C build --print-errorlogs
+  meson test -C build --no-rebuild --print-errorlogs
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 
   # Fix runscript location
   cd "$pkgname-$pkgver"
