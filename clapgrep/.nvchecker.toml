@@ -1,4 +1,0 @@
-[clapgrep]
-source = "git"
-git = "https://github.com/luleyleo/clapgrep.git"
-prefix = "v"
