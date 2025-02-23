@@ -1,0 +1,48 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn-git
+
+pkgname=gnome-shell-extension-rounded-window-corners-reborn-git
+pkgver=12.r0.ge9746f3
+pkgrel=1
+pkgdesc="A GNOME Shell extension that adds rounded corners for all windows"
+arch=('any')
+url='https://github.com/flexagoon/rounded-window-corners'
+license=('GPL-3.0-or-later')
+depends=('gnome-shell')
+makedepends=(
+  'git'
+  'just'
+  'npm'
+  'zip'
+)
+provides=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
+conflicts=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
+source=('git+https://github.com/flexagoon/rounded-window-corners.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd rounded-window-corners
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd rounded-window-corners
+  export NPM_CONFIG_CACHE=${srcdir}/npm-cache
+  just pack
+}
+
+package() {
+  cd rounded-window-corners
+
+  local uuid=$(grep -Po '(?<="uuid": ")[^"]*' _build/metadata.json)
+  local extdir="${pkgdir}/usr/share/gnome-shell/extensions/${uuid}"
+
+  install -d ${extdir}
+  bsdtar -xvf "${uuid}.shell-extension.zip" -C ${extdir} --no-same-owner
+
+  mv "${extdir}/locale" "${pkgdir}/usr/share/"
+
+  install -Dm644 \
+    "${extdir}/schemas/org.gnome.shell.extensions.rounded-window-corners-reborn.gschema.xml" \
+    -t "${pkgdir}/usr/share/glib-2.0/schemas/"
+  rm -rf "${extdir}/schemas/"
+}
