@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/ticketbooth
 
 pkgname=ticketbooth
-pkgver=1.1
+pkgver=1.1.1
 pkgrel=1
 pkgdesc="Keep track of your favorite shows"
 arch=('any')
@@ -18,7 +18,7 @@ makedepends=(
   'meson'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('0b6afc0e8c1322abc530f7ef90f1e92a11c2dd8f79af933d8815ca1e1dd44aa0')
+sha256sums=('4a73febf7306ff63587454bfc05a297426d2390b7afd6bf6f82fc94ed0a04a5d')
 
 prepare() {
   cd "$pkgname-$pkgver"
