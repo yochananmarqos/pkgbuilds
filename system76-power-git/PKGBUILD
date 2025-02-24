@@ -1,18 +1,28 @@
 # https://aur.archlinux.org/packages/system76-power-git
 
 pkgname=system76-power-git
-pkgver=1.2.1.r1.g290805e
+pkgver=1.2.2.r1.gd908dd8
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
 url="https://github.com/pop-os/system76-power"
 license=('GPL-3.0-or-later')
-depends=('dbus' 'libusb' 'polkit')
-makedepends=('cargo' 'git')
-optdepends=('system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
-            'system76-dkms: needed for systems with proprietary firmware')
+depends=(
+  'dbus'
+  'libusb'
+  'polkit'
+)
+makedepends=(
+  'cargo'
+  'git'
+)
+optdepends=(
+  'system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
+  'system76-dkms: needed for systems with proprietary firmware'
+)
 provides=("${pkgname%-git}" 'power-profiles-daemon')
 conflicts=("${pkgname%-git}")
+install="${pkgname%-git}.install"
 source=('git+https://github.com/pop-os/system76-power.git'
         'mkinitcpio.patch')
 sha256sums=('SKIP'
@@ -20,7 +30,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "${pkgname%-git}"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {

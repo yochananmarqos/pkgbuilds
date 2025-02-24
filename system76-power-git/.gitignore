@@ -1,8 +1,11 @@
 # Ignore everything
-*
+/*
 
 # But not these files...
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!mkinitcpio.patch
+!.nvchecker.toml
+!LICENSE
+!system76-power.install
+!use-mkinitcpio.patch

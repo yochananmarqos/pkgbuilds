@@ -1,0 +1,11 @@
+post_install() {
+  systemctl enable --now com.system76.PowerDaemon
+}
+
+post_upgrade() {
+  systemctl restart com.system76.PowerDaemon
+}
+
+pre_remove() {
+  systemctl disable --now com.system76.PowerDaemon
+}
