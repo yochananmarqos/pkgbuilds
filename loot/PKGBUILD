@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/loot
 
 pkgname=loot
-pkgver=0.24.1
+pkgver=0.25.0
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
@@ -16,25 +16,18 @@ makedepends=(
   'boost'
   'cmake'
 #  'doxygen'  # docs
+  'ogdf'
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/loot/archive/$pkgver.tar.gz"
-        'add-missing-algorithm-include.patch'
-        'loot.desktop')
-sha256sums=('9713c5b556aa21663dc76e543b422be6394f68cf7c81f6ce212f5272c7d8e9ad'
-            '71f605e0d52d71680b0ca0bd921ef56d2877750711703ed337839f8cc410a630'
+        "$pkgname.desktop")
+sha256sums=('ec065ccdb5a2b68437caad44cb71245f1825cea04b275303c0f9f1eee62c586a'
             'c8a8776d7a752f227c5c90d23bab6800b18c3da11376a3ca8279532cd1695901')
-
-prepare() {
-  cd "$pkgname-$pkgver"
-
-  # Fix ‘stable_sort’ is not a member of ‘std’ error
-  patch -Np1 -i ../add-missing-algorithm-include.patch
-}
 
 build() {
   CFLAGS+=" -ffat-lto-objects"
+  CXXFLAGS+=" -ffat-lto-objects"
   cmake -B build -S "$pkgname-$pkgver" \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
