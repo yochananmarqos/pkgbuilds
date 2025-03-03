@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/clapgrep
 
 pkgname=clapgrep
-pkgver=25.02
+pkgver=25.03
 pkgrel=1
 pkgdesc="One app to search through all your files"
 arch=('x86_64')
@@ -11,6 +11,7 @@ depends=(
   'gtk4'
   'gtksourceview5'
   'libadwaita'
+  'poppler-data'
 )
 makedepends=(
   'blueprint-compiler'
@@ -20,7 +21,7 @@ makedepends=(
 checkdepends=('appstream-glib')
 optdepends=('nautilus-python: Nautilus extension')
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('a05d3ac660ee9e38e091b9a7af3dad2a80e08dc7fa19a6570d7fc75464c4854b')
+sha256sums=('15e559c3a3cf250350e64c13a14b3808128880449d12e37b4dd28c21e9796cda')
 
 prepare() {
   cd "${pkgname}-${pkgver}"
@@ -47,6 +48,6 @@ package() {
   meson install -C build --no-rebuild --destdir "$pkgdir"
 
   cd "${pkgname}-${pkgver}"
-  install -Dm644 "extension/${pkgname}.py" -t \
+  install -Dvm644 "extension/${pkgname}.py" -t \
     "${pkgdir}/usr/share/nautilus-python/extensions/"
 }
