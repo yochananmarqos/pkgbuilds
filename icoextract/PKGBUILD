@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/icoextract
 
 pkgname=icoextract
-pkgver=0.1.5
+pkgver=0.1.6
 pkgrel=1
 pkgdesc="Thumbnailer for Windows PE files (.exe/.dll)"
 arch=('any')
@@ -18,7 +18,7 @@ makedepends=(
 optdepends=('python-pillow: required for the optional thumbnailer')
 conflicts=('exe-thumbnailer')
 source=("git+https://github.com/jlu5/icoextract.git#tag=$pkgver?signed")
-sha256sums=('bc0c9aa074771ff176253d9ebf631ec882776ddd71892a136e1e00a711d44253')
+sha256sums=('4df019b0581aa3b854eec3e3b6d6e71afad62b75dee9956cf6b769f167a7c364')
 validpgpkeys=('D5D568B2D34AB32A337944D22EC3F60DE71C0B9D') # James Lu <james@overdrivenetworks.com>
 
 build() {
