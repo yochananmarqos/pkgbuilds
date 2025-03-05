@@ -1,0 +1,27 @@
+pkgname=safeeyes-plugins-git
+pkgver=r12.ffae0ca
+pkgrel=1
+pkgdesc="Third party plugins for Safe Eyes"
+arch=('any')
+url="https://github.com/safeeyes/safeeyes-plugins"
+license=('GPL-3.0-or-later')
+depends=('safeeyes')
+makedepends=('git')
+optdepends=('python-pyowm: for Weather plugin')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/safeeyes/safeeyes-plugins.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+package() {
+  cd "${pkgname%-git}"
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  install -d "${pkgdir}${site_packages}/safeeyes/plugins"
+  cp -r {system-notifications,weather,zoom} \
+    "${pkgdir}${site_packages}/safeeyes/plugins/"
+}
