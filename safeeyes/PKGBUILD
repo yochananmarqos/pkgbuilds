@@ -1,0 +1,71 @@
+# https://aur.archlinux.org/packages/safeeyes
+
+pkgname=safeeyes
+_app_id=io.github.slgobinath.SafeEyes
+pkgver=2.2.3
+pkgrel=1
+pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
+arch=('any')
+url="https://github.com/slgobinath/SafeEyes"
+license=('GPL-3.0-or-later')
+depends=(
+  'alsa-utils'
+  'gtk3'
+  'hicolor-icon-theme'
+  'python'
+  'python-babel'
+  'python-dbus'
+  'python-gobject'
+  'python-packaging'
+  'python-psutil'
+  'python-xlib'
+  'xorg-xprop'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+checkdepends=('appstream')
+optdepends=(
+  'gnome-shell-extension-appindicator: tray icon backend for GNOME'
+  'libayatana-appindicator: tray icon backend for MATE'
+  'python-croniter: for Health Statistics plugin'
+  'safeeyes-plugins: Third party plugins'
+  'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
+  'swayidle: for Smart Pause plugin (Sway)'
+  'xprintidle: for Smart Pause plugin (Xorg)'
+  'wingpanel-community-indicators: tray icon backend for Pantheon'
+  'wlrctl: full screen detection on Wayland'
+)
+source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('ee0cf597b602a7aa3e8bdfa34b6a54e9862f7e2131eb5b3c653534c9674791fd')
+
+build() {
+  cd "SafeEyes-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "SafeEyes-$pkgver"
+  appstreamcli validate --no-net "$pkgname/platform/${_app_id}.metainfo.xml"
+  desktop-file-validate "$pkgname/platform/${_app_id}.desktop"
+}
+
+package() {
+  cd "SafeEyes-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 "$pkgname/platform/${_app_id}.metainfo.xml" -t \
+    "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "$pkgname/platform/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  mv "${pkgdir}${site_packages}/$pkgname/platform/icons" "$pkgdir/usr/share"
+
+  # Remove duplicate icons and desktop file
+  rm -rf "${pkgdir}${site_packages}/$pkgname/platform/"
+  rm -rf "${pkgdir}${site_packages}/usr"
+}
