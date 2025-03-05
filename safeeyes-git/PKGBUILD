@@ -37,9 +37,9 @@ optdepends=(
   'safeeyes-plugins: Third party plugins'
   'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
   'swayidle: for Smart Pause plugin (Sway)'
-  'xprintidle: for Smart Pause plugin (Xorg)'
   'wingpanel-community-indicators: tray icon backend for Pantheon'
   'wlrctl: full screen detection on Wayland'
+  'xprintidle: for Smart Pause plugin (Xorg)'
 )
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
