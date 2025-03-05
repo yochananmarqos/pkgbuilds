@@ -1,22 +1,22 @@
 # https://aur.archlinux.org/packages/safeeyes-git
-groups=('modified')
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.1.8.r1.gba14a68
+pkgver=2.2.3.r35.g17bbcaa
 pkgrel=1
-pkgdesc="A free and open source tool to reduce and prevent Repetitive Strain Injury (RSI)."
+pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
 url="https://slgobinath.github.io/SafeEyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
-  'gtk3'
+  'gtk4'
   'hicolor-icon-theme'
   'libnotify'
   'python-babel'
   'python-dbus'
   'python-gobject'
+  'python-packaging'
   'python-psutil'
   'python-xlib'
   'xorg-xprop'
@@ -28,14 +28,13 @@ makedepends=(
   'python-setuptools'
   'python-wheel'
 )
-checkdepends=(
-  'appstream'
-)
+checkdepends=('appstream')
 optdepends=(
   'libayatana-indicator: show a tray icon in the notification area'
   'python-croniter: for Health Statistics plugin'
   'python-pyowm: for Weather plugin'
-  'swayidle: for Smart Pause plugin (Wayland)'
+  'python-pywayland: for Smart Pause plugin (Wayland)'
+  'swayidle: for Smart Pause plugin (Sway)'
   'xprintidle: for Smart Pause plugin (Xorg)'
   'wlrctl: full screen detection on Wayland'
 )
@@ -68,11 +67,11 @@ package() {
 
   install -Dm644 "${pkgname%-git}/platform/${_app_id}.metainfo.xml" -t \
     "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "${pkgname%-git}/platform/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  cp -r "${pkgname%-git}/plugins" "${pkgdir}${site_packages}/${pkgname%-git}/"
-  cp -r "${pkgdir}${site_packages}"/usr/* "$pkgdir/usr/"
-  rm -rf "${pkgdir}${site_packages}/usr"
+  mv "${pkgdir}${site_packages}/${pkgname%-git}/platform/icons" "$pkgdir/usr/share"
 
   # Remove duplicate icons and desktop file
   rm -rf "${pkgdir}${site_packages}/${pkgname%-git}/platform/"
