@@ -58,7 +58,7 @@ build() {
 
 check() {
   cd SafeEyes
-  appstreamcli validate --no-net "${pkgname%-git}/platform/${_app_id}.metainfo.xml" || :
+  appstreamcli validate --no-net "${pkgname%-git}/platform/${_app_id}.metainfo.xml"
   desktop-file-validate "${pkgname%-git}/platform/${_app_id}.desktop"
 }
 
