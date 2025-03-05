@@ -30,20 +30,21 @@ makedepends=(
 )
 checkdepends=('appstream')
 optdepends=(
-  'libayatana-indicator: show a tray icon in the notification area'
+  'gnome-shell-extension-appindicator: tray icon backend for GNOME'
+  'libayatana-appindicator: tray icon backend for MATE'
   'python-croniter: for Health Statistics plugin'
-  'python-pyowm: for Weather plugin'
   'python-pywayland: for Smart Pause plugin (Wayland)'
+  'safeeyes-plugins: Third party plugins'
+  'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
   'swayidle: for Smart Pause plugin (Sway)'
   'xprintidle: for Smart Pause plugin (Xorg)'
+  'wingpanel-community-indicators: tray icon backend for Pantheon'
   'wlrctl: full screen detection on Wayland'
 )
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/slgobinath/SafeEyes.git'
-        'git+https://github.com/safeeyes/safeeyes-plugins.git')
-sha256sums=('SKIP'
-            'SKIP')
+source=('git+https://github.com/slgobinath/SafeEyes.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd SafeEyes
@@ -75,8 +76,4 @@ package() {
 
   # Remove duplicate icons and desktop file
   rm -rf "${pkgdir}${site_packages}/${pkgname%-git}/platform/"
-
-  # Third-party plugins
-  cp -r "$srcdir/${pkgname%-git}"-plugins/{system-notifications,weather,zoom} \
-    "${pkgdir}${site_packages}/${pkgname%-git}/plugins/"
 }
