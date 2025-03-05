@@ -35,9 +35,9 @@ optdepends=(
   'safeeyes-plugins: Third party plugins'
   'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
   'swayidle: for Smart Pause plugin (Sway)'
-  'xprintidle: for Smart Pause plugin (Xorg)'
   'wingpanel-community-indicators: tray icon backend for Pantheon'
   'wlrctl: full screen detection on Wayland'
+  'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('ee0cf597b602a7aa3e8bdfa34b6a54e9862f7e2131eb5b3c653534c9674791fd')
