@@ -1,0 +1,45 @@
+# https://aur.archlinux.org/packages/pwvucontrol
+
+pkgname=pwvucontrol
+pkgver=0.4.9
+pkgrel=1
+pkgdesc="Pipewire Volume Control"
+arch=('x86_64')
+url="https://github.com/saivert/pwvucontrol"
+license=('GPL-3.0-only')
+depends=(
+  'glib2'
+  'gtk4'
+  'libadwaita'
+  'libwireplumber-4.0-compat'
+  'wireplumber')
+makedepends=(
+  'cargo'
+  'clang'
+  'cmake'
+  'git'
+  'meson'
+)
+checkdepends=('appstream-glib')
+source=("git+https://github.com/saivert/pwvucontrol.git#tag=$pkgver")
+b2sums=('2cd0bd9901f63551f979f7efe1194b4cbb4b05c1175aec30e5d8c4e92511b47e372e22ab95d9acef11d7ab4132aa6ed7195c209e214538db6c06edc85dd8ded0')
+
+prepare() {
+  cd "$pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  export RUSTUP_TOOLCHAIN=stable
+  arch-meson "$pkgname" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
