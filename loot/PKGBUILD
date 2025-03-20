@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/loot
 
 pkgname=loot
-pkgver=0.25.0
+pkgver=0.25.2
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
@@ -22,14 +22,14 @@ makedepends=(
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/loot/archive/$pkgver.tar.gz"
         "$pkgname.desktop")
-sha256sums=('ec065ccdb5a2b68437caad44cb71245f1825cea04b275303c0f9f1eee62c586a'
+sha256sums=('30e65e0409c71ea06eb3437a1501e41bdc603c674d976be86ef3aa14d790bf94'
             'c8a8776d7a752f227c5c90d23bab6800b18c3da11376a3ca8279532cd1695901')
 
 build() {
   CFLAGS+=" -ffat-lto-objects"
   CXXFLAGS+=" -ffat-lto-objects"
   cmake -B build -S "$pkgname-$pkgver" \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLOOT_BUILD_TESTS='OFF' \
     -Wno-dev
