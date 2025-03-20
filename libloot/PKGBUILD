@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/libloot
 
 pkgname=libloot
-pkgver=0.25.3
+pkgver=0.25.5
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
@@ -24,16 +24,18 @@ makedepends=(
 )
 provides=('libloot.so=0')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/libloot/archive/$pkgver.tar.gz")
-sha256sums=('97426381126e8551cc2e850596a093cc2919e0109e9757315286341214de3020')
+sha256sums=('7ebd54805d1d03b2fe176a23ed928b85502816892de361c6493abe39acb8924c')
 
 build() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
   cmake -B build -S . \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLIBLOOT_BUILD_TESTS='OFF' \
     -DLIBLOOT_INSTALL_DOCS='OFF' \
+    -DCMAKE_DISABLE_FIND_PACKAGE_yaml-cpp='ON' \
+		-DCMAKE_SKIP_RPATH=TRUE \
     -Wno-dev
   cmake --build build
 
