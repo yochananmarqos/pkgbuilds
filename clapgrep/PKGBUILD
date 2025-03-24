@@ -11,7 +11,7 @@ depends=(
   'gtk4'
   'gtksourceview5'
   'libadwaita'
-  'poppler-data'
+  'poppler-glib'
 )
 makedepends=(
   'blueprint-compiler'
