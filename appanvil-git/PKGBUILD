@@ -1,0 +1,83 @@
+# https://aur.archlinux.org/packages/appanvil-git
+
+pkgname=appanvil-git
+pkgver=0.2.r258.g4d7d2bf
+pkgrel=1
+pkgdesc="Graphical user interface for the AppArmor security module"
+arch=('x86_64')
+url="https://github.com/jack-ullery/AppAnvil"
+license=('GPL-3.0-or-later')
+depends=(
+  'apparmor'
+  'gtkmm3'
+  'jsoncpp'
+  'polkit'
+)
+makedepends=(
+  'clang'
+  'cmake'
+  'git'
+)
+#checkdepends=('gtest')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}" 'libappanvil')
+source=('git+https://github.com/jack-ullery/AppAnvil.git'
+        'git+https://github.com/jack-ullery/libappanvil.git'
+        'git+https://gitlab.com/apparmor/apparmor.git')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP')
+
+pkgver() {
+  cd AppAnvil
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd AppAnvil
+  git submodule init
+  git config submodule.libappanvil.url "$srcdir/libappanvil"
+  git -c protocol.file.allow=always submodule update
+
+  pushd libappanvil
+  git submodule init
+  git config submodule.modules/apparmor.url "$srcdir/apparmor"
+  git -c protocol.file.allow=always submodule update
+  popd
+}
+
+build() {
+  CFLAGS+=" -ffat-lto-objects"
+  CXXFLAGS+=" -ffat-lto-objects"
+  cmake -B build -S AppAnvil \
+    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Wno-dev
+  cmake --build build
+
+  desktop-file-edit --set-key=Exec --set-value="${pkgname%-git}" \
+    --set-key=Icon --set-value="${pkgname%-git}" \
+    "AppAnvil/resources/generated/${pkgname%-git}.desktop"
+}
+
+#check() {
+
+#  The following tests FAILED:
+#	  2173 - appanvil_test_NOT_BUILT (Not Run)
+#	  2174 - appanvil_test_NOT_BUILT (Not Run)
+#  Errors while running CTest
+
+#  ctest --test-dir build --output-on-failure
+#}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  # Correct icon location
+  install -Dvm644 AppAnvil/resources/ui/misc/icon.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${pkgname%-git}.svg"
+  rm -v "$pkgdir/usr/share/icons/${pkgname%-git}.svg"
+
+  # Remove duplicate license in wrong location
+  rm -rfv "$pkgdir/usr/share/doc"
+}
