@@ -1,0 +1,60 @@
+# https://aur.archlinux.org/packages/field-monitor
+
+pkgname=field-monitor
+pkgver=48.0
+pkgrel=1
+pkgdesc="Remote-desktop client designed for the GNOME platform. Access virtual machines and other external screens."
+arch=('x86_64')
+url="https://github.com/theCapypara/field-monitor"
+license=('GPL-3.0-or-later')
+depends=(
+  'dconf'
+  'freerdp2'
+  'gcc-libs'
+  'glib2'
+  'glibc'
+  'gtk4'
+  'gtk-vnc'
+  'hicolor-icon-theme'
+  'json-c'
+  'libadwaita'
+  'libcacard'
+  'libtirpc'
+  'libvirt'
+  'phodav'
+  'python-pyparsing'
+  'spice'
+  'spice-gtk'
+  'spice-protocol'
+  'vte4'
+)
+makedepends=(
+  'blueprint-compiler'
+  'cargo'
+  'git'
+  'meson'
+)
+source=("git+https://github.com/theCapypara/field-monitor#tag=v$pkgver")
+sha256sums=('cdb3461d9963d2f20d61b1988395f4de9f2c69bbe08f6bc1a79134034f8ad526')
+
+prepare() {
+  cd "$pkgname"
+	export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+	export RUSTUP_TOOLCHAIN=stable
+	arch-meson "$pkgname" build --buildtype=release
+	meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+
+  ln -s /usr/bin/de.capypara.FieldMonitor "$pkgdir/usr/bin/$pkgname"
+}
