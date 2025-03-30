@@ -5,10 +5,25 @@ pkgrel=1
 pkgdesc="Dragonfly Navigator: A simple and efficient dual pane file manager for Linux."
 arch=('x86_64')
 url="https://github.com/suncore/dflynav"
-license=('GPL3')
-depends=('python-cykooz.heif' 'python-exifread' 'python-inotify-simple' 'python-pyqt5')
-makedepends=('cmake' 'extra-cmake-modules' 'gtkmm3' 'kcoreaddons5' 'ki18n5' 'kio5'
-             'ktextwidgets5' 'kwidgetsaddons5' 'kxmlgui5')
+license=('GPL-3.0-or-later')
+depends=(
+  'python-cykooz.heif'
+  'python-exifread'
+  'python-inotify-simple'
+  'python-pillow'
+  'python-pyqt5'
+)
+makedepends=(
+  'cmake'
+  'extra-cmake-modules'
+  'gtkmm3'
+  'kcoreaddons5'
+  'ki18n5'
+  'kio5'
+  'ktextwidgets5'
+  'kwidgetsaddons5'
+  'kxmlgui5'
+)
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
         'dragonfly.desktop')
 sha256sums=('9c086b20e7fd50c4b41754c9e23b7a02dbc922229f9f2d49cfc43433ac9f49af'
@@ -31,12 +46,14 @@ build() {
   cmake -B qt/build -S qt \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DCMAKE_POLICY_VERSION_MINIMUM='3.5' \
     -Wno-dev
   cmake --build qt/build
 
   cmake -B gtk/build -S gtk \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DCMAKE_POLICY_VERSION_MINIMUM='3.5' \
     -Wno-dev
   cmake --build gtk/build
 }
@@ -63,7 +80,11 @@ package_dflynav-common() {
 
 package_dflynav-gtk() {
   pkgdesc+=" (Gtk GUI)"
-  depends=('dflynav-common' 'gnome-terminal' 'gtkmm3')
+  depends=(
+    'dflynav-common'
+    'gnome-terminal'
+    'gtkmm3'
+  )
   provides=('dflynav')
   conflicts=('dflynav')
 
@@ -78,7 +99,12 @@ package_dflynav-gtk() {
 
 package_dflynav-qt() {
   pkgdesc+=" (Qt GUI)"
-  depends=('dflynav-common' 'kcoreaddons5' 'ki18n5' 'konsole')
+  depends=(
+    'dflynav-common'
+    'kcoreaddons5'
+    'ki18n5'
+    'konsole'
+  )
   provides=('dflynav')
   conflicts=('dflynav')
 
