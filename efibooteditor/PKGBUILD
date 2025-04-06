@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/efibooteditor
 
 pkgname=efibooteditor
-pkgver=1.5.2
+pkgver=1.5.3
 pkgrel=1
 pkgdesc="Boot Editor for (U)EFI based systems"
 arch=('x86_64')
@@ -17,7 +17,7 @@ makedepends=(
   'qt6-tools'
 )
 source=("git+https://github.com/Neverous/efibooteditor.git#tag=v$pkgver?signed")
-sha256sums=('e2e2ae15c0b2b7e62a0afb803c5798ac1bf86a6a80c0a5a63694379b9a750101')
+sha256sums=('6b7f96ff4ae2b92ea3133a88ec1724f844a3062cf0c4c3a3e2717fe78db13fb9')
 validpgpkeys=('9E76A390AAF9772C8448DCCEE4F948F71FEE7375') # Maciej Szeptuch <neverous@neverous.info>
 
 build() {
