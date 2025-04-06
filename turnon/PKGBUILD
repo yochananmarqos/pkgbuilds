@@ -2,7 +2,7 @@
 
 pkgname=turnon
 _app_id="de.swsnr.$pkgname"
-pkgver=2.5.1
+pkgver=2.5.2
 pkgrel=1
 pkgdesc="Turn on devices in your local network"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ makedepends=(
   'cargo'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('09e8ddf23be96b65615c0013f7a848f49c9a190fc8e20dba808878646a925410')
+sha256sums=('1ceae427c3807fad340038e0c32b43a2473bcf851d014938f5b8050871eab7cf')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -35,11 +35,14 @@ check() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
   cargo test --frozen
+
+  appstreamcli validate --no-net "resources/${_app_id}.metainfo.xml"
+  desktop-file-validate "${_app_id}.desktop"
 }
 
 package() {
   cd "$pkgname-$pkgver"
   make DESTPREFIX="$pkgdir/usr" install
 
-  ln -s "/usr/bin/${_app_id}" "${pkgdir}/usr/bin/$pkgname"
+  ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/$pkgname"
 }
