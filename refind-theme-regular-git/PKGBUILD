@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/refind-theme-regular-git/
 
 pkgname=refind-theme-regular-git
-pkgver=r87.3969875
+pkgver=r89.6ab3ffb
 pkgrel=1
 pkgdesc="A simplistic clean and minimal theme for rEFInd"
 arch=('any')
