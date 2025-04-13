@@ -2,13 +2,17 @@
 
 pkgname=passy
 _app_id=com.glitterware.passy
-pkgver=1.8.0
+pkgver=1.9.1
 pkgrel=1
 pkgdesc="Offline password manager with cross-platform synchronization"
 arch=('x86_64' 'aarch64')
 url="https://glitterware.github.io/Passy"
 license=('GPL-3.0-or-later')
-depends=('gtk3')
+depends=(
+  'gtk3'
+  'libayatana-appindicator'
+  'mpv'
+)
 makedepends=(
   'chrpath'
   'clang'
@@ -18,14 +22,17 @@ makedepends=(
   'unzip'
 )
 source=("git+https://github.com/GlitterWare/Passy.git#tag=v$pkgver"
-        'git+https://github.com/flutter/flutter.git')
-sha256sums=('47237d10879734e2b2771e425f5af8b00aecc61677183f9f799b1c50884e0695'
+        'git+https://github.com/flutter/flutter.git'
+        'git+https://github.com/P-H-C/phc-winner-argon2.git')
+sha256sums=('e6a5b8a3408ea4b1567367f259776dd7bf1c99e1fadaebdb231407377a5a8a29'
+            'SKIP'
             'SKIP')
 
 prepare() {
   cd Passy
   git submodule init
   git config submodule.submodules/flutter.url "$srcdir/flutter"
+  git config submodule.submodules/phc-winner-argon2.url "$srcdir/phc-winner-argon2"
   git -c protocol.file.allow=always submodule update
 
   export FLUTTER_HOME="${PWD}/submodules/flutter"
