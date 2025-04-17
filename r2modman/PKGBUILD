@@ -1,10 +1,10 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.1.57
-pkgrel=2
+pkgver=3.1.58
+pkgrel=1
 _nodeversion=20
-_electronversion=34
+_electronversion=35
 pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
 arch=('x86_64')
 url="https://github.com/ebkr/r2modmanPlus"
@@ -17,7 +17,7 @@ makedepends=(
 source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('74a274bd1cf0b661c4b46a53a73d07d6436f7fd6db1300663c8c604bb4c51219'
+sha256sums=('0d8b4fe916c9fa8d990292e4125e730e72e7101d7179fe7834dd8622be0c244b'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
