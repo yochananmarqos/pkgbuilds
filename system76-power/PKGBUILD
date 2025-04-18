@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/system76-power
 
 pkgname=system76-power
-pkgver=1.2.3
+pkgver=1.2.4
 pkgrel=1
 pkgdesc="System76 Power Management"
 arch=('x86_64' 'aarch64')
@@ -14,14 +14,14 @@ depends=(
 )
 makedepends=('cargo')
 optdepends=(
-  'system76-acpi-dkms: needed for systems with open firmware - only for kernels <5.16'
+  'system76-acpi-dkms: only needed for systems with open firmware with kernels <5.16'
   'system76-dkms: needed for systems with proprietary firmware'
 )
 provides=('power-profiles-daemon')
 install="$pkgname.install"
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
         'use-mkinitcpio.patch')
-sha256sums=('bf1e31a9cb77661dd9bd594bd469327b65aab96c4e07b66da1e5cc77fc7219b3'
+sha256sums=('ab27688b22256006b2ca12cbaf41c99abd17213fe33f4e7c1ed41e1ac05613b7'
             'e4417c1e2013e51d08a73705adf271939ff66b6d5cf6e3b67a1fe914ba769d05')
 
 prepare() {
