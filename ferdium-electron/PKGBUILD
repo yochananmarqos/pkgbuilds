@@ -1,9 +1,9 @@
 # https://aur.archlinux.org/packages/ferdium-electron
 
 pkgname=ferdium-electron
-pkgver=7.0.0
-pkgrel=2
-_electronversion=33
+pkgver=7.0.1
+pkgrel=1
+_electronversion=34
 pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
 arch=('x86_64')
 url="https://ferdium.org"
@@ -20,7 +20,7 @@ conflicts=('ferdium')
 source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
         'git+https://github.com/ferdium/ferdium-recipes.git'
         'ferdium.desktop')
-sha256sums=('2aeefd6f06a4ff4256e36c95bbbd46f19e23dd234585df25ebd6d023d08ccb35'
+sha256sums=('5af85cbd5339138c40930f659f603beb4639c7be76f62d4747e07c35351e6934'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
