@@ -1,52 +1,57 @@
 pkgname=sdlpop-git
-pkgver=1.23.r0.g7aeacd8
+pkgver=1.24.RC.r0.g83c726d
 pkgrel=1
 pkgdesc="An open-source port of Prince of Persia"
-arch=('i686' 'x86_64')
-license=('GPL3')
+arch=('x86_64')
+license=('GPL-3.0-or-later')
 url="https://github.com/NagyD/SDLPoP"
-depends=('sdl2_image' 'sdl2_mixer')
+depends=(
+  'sdl2-compat'
+  'sdl2_image'
+)
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-backup=("opt/${pkgname%-git}/SDLPoP.ini")
-source=("${pkgname%-git}::git+https://github.com/NagyD/SDLPoP.git"
+backup=("usr/share/${pkgname%-git}/SDLPoP.ini")
+source=('git+https://github.com/NagyD/SDLPoP.git'
         "${pkgname%-git}.sh")
 sha256sums=('SKIP'
-            'cb7b7923dcfb68520c7e738e6e8bd503f56f2775b28022285397284c0c428991')
+            '3c5d01a27218642646e1d7c66479fd8a414bac953970f168a00054e3084b6767')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd SDLPoP
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname%-git}/src"
+  cd SDLPoP/src
 
   # Since we don't copy the executable or the data folder anywhere, 
   # the desktop file has to be updated to contain the actual paths.
-  sed -e 's|$ROOT|/opt/sdlpop|' SDLPoP.desktop.template > SDLPoP.desktop
+  sed -e 's|$ROOT|/usr/share/sdlpop|' SDLPoP.desktop.template > SDLPoP.desktop
   sed -i -e '$aStartupWMClass=prince' SDLPoP.desktop
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd SDLPoP
   make -C src
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd SDLPoP
 
   # world-writable for save/load games, config, etc.
-  install -dm757 "$pkgdir/opt/${pkgname%-git}"
-  install -m755 prince -t "$pkgdir/opt/${pkgname%-git}/"
-  cp -r data mods SDLPoP.ini "$pkgdir/opt/${pkgname%-git}/"
+  install -dm757 "$pkgdir/usr/share/${pkgname%-git}"
+  install -m755 prince -t "$pkgdir/usr/share/${pkgname%-git}/"
+  install -m777 SDLPoP.ini -t "$pkgdir/usr/share/${pkgname%-git}/"
+  cp -r data mods "$pkgdir/usr/share/${pkgname%-git}/"
 
   install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
   cp -r doc/* "$pkgdir/usr/share/doc/${pkgname%-git}/"
 
   install -d "$pkgdir/usr/share/pixmaps"
-  ln -s /opt/sdlpop/data/icon.png "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
+  ln -s "/usr/share/${pkgname%-git}/data/icon.png" \
+    "$pkgdir/usr/share/pixmaps/${pkgname%-git}.png"
 
   install -Dm644 src/SDLPoP.desktop \
     "$pkgdir/usr/share/applications/${pkgname%-git}.desktop"

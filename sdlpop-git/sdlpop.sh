@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /opt/sdlpop
+cd /usr/share/sdlpop
 exec ./prince "$@"
