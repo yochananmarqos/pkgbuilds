@@ -1,0 +1,28 @@
+# https://aur.archlinux.org/packages/geany-themes-git
+
+pkgname=geany-themes-git
+pkgver=1.24.r97.g8b0247b
+pkgrel=1
+pkgdesc="A collection of color schemes for Geany."
+arch=('any')
+url="https://git.geany.org/git/geany-themes"
+license=('GPL-3.0-or-later')
+depends=('geany')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://git.geany.org/git/geany-themes')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+  cd "${pkgname%-git}"
+  make COLORSCHEME_DIR="$pkgdir"/usr/share/geany/colorschemes install
+
+  # Provided by geany
+  rm "$pkgdir/usr/share/geany/colorschemes/alt.conf"
+}
