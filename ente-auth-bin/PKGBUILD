@@ -9,10 +9,9 @@ url="https://ente.io/auth"
 license=('AGPL-3.0-or-later')
 depends=(
   'gtk3'
-  'libappindicator-gtk3'
+  'libayatana-appindicator'
   'libsecret'
   'libsodium-1.0.18'
-  'sqlite'
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
