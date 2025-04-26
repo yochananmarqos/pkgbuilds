@@ -1,0 +1,58 @@
+From b17008a2d4a2912e54059bbfc24d2c54067d6a52 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ianar=C3=A9=20S=C3=A9vi?= <ianare@gmail.com>
+Date: Sat, 26 Apr 2025 02:09:46 +0200
+Subject: [PATCH] fix for missing license file
+
+---
+ LICENSE    | 31 +++++++++++++++++++++++++++++++
+ README.rst |  2 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 LICENSE
+
+diff --git a/LICENSE b/LICENSE
+new file mode 100644
+index 0000000..5a1e608
+--- /dev/null
++++ b/LICENSE
+@@ -0,0 +1,31 @@
++
++Copyright (c) 2002-2007 Gene Cash
++Copyright (c) 2007-2025 Ianaré Sévi and contributors
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions
++are met:
++
++ 1. Redistributions of source code must retain the above copyright
++    notice, this list of conditions and the following disclaimer.
++
++ 2. Redistributions in binary form must reproduce the above
++    copyright notice, this list of conditions and the following
++    disclaimer in the documentation and/or other materials provided
++    with the distribution.
++
++ 3. Neither the name of the authors nor the names of its contributors
++    may be used to endorse or promote products derived from this
++    software without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+diff --git a/README.rst b/README.rst
+index d62a381..26e0c44 100644
+--- a/README.rst
++++ b/README.rst
+@@ -233,4 +233,4 @@ Originally written by Gene Cash & Thierry Bousch.
+ 
+ Available as open source under the terms of the **BSD-3-Clause license**.
+ 
+-See LICENSE.txt file for details.
++See the LICENSE file for details.

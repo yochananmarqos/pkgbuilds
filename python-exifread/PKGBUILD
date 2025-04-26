@@ -2,8 +2,8 @@
 
 pkgname=python-exifread
 _name=exif-py
-pkgver=3.0.0
-pkgrel=2
+pkgver=3.1.0
+pkgrel=1
 pkgdesc="Python library to extract EXIF data from tiff and jpeg files"
 arch=('any')
 url="https://github.com/ianare/exif-py"
@@ -15,8 +15,17 @@ makedepends=(
   'python-setuptools'
   'python-wheel'
 )
-source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('ed3042a06a46c74b606d25c4721ccb18ae1e0ec7d1c47583a7390a450aee3562')
+source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+        'license.patch')
+sha256sums=('f47606cbbf115164f8fd5feca67a552c006b30357af625e015d203aec46f1433'
+            'b1d8d363bf29a23af9e59074082ff3570421abec39ccbe70d3c9a81807324919')
+
+prepare() {
+  cd "$_name-$pkgver"
+
+  # Restore missing LICENSE
+  patch -Np1 -i ../license.patch
+}
 
 build() {
   cd "$_name-$pkgver"
@@ -27,5 +36,5 @@ package() {
   cd "$_name-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
