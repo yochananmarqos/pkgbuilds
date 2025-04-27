@@ -2,7 +2,7 @@
 
 pkgname=python-exifread
 _name=exif-py
-pkgver=3.1.0
+pkgver=3.2.0
 pkgrel=1
 pkgdesc="Python library to extract EXIF data from tiff and jpeg files"
 arch=('any')
@@ -15,21 +15,22 @@ makedepends=(
   'python-setuptools'
   'python-wheel'
 )
-source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
-        'license.patch')
-sha256sums=('f47606cbbf115164f8fd5feca67a552c006b30357af625e015d203aec46f1433'
-            'b1d8d363bf29a23af9e59074082ff3570421abec39ccbe70d3c9a81807324919')
+checkdepends=('python-pytest')
+source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('450241248b512e7d6e0ee4d6e2537e713dd1817cca12eee47fa30957d03b9c4f')
 
 prepare() {
   cd "$_name-$pkgver"
-
-  # Restore missing LICENSE
-  patch -Np1 -i ../license.patch
 }
 
 build() {
   cd "$_name-$pkgver"
   python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$_name-$pkgver"
+  pytest
 }
 
 package() {
