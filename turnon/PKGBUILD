@@ -2,7 +2,7 @@
 
 pkgname=turnon
 _app_id="de.swsnr.$pkgname"
-pkgver=2.6.2
+pkgver=2.6.3
 pkgrel=1
 pkgdesc="Turn on devices in your local network"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ makedepends=(
   'cargo'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('cf5b0f8f62efff345230e94cd1ff2840fbb68b224f67489525974f94ca450a8b')
+sha256sums=('5501392605642ec101997bc2516d29392b2626d4791f48a7345e28d06b79dd4e')
 
 prepare() {
   cd "$pkgname-$pkgver"
