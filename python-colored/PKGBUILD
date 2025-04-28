@@ -24,6 +24,9 @@ sha256sums=('ffc3821b951fa22d834062608adbcf17b0347c4fb81aea867a4965e22d06682f'
 prepare() {
   cd "$_name-$pkgver"
   patch -Np1 -i ../tests-set-tty-aware-false.patch
+
+  # remove shebangs
+  sed -i '/#!\/usr\/bin\/env python/d' colored/*.py
 }
 
 build() {
