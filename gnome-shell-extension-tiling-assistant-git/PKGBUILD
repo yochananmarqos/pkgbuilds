@@ -1,9 +1,8 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-tiling-assistant-git
-groups=('modifed')
 
 pkgname=gnome-shell-extension-tiling-assistant-git
 _uuid=tiling-assistant@leleat-on-github
-pkgver=51.r0.g9373d10
+pkgver=52.r0.g52edf8b
 pkgrel=1
 pkgdesc="A GNOME Shell extension which adds a Windows-like snap assist to the GNOME desktop"
 arch=('any')
@@ -14,21 +13,12 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 install='tiling-assistant.install'
-source=('git+https://github.com/Leleat/Tiling-Assistant.git'
-        'shell-version.patch')
-sha256sums=('SKIP'
-            '65a36204f0ee6993873f2126704c6f40b5baaa430728c26cdc2388eaf6b316fb')
+source=('git+https://github.com/Leleat/Tiling-Assistant.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd Tiling-Assistant
   git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
-prepare() {
-  cd Tiling-Assistant
-
-  # Keep support for GNOME 47
-  patch -Np1 -i ../shell-version.patch
 }
 
 build() {
