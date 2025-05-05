@@ -2,7 +2,7 @@
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.2.3.r35.g17bbcaa
+pkgver=3.0.0b3.r1.gf964aa1
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -48,7 +48,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd SafeEyes
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
