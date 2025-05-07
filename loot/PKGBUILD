@@ -76,12 +76,4 @@ package() {
     install -Dm644 "${lang%%/}/LC_MESSAGES/$pkgname.mo" -t \
       "$pkgdir/usr/share/locale/${lang%%/}/LC_MESSAGES/"
   done
-
-  # en directory has no PO file
-#  rm -rf en
-#  for lang in $(ls -d */); do
-#    install -d "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES"
-#    msgfmt -c -o "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/$pkgname.mo" \
-#      "${lang}/LC_MESSAGES/$pkgname.po"
-#  done
 }
