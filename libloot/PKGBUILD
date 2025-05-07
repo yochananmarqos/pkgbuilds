@@ -11,6 +11,7 @@ depends=(
   'fmt'
   'icu'
   'onetbb'
+  'spdlog'
 )
 makedepends=(
   'boost'
@@ -18,23 +19,24 @@ makedepends=(
   'cbindgen'
   'cmake'
 #  'doxygen'  # docs
+  'git'
 #  'python-breathe'  # docs
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
 )
 provides=('libloot.so=0')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/libloot/archive/$pkgver.tar.gz")
-sha256sums=('2f308b39ac5962081a45acd8dcb964ca7283d0783942c275a3c900627758d1a3')
+# Use the Git repository so that libloot's commit hash gets embedded in the build
+source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
+sha256sums=('ecbe461e3c5c2c1a46f1357153de530965e84895a7453e044c49dcc1760dc657')
 
 build() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
   cmake -B build -S . \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLIBLOOT_BUILD_TESTS='OFF' \
     -DLIBLOOT_INSTALL_DOCS='OFF' \
-    -DCMAKE_DISABLE_FIND_PACKAGE_yaml-cpp='ON' \
     -DCMAKE_SKIP_RPATH=TRUE \
     -Wno-dev
   cmake --build build
@@ -49,6 +51,6 @@ build() {
 #}
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   DESTDIR="$pkgdir" cmake --install build
 }
