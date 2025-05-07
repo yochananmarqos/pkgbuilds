@@ -1,42 +1,56 @@
 # https://aur.archlinux.org/packages/loot
 
 pkgname=loot
-pkgver=0.25.2
+_app_id="io.github.$pkgname.$pkgname"
+pkgver=0.26.0
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
 url="https://loot.github.io"
 license=('GPL-3.0-only')
 depends=(
+  'fmt'
   'hicolor-icon-theme'
+  'icu'
   'libloot'
+  'minizip-ng'
+  'onetbb'
+  'spdlog'
   'qt6-base'
+  'tomlplusplus'
+  'zlib-ng'
 )
 makedepends=(
   'boost'
+  'cbindgen'
   'cmake'
 #  'doxygen'  # docs
+  'git'
   'ogdf'
+  'python'
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
+  'vulkan-headers'
 )
-source=("$pkgname-$pkgver.tar.gz::https://github.com/loot/loot/archive/$pkgver.tar.gz"
-        "$pkgname.desktop")
-sha256sums=('30e65e0409c71ea06eb3437a1501e41bdc603c674d976be86ef3aa14d790bf94'
-            'c8a8776d7a752f227c5c90d23bab6800b18c3da11376a3ca8279532cd1695901')
+# Use the Git repository so that loot's commit hash gets embedded in the build
+source=("git+https://github.com/loot/loot.git#tag=$pkgver")
+sha256sums=('14d6b86f483cca3642aa883b3dbe2a0e1a78c00a6e1e320f27fbffb1705b7540')
 
 build() {
   CFLAGS+=" -ffat-lto-objects"
   CXXFLAGS+=" -ffat-lto-objects"
-  cmake -B build -S "$pkgname-$pkgver" \
+  cmake -B build -S "$pkgname" \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLOOT_BUILD_TESTS='OFF' \
     -Wno-dev
   cmake --build build
 
+  # translations
+  cd "$pkgname"
+  python scripts/po_to_mo.py
+
   # docs
-#  cd "$pkgname-$pkgver"
 #  sphinx-build -b html docs build/docs/html
 }
 
@@ -46,7 +60,28 @@ build() {
 
 package() {
   install -Dm755 build/LOOT -t "$pkgdir/usr/bin/"
-  install -Dm644 "$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
-  install -Dm644 "$pkgname-$pkgver/resources/icons/$pkgname.svg" -t \
+
+  cd "$pkgname"  
+  install -Dm644 "resources/linux/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -Dm644 "resources/linux/${_app_id}.metainfo.xml" -t \
+    "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "resources/icons/$pkgname.svg" -t \
     "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+
+  cd resources/l10n
+  # en directory has no translation file
+  rm -rf en
+  for lang in $(ls -d */); do
+    install -Dm644 "${lang%%/}/LC_MESSAGES/$pkgname.mo" -t \
+      "$pkgdir/usr/share/locale/${lang%%/}/LC_MESSAGES/"
+  done
+
+  # en directory has no PO file
+#  rm -rf en
+#  for lang in $(ls -d */); do
+#    install -d "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES"
+#    msgfmt -c -o "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/$pkgname.mo" \
+#      "${lang}/LC_MESSAGES/$pkgname.po"
+#  done
 }
