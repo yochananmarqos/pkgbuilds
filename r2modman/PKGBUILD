@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.1.58
+pkgver=3.2.0
 pkgrel=1
 _nodeversion=20
 _electronversion=35
@@ -17,7 +17,7 @@ makedepends=(
 source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('0d8b4fe916c9fa8d990292e4125e730e72e7101d7179fe7834dd8622be0c244b'
+sha256sums=('b50fbd319c29fe834c3c8e4055bc8e380044c4306de0972db60fee6da1927c14'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
