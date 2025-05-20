@@ -1,0 +1,39 @@
+# https://aur.archlinux.org/packages/gnome-shell-extension-system76-power-git
+
+pkgname=gnome-shell-extension-system76-power-git
+pkgver=48.r0.gac8613c
+pkgrel=1
+pkgdesc="GNOME shell extension for System76 Power Management"
+arch=('any')
+url="https://gitlab.com/LFd3v/gnome-shell-extension-system76-power"
+license=('MIT')
+depends=(
+  'gnome-shell'
+  'system76-power'
+)
+makedepends=(
+  'git'
+  'typescript'
+)
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://gitlab.com/LFd3v/gnome-shell-extension-system76-power.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build(){
+  cd "${pkgname%-git}"
+  make
+}
+
+
+package() {
+  cd "${pkgname%-git}"
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
