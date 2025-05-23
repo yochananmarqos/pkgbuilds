@@ -1,16 +1,25 @@
 # https://aur.archlinux.org/packages/whatip-git
-groups=('modified')
 
 pkgname=whatip-git
-pkgver=1.2.r0.g678ba7e
+pkgver=1.2.r22.g81729d4
 pkgrel=1
 pkgdesc="Info on your IP"
 arch=('any')
-url="https://gabmus.gitlab.io/whatip"
-license=('GPL3')
-depends=('iproute2' 'libadwaita' 'python-requests' 'python-netaddr' 'python-gobject')
-makedepends=('blueprint-compiler' 'git' 'gobject-introspection' 'meson')
-checkdepends=('appstream')
+url="https://whatip.gabmus.org"
+license=('GPL-3.0-or-later')
+depends=(
+  'iproute2'
+  'libadwaita'
+  'python-requests'
+  'python-netaddr'
+  'python-gobject'
+)
+makedepends=(
+  'blueprint-compiler'
+  'git'
+  'gobject-introspection'
+  'meson'
+)
 optdepends=('avahi: hostname resolution')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -19,7 +28,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -28,9 +37,9 @@ build() {
 }
 
 check() {
-  meson test -C build --print-errorlogs || :
+  meson test -C build --no-rebuild --print-errorlogs || :
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 }
