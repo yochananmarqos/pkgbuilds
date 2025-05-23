@@ -1,35 +1,56 @@
 # https://aur.archlinux.org/packages/waydroid-settings-git
-groups=('modified')
+
+## WIP
 
 pkgname=waydroid-settings-git
-pkgver=r85.bac6cd8
+pkgver=r115.d2e9aa9
 pkgrel=1
 pkgdesc="GTK app written in Python to control Waydroid settings"
 arch=('any')
 url="https://github.com/axel358/Waydroid-Settings"
-license=('GPL3')
-depends=('libadwaita' 'polkit' 'python-gobject' 'vte4' 'waydroid' 'webkit2gtk-5.0')
-makedepends=('blueprint-compiler' 'git' 'meson')
-checkdepends=('appstream-glib')
+license=('GPL-3.0-or-later')
+depends=(
+  'gtk3'
+  'polkit'
+  'python-gobject'
+  'vte3'
+  'waydroid'
+  'webkit2gtk'
+)
+makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=("git+https://github.com/axel358/Waydroid-Settings.git#branch=gtk4-port")
-sha512sums=('SKIP')
+source=('git+https://github.com/axel358/Waydroid-Settings.git'
+        'git+https://github.com/Quackdoc/waydroid-scripts.git'
+        'git+https://github.com/electrikjesus/waydroid-10-11-switch-script.git'
+        'git+https://github.com/electrikjesus/wd-scripts.git')
+sha512sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
 
 pkgver() {
-  cd "$srcdir/Waydroid-Settings"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd Waydroid-Settings
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
-build() {
-  arch-meson Waydroid-Settings build
-  meson compile -C build
-}
+prepare() {
+  cd Waydroid-Settings
+  git submodule init
+  git config submodule.scripts/quackdoc_scripts.url "$srcdir//waydroid-scripts"
+  git config submodule.scripts/waydroid-10-11-switch-script.url "$srcdir/waydroid-10-11-switch-script"
+  git config submodule.scripts/wd-scripts.url "$srcdir/wd-scripts"
+  git -c protocol.file.allow=always submodule update
 
-check() {
-  meson test -C build --print-errorlogs || :
+  sed -i 's/sudo //g' usr/share/applications/install-to-waydroid.desktop
+  desktop-file-edit --set-key=Categories --set-value="X-WayDroid-App;" \
+    usr/share/applications/waydroid-settings.desktop
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  cd Waydroid-Settings
+  cp -vr usr "$pkgdir/"
+  cp -vr scripts "$pkgdir/usr/share/${pkgname%-git}/"
+  chmod +x "$pkgdir/usr/bin/waydroid-helper"
+  chmod +x "$pkgdir/usr/bin/waydroid-settings"
 }
