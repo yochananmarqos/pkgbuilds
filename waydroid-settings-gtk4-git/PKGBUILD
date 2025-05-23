@@ -1,0 +1,47 @@
+# https://aur.archlinux.org/packages/waydroid-settings-git
+
+## WIP
+
+pkgname=waydroid-settings-gtk4-git
+pkgver=r86.be331fb
+pkgrel=1
+pkgdesc="GTK app written in Python to control Waydroid settings"
+arch=('any')
+url="https://github.com/axel358/Waydroid-Settings"
+license=('GPL-3.0-or-later')
+depends=(
+  'libadwaita'
+  'polkit'
+  'python-gobject'
+  'vte4'
+  'waydroid'
+  'webkitgtk-6.0'
+)
+makedepends=(
+  'blueprint-compiler'
+  'git'
+  'meson'
+)
+checkdepends=('appstream-glib')
+provides=("${pkgname%-git}" 'waydroid-settings')
+conflicts=("${pkgname%-git}" 'waydroid-settings')
+source=("git+https://github.com/axel358/Waydroid-Settings.git#branch=gtk4-port")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd Waydroid-Settings
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+build() {
+  arch-meson Waydroid-Settings build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
