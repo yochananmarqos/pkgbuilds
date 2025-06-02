@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/sif-git
 
 pkgname=sif-git
-pkgver=2023.05.01.r12.gcf832f1
+pkgver=2023.05.01.r15.ge9eb1e9
 pkgrel=1
 pkgdesc="Steam Icons Fixer - Fix runtime icons of Steam games"
 arch=('any')
