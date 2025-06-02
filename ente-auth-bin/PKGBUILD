@@ -12,6 +12,7 @@ depends=(
   'libayatana-appindicator'
   'libsecret'
   'libsodium-1.0.18'
+  'zenity'
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
