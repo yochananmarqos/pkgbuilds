@@ -5,8 +5,14 @@ pkgdesc="A GUI wrapper for system76-power for adjusting charge thresholds"
 arch=('x86_64')
 url="https://github.com/hkdb/s76cc"
 license=('MIT')
-depends=('gtk3' 'system76-power')
-makedepends=('git' 'go')
+depends=(
+  'gtk3'
+  'system76-power'
+)
+makedepends=(
+  'git'
+  'go'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/hkdb/s76cc.git'
@@ -15,19 +21,19 @@ sha256sums=('SKIP'
             '70e1267d6c145de31009d59768a92f898a0d9461c546fdb2ad5f95aa8f67aefc')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
 prepare () {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
 
   # Remove precompiled binary
   rm -f "${pkgname%-git}"
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   export GOPATH="$srcdir/gopath"
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
@@ -43,9 +49,9 @@ build() {
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
-  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
-  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
-  install -Dm644 "${pkgname%-git}.png" -t "$pkgdir/usr/share/pixmaps"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+  cd "${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin/"
+  install -Dm644 "$srcdir/${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
+  install -Dm644 "${pkgname%-git}.png" -t "$pkgdir/usr/share/pixmaps/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
