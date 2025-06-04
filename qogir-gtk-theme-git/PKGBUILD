@@ -1,18 +1,22 @@
 # http://aur.archlinux.org/packages/qogir-gtk-theme-git
-groups=('modified')
 
 pkgname=qogir-gtk-theme-git
-pkgver=2023.05.24.r1.g3515f8f
+pkgver=2024.05.22.r53.gf90a35a
 pkgrel=1
 pkgdesc="A flat design theme for GTK 3, GTK 2 and Gnome-Shell"
 arch=('any')
 url="https://github.com/vinceliuice/Qogir-theme"
-license=('GPL3')
-makedepends=('git' 'sassc')
-optdepends=('gtk-engine-murrine: GTK2 theme support'
-            'gtk-engines: GTK2 theme support'
-            'qogir-icon-theme: Matching icon theme'
-            'qogir-cursors: Matching cursors')
+license=('GPL-3.0-or-later')
+makedepends=(
+  'git'
+  'sassc'
+)
+optdepends=(
+  'gtk-engine-murrine: GTK2 theme support'
+  'gtk-engines: GTK2 theme support'
+  'qogir-icon-theme: Matching icon theme'
+  'qogir-cursors: Matching cursors'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 options=('!strip')
@@ -21,16 +25,16 @@ source=("${pkgname%-git}::git+https://github.com/vinceliuice/Qogir-theme.git")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   install -d "$pkgdir/usr/share/themes"
   ./install.sh -t all -d "$pkgdir/usr/share/themes/"
 
-# Firefox theme
+  # Firefox theme
   install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
   cp -r src/firefox "$pkgdir/usr/share/doc/${pkgname%-git}/"
 }
