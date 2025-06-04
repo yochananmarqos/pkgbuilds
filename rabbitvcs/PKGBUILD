@@ -4,142 +4,188 @@
 # https://aur.archlinux.org/packages/rabbitvcs-nautilus/
 # https://aur.archlinux.org/packages/rabbitvcs-nemo/
 # https://aur.archlinux.org/packages/rabbitvcs-thunar/
-groups=('modified')
+
+## Gedit plugin not working with Gedit later than version 3.12
+
+## WIP
+
+
+# Migrate to Gtk4
+# https://github.com/rabbitvcs/rabbitvcs/pull/360
 
 pkgname=('rabbitvcs'
          'rabbitvcs-cli'
          'rabbitvcs-caja'
-#         'rabbitvcs-dolphin'
+         'rabbitvcs-dolphin'
 #         'rabbitvcs-gedit'
          'rabbitvcs-nautilus'
          'rabbitvcs-nemo'
-#         'rabbitvcs-pluma'
+         'rabbitvcs-pcmanfm-qt'
+         'rabbitvcs-pluma'
          'rabbitvcs-thunar'
          )
 pkgbase=rabbitvcs
-pkgver=0.18+27+g1b833c9
+pkgver=0.19+30+g0b4e201
 pkgrel=1
 pkgdesc="A set of graphical tools written to provide simple and straightforward access to the version control systems you use"
 arch=('any')
-url="http://rabbitvcs.org"
-license=('GPL2')
-makedepends=('git')
-_commit=1b833c934469e331ae15b48392cff09944b7f14a
-source=("git+https://github.com/rabbitvcs/rabbitvcs.git#commit=$_commit"
-        "$pkgbase-ignore-post-install.patch"
-        '328.patch')
-sha256sums=('SKIP'
-            'eb0f2d4dc65c4d3f3cf1835da32063990b69be38e7a162376f8dde84e21ae5e1'
-            '47ee39a0288c20183a4d8375fe32d783b886737501dac02ac666be3188e8605e')
+url="http://wiki.rabbitvcs.org/wiki"
+license=('GPL-2.0-or-later')
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+_commit=0b4e201d669ff137610c6f1608589d56604b66b5
+source=("git+https://github.com/rabbitvcs/rabbitvcs.git#commit=${_commit}")
+sha256sums=('24383b79518a4ef8ffcba9f39ee1cde7371c3724d00eb54a04358ea4ac31181c')
 
 pkgver() {
-  cd "$srcdir/$pkgbase"
-  git describe --tags | sed 's/^v//;s/-/+/g'
+  cd "$pkgbase"
+  git describe --tags --abbrev=7 | sed 's/^v//;s/-/+/g'
 }
 
 prepare() {
-  cd "$srcdir/$pkgbase"
-  patch -Np1 -i "$srcdir/$pkgbase-ignore-post-install.patch"
-
-  # Prevent double scanning all version controlled items in a directory
-  # https://github.com/rabbitvcs/rabbitvcs/pull/328
-  patch -Np1 -i "$srcdir/328.patch"
-
-#  local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-#  local pathfix="/usr/lib/python${python_version}/Tools/scripts/pathfix.py"
-
-#  pathfix -pni "%{__python3} %{py3_shbang_opts}"
+  cd "$pkgbase"
 }
 
 build() {
-  cd "$srcdir/$pkgbase"
-  python setup.py build
+  cd "$pkgbase"
+  python -m build --wheel --no-isolation
 }
 
 package_rabbitvcs(){
-  depends=('git' 'gtk3' 'python-configobj' 'python-dulwich' 'python-gobject'
-           'python-pysvn' 'python-simplejson' 'tk')
-  optdepends=('meld: graphical diff tool)'
-              'python-pygments: For syntax highlighting'
-              'python-gtkspellcheck: For spell checking of commit messages'
-              'hunspell: For spell checking of commit messages')
+  depends=(
+    'git'
+    'gtk3'
+    'meld'
+    'python-configobj'
+    'python-dulwich'
+    'python-gobject'
+    'python-pysvn'
+    'python-simplejson'
+    'tk'
+  )
+  optdepends=(
+    'hunspell: For spell checking of commit messages'
+    'python-gtkspellcheck: For spell checking of commit messages'
+    'python-pygments: For syntax highlighting'
+  )
 
-  cd "$srcdir/$pkgbase"
-  export PYTHONHASHSEED=0
-  python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "$pkgbase"
+  python -m installer --destdir="$pkgdir" dist/*.whl
 }
 
 package_rabbitvcs-cli() {
   pkgdesc="A command line client for RabbitVCS"
   depends=('rabbitvcs')
 
-  cd "$srcdir/$pkgbase"
+  cd "$pkgbase"
   install -Dm755 "clients/cli/$pkgbase" -t "$pkgdir/usr/bin"
 }
 
 package_rabbitvcs-caja() {
   pkgdesc="Caja extension for RabbitVCS"
-  depends=('dbus-python' 'python-caja' 'rabbitvcs')
+  depends=(
+    'python-caja'
+    'python-dbus'
+    'rabbitvcs'
+  )
   install="$pkgname.install"
 
-  cd "$srcdir/$pkgbase"
-  install -Dm644 clients/caja/RabbitVCS.py "$pkgdir/usr/share/caja-python/extensions"
+  cd "$pkgbase"
+  install -Dm644 clients/caja/RabbitVCS.py -t \
+    "$pkgdir/usr/share/caja-python/extensions/"
 }
 
-#package_rabbitvcs-dolphin() {
-#  pkgdesc="Dolphin integration for RabbitVCS (experimental)"
-#  depends=('dolphin' 'rabbitvcs-cli')
+package_rabbitvcs-dolphin() {
+  pkgdesc="Dolphin integration for RabbitVCS"
+  depends=(
+    'dolphin'
+    'rabbitvcs-cli'
+  )
 
-#  cd "$srcdir/$pkgbase"
-#  install -Dm644 clients/dolphin/*.desktop -t "$pkgdir/usr/share/kservices5"
-#}
+  cd "$pkgbase"
+  install -Dm644 clients/dolphin/*.desktop -t \
+    "$pkgdir/usr/share/kio/servicemenus/"
+}
 
-# Gedit plugin not working with Gedit later than version 3.12
+package_rabbitvcs-gedit() {
+  pkgdesc="Gedit plugin for RabbitVCS"
+  depends=(
+    'gedit'
+    'rabbitvcs'
+  )
 
-#package_rabbitvcs-gedit() {
-#  pkgdesc="Gedit plugin for RabbitVCS"
-#  depends=('gedit' 'rabbitvcs')
-
-#  cd "$srcdir/$pkgbase"
-#  install -Dm644 "clients/gedit/$pkgbase"{-gedit3.plugin,-plugin.py} -t \
-#    "$pkgdir/usr/lib/gedit/plugins"
-#}
+  cd "$pkgbase"
+  install -Dm644 "clients/gedit/$pkgbase"{-gedit3.plugin,-plugin.py} -t \
+    "$pkgdir/usr/lib/gedit/plugins/"
+}
 
 package_rabbitvcs-nautilus() {
   pkgdesc="Nautilus extension for RabbitVCS"
-  depends=('dbus-python' 'python-nautilus' 'rabbitvcs')
+  depends=(
+    'nautilus-python'
+    'python-dbus'
+    'rabbitvcs'
+  )
   install="$pkgname.install"
 
-  cd "$srcdir/$pkgbase"
+  cd "$pkgbase"
   install -Dm644 clients/nautilus/RabbitVCS.py -t \
-    "$pkgdir/usr/share/nautilus-python/extensions"
+    "$pkgdir/usr/share/nautilus-python/extensions/"
 }
 
 package_rabbitvcs-nemo() {
   pkgdesc="Nemo extension for RabbitVCS"
-  depends=('dbus-python' 'nemo-python' 'rabbitvcs')
+  depends=(
+    'nemo-python'
+    'python-dbus'
+    'rabbitvcs'
+  )
   install="$pkgname.install"
 
-  cd "$srcdir/$pkgbase"
+  cd "$pkgbase"
   install -Dm644 clients/nemo/RabbitVCS.py -t \
-    "$pkgdir/usr/share/nemo-python/extensions"
+    "$pkgdir/usr/share/nemo-python/extensions/"
 }
 
-#package_rabbitvcs-pluma() {
-#  pkgdesc="Pluma plugin for RabbitVCS"
-#  depends=('pluma' 'rabbitvcs')
+package_rabbitvcs-pcmanfm-qt() {
+  pkgdesc="PCManFM-Qt extension for RabbitVCS"
+  depends=(
+    'pcmanfm-qt'
+    'rabbitvcs'
+  )
 
-#  cd "$srcdir/$pkgbase"
-#  install -Dm644 "clients/pluma/$pkgbase"{-plugin.py,-pluma.plugin} -t \
-#    "$pkgdir/usr/lib/pluma/plugins"
-#}
+  cd "$pkgbase"
+  install -Dm644 clients/pcmanfm-qt/*.desktop -t \
+    "$pkgdir/usr/share/file-manager/actions/"
+}
+
+package_rabbitvcs-pluma() {
+  pkgdesc="Pluma plugin for RabbitVCS"
+  depends=(
+    'pluma'
+    'rabbitvcs'
+  )
+
+  cd "$pkgbase"
+  install -Dm644 "clients/pluma/$pkgbase"{-plugin.py,-pluma.plugin} -t \
+    "$pkgdir/usr/lib/pluma/plugins/"
+}
 
 package_rabbitvcs-thunar() {
   pkgdesc="Thunar extension for RabbitVCS"
-  depends=('dbus-python' 'rabbitvcs' 'thunarx-python')
+  depends=(
+    'python-dbus'
+    'rabbitvcs'
+    'thunarx-python'
+  )
   install="$pkgname.install"
 
-  cd "$srcdir/$pkgbase"
+  cd "$pkgbase"
   install -Dm644 clients/thunar/RabbitVCS.py -t \
-    "$pkgdir/usr/share/thunarx-python/extensions"
+    "$pkgdir/usr/share/thunarx-python/extensions/"
 }
