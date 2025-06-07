@@ -5,7 +5,11 @@ pkgdesc="A Gemini browser built with Racket"
 arch=('x86_64')
 url="https://git.sr.ht/~soapdog/fafi-browser"
 license=('MIT')
-depends=('lz4' 'ncurses' 'zlib')
+depends=(
+  'lz4'
+  'ncurses'
+  'zlib'
+)
 makedepends=('racket')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('427acbd6cfa15b9a899f7dbe63c88b6350ce606a52ec5a190a4a7c44665d49a7')
