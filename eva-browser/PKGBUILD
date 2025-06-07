@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/eva-browser
-groups=('modified')
 
 pkgname=eva-browser
 _app_id=org.hitchhiker-linux.eva
@@ -29,7 +28,7 @@ prepare() {
 build() {
   cd eva
   export RUSTUP_TOOLCHAIN=stable
-  cargo build --release --all-features
+  cargo build --release
   cargo xtask dist
 }
 
