@@ -1,10 +1,9 @@
 # https://aur.archlinux.org/packages/fake-background-webcam-git
-groups=('modified')
 
 ## WIP
 
 pkgname=fake-background-webcam-git
-pkgver=r265.ffae907
+pkgver=r271.d132620
 pkgrel=1
 pkgdesc="Faking your webcam background"
 arch=('any')
@@ -43,7 +42,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd Linux-Fake-Background-Webcam
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
 build() {
