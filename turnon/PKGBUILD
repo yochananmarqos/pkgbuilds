@@ -2,47 +2,54 @@
 
 pkgname=turnon
 _app_id="de.swsnr.$pkgname"
-pkgver=2.6.3
+pkgver=2.7.1
 pkgrel=1
-pkgdesc="Turn on devices in your local network"
+pkgdesc="Turn on devices in your network"
 arch=('x86_64' 'aarch64')
-url="https://github.com/swsnr/turnon"
-license=('MPL-2.0')
+url="https://codeberg.org/swsnr/turnon"
+license=('EUPL-1.2')
 depends=('libadwaita')
 makedepends=(
   'blueprint-compiler'
   'cargo'
+  'git'
+  'just'
 )
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('5501392605642ec101997bc2516d29392b2626d4791f48a7345e28d06b79dd4e')
+source=("git+https://codeberg.org/swsnr/turnon.git#tag=v$pkgver"
+        'schemas.patch')
+sha256sums=('f9a2233237f62464c22cab9583ccdaf6a0ef83fb90e715f81f4a50e6a75cb0ba'
+            '4f3e97946fe092efe864b9d1036fca7fdc66bbcf725a14f0e5188751e4ba191f')
 
 prepare() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+
+  # Don't compile schemas after installation
+  patch -Np1 -i ../schemas.patch
 }
 
 build() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
+  just compile
   cargo build --frozen --release
-
-  make msgfmt
 }
 
 check() {
-  cd "$pkgname-$pkgver"
+  cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
   cargo test --frozen
 
-  appstreamcli validate --no-net "resources/${_app_id}.metainfo.xml"
+  appstreamcli validate --no-net "${_app_id}.metainfo.xml"
   desktop-file-validate "${_app_id}.desktop"
 }
 
 package() {
-  cd "$pkgname-$pkgver"
-  make DESTPREFIX="$pkgdir/usr" install
+  cd "$pkgname"
+  just DESTPREFIX="$pkgdir/usr" install
 
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
   ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/$pkgname"
 }
