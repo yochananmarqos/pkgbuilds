@@ -1,0 +1,43 @@
+# https://aur.archlinux.org/packages/overskride
+
+pkgname=overskride
+pkgver=0.6.2
+pkgrel=1
+pkgdesc="A simple yet powerful bluetooth client"
+arch=('x86_64' 'aarch64')
+url="https://github.com/kaii-lb/overskride"
+license=('GPL-3.0-or-later')
+depends=(
+  'bluez'
+  'libadwaita'
+  'libpulse'
+)
+makedepends=(
+  'blueprint-compiler'
+  'cargo'
+  'git'
+  'meson'
+)
+checkdepends=('appstream-glib')
+source=("git+https://github.com/kaii-lb/overskride.git#tag=v$pkgver")
+sha256sums=('a4bb2956b3c225d5a749e39c41408d9dc662c056a2e096a45c9333700bd33cfe')
+
+prepare() {
+  cd "$pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  export RUSTUP_TOOLCHAIN=stable
+  arch-meson "$pkgname" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs || :
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
