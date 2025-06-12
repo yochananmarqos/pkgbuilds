@@ -1,0 +1,36 @@
+# https://aur.archlinux.org/packages/librespeed-cli
+
+pkgname=librespeed-cli
+pkgver=1.0.12
+pkgrel=1
+pkgdesc="Command line client for LibreSpeed"
+arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64' 'riscv64')
+url="https://github.com/librespeed/speedtest-cli"
+license=('LGPL-3.0-or-later')
+depends=('glibc')
+makedepends=(
+  'git'
+  'go'
+)
+source=("git+https://github.com/librespeed/speedtest-cli.git#tag=v$pkgver")
+sha256sums=('08223ea240b9d70ba6b1355ee78540ec538b4f0c2f33afc5642bafde331591a9')
+
+build() {
+  cd speedtest-cli
+  export GOPATH="$srcdir/gopath"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  sh build.sh
+
+  # Clean module cache for makepkg -C
+  go clean -modcache
+}
+
+package() {
+  cd speedtest-cli
+  install -Dm755 "out/$pkgname-$(go env GOOS)-$(go env GOARCH)" \
+    "$pkgdir/usr/bin/$pkgname"
+}
