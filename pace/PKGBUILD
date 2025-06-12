@@ -1,0 +1,48 @@
+# https://aur.archlinux.org/packages/pace
+
+pkgname=pace
+pkgver=1.4.2
+pkgrel=1
+pkgdesc="A simple pacman.conf editor"
+arch=('x86_64')
+url="https://gitlab.com/softwareperonista/pace"
+license=('GPL-3.0-or-later')
+depends=(
+  'gtk4'
+  'gtksourceview5'
+  'polkit'
+)
+makedepends=(
+  'git'
+  'meson'
+  'vala'
+)
+optdepends=('diffutils: diff preview support')
+checkdepends=('appstream-glib')
+source=("git+https://gitlab.com/softwareperonista/pace.git#tag=$pkgver"
+        'https://gitlab.com/softwareperonista/pace/-/merge_requests/47.patch')
+sha256sums=('4ba7816b44ca2a2b1fed5ec67bae4406fdd357b5144d0a378a80ebae92465cd7'
+            '9651c5b4677d54d657d0e137a84b92ad94a29586c64119481ef1019f4b9f48b5')
+#validpgpkeys=('57B4D49E85BF0F5C04A8861200B8DFB70CAE2A5D') # Andres Fernandez <andres@softwareperonista.com.ar>
+
+prepare() {
+  cd "$pkgname"
+
+  # Port to Gtk4
+  # https://gitlab.com/softwareperonista/pace/-/issues/40
+  # https://gitlab.com/softwareperonista/pace/-/merge_requests/47
+  patch -Np1 -i ../47.patch
+}
+
+build() {
+  arch-meson --wrap-mode=nofallback "$pkgname" build
+  meson compile -C build
+}
+
+check () {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
