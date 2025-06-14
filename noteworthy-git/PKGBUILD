@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/noteworthy-git
-groups=('modified')
 
 pkgname=noteworthy-git
 pkgver=r873.bc144ab
@@ -8,9 +7,23 @@ pkgdesc="Modern, Fast, and Version-Controlled Markdown Notes App"
 arch=('x86_64')
 url="https://github.com/SeaDve/Noteworthy"
 license=('GPL-3.0-or-later')
-depends=('gst-plugins-base' 'gstreamer' 'gtksourceview5' 'libadwaita' 'libpulse')
-makedepends=('cargo' 'git' 'meson')
-checkdepends=('appstream-glib' 'openssh' 'xorg-server-xvfb')
+depends=(
+  'gst-plugins-base'
+  'gstreamer'
+  'gtksourceview5'
+  'libadwaita'
+  'libpulse'
+)
+makedepends=(
+  'cargo'
+  'git'
+  'meson'
+)
+checkdepends=(
+  'appstream-glib'
+  'openssh'
+  'xorg-server-xvfb'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/SeaDve/Noteworthy.git')
@@ -36,7 +49,7 @@ build() {
 
 check() {
   export RUSTUP_TOOLCHAIN=stable
-  xvfb-run -a -s "-screen 0 1024x768x24" dbus-run-session meson test -C build --print-errorlogs || :
+  xvfb-run -a -s "-screen 0 1024x768x24" dbus-run-session meson test -C build --no-rebuild --print-errorlogs || :
 }
 
 package() {
