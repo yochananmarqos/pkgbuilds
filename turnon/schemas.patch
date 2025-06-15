@@ -1,10 +1,10 @@
 diff --unified --recursive --text a/justfile b/justfile
---- a/justfile	2025-06-08 11:42:01.438822618 -0600
-+++ b/justfile	2025-06-08 11:51:00.675447812 -0600
-@@ -165,8 +165,6 @@
-     install -Dm0644 dbus-1/de.swsnr.turnon.service '{{DESTPREFIX}}/share/dbus-1/services/{{APPID}}.service'
-     install -Dm0644 de.swsnr.turnon.search-provider.ini '{{DESTPREFIX}}/share/gnome-shell/search-providers/{{APPID}}.search-provider.ini'
-     install -Dm0644 de.swsnr.turnon.gschema.xml '{{DESTPREFIX}}/share/glib-2.0/schemas/{{APPID}}.gschema.xml'
+--- a/justfile	2025-06-15 12:23:35.553354020 -0600
++++ b/justfile	2025-06-15 12:24:23.509043609 -0600
+@@ -179,8 +179,6 @@
+     install -Dm0644 -t '{{DESTPREFIX}}/share/icons/hicolor/scalable/apps/' 'resources/icons/scalable/apps/{{APPID}}.svg'
+     install -Dm0644 resources/icons/symbolic/apps/de.swsnr.turnon-symbolic.svg \
+         '{{DESTPREFIX}}/share/icons/hicolor/symbolic/apps/{{APPID}}-symbolic.svg'
 -    @# Compile settings schemas after installation
 -    glib-compile-schemas --strict '{{DESTPREFIX}}/share/glib-2.0/schemas'
  
