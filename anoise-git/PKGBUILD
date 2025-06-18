@@ -1,8 +1,8 @@
 # Copy your OGG|MP3|WAV noises into ~/ANoise or ~/.ANoise
 
 pkgname=anoise-git
-pkgver=0.0.36.r9.c9ba926
-pkgrel=2
+pkgver=0.0.36.r10.0910bb9
+pkgrel=1
 pkgdesc="Ambient Noise Player. Relax or concentrate with a noise"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
@@ -10,7 +10,7 @@ license=('GPL-3.0-or-later')
 depends=(
   'anoise-media'
   'gst-python'
-  'webkit2gtk'
+  'webkit2gtk-4.1'
 )
 makedepends=(
   'git'
