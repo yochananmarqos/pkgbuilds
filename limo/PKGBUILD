@@ -3,6 +3,8 @@
 
 ## WIP
 
+# https://github.com/limo-app/limo/issues/203
+
 pkgname=limo
 _app_id="io.github.${pkgname}_app.$pkgname"
 pkgver=1.2.2
