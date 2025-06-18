@@ -1,51 +1,52 @@
+# https://aur.archlinux.org/packages/limo
+
+
+## WIP
+
 pkgname=limo
 _app_id="io.github.${pkgname}_app.$pkgname"
-pkgver=1.0.8.2
+pkgver=1.2.2
 pkgrel=1
-_unrarver=7.0.9
 pkgdesc="A simple Qt based mod manager"
 arch=('x86_64')
 url="https://github.com/limo-app/limo"
 license=('GPL-3.0-or-later')
 depends=(
   'cpr'
+  'curl'
   'hicolor-icon-theme'
   'jsoncpp'
   'libarchive'
   'libloot'
+  'libunrar'
+  'lz4'
   'pugixml'
   'qt5-base'
   'qt5-svg'
+  'xdg-utils'
+  'zlib'
+  'zstd'
 )
 makedepends=(
   'cmake'
 #  'doxygen'  # docs
   'git'
 )
-checkdepends=(
-  'catch2'
-)
-source=("git+https://github.com/limo-app/limo.git#tag=v$pkgver"
-        "git+https://github.com/aawc/unrar.git#tag=v${_unrarver}")
-sha256sums=('b7fb9b1977cfea78c3f1585b69f02282f718c81754732b4405fa7ee57350c2bc'
-            '289314daad540ac66e3b188a98b3b1a94828e6ec365c8ca0e08f402e69a17931')
+checkdepends=('catch2')
+source=("git+https://github.com/limo-app/limo.git#tag=v$pkgver")
+sha256sums=('d9d9870d56ffef64400c40e19a358ed422ded57dd4d09cfec2b2b4dfb3a2f60b')
 
 prepare() {
-  cp -rf "$srcdir/unrar" "$pkgname"
+  cd "$pkgname"
 }
 
 build() {
-  pushd "$pkgname"
-
-  pushd unrar
-  make lib
-  popd
-
-  popd
-
   cmake -B build -S "$pkgname" \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DLIMO_INSTALL_PREFIX='/usr' \
+    -DUSE_SYSTEM_LIBUNRAR='ON' \
+    -DBUILD_TESTING='ON' \
     -Wno-dev
   cmake --build build
 
@@ -53,26 +54,17 @@ build() {
 
   # build documentation
 #  doxygen src/lmm_Doxyfile
-
-  # build tests
-#  cmake -B tests/build -S tests \
-#    -DCMAKE_BUILD_TYPE='None'
-#  cmake --build tests/build
 }
 
-#check() {
-#  cd "$pkgname-$pkgver"
-#  tests/build/tests
-#}
+check() {
+  ctest --test-dir build --output-on-failure
+}
 
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
   cd "$pkgname"
-  install -Dm644 "flatpak/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
   install -Dm644 "flatpak/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
-  install -Dm644 "flatpak/${_app_id}.png" -t \
-    "$pkgdir/usr/share/icons/hicolor/512x512/apps/"
   install -Dm644 resources/logo.png \
     "$pkgdir/usr/share/icons/hicolor/1024x1024/apps/${_app_id}.png"
   install -Dm644 resources/logo_small.png \
