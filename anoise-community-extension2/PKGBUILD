@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/anoise-community-extension2
-groups=('modified')
 
 pkgname=anoise-community-extension2
 pkgver=0.0.4
