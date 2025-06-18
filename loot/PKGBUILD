@@ -2,7 +2,7 @@
 
 pkgname=loot
 _app_id="io.github.$pkgname.$pkgname"
-pkgver=0.26.0
+pkgver=0.26.1
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
@@ -34,7 +34,7 @@ makedepends=(
 )
 # Use the Git repository so that loot's commit hash gets embedded in the build
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
-sha256sums=('14d6b86f483cca3642aa883b3dbe2a0e1a78c00a6e1e320f27fbffb1705b7540')
+sha256sums=('876349f90fee64526fa6e95e887392bb710c50120e29dbff77a77c8c34dc8efb')
 
 build() {
   CFLAGS+=" -ffat-lto-objects"
