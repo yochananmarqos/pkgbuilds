@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/anoise-gui
-groups=('modified')
 
 pkgname=anoise-gui
 pkgver=0.0.4
@@ -8,9 +7,7 @@ pkgdesc="Ambient Noise Player GUI"
 arch=('any')
 url="https://costales.github.io/projects/anoise"
 license=('GPL-3.0-or-later')
-depends=(
-  'anoise'
-)
+depends=('anoise')
 makedepends=(
   'python-build'
   'python-distutils-extra'
