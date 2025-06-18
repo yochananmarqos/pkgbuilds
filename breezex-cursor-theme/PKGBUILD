@@ -1,0 +1,64 @@
+# https://aur.archlinux.org/packages/breezex-cursor-theme
+
+pkgname=breezex-cursor-theme
+pkgver=2.0.1
+pkgrel=1
+pkgdesc="Extended KDE Cursor theme, Highly inspired on KDE Breeze"
+arch=('any')
+url="https://github.com/ful1e5/BreezeX_Cursor"
+license=('GPL-3.0-or-later')
+makedepends=('python-clickgen')
+options=('!strip')
+source=("BreezeX_Cursor-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
+        "BreezeX_Cursor-$pkgver-bitmaps.zip::$url/releases/download/v$pkgver/bitmaps.zip")
+noextract=("BreezeX_Cursor-$pkgver-bitmaps.zip")
+sha256sums=('097b4df96127437c29bbfb68dc2cb08d6001c048cb7509ea7e391ba308dcf8f1'
+            '15808d03f0740a04003558b76104365eed0836311acad5e1d5263cc9b8f3b789')
+
+prepare() {
+  bsdtar xf "BreezeX_Cursor-$pkgver-bitmaps.zip" -C "BreezeX_Cursor-$pkgver"
+
+  cd "BreezeX_Cursor-$pkgver"
+  rm -rf themes bin
+}
+
+build() {
+  cd "BreezeX_Cursor-$pkgver"
+
+  _version="v$pkgver"
+
+  _get_config_file() {
+  local key="${1}"
+  local cfg_file="build.toml"
+
+  if [[ $key == *"Right"* ]]; then
+    cfg_file="build.right.toml"
+  fi
+
+  echo $cfg_file
+  }
+
+  _with_version() {
+    local comment="${1}"
+    echo "$comment ($_version)"
+  }
+
+  declare -A names
+  names["BreezeX-Dark"]=$(_with_version "Extended KDE Dark")
+  names["BreezeX-Black"]=$(_with_version "Extended KDE Black")
+  names["BreezeX-Light"]=$(_with_version "Extended KDE Light")
+
+  for key in "${!names[@]}"; do
+  comment="${names[$key]}"
+  cfg=$(_get_config_file key)
+    ctgen "configs/x.$cfg" -s "24" 32 48 -p x11 -d "bitmaps/$key" -n "$key" -c "$comment XCursors" &
+    PID=$!
+    wait $PID
+  done
+}
+
+package() {
+  cd "BreezeX_Cursor-$pkgver"
+  install -d "$pkgdir/usr/share/icons"
+  cp -r themes/BreezeX-* "$pkgdir/usr/share/icons/"
+}
