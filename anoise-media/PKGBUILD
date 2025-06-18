@@ -1,5 +1,4 @@
 # https://aur.archlinux.org/packages/anoise-media
-groups=('modified')
 
 pkgname=anoise-media
 pkgver=0.0.17
