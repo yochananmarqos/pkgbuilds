@@ -8,12 +8,21 @@ license=('LGPL-2.1-or-later')
 depends=('adw-gtk-theme')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/FabianOvrWrt/adw-xfwm4.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/FabianOvrWrt/adw-xfwm4.git'
+        'https://github.com/FabianOvrWrt/adw-xfwm4/pull/2.patch')
+sha256sums=('SKIP'
+            '3d0212cc6bfd9fd8f074f8ab42e039fe36090ef04231a780390d04a960a15aa7')
 
 pkgver() {
   cd "${pkgname%-git}"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+prepare() {
+  cd "${pkgname%-git}"
+
+  # Remove unnecessary themerc~ files
+  patch -Np1 -i ../2.patch
 }
 
 package() {
