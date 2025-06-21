@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/pipeline-gtk
 
 pkgname=pipeline-gtk
-pkgver=2.4.1
+pkgver=2.6.0
 pkgrel=1
 pkgdesc="Watch YouTube and PeerTube videos in one place"
 arch=('x86_64' 'aarch64')
@@ -19,7 +19,7 @@ makedepends=(
 )
 conflicts=('tubefeeder')
 source=("$url/-/archive/$pkgver/pipeline-$pkgver.tar.gz")
-sha256sums=('7f6bc0866bcc2a22f662f97d63bb97f8c75ad04754022a4709588cf88651a0ba')
+sha256sums=('983ffafc941996b9232d9e4ba7dd1979905fc8025a12b441a745d344f02e3a56')
 
 prepare() {
   cd pipeline-$pkgver
@@ -31,6 +31,10 @@ build() {
   export RUSTUP_TOOLCHAIN=stable
 	arch-meson pipeline-$pkgver build
 	meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
 }
 
 package() {
