@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.2.0
+pkgver=3.2.1
 pkgrel=1
 _nodeversion=20
 _electronversion=35
@@ -17,7 +17,7 @@ makedepends=(
 source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('b50fbd319c29fe834c3c8e4055bc8e380044c4306de0972db60fee6da1927c14'
+sha256sums=('931692219b63520417f05c74bbb1f6a4eb95bc5d13c4b8495aa19d524f49749b'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
@@ -33,7 +33,7 @@ _ensure_local_nvm() {
 }
 
 prepare() {
-	cd "r2modmanPlus-$pkgver"
+	cd "${pkgname}Plus-$pkgver"
 	electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
@@ -49,7 +49,7 @@ prepare() {
 }
 
 build() {
-	cd "r2modmanPlus-$pkgver"
+	cd "${pkgname}Plus-$pkgver"
 	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
 	electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
@@ -59,7 +59,7 @@ build() {
 }
 
 check() {
-	cd "r2modmanPlus-$pkgver"
+	cd "${pkgname}Plus-$pkgver"
 	export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
 	_ensure_local_nvm
 	node test/folder-structure-testing/populator.mjs
@@ -67,7 +67,7 @@ check() {
 }
 
 package() {
-	cd "r2modmanPlus-$pkgver"
+	cd "${pkgname}Plus-$pkgver"
 	install -Dm644 dist/electron/Packaged/linux-unpacked/resources/app.asar -t \
 	  "$pkgdir/usr/lib/$pkgname/"
 	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
