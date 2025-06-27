@@ -1,10 +1,12 @@
 # Ignore everything
-*
+/*
 
 # But not these files...
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!.nvchecker.toml
+!LICENSE
 !keyboard-color-switcher.desktop
 !keyboard-color-switcher.sh
 !org.freedesktop.keyboard-color-switcher.policy

@@ -1,13 +1,26 @@
 pkgname=keyboard-color-switcher-git
-pkgver=1.0.r138.g283e75e
+pkgver=1.0.r210.gf30b9c1
 pkgrel=1
 pkgdesc="Change the keyboard backlight color on System76 laptops"
 arch=('any')
 url="https://github.com/ahoneybun/keyboard-color-switcher"
-license=('GPL')
-depends=('dmidecode' 'gtk3' 'polkit' 'python-cerberus' 'python-gobject'
-         'python-yaml' 'system76-dkms')
-makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+license=('GPL-3.0-or-later')
+depends=(
+  'dmidecode'
+  'gtk3'
+  'polkit'
+  'python-cerberus'
+  'python-gobject'
+  'python-yaml'
+  'system76-dkms'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
 checkdepends=('python-pytest')
 backup=('etc/system76-backlight-manager.conf')
 install='system76-backlight-manager.install'
@@ -25,12 +38,12 @@ sha256sums=('SKIP'
             '84db9161bd09ffc7d2e8787236603c96c2ecc038395d37ac9196cc728f1f9e0d')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
 
   sed -i 's|git@github.com:|https://github.com/|g' .gitmodules
 
@@ -48,17 +61,17 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}/system76_backlight_manager"
+  cd "${pkgname%-git}/system76_backlight_manager"
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd "$srcdir/${pkgname%-git}/system76_backlight_manager"
+  cd "${pkgname%-git}/system76_backlight_manager"
   pytest
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
   install -Dm755 "${pkgname%-git}.py" -t "$pkgdir$site_packages/${pkgname%-git}/"
