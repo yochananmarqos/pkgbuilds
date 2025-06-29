@@ -36,13 +36,6 @@ pkgver() {
 
 prepare() {
   cd "${pkgname%-git}"
-  export GOPATH="$srcdir/gopath"
-
-  # download dependencies
-  go mod download -x
-
-  # create directory for build output
-  mkdir -p build
 
   printf "$pkgver" > version.txt
 }
