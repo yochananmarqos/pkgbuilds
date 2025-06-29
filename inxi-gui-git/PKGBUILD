@@ -1,29 +1,34 @@
 pkgname=inxi-gui-git
-pkgver=r19.d168379
+pkgver=r24.d3ae156
 pkgrel=1
 pkgdesc="Simple GUI frontend to inxi script."
 arch=('any')
 url="https://github.com/yochananmarqos/inxi-gui"
-license=('GPL3')
-depends=('yad' 'inxi')
+license=('GPL-3.0-or-later')
+depends=(
+  'inxi'
+  'yad'
+)
 makedepends=('git')
-optdepends=('mesa-utils: view OpenGL config'
-            'lsb-release: view lsb release info'
-            'gksu: for root shell commands')
+optdepends=(
+  'gksu: for root shell commands'
+  'lsb-release: view lsb release info'
+  'mesa-utils: view OpenGL config'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/yochananmarqos/inxi-gui.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd "${pkgname%-git}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
-  install -Dm644 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications"
+  cd "${pkgname%-git}"
+  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin/"
+  install -Dm644 "${pkgname%-git}.desktop" -t "$pkgdir/usr/share/applications/"
   install -d "$pkgdir/usr/share/locale"
-  cp -a locale/* "$pkgdir/usr/share/locale"
-  install -Dm755 "${pkgname%-git}" -t "$pkgdir/usr/bin"
+  cp -a locale/* "$pkgdir/usr/share/locale/"
 }
