@@ -1,0 +1,19 @@
+pkgname=inxi-gui
+pkgver=0.1.4
+pkgrel=1
+pkgdesc="Show system information using inxi"
+arch=('x86_64')
+url="https://www.linux-apps.com/p/1303949"
+license=('GPL-3.0-or-later')
+depends=(
+  'hicolor-icon-theme'
+  'inxi'
+  'yad'
+  'xdg-utils'
+)
+source=("https://ftp.nluug.nl/pub/os/Linux/distr/pclinuxos/pclinuxos/apt/pclinuxos/64bit/RPMS.${CARCH}/$pkgname-$pkgver-1pclos2025.${CARCH}.rpm")
+sha256sums=('b84be61dce3ac120fe5da9a155f253727fddacd954814aade58364529c156070')
+
+package() {
+  cp -r usr "$pkgdir/"
+}
