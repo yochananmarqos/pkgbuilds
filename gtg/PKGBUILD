@@ -1,12 +1,11 @@
 # https://aur.archlinux.org/packages/gtg
-groups=('modified')
 
 pkgname=gtg
 pkgver=0.6
 pkgrel=6
 pkgdesc="Getting Things GNOME! is a personal tasks and TODO-list items organizer for GNOME"
 arch=('x86_64')
-url="https://github.com/getting-things-gnome/gtg"
+url="https://getting-things-gnome.github.io"
 license=('GPL-3.0-or-later')
 depends=(
   'gtk3'
