@@ -1,22 +1,28 @@
 # https://aur.archlinux.org/pkgbase/gnome-shell-extension-bluetooth-quick-connect-git
-groups=('modified')
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
 _uuid=bluetooth-quick-connect@bjarosze.gmail.com
-pkgver=49.r0.g74ed30c
+pkgver=53.r0.gf122bfc
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
 arch=('any')
 url="https://github.com/Extensions-Valhalla/gnome-bluetooth-quick-connect"
 license=('GPL-3.0-or-later')
-depends=('gnome-shell' 'bluez-utils')
-makedepends=('git' 'pnpm' 'zip')
+depends=(
+  'gnome-shell'
+  'bluez-utils'
+)
+makedepends=(
+  'git'
+  'pnpm'
+  'zip'
+)
 source=('git+https://github.com/Extensions-Valhalla/gnome-bluetooth-quick-connect.git')
 sha256sums=('SKIP')
 
 pkgver() {
   cd gnome-bluetooth-quick-connect
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
