@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/paru
 
 pkgname=paru
-pkgver=2.0.4
+pkgver=2.1.0
 pkgrel=1
 pkgdesc="Feature packed AUR helper"
 arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
@@ -21,7 +21,7 @@ optdepends=(
 )
 backup=("etc/$pkgname.conf")
 source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed")
-sha256sums=('28cfd13aa496b4ecb4d6b9cb3f02ac59b98307e10ed98739b05c747db761eabc')
+sha256sums=('19898d4f2ccea34f3ebc2dba3761b41026a2a9453cfec1ad856c7cb36d3b7d2f')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
 prepare() {
@@ -35,11 +35,15 @@ build () {
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
 
+  if pacman -T pacman-git > /dev/null; then
+    _features+="git,"
+  fi
+
   if [[ $CARCH != x86_64 ]]; then
     export CARGO_PROFILE_RELEASE_LTO=off
   fi
 
-  cargo build --frozen  --release
+  cargo build --frozen --features "${_features:-}" --release
   ./scripts/mkmo locale/
 }
 
