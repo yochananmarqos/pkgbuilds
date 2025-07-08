@@ -2,9 +2,9 @@
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
 _uuid=AlphabeticalAppGrid@stuarthayhurst
-pkgver=42.0.r0.g49af1fd
+pkgver=42.0.r12.gf3bd462
 pkgrel=1
-pkgdesc="Restore the alphabetical ordering of the app grid, removed in GNOME 3.38 "
+pkgdesc="Alphabetically order GNOME's app grid and folders"
 arch=('any')
 url="https://github.com/stuarthayhurst/alphabetical-grid-extension"
 license=('GPL-3.0-or-later')
@@ -37,5 +37,5 @@ package() {
     "$pkgdir/usr/share/glib-2.0/schemas/"
 
   rm -rv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
-  rm -v "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/LICENSE.txt"
+  rm -v "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/LICENCE.txt"
 }
