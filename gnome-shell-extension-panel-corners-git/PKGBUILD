@@ -9,7 +9,10 @@ arch=('any')
 url="https://github.com/aunetx/panel-corners"
 license=('GPL3')
 depends=('gnome-shell')
-makedepends=('git' 'zip')
+makedepends=(
+  'git'
+  'zip'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/aunetx/panel-corners.git')
