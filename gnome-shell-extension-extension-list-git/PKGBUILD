@@ -1,32 +1,26 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-extension-list-git
-groups=('modified')
 
 pkgname=gnome-shell-extension-extension-list-git
-pkgver=45.0.r1.g5d0f682
+pkgver=48.0.r0.gda16553
 pkgrel=1
 pkgdesc="Simple GNOME Shell extension manager in the top panel."
 arch=('any')
 url="https://github.com/tuberry/extension-list"
-license=('GPL3')
+license=('GPL-3.0-or-later')
 depends=('gnome-shell')
-makedepends=('git' 'meson' 'sassc')
+makedepends=(
+  'git'
+  'meson'
+  'sassc'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/tuberry/extension-list.git'
-        'git+https://gitlab.gnome.org/GNOME/gnome-shell-sass.git')
-sha256sums=('SKIP'
-            'SKIP')
+source=('git+https://github.com/tuberry/extension-list.git')
+sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/extension-list"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
-prepare() {
-  cd "$srcdir/extension-list"
-  git submodule init
-  git config submodule.res/styles/gnome-shell-sass.url "$srcdir/gnome-shell-sass"
-  git -c protocol.file.allow=always submodule update
+  cd extension-list
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -35,5 +29,5 @@ build() {
 }
 
 package() {
-  meson install -C build --destdir "$pkgdir"
+  meson install -C build --no-rebuild --destdir "$pkgdir"
 }
