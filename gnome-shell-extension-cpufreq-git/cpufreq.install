@@ -1,6 +1,0 @@
-post_remove() {
-  echo ""
-  echo "Reset extension settings to default values:"
-  echo "dconf reset -f "/org/gnome/shell/extensions/cpufreq/""
-  echo ""
-}
