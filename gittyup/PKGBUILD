@@ -1,8 +1,7 @@
 # https://aur.archlinux.org/packages/gittyup
-groups=('modified')
 
 pkgname=gittyup
-_app_id='com.github.Murmele.Gittyup'
+_app_id=com.github.Murmele.Gittyup
 pkgver=1.4.0
 pkgrel=1
 pkgdesc="A graphical Git client designed to help you understand and manage your source code history."
