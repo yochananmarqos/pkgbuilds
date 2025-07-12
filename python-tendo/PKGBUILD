@@ -1,0 +1,52 @@
+# https://aur.archlinux.org/packages/python-tendo
+
+pkgname=python-tendo
+_name="${pkgname#python-}"
+pkgver=0.4.0
+pkgrel=1
+pkgdesc="A python module that adds basic functionality that is not provided by Python."
+arch=('any')
+url="https://github.com/pycontribs/tendo"
+license=('PSF-2.0')
+depends=('python')
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools-scm'
+  'python-wheel'
+)
+#checkdepends=(
+#  'python-deadlib'
+#  'python-pytest'
+#)
+source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('e478b39c570f75b9f429b44ec5bb8bba99f152031895dfca437eb041c24142d2')
+
+prepare() {
+  cd "$_name-$pkgver"
+
+  # setuptools_scm_git_archive superseded by setuptools_scm >=7.0.0
+  sed -i '/setuptools_scm_git_archive/d' pyproject.toml
+
+  # six unused
+  sed -i '/install_requires/d' setup.cfg
+  sed -i '/six/d' setup.cfg
+}
+
+build() {
+  cd "$_name-$pkgver"
+  export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
+  python -m build --wheel --no-isolation
+}
+
+#check() {
+#  cd "$_name-$pkgver"
+#  pytest
+#}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
