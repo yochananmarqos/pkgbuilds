@@ -2,7 +2,7 @@
 
 pkgname=ente-auth-bin
 pkgdesc="2FA app with free end-to-end encrypted backup and sync"
-pkgver=4.4.0
+pkgver=4.4.3
 pkgrel=1
 arch=('x86_64')
 url="https://ente.io/auth"
@@ -17,7 +17,7 @@ depends=(
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
 source=("https://github.com/ente-io/ente/releases/download/auth-v$pkgver/${pkgname%-bin}-v$pkgver-${CARCH}.deb")
-sha256sums=('d45a1c0ce4a9137ffb0d16c45171d50b56de663855ac1cebcaebfe677e7e1934')
+sha256sums=('c2993c33467f53b063c06b6208332ab253e851b44195ef3715e6e6d41baf5877')
 
 package() {
   bsdtar -xvf data.tar.zst -C "$pkgdir/"
