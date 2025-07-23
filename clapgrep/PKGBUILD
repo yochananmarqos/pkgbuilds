@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/clapgrep
 
 pkgname=clapgrep
-pkgver=25.05
+pkgver=25.07
 pkgrel=1
 pkgdesc="One app to search through all your files"
 arch=('x86_64')
@@ -20,22 +20,22 @@ makedepends=(
 )
 checkdepends=('appstream-glib')
 optdepends=('nautilus-python: Nautilus extension')
-source=("${pkgname}-${pkgver}+1.tar.gz::${url}/archive/refs/tags/v${pkgver}+1.tar.gz")
-sha256sums=('8fba493b7398ed01979c0ba9450308c219f498d6da8570799f0c2a1ac7d10d9d')
+source=("${pkgname}-${pkgver}+1.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('0352f426ab8fe7f01be43c9d8e41b40ae9b8b563225a60364cf8bda415e462ec')
 
 prepare() {
-  cd "${pkgname}-${pkgver}-1"
+  cd "${pkgname}-${pkgver}"
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # This is not a Flatpak
   sed -i 's|flatpak run de.leopoldluley.Clapgrep|/usr/bin/clapgrep|g' \
-    "extension/${pkgname}.py"
+    "assets/integrations/nautilus/${pkgname}.py"
 }
 
 build() {
 	export RUSTUP_TOOLCHAIN=stable
-	arch-meson "${pkgname}-${pkgver}-1" build
+	arch-meson "${pkgname}-${pkgver}" build
   meson compile -C build
 }
 
@@ -47,7 +47,7 @@ check() {
 package() {
   meson install -C build --no-rebuild --destdir "$pkgdir"
 
-  cd "${pkgname}-${pkgver}-1"
-  install -Dvm644 "extension/${pkgname}.py" -t \
+  cd "${pkgname}-${pkgver}"
+  install -Dvm644 "assets/integrations/nautilus/${pkgname}.py" -t \
     "${pkgdir}/usr/share/nautilus-python/extensions/"
 }
