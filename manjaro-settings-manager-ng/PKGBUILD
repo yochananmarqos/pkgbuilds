@@ -1,0 +1,47 @@
+## WIP
+
+# https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
+
+pkgname=manjaro-settings-manager-ng
+pkgver=r75.526d16c
+pkgrel=1
+pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
+arch=('any')
+url="https://gitlab.com/feralpenguin/manjarosettingsmanager"
+license=('LicenseRef-unknown')
+depends=(
+  'inxi'
+  'pyside6'
+  'python-babel'
+  'python-dateutil'
+  'python-gobject'
+  'python-pillow'
+  'python-pycountry'
+  'python-pygments'
+  'python-pytz'
+  'python-six'
+  'python-tzlocal'
+)
+_commit=526d16c61ef8b2e2dd1759ead04475b9c9d7810e
+source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}")
+sha256sums=('97a1c1ca43e78ce7f9bb72aa0c0efa4a6a976d45d2e5987e3bb5c3fac12b8892')
+
+pkgver() {
+  cd manjarosettingsmanager
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+package() {
+  cd manjarosettingsmanager
+  install -d "$pkgdir/opt/$pkgname"
+  cp -r Data Design src "$pkgdir/opt/$pkgname"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/$pkgname/src/msm.py" "$pkgdir/usr/bin/msm-ng"
+
+  # Fix symlinks
+  for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
+    ln -sf "/opt/$pkgname/src/Translator.py" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
+    ln -sf "/opt/$pkgname/src/translations/" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
+  done
+}
