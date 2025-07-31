@@ -2,7 +2,7 @@
 
 pkgname=python-colored
 _name=${pkgname#python-}
-pkgver=2.3.0
+pkgver=2.3.1
 pkgrel=1
 pkgdesc="Simple python library for color and formatting to terminal"
 arch=('any')
@@ -18,7 +18,7 @@ makedepends=(
 checkdepends=('python-pytest')
 source=("https://gitlab.com/dslackw/colored/-/archive/$pkgver/$_name-$pkgver.tar.gz"
         'tests-set-tty-aware-false.patch')
-sha256sums=('ffc3821b951fa22d834062608adbcf17b0347c4fb81aea867a4965e22d06682f'
+sha256sums=('225b1c3240eb426525d153b9f98784d4d9b29e662501c8eb135b5e01323346d7'
             '0946c4592ac78b89f18e88b55717e65e7a55ba48983ee6b086f134c6764514ff')
 
 prepare() {
