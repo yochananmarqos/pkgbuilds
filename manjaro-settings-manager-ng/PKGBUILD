@@ -3,7 +3,7 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=r75.526d16c
+pkgver=r82.07e58df
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
@@ -15,24 +15,31 @@ depends=(
   'python-babel'
   'python-dateutil'
   'python-gobject'
-  'python-pillow'
   'python-pycountry'
   'python-pygments'
   'python-pytz'
-  'python-six'
   'python-tzlocal'
 )
-_commit=526d16c61ef8b2e2dd1759ead04475b9c9d7810e
-source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}")
-sha256sums=('97a1c1ca43e78ce7f9bb72aa0c0efa4a6a976d45d2e5987e3bb5c3fac12b8892')
+makedepends=('git')
+_commit=07e58dfe1e0a1db01e91a4b0a645815e9d2034a7
+source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}"
+        'fix-missing-import.patch')
+sha256sums=('cf12e0ce3c0b677ca2723f3b24a1d29950d7478a3ae471b861e9ecd03477b1d1'
+            '34cb0be02ccfe166bb9f7ff85715c0c4c9ac49e899814054cbf261d9c9ffe549')
 
 pkgver() {
   cd manjarosettingsmanager
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
 }
 
+prepare() {
+  cd manjarosettingsmanager
+  patch -Np1 -i ../fix-missing-import.patch
+}
+
 package() {
   cd manjarosettingsmanager
+
   install -d "$pkgdir/opt/$pkgname"
   cp -r Data Design src "$pkgdir/opt/$pkgname"
 
