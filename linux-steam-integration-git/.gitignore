@@ -1,8 +1,10 @@
 # Ignore everything
-*
+/*
 
 # But not these files...
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!partially-revert-2877813.patch
+!.nvchecker.toml
+!LICENSE
+!!partially-revert-2877813.patch

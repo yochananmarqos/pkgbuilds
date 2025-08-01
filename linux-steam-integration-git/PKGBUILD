@@ -1,8 +1,7 @@
 # https://aur.archlinux.org/packages/linux-steam-integration-git
-groups=('modified')
 
 pkgname=linux-steam-integration-git
-pkgver=0.7.2.r47.g99a5110
+pkgver=0.7.2.r49.gdffff45
 pkgrel=1
 pkgdesc="Helper for enabling better Steam integration on Linux"
 url="https://github.com/getsolus/linux-steam-integration"
@@ -21,15 +20,18 @@ sha512sums=('SKIP'
             'da5aeb435dc031b2be3fc27b8b9e5acbee51afff42f6f4db527ea4f034eb3601348439675e791d359a26070b45dda5a50fa204be2db72625c63d980aeeec01c4')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   git submodule init
   git config submodule.src/libnica.url "$srcdir/libnica"
   git -c protocol.file.allow=always submodule update
+
+  # SDL3 available in repos
+  git revert -n 93d6b89129d970b6203a7d6f6396a26bc6ce3fdb
 
   # Partially revert 2877813 | Upstream issue #82
   # https://github.com/clearlinux/linux-steam-integration/pull/2
