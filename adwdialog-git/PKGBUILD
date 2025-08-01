@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/adwdialog-git
 
 pkgname=adwdialog-git
-pkgver=0.2.0.r9.g39e44ee
+pkgver=0.2.0.r14.g289cd34
 pkgrel=1
 pkgdesc="Display GTK4/libadwaita dialogs from terminal and scripts."
 arch=('any')
