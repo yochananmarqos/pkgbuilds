@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/appanvil-git
 
 pkgname=appanvil-git
-pkgver=0.2.r258.g4d7d2bf
+pkgver=1.0.1.r0.ge4110a1
 pkgrel=1
 pkgdesc="Graphical user interface for the AppArmor security module"
 arch=('x86_64')
@@ -18,15 +18,17 @@ makedepends=(
   'cmake'
   'git'
 )
-#checkdepends=('gtest')
+checkdepends=(
+  'gtest'
+  'xorg-server-xvfb'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}" 'libappanvil')
 source=('git+https://github.com/jack-ullery/AppAnvil.git'
-        'git+https://github.com/jack-ullery/libappanvil.git'
-        'git+https://gitlab.com/apparmor/apparmor.git')
+        'git+https://github.com/jack-ullery/libappanvil.git')
 sha256sums=('SKIP'
             'SKIP'
-            'SKIP')
+)
 
 pkgver() {
   cd AppAnvil
@@ -38,19 +40,13 @@ prepare() {
   git submodule init
   git config submodule.libappanvil.url "$srcdir/libappanvil"
   git -c protocol.file.allow=always submodule update
-
-  pushd libappanvil
-  git submodule init
-  git config submodule.modules/apparmor.url "$srcdir/apparmor"
-  git -c protocol.file.allow=always submodule update
-  popd
 }
 
 build() {
   CFLAGS+=" -ffat-lto-objects"
   CXXFLAGS+=" -ffat-lto-objects"
   cmake -B build -S AppAnvil \
-    -DCMAKE_BUILD_TYPE='None' \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -Wno-dev
   cmake --build build
@@ -62,12 +58,15 @@ build() {
 
 #check() {
 
-#  The following tests FAILED:
-#	  2173 - appanvil_test_NOT_BUILT (Not Run)
-#	  2174 - appanvil_test_NOT_BUILT (Not Run)
-#  Errors while running CTest
+  ## 84% tests passed, 21 tests failed out of 135
 
-#  ctest --test-dir build --output-on-failure
+  # Build tests
+#  cd build
+#  make test
+#  chmod +x dist/test
+
+  # Run the unit tests
+#  xvfb-run --auto-servernum dist/test
 #}
 
 package() {
