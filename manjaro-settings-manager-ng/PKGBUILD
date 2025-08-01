@@ -39,7 +39,6 @@ prepare() {
 
 package() {
   cd manjarosettingsmanager
-
   install -d "$pkgdir/opt/$pkgname"
   cp -r Data Design src "$pkgdir/opt/$pkgname"
 
