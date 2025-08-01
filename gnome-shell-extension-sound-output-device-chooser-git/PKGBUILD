@@ -1,15 +1,18 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-sound-output-device-chooser-git
-groups=('modified')
 
 pkgname=gnome-shell-extension-sound-output-device-chooser-git
 _uuid=sound-output-device-chooser@kgshank.net
-pkgver=43.r19.g6047c0d
+pkgver=43.r33.gfe56bb3
 pkgrel=1
 pkgdesc="Shows a list of sound output and input devices in the status menu"
 arch=('any')
 url="https://github.com/kgshank/gse-sound-output-device-chooser"
-license=('GPL3')
-depends=('gnome-shell<=1:44.6' 'libpulse' 'python')
+license=('GPL-3.0-or-later')
+depends=(
+  'gnome-shell<=1:44.6'
+  'libpulse'
+  'python'
+)
 makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
@@ -18,7 +21,7 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd gse-sound-output-device-chooser
-  git describe --long --tags | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags --abbrev=7 | sed 's/^V//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
