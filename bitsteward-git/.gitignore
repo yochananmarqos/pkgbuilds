@@ -1,9 +1,9 @@
 # Ignore everything
-*
+/*
 
 # But not these files...
 !.gitignore
 !PKGBUILD
 !.SRCINFO
-!bitsteward.sh
-!bitsteward.desktop
+!.nvchecker.toml
+!LICENSE

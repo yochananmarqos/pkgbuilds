@@ -1,12 +1,25 @@
+## WIP
+
 pkgname=bitsteward-git
-pkgver=0.0.4.r6.g5074efb
+pkgver=0.0.4.r13.g63053bc
 pkgrel=1
 pkgdesc="A GTK4 + Libadwaita client for Bitwarden"
 arch=('any')
 url="https://github.com/Bitsteward/bitsteward"
-license=('GPL3')
-depends=('bitwarden-cli' 'libadwaita' 'python-dotenv' 'python-requests')
-makedepends=('git' 'python-build' 'python-hatchling' 'python-installer' 'python-wheel')
+license=('GPL-3.0-or-later')
+depends=(
+  'bitwarden-cli'
+  'libadwaita'
+  'python-dotenv'
+  'python-requests'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-hatchling'
+  'python-installer'
+  'python-wheel'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/Bitsteward/bitsteward.git'
@@ -17,24 +30,24 @@ sha256sums=('SKIP'
             'ca2bf033524d7a76c0c542d4b4061d07bd999750e67b6e50ba0c2c5f8e5f818d')
 
 pkgver() {
-  cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
 
   # invalid classifer
-  sed -i '/License ::/d' pyproject.toml
+#  sed -i '/License ::/d' pyproject.toml
 }
 
 build() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd "$srcdir/${pkgname%-git}"
+  cd "${pkgname%-git}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
