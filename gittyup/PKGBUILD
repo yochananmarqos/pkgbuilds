@@ -63,16 +63,17 @@ prepare() {
   # https://github.com/Murmele/Gittyup/issues/766
   git cherry-pick -n d36eba172a01d541945d59427b4f643aaed55da0
 
-  git submodule init
+#  git submodule init
 
-  for submodule in cmark git hunspell libssh2 openssl; do
-    git config "submodule.dep/${submodule}/${submodule}.update" none
-  done
+#  for submodule in cmark git hunspell libssh2 openssl; do
+#    git config "submodule.dep/${submodule}/${submodule}.update" none
+#  done
 
-  for submodule in lexilla libgit2 scintillua zip; do
-    git config "submodule.dep/${submodule}/${submodule}.url" "$srcdir/${submodule}"
-  done
-
+  git submodule init dep/libgit2/libgit2 test/dep/zip dep/scintilla/lexilla dep/scintilla/scintillua
+  git config submodule.dep/libgit2/libgit2.url "$srcdir/libgit2"
+  git config submodule.test/dep/zip.url "$srcdir/zip"
+  git config submodule.dep/scintilla/lexilla.url "$srcdir/lexilla"
+  git config submodule.dep/scintilla/scintillua.url "$srcdir/lexilla"
   git -c protocol.file.allow=always submodule update
 }
 
@@ -100,6 +101,8 @@ build() {
 }
 
 check() {
+  ctest --test-dir build --output-on-failure
+
   cd Gittyup
   appstreamcli validate --no-net "rsrc/linux/${_app_id}.appdata.xml.in" || :
   desktop-file-validate "rsrc/linux/${_app_id}.desktop"
