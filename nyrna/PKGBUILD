@@ -45,6 +45,11 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   export FVM_CACHE_PATH="$srcdir/fvm"
+
+  # Disable analytics
+  fvm dart --disable-analytics
+  fvm flutter --disable-analytics
+
   fvm dart run build_runner build --delete-conflicting-outputs
   fvm flutter build linux
 }
