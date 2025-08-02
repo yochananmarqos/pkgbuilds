@@ -20,7 +20,10 @@ depends=(
   'python-pytz'
   'python-tzlocal'
 )
-makedepends=('git')
+makedepends=(
+  'desktop-file-utils'
+  'git'
+)
 _commit=17333a5dea90607036ec00cffb4ba528a95eb86c
 source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}")
 sha256sums=('a5061ca1f19da225d0db173f26d59282868c34d86c17bd5176088bab64d7b013')
