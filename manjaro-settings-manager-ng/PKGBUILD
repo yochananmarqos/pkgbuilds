@@ -3,7 +3,7 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=r82.07e58df
+pkgver=r97.17333a5
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
@@ -21,11 +21,9 @@ depends=(
   'python-tzlocal'
 )
 makedepends=('git')
-_commit=07e58dfe1e0a1db01e91a4b0a645815e9d2034a7
-source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}"
-        'fix-missing-import.patch')
-sha256sums=('cf12e0ce3c0b677ca2723f3b24a1d29950d7478a3ae471b861e9ecd03477b1d1'
-            '34cb0be02ccfe166bb9f7ff85715c0c4c9ac49e899814054cbf261d9c9ffe549')
+_commit=17333a5dea90607036ec00cffb4ba528a95eb86c
+source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}")
+sha256sums=('a5061ca1f19da225d0db173f26d59282868c34d86c17bd5176088bab64d7b013')
 
 pkgver() {
   cd manjarosettingsmanager
@@ -34,7 +32,7 @@ pkgver() {
 
 prepare() {
   cd manjarosettingsmanager
-  patch -Np1 -i ../fix-missing-import.patch
+  desktop-file-edit --set-name="MSM NG" --set-key=Exec --set-value=msm-ng src/msm.desktop
 }
 
 package() {
@@ -44,6 +42,8 @@ package() {
 
   install -d "$pkgdir/usr/bin"
   ln -s "/opt/$pkgname/src/msm.py" "$pkgdir/usr/bin/msm-ng"
+
+  install -Dm644 src/msm.desktop "$pkgdir/usr/share/applications/msm-ng.desktop"
 
   # Fix symlinks
   for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
