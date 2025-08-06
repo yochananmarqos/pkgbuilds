@@ -3,7 +3,7 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=r97.17333a5
+pkgver=r108.f8e34be
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
@@ -24,9 +24,11 @@ makedepends=(
   'desktop-file-utils'
   'git'
 )
-_commit=17333a5dea90607036ec00cffb4ba528a95eb86c
-source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}")
-sha256sums=('a5061ca1f19da225d0db173f26d59282868c34d86c17bd5176088bab64d7b013')
+_commit=f8e34be56f0bfbe435cfcf5c28cef5789546e020
+source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}"
+        "msm-ng.sh")
+sha256sums=('1197eeda944f65ba402e56a40e43ddfc735a6d6d543b47306c3c1ef50ddee9c1'
+            '94fece808e3fb6513f493879054a561d922dce2f8b71f8e72ea0afd328446c52')
 
 pkgver() {
   cd manjarosettingsmanager
@@ -40,17 +42,27 @@ prepare() {
 
 package() {
   cd manjarosettingsmanager
+
   install -d "$pkgdir/opt/$pkgname"
   cp -r Data Design src "$pkgdir/opt/$pkgname"
 
-  install -d "$pkgdir/usr/bin"
-  ln -s "/opt/$pkgname/src/msm.py" "$pkgdir/usr/bin/msm-ng"
-
   install -Dm644 src/msm.desktop "$pkgdir/usr/share/applications/msm-ng.desktop"
+  install -Dm755 "$srcdir/msm-ng.sh" "$pkgdir/usr/bin/msm-ng"
 
   # Fix symlinks
-  for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
-    ln -sf "/opt/$pkgname/src/Translator.py" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
-    ln -sf "/opt/$pkgname/src/translations/" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
+  for f in KernelManager LocaleSettings TimeAndDateSettings UserManager; do
+    ln -sf "/opt/$pkgname/src/simple_translator.py" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
   done
+  ln -sf "/opt/$pkgname/src/simple_translator.py" "$pkgdir/opt/$pkgname/src/plugins/SystemInformation/"
+  rm "$pkgdir/opt/$pkgname/src/plugins/SystemInformation/simple-translator.py"
+
+  # Remove unneeded files
+  for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
+    rm "$pkgdir/opt/$pkgname/src/plugins/${f}"/{launcher.sh,"${f}.desktop"}
+  done
+  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm.desktop}
+
+  # Compile Python bytecode
+  python -m compileall -d / "$pkgdir/opt/$pkgname"
+  python -O -m compileall -d / "$pkgdir/opt/$pkgname"
 }
