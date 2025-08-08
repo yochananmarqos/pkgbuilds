@@ -2,27 +2,30 @@
 
 pkgname=turnon
 _app_id="de.swsnr.$pkgname"
-pkgver=2.7.2
+pkgver=2.7.3
 pkgrel=1
 pkgdesc="Turn on devices in your network"
 arch=('x86_64' 'aarch64')
 url="https://codeberg.org/swsnr/turnon"
 license=('EUPL-1.2')
-depends=('libadwaita')
+depends=(
+  'gtk4'
+  'libadwaita'
+)
 makedepends=(
   'blueprint-compiler'
-  'cargo'
+  'cargo-nightly'
   'git'
   'just'
 )
 source=("git+https://codeberg.org/swsnr/turnon.git#tag=v$pkgver"
         'schemas.patch')
-sha256sums=('e14f659d75f2ea497f899f37f3cf1f6cfefd7f67270fbedca8374407010f8fc3'
+sha256sums=('b171b82e4b8158566120ec982fc643d5a270008e2f3580c7183d377e80ab6e34'
             '0a72154c9fc6712b24120c887f59daa20b980832691100e76ee20e659f2668a9')
 
 prepare() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=nightly
   cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Don't compile schemas after installation
@@ -31,7 +34,7 @@ prepare() {
 
 build() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=nightly
   export CARGO_TARGET_DIR=target
   just compile
   cargo build --frozen --release
@@ -39,7 +42,7 @@ build() {
 
 check() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=nightly
   cargo test --frozen
 
   appstreamcli validate --no-net "${_app_id}.metainfo.xml"
