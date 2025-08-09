@@ -2,7 +2,7 @@
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
 _uuid=AlphabeticalAppGrid@stuarthayhurst
-pkgver=42.0.r12.gf3bd462
+pkgver=43.0.r0.gf3b1595
 pkgrel=1
 pkgdesc="Alphabetically order GNOME's app grid and folders"
 arch=('any')
