@@ -14,7 +14,7 @@ depends=(
 )
 makedepends=(
   'blueprint-compiler'
-  'cargo-nightly'
+  'cargo'
   'git'
   'just'
 )
@@ -25,7 +25,7 @@ sha256sums=('b171b82e4b8158566120ec982fc643d5a270008e2f3580c7183d377e80ab6e34'
 
 prepare() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=nightly
+  export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Don't compile schemas after installation
@@ -34,7 +34,7 @@ prepare() {
 
 build() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=nightly
+  export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   just compile
   cargo build --frozen --release
@@ -42,7 +42,7 @@ build() {
 
 check() {
   cd "$pkgname"
-  export RUSTUP_TOOLCHAIN=nightly
+  export RUSTUP_TOOLCHAIN=stable
   cargo test --frozen
 
   appstreamcli validate --no-net "${_app_id}.metainfo.xml"
