@@ -3,7 +3,7 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=r108.f8e34be
+pkgver=0.9.0a6
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
@@ -24,16 +24,10 @@ makedepends=(
   'desktop-file-utils'
   'git'
 )
-_commit=f8e34be56f0bfbe435cfcf5c28cef5789546e020
-source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#commit=${_commit}"
+source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#tag=v$pkgver"
         "msm-ng.sh")
-sha256sums=('1197eeda944f65ba402e56a40e43ddfc735a6d6d543b47306c3c1ef50ddee9c1'
+sha256sums=('31448362c2c0be23c451bc4007b1d78f40f8dceb742df6bf6746234d20c6e4f1'
             '94fece808e3fb6513f493879054a561d922dce2f8b71f8e72ea0afd328446c52')
-
-pkgver() {
-  cd manjarosettingsmanager
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
-}
 
 prepare() {
   cd manjarosettingsmanager
@@ -42,25 +36,23 @@ prepare() {
 
 package() {
   cd manjarosettingsmanager
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
   install -d "$pkgdir/opt/$pkgname"
-  cp -r Data Design src "$pkgdir/opt/$pkgname"
+  cp -r Data Design src "$pkgdir/opt/$pkgname/"
 
+  install -Dm644 src/simple_translator.py -t "${pkgdir}${site_packages}/"
   install -Dm644 src/msm.desktop "$pkgdir/usr/share/applications/msm-ng.desktop"
   install -Dm755 "$srcdir/msm-ng.sh" "$pkgdir/usr/bin/msm-ng"
 
-  # Fix symlinks
-  for f in KernelManager LocaleSettings TimeAndDateSettings UserManager; do
-    ln -sf "/opt/$pkgname/src/simple_translator.py" "$pkgdir/opt/$pkgname/src/plugins/${f}/"
-  done
-  ln -sf "/opt/$pkgname/src/simple_translator.py" "$pkgdir/opt/$pkgname/src/plugins/SystemInformation/"
-  rm "$pkgdir/opt/$pkgname/src/plugins/SystemInformation/simple-translator.py"
-
   # Remove unneeded files
+  for f in TimeAndDateSettings UserManager; do
+    rm "$pkgdir/opt/$pkgname/src/plugins/${f}/simple_translator.py"
+  done
   for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
     rm "$pkgdir/opt/$pkgname/src/plugins/${f}"/{launcher.sh,"${f}.desktop"}
   done
-  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm.desktop}
+  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm.desktop,simple_translator.py}
 
   # Compile Python bytecode
   python -m compileall -d / "$pkgdir/opt/$pkgname"
