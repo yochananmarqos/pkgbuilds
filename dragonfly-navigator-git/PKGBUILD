@@ -50,9 +50,9 @@ prepare() {
 
   # Fix desktop file
   desktop-file-edit --set-key=Exec --set-value=dragonfly \
-    --set-key=TryExec --set-value=dragonfly \
     --set-icon=dragonfly \
     --set-key=Terminal --set-value=false \
+    --remove-key=TryExec \
     --remove-key=TerminalOptions \
     dragonfly.desktop
 }
