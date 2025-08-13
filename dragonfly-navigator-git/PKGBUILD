@@ -100,4 +100,8 @@ package() {
 
   install -d "$pkgdir/usr/bin"
   ln -s "/usr/share/dragonfly/dragonfly" "$pkgdir/usr/bin/"
+
+  # Compile Python bytecode
+  python -m compileall -d / "$pkgdir/usr/share/dragonfly/"
+  python -O -m compileall -d / "$pkgdir/usr/share/dragonfly/"
 }
