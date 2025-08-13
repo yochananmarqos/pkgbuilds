@@ -89,8 +89,8 @@ package() {
     "$pkgdir/usr/share/dragonfly/openwith/openwith.qt"
   install -Dm755 openwith/gtk/build/gtk-open-with \
     "$pkgdir/usr/share/dragonfly/openwith/openwith.gtk"
-  install -Dm644 showStandardIcons -t "$pkgdir/usr/share/dragonfly/"
-  install -Dm644 {*.py,helptext.html} -t "$pkgdir/usr/share/dragonfly/"
+  install -Dm644 {*.py,helptext.html,showStandardIcons} -t \
+    "$pkgdir/usr/share/dragonfly/"
   cp -r icons vfs "$pkgdir/usr/share/dragonfly/"
   install -Dm644 dragonfly.desktop -t "$pkgdir/usr/share/applications/"
 
