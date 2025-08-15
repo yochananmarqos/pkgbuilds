@@ -3,7 +3,7 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=0.9.0a6
+pkgver=0.9.0a8
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
@@ -15,6 +15,7 @@ depends=(
   'python-babel'
   'python-dateutil'
   'python-gobject'
+  'python-pillow'
   'python-pycountry'
   'python-pygments'
   'python-pytz'
@@ -26,12 +27,12 @@ makedepends=(
 )
 source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#tag=v$pkgver"
         "msm-ng.sh")
-sha256sums=('31448362c2c0be23c451bc4007b1d78f40f8dceb742df6bf6746234d20c6e4f1'
+sha256sums=('1429d932e5cbcf272a6c6c3dd081556ffb9ff526d6ea817b3120e50c648f59fa'
             '94fece808e3fb6513f493879054a561d922dce2f8b71f8e72ea0afd328446c52')
 
 prepare() {
   cd manjarosettingsmanager
-  desktop-file-edit --set-name="MSM NG" --set-key=Exec --set-value=msm-ng src/msm.desktop
+  desktop-file-edit --set-name="MSM NG" --set-key=Exec --set-value=msm-ng src/msm-ng.desktop
 }
 
 package() {
@@ -42,17 +43,29 @@ package() {
   cp -r Data Design src "$pkgdir/opt/$pkgname/"
 
   install -Dm644 src/simple_translator.py -t "${pkgdir}${site_packages}/"
-  install -Dm644 src/msm.desktop "$pkgdir/usr/share/applications/msm-ng.desktop"
+  install -Dm644 src/msm-ng.desktop -t "$pkgdir/usr/share/applications/"
   install -Dm755 "$srcdir/msm-ng.sh" "$pkgdir/usr/bin/msm-ng"
 
   # Remove unneeded files
-  for f in TimeAndDateSettings UserManager; do
-    rm "$pkgdir/opt/$pkgname/src/plugins/${f}/simple_translator.py"
+  for plugin in "$pkgdir/opt/$pkgname/src/plugins"/*; do
+    if [ -d "${plugin}" ]; then
+
+      if [ -L "${plugin}/simple_translator.py" ]; then
+       rm "${plugin}/simple_translator.py"
+      fi
+
+      if [ -f "${plugin}/launcher.sh" ]; then
+        rm "${plugin}/launcher.sh"
+      fi
+
+      desktop_file=$(find "${plugin}" -maxdepth 1 -type f -name "*.desktop")
+      if [ -n "${desktop_file}" ]; then
+        rm "${desktop_file}"
+      fi
+
+    fi
   done
-  for f in KernelManager LocaleSettings SystemInformation TimeAndDateSettings UserManager; do
-    rm "$pkgdir/opt/$pkgname/src/plugins/${f}"/{launcher.sh,"${f}.desktop"}
-  done
-  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm.desktop,simple_translator.py}
+  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm-ng.desktop,simple_translator.py}
 
   # Compile Python bytecode
   python -m compileall -d / "$pkgdir/opt/$pkgname"
