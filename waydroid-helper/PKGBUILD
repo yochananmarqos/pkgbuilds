@@ -1,19 +1,19 @@
 # https://aur.archlinux.org/packages/waydroid-helper
 
 pkgname=waydroid-helper
-pkgver=0.2.3
+pkgver=0.2.5
 pkgrel=1
 pkgdesc="GUI helper for Waydroid configuration and extensions"
 arch=('any')
 url="https://github.com/ayasa520/waydroid-helper"
 license=('GPL-3.0-or-later')
 depends=(
+  'android-tools'
   'gtk4'
   'fakeroot'
   'libadwaita'
   'python'
   'python-aiofiles'
-  'python-bidict'
   'python-cairo'
   'python-dbus'
   'python-gobject'
@@ -25,7 +25,7 @@ depends=(
 makedepends=('meson')
 optdepends=('bindfs: shared folders support')  # AUR
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('b7bc598eba32856e050f2b469af31c29930c93564435fd4b294dc18c43f4d70f')
+sha256sums=('ce4ed49b58e1627bd26667a604f758205f54a33f70418e50f158980799dd69e2')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
