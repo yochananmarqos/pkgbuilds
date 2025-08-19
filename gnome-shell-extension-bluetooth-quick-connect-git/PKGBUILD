@@ -1,7 +1,6 @@
 # https://aur.archlinux.org/pkgbase/gnome-shell-extension-bluetooth-quick-connect-git
 
 pkgname=gnome-shell-extension-bluetooth-quick-connect-git
-_uuid=bluetooth-quick-connect@bjarosze.gmail.com
 pkgver=53.r0.gf122bfc
 pkgrel=1
 pkgdesc="Allow to connect Bluetooth paired devices from GNOME control panel."
@@ -14,6 +13,7 @@ depends=(
 )
 makedepends=(
   'git'
+  'jq'
   'pnpm'
   'zip'
 )
@@ -34,6 +34,8 @@ build() {
 
 package() {
   cd gnome-bluetooth-quick-connect
+  _uuid=$(jq -r .uuid assets/metadata.json)
+
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar -xvf "dist/${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
