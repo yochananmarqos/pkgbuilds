@@ -1,7 +1,6 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-alphabetical-grid-extension-git
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
-_uuid=AlphabeticalAppGrid@stuarthayhurst
 pkgver=43.0.r0.gf3b1595
 pkgrel=1
 pkgdesc="Alphabetically order GNOME's app grid and folders"
@@ -9,7 +8,10 @@ arch=('any')
 url="https://github.com/stuarthayhurst/alphabetical-grid-extension"
 license=('GPL-3.0-or-later')
 depends=('gnome-shell')
-makedepends=('git')
+makedepends=(
+  'git'
+  'jq'
+)
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/stuarthayhurst/alphabetical-grid-extension.git')
@@ -27,6 +29,8 @@ build() {
 
 package() {
   cd alphabetical-grid-extension
+  _uuid=$(jq -r .uuid extension/metadata.json)
+
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar xvf "build/${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
