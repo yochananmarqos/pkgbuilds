@@ -2,8 +2,8 @@
 
 pkgname=python-inotify-simple
 _name=inotify_simple
-pkgver=1.3.5
-pkgrel=5
+pkgver=2.0.1
+pkgrel=1
 pkgdesc="A simple Python wrapper around inotify"
 arch=('any')
 url="https://github.com/chrisjbillington/inotify_simple"
@@ -16,7 +16,7 @@ makedepends=(
   'python-wheel'
 )
 source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('ac595f699a6a6089e328b048e3cacad2851bd461ecbaa39ec22207bcd957e649')
+sha256sums=('4357a52d20cb3bffe0fb2fca8fe8279771bc4636cec76410e278c40784a492a5')
 
 build() {
   cd "$_name-$pkgver"
