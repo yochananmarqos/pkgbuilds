@@ -2,7 +2,7 @@
 
 pkgname=safeeyes
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=2.2.3
+pkgver=3.0.0
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -10,9 +10,9 @@ url="https://github.com/slgobinath/SafeEyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
-  'gtk3'
+  'gtk4'
   'hicolor-icon-theme'
-  'python'
+  'libnotify'
   'python-babel'
   'python-dbus'
   'python-gobject'
@@ -32,6 +32,7 @@ optdepends=(
   'gnome-shell-extension-appindicator: tray icon backend for GNOME'
   'libayatana-appindicator: tray icon backend for MATE'
   'python-croniter: for Health Statistics plugin'
+  'python-pywayland: for Smart Pause plugin (Wayland)'
   'safeeyes-plugins: Third party plugins'
   'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
   'swayidle: for Smart Pause plugin (Sway)'
@@ -40,7 +41,7 @@ optdepends=(
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('ee0cf597b602a7aa3e8bdfa34b6a54e9862f7e2131eb5b3c653534c9674791fd')
+sha256sums=('bffafe5f3710a2d5a9cd802142ee7741a5d7b62fa1ac4b077c7db4dc1ed0ee48')
 
 build() {
   cd "SafeEyes-$pkgver"
