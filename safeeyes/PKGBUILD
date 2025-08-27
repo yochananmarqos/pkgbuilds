@@ -19,7 +19,6 @@ depends=(
   'python-packaging'
   'python-psutil'
   'python-xlib'
-  'xorg-xprop'
 )
 makedepends=(
   'python-build'
@@ -29,15 +28,9 @@ makedepends=(
 )
 checkdepends=('appstream')
 optdepends=(
-  'gnome-shell-extension-appindicator: tray icon backend for GNOME'
-  'libayatana-appindicator: tray icon backend for MATE'
   'python-croniter: for Health Statistics plugin'
   'python-pywayland: for Smart Pause plugin (Wayland)'
   'safeeyes-plugins: Third party plugins'
-  'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
-  'swayidle: for Smart Pause plugin (Sway)'
-  'wingpanel-community-indicators: tray icon backend for Pantheon'
-  'wlrctl: full screen detection on Wayland'
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
