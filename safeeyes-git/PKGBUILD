@@ -2,7 +2,7 @@
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.0.0b3.r1.gf964aa1
+pkgver=3.0.0.r2.gcf7d3d7
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -19,7 +19,6 @@ depends=(
   'python-packaging'
   'python-psutil'
   'python-xlib'
-  'xorg-xprop'
 )
 makedepends=(
   'git'
@@ -30,15 +29,9 @@ makedepends=(
 )
 checkdepends=('appstream')
 optdepends=(
-  'gnome-shell-extension-appindicator: tray icon backend for GNOME'
-  'libayatana-appindicator: tray icon backend for MATE'
   'python-croniter: for Health Statistics plugin'
   'python-pywayland: for Smart Pause plugin (Wayland)'
   'safeeyes-plugins: Third party plugins'
-  'snixembed: tray icon backend for LXDE/MATE/Openbox/i3/other WMs'
-  'swayidle: for Smart Pause plugin (Sway)'
-  'wingpanel-community-indicators: tray icon backend for Pantheon'
-  'wlrctl: full screen detection on Wayland'
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 provides=("${pkgname%-git}")
