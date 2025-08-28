@@ -12,4 +12,4 @@ git checkout
 Also see my [PKGBUILDs](https://aur.archlinux.org/packages/?O=0&SeB=M&K=yochananmarqos&outdated=&SB=n&SO=a&PP=50&do_Search=Go) in the Arch User Repository (AUR)
 
 
-<img width="131" height="42" alt="Created-By-a-Human-Not-By-AI-Badge-black" src="https://github.com/user-attachments/assets/c9704278-339a-40d1-a3e8-3c62bcd58ea1" />
+[<img width="131" height="42" alt="Created-By-a-Human-Not-By-AI-Badge-black" src="https://github.com/user-attachments/assets/c9704278-339a-40d1-a3e8-3c62bcd58ea1" />](https://notbyai.fyi/)
