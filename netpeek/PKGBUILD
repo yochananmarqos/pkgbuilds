@@ -1,0 +1,34 @@
+# https://aur.archlinux.org/packages/netpeek
+
+pkgname=netpeek
+pkgver=0.2.3.1
+pkgrel=1
+pkgdesc="Modern network scanner for GNOME"
+arch=('any')
+url="https://github.com/ZingyTomato/NetPeek"
+license=('GPL-3.0-or-later')
+depends=(
+  'gtk4'
+  'libadwaita'
+  'python-gobject'
+  'python-ping3'
+)
+makedepends=(
+  'git'
+  'meson'
+)
+source=("git+https://github.com/ZingyTomato/NetPeek.git#tag=v${pkgver}")
+sha256sums=('bcfe318bdfefb6b47eac33117d47dfab924af2f4b1e48d0244ab9d37875faaa5')
+
+build() {
+  arch-meson NetPeek build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
