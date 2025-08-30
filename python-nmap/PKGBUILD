@@ -1,0 +1,31 @@
+# https://aur.archlinux.org/packages/python-nmap
+
+pkgname=python-nmap
+pkgver=0.7.1
+pkgrel=1
+pkgdesc="A Python library which helps in using the nmap port scanner. required nmap software"
+arch=('any')
+url="https://bitbucket.org/xael/python-nmap"
+license=('GPL-3.0-or-later')
+depends=(
+  'nmap'
+  'python'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+source=("https://files.pythonhosted.org/packages/source/${pkgname::1}/$pkgname/$pkgname-$pkgver.tar.gz")
+sha256sums=('f75af6b91dd8e3b0c31f869db32163f62ada686945e5b7c25f84bc0f7fad3b64')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
