@@ -32,6 +32,10 @@ makedepends=(
 #  'python-sphinx_rtd_theme'  # docs
   'vulkan-headers'
 )
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
+)
 # Use the Git repository so that loot's commit hash gets embedded in the build
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
 sha256sums=('876349f90fee64526fa6e95e887392bb710c50120e29dbff77a77c8c34dc8efb')
@@ -54,9 +58,13 @@ build() {
 #  sphinx-build -b html docs build/docs/html
 }
 
-#check() {
+check() {
 #  ctest --test-dir build --output-on-failure
-#}
+
+  cd "$pkgname"
+  appstreamcli validate --no-net "resources/linux/${_app_id}.metainfo.xml"
+  desktop-file-validate "resources/linux/${_app_id}.desktop"
+}
 
 package() {
   install -Dm755 build/LOOT -t "$pkgdir/usr/bin/"
@@ -66,8 +74,8 @@ package() {
     "$pkgdir/usr/share/applications/"
   install -Dm644 "resources/linux/${_app_id}.metainfo.xml" -t \
     "$pkgdir/usr/share/metainfo/"
-  install -Dm644 "resources/icons/$pkgname.svg" -t \
-    "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+  install -Dm644 "resources/icons/$pkgname.svg" \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
 
   cd resources/l10n
   # en directory has no translation file
