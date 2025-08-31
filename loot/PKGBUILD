@@ -40,6 +40,14 @@ checkdepends=(
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
 sha256sums=('876349f90fee64526fa6e95e887392bb710c50120e29dbff77a77c8c34dc8efb')
 
+prepare() {
+  cd "$pkgname"
+
+  # Set StartupWMClass
+  desktop-file-edit --set-key=StartupWMClass --set-value=LOOT \
+    "resources/linux/${_app_id}.desktop"
+}
+
 build() {
   CFLAGS+=" -ffat-lto-objects"
   CXXFLAGS+=" -ffat-lto-objects"
