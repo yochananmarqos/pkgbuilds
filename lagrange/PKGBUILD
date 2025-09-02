@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/lagrange
 
 pkgname=lagrange
-pkgver=1.18.8
+pkgver=1.19.0
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
@@ -26,7 +26,7 @@ makedepends=(
 )
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('9e8ce599d352bbf7f2acfb3e53acc06f0a932da08ba47cccdb86aeb9f101d590'
+sha256sums=('da12d47d8e70626de22c212dcce94f78c823c71406c42467c397d347b152dae7'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
