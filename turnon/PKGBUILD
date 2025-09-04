@@ -2,7 +2,7 @@
 
 pkgname=turnon
 _app_id="de.swsnr.$pkgname"
-pkgver=2.8.1
+pkgver=2.8.2
 pkgrel=1
 pkgdesc="Turn on devices in your network"
 arch=('x86_64' 'aarch64')
@@ -20,7 +20,7 @@ makedepends=(
 )
 source=("git+https://codeberg.org/swsnr/turnon.git#tag=v$pkgver"
         'schemas.patch')
-sha256sums=('324169fa1258acd8f7829a7c292b17dda84ca1487f9f586a3705bd4b34c6f3cc'
+sha256sums=('cdb52a127c1756173a82ef5bcbb1522eed42072848124c0e7e902c3dde4409c4'
             '0a72154c9fc6712b24120c887f59daa20b980832691100e76ee20e659f2668a9')
 
 prepare() {
