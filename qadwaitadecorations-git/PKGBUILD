@@ -2,7 +2,7 @@
 
 pkgname=('qadwaitadecorations-qt5-git' 'qadwaitadecorations-qt6-git')
 pkgbase=qadwaitadecorations-git
-pkgver=0.1.6.r0.gd70c24a
+pkgver=0.1.6.r1.ga4350db
 pkgrel=1
 pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
 arch=('x86_64')
@@ -16,12 +16,21 @@ makedepends=(
   'qt6-svg'
   'qt6-wayland'
 )
-source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git'
+        'https://github.com/FedoraQt/QAdwaitaDecorations/pull/80.patch')
+sha256sums=('SKIP'
+            'b183b4837800c4942f0a8f07638e03d6149c8598a383fc9fcc68dd91893539f8')
 
 pkgver() {
   cd QAdwaitaDecorations
   git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd QAdwaitaDecorations
+  
+  # Update colors for libadwaita 1.7
+  patch -Np1 -i ../80.patch
 }
 
 build() {
