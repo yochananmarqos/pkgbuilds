@@ -16,10 +16,8 @@ makedepends=(
   'qt6-svg'
   'qt6-wayland'
 )
-source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git'
-        'https://github.com/FedoraQt/QAdwaitaDecorations/pull/80.patch')
-sha256sums=('SKIP'
-            'b183b4837800c4942f0a8f07638e03d6149c8598a383fc9fcc68dd91893539f8')
+source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd QAdwaitaDecorations
@@ -28,9 +26,6 @@ pkgver() {
 
 prepare() {
   cd QAdwaitaDecorations
-  
-  # Update colors for libadwaita 1.7
-  patch -Np1 -i ../80.patch
 }
 
 build() {
