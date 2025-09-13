@@ -1,6 +1,7 @@
 # https://aur.archlinux.org/packages/lagrange
 
 pkgname=lagrange
+_app_id=fi.skyjake.Lagrange
 pkgver=1.19.2
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
@@ -20,12 +21,16 @@ depends=(
   'opusfile'
   'pcre2'
   'sdl2'
+#  'the-foundation'
   'zlib'
 )
 makedepends=(
   'cmake'
-  'git'
   'zip'
+)
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
 )
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
@@ -33,12 +38,24 @@ sha256sums=('9f31ebf1be41f86d0abae7c9aa0b78b453fef3b42b73f3a92759cbbac13b844f'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # remove bundled libs
+#  rm -rf lib
+}
+
 build() {
   cmake -B build -S "$pkgname-$pkgver" \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -Wno-dev
   cmake --build build
+}
+
+check() {
+  desktop-file-validate "build/${_app_id}.desktop"
+  appstreamcli validate --no-net "$pkgname-$pkgver/res/${_app_id}.appdata.xml"
 }
 
 package() {
