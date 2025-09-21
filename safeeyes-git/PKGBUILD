@@ -2,7 +2,7 @@
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.0.0.r2.gcf7d3d7
+pkgver=3.1.0.r0.g41ac8ea
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
