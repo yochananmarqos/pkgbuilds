@@ -2,11 +2,11 @@
 
 pkgname=safeeyes
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.0.0
+pkgver=3.1.0
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
-url="https://github.com/slgobinath/SafeEyes"
+url="https://slgobinath.github.io/SafeEyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
@@ -34,7 +34,7 @@ optdepends=(
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('bffafe5f3710a2d5a9cd802142ee7741a5d7b62fa1ac4b077c7db4dc1ed0ee48')
+sha256sums=('65534a314bd9bf2265393c9591a96367b79860da311f3acaf230ed626e2831ed')
 
 build() {
   cd "SafeEyes-$pkgver"
@@ -61,5 +61,4 @@ package() {
 
   # Remove duplicate icons and desktop file
   rm -rf "${pkgdir}${site_packages}/$pkgname/platform/"
-  rm -rf "${pkgdir}${site_packages}/usr"
 }
