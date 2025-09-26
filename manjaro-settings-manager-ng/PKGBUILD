@@ -3,14 +3,15 @@
 # https://forum.manjaro.org/t/my-version-of-manjaro-settings-manager-a-work-in-progress/179921
 
 pkgname=manjaro-settings-manager-ng
-pkgver=0.9.0a8
+pkgver=0.9.0a26
 pkgrel=1
 pkgdesc="Manjaro Linux System Settings Tool: Next Generation"
 arch=('any')
-url="https://gitlab.com/feralpenguin/manjarosettingsmanager"
+url="https://gitlab.com/feralpenguin/manjaro-settings-manager-ng"
 license=('LicenseRef-unknown')
 depends=(
   'inxi'
+  'mhwd'
   'pyside6'
   'python-babel'
   'python-dateutil'
@@ -18,6 +19,7 @@ depends=(
   'python-pillow'
   'python-pycountry'
   'python-pygments'
+  'python-pyqt6'
   'python-pytz'
   'python-tzlocal'
 )
@@ -25,49 +27,29 @@ makedepends=(
   'desktop-file-utils'
   'git'
 )
-source=("git+https://gitlab.com/feralpenguin/manjarosettingsmanager.git#tag=v$pkgver"
-        "msm-ng.sh")
-sha256sums=('1429d932e5cbcf272a6c6c3dd081556ffb9ff526d6ea817b3120e50c648f59fa'
-            '94fece808e3fb6513f493879054a561d922dce2f8b71f8e72ea0afd328446c52')
+source=("git+https://gitlab.com/feralpenguin/manjaro-settings-manager-ng.git#tag=v$pkgver")
+sha256sums=('bd9a09633221cadc150112bd6b9d741009fa4eeedac850406fe5a5c1349c252d')
 
 prepare() {
-  cd manjarosettingsmanager
-  desktop-file-edit --set-name="MSM NG" --set-key=Exec --set-value=msm-ng src/msm-ng.desktop
+  cd "$pkgname"
+  desktop-file-edit \
+    --set-name="MSM NG" \
+    --set-key=Exec --set-value=msm-ng \
+    --set-icon=preferences-desktop \
+    src/msm-ng.desktop
 }
 
 package() {
-  cd manjarosettingsmanager
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  cd "$pkgname"
+  install -Dm755 src/msm.py -t "$pkgdir/usr/lib/$pkgname/"
+  install -Dm644 src/{__init__.py,__main__.py} -t "$pkgdir/usr/lib/$pkgname/"
+  install -Dm644 src/libs/*.py -t "$pkgdir/usr/lib/$pkgname/libs/"
+  cp -r src/{icons-dark,icons-light,plugins,translations} "$pkgdir/usr/lib/$pkgname/"
 
-  install -d "$pkgdir/opt/$pkgname"
-  cp -r Data Design src "$pkgdir/opt/$pkgname/"
-
-  install -Dm644 src/simple_translator.py -t "${pkgdir}${site_packages}/"
+  install -Dm755 src/msm-ng "$pkgdir/usr/bin/msm-ng"
   install -Dm644 src/msm-ng.desktop -t "$pkgdir/usr/share/applications/"
-  install -Dm755 "$srcdir/msm-ng.sh" "$pkgdir/usr/bin/msm-ng"
-
-  # Remove unneeded files
-  for plugin in "$pkgdir/opt/$pkgname/src/plugins"/*; do
-    if [ -d "${plugin}" ]; then
-
-      if [ -L "${plugin}/simple_translator.py" ]; then
-       rm "${plugin}/simple_translator.py"
-      fi
-
-      if [ -f "${plugin}/launcher.sh" ]; then
-        rm "${plugin}/launcher.sh"
-      fi
-
-      desktop_file=$(find "${plugin}" -maxdepth 1 -type f -name "*.desktop")
-      if [ -n "${desktop_file}" ]; then
-        rm "${desktop_file}"
-      fi
-
-    fi
-  done
-  rm "$pkgdir/opt/$pkgname"/src/{launcher.sh,msm-ng.desktop,simple_translator.py}
 
   # Compile Python bytecode
-  python -m compileall -d / "$pkgdir/opt/$pkgname"
-  python -O -m compileall -d / "$pkgdir/opt/$pkgname"
+  python -m compileall -d / "$pkgdir/usr/lib/$pkgname"
+  python -O -m compileall -d / "$pkgdir/usr/lib/$pkgname"
 }
