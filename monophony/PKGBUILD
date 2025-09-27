@@ -1,0 +1,54 @@
+# https://aur.archlinux.org/packages/monophony
+
+pkgname=monophony
+pkgver=4.0.0
+pkgrel=1
+pkgdesc="Linux app for streaming music from YouTube Music"
+arch=('any')
+url="https://gitlab.com/zehkira/monophony"
+license=('0BSD')
+depends=(
+  'gst-plugins-base-libs'
+  'gstreamer'
+  'gtk4'
+	'libadwaita'
+	'python-brotli'
+	'python-gobject'
+	'python-mprisify'
+	'python-mutagen'
+	'python-pycryptodomex'
+	'python-requests'
+	'python-websockets'
+	'python-ytmusicapi'
+	'yt-dlp'
+)
+makedepends=(
+	'python-build'
+	'python-installer'
+	'python-setuptools'
+	'python-wheel'
+)
+source=("$url/-/archive/v$pkgver/$pkgname-v$pkgver.tar.gz")
+sha256sums=('d2b7dc05b12b8d4221108db03ab1e8b6356dfecc701ceb6f8480052914f4ac4a')
+
+prepare() {
+	cd "$pkgname-v$pkgver/source"
+	sed -i "/pip3 install/d" Makefile
+}
+
+build() {
+	cd "$pkgname-v$pkgver/source"
+	python -m build --wheel --no-isolation
+}
+
+package() {
+	cd "$pkgname-v$pkgver/source"
+	python -m installer --destdir="$pkgdir" dist/*.whl
+	make prefix="$pkgdir/usr" install
+
+  install -Dm644 ../LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+
+  # FIXME : Looks for resources.gresource in /usr/local/share
+  install -d "$pkgdir/usr/local/share"
+  ln -s "$pkgdir/usr/share/$pkgname" "$pkgdir/usr/local/share"
+}
