@@ -50,5 +50,5 @@ package() {
 
   # FIXME : Looks for resources.gresource in /usr/local/share
   install -d "$pkgdir/usr/local/share"
-  ln -s "$pkgdir/usr/share/$pkgname" "$pkgdir/usr/local/share"
+  ln -s "/usr/share/$pkgname/" "$pkgdir/usr/local/share/"
 }
