@@ -2,7 +2,7 @@
 
 pkgname=lagrange
 _app_id=fi.skyjake.Lagrange
-pkgver=1.19.2
+pkgver=1.19.3
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
@@ -17,11 +17,12 @@ depends=(
   'libwebp'
   'libx11'
   'mpg123'
+  'ncurses'
   'openssl'
   'opusfile'
   'pcre2'
   'sdl2'
-#  'the-foundation'
+#  'the-foundation'  ## TODO
   'zlib'
 )
 makedepends=(
@@ -34,7 +35,7 @@ checkdepends=(
 )
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('9f31ebf1be41f86d0abae7c9aa0b78b453fef3b42b73f3a92759cbbac13b844f'
+sha256sums=('65025f37804634330cfc5442145169f2cc27bd52f26bc58d6b33683aa12a2d6b'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
@@ -42,13 +43,16 @@ prepare() {
   cd "$pkgname-$pkgver"
 
   # remove bundled libs
-#  rm -rf lib
+  for lib in fribidi harfbuzz; do
+    rm -rf "lib/${lib}"
+  done
 }
 
 build() {
   cmake -B build -S "$pkgname-$pkgver" \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DENABLE_TUI="ON" \
     -Wno-dev
   cmake --build build
 }
