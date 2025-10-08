@@ -1,10 +1,10 @@
 # https://aur.archlinux.org/packages/ferdium-electron
 
 pkgname=ferdium-electron
-pkgver=7.1.0
+pkgver=7.1.1
 pkgrel=1
-_electronversion=35
-pkgdesc='A messaging browser that allows you to combine your favorite messaging services into one application'
+_electronversion=37
+pkgdesc="A messaging browser that allows you to combine your favorite messaging services into one application"
 arch=('x86_64')
 url="https://ferdium.org"
 license=('Apache-2.0 AND MIT')
@@ -20,7 +20,7 @@ conflicts=('ferdium')
 source=("git+https://github.com/ferdium/ferdium-app#tag=v$pkgver"
         'git+https://github.com/ferdium/ferdium-recipes.git'
         'ferdium.desktop')
-sha256sums=('83dac67cb427019f730b3a5580324fb7386d0351a959820c3ba2ed1b81703186'
+sha256sums=('1214efb898b78e7e38e6c939eec095905e9303c4a1767ee0dff27722ebfb5618'
             'SKIP'
             'd6e129220ed947cb5fa205211dabc6311a3d9c92434b6bc8deb2fae802c0b0d0')
 
@@ -51,6 +51,7 @@ prepare() {
 
 build() {
   cd ferdium-app
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
