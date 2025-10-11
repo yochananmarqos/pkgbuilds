@@ -2,7 +2,7 @@
 
 pkgname=gnome-shell-extension-lockkeys-git
 _uuid=lockkeys@vaina.lt
-pkgver=71.r6.g536d33c
+pkgver=74.r0.g9278a4b
 pkgrel=1
 pkgdesc="Numlock and Capslock indicator for gnome-shell"
 arch=('any')
