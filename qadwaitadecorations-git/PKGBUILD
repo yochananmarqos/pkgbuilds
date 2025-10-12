@@ -21,10 +21,8 @@ makedepends=(
 #  'qt6-svg'
 #  'vulkan-headers'
 )
-source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git'
-        'qt-610.patch')
-sha256sums=('SKIP'
-            'de5ff6990b94e1e27870f3ff144cecad8ef33ea2c78e469305f8cf74b1f1491a')
+source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
+sha256sums=('SKIP')
 
 pkgver() {
   cd QAdwaitaDecorations
