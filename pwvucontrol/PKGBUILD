@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/pwvucontrol
 
 pkgname=pwvucontrol
-pkgver=0.4.9
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="Pipewire Volume Control"
 arch=('x86_64')
@@ -11,18 +11,18 @@ depends=(
   'glib2'
   'gtk4'
   'libadwaita'
+  'libpipewire'
   'libwireplumber-4.0-compat'
   'wireplumber')
 makedepends=(
   'cargo'
   'clang'
-  'cmake'
   'git'
   'meson'
 )
 checkdepends=('appstream-glib')
 source=("git+https://github.com/saivert/pwvucontrol.git#tag=$pkgver")
-b2sums=('2cd0bd9901f63551f979f7efe1194b4cbb4b05c1175aec30e5d8c4e92511b47e372e22ab95d9acef11d7ab4132aa6ed7195c209e214538db6c06edc85dd8ded0')
+b2sums=('d6acf78dc67f6b3053d669ff9fd05630d732f72903ef7022d724db5fae99253e13474ff1ba51341b80a78a362f3a7652a554af3c66fdbaecbb0c5c4c96aab1c7')
 
 prepare() {
   cd "$pkgname"
