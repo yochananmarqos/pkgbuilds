@@ -2,7 +2,7 @@
 
 pkgname=smartgit
 _app_id=com.syntevo.SmartGit
-_pkgver=24_1_4
+_pkgver=24_1_5
 pkgver=${_pkgver//_/.}
 pkgrel=1
 pkgdesc="Graphical Git client"
@@ -42,7 +42,7 @@ optdepends=(
 source=("https://www.syntevo.com/downloads/${pkgname}/${pkgname}-linux-${_pkgver}.tar.gz"
         "${_app_id}.desktop")
 noextract=("${pkgname}-linux-${_pkgver}.tar.gz")
-sha256sums=('d4928548819413c6f5c96060e35c7e1d15a09a0e69ad9176f8d0ff488778355b'
+sha256sums=('62ab9e4dbc00f4a7171091b94de5a43f3ccdc809e7250d7e55062ca99292dbf2'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
