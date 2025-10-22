@@ -2,7 +2,7 @@
 
 pkgname=loot
 _app_id="io.github.$pkgname.$pkgname"
-pkgver=0.26.1
+pkgver=0.28.0
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
@@ -22,7 +22,6 @@ depends=(
 )
 makedepends=(
   'boost'
-  'cbindgen'
   'cmake'
 #  'doxygen'  # docs
   'git'
@@ -36,9 +35,8 @@ checkdepends=(
   'appstream'
   'desktop-file-utils'
 )
-# Use the Git repository so that loot's commit hash gets embedded in the build
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
-sha256sums=('876349f90fee64526fa6e95e887392bb710c50120e29dbff77a77c8c34dc8efb')
+sha256sums=('aca334960cc73dfa33e7ef0e2d853897876dbc174e30d3d7f7d8a3bb8dd5bf71')
 
 prepare() {
   cd "$pkgname"
@@ -49,8 +47,6 @@ prepare() {
 }
 
 build() {
-  CFLAGS+=" -ffat-lto-objects"
-  CXXFLAGS+=" -ffat-lto-objects"
   cmake -B build -S "$pkgname" \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
