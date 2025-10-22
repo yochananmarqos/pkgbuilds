@@ -1,22 +1,15 @@
 # https://aur.archlinux.org/packages/libloot
 
 pkgname=libloot
-pkgver=0.26.1
+pkgver=0.28.2
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
 url="https://loot.github.io"
 license=('GPL-3.0-only')
-depends=(
-  'fmt'
-  'icu'
-  'onetbb'
-  'spdlog'
-)
+depends=('gcc-libs')
 makedepends=(
-  'boost'
   'cargo'
-  'cbindgen'
   'cmake'
 #  'doxygen'  # docs
   'git'
@@ -25,30 +18,30 @@ makedepends=(
 #  'python-sphinx_rtd_theme'  # docs
 )
 provides=('libloot.so=0')
-# Use the Git repository so that libloot's commit hash gets embedded in the build
 source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
-sha256sums=('ecbe461e3c5c2c1a46f1357153de530965e84895a7453e044c49dcc1760dc657')
+sha256sums=('ea2b6784de7f98c6570c39dc9902b37a12c4ea1bcebc9c0fef883c24c34aff05')
+
+prepare() {
+  cd "$pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+}
 
 build() {
   cd "$pkgname"
+  export CXXFLAGS="${CXXFLAGS} -fno-lto"
   export RUSTUP_TOOLCHAIN=stable
-  cmake -B build -S . \
+  cmake -B build -S cpp \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DLIBLOOT_BUILD_TESTS='OFF' \
     -DLIBLOOT_INSTALL_DOCS='OFF' \
-    -DCMAKE_SKIP_RPATH=TRUE \
     -Wno-dev
   cmake --build build
 
   # docs
 #  sphinx-build -b html docs build/docs/html
 }
-
-#check() {
-#  cd "$pkgname-$pkgver"
-#  ctest --test-dir build --output-on-failure
-#}
 
 package() {
   cd "$pkgname"
