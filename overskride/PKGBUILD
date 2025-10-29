@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/overskride
 
 pkgname=overskride
-pkgver=0.6.2
+pkgver=0.6.3
 pkgrel=1
 pkgdesc="A simple yet powerful bluetooth client"
 arch=('x86_64' 'aarch64')
@@ -9,6 +9,7 @@ url="https://github.com/kaii-lb/overskride"
 license=('GPL-3.0-or-later')
 depends=(
   'bluez'
+  'gtk4'
   'libadwaita'
   'libpulse'
 )
@@ -20,7 +21,7 @@ makedepends=(
 )
 checkdepends=('appstream-glib')
 source=("git+https://github.com/kaii-lb/overskride.git#tag=v$pkgver")
-sha256sums=('a4bb2956b3c225d5a749e39c41408d9dc662c056a2e096a45c9333700bd33cfe')
+sha256sums=('e691485d5d847795e8e37f8bccab08eeed23d5696958e5d08c0741fa4f7a30f2')
 
 prepare() {
   cd "$pkgname"
