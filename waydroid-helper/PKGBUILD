@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/waydroid-helper
 
 pkgname=waydroid-helper
-pkgver=0.2.7
+pkgver=0.2.8
 pkgrel=1
 pkgdesc="GUI helper for Waydroid configuration and extensions"
 arch=('any')
@@ -20,12 +20,13 @@ depends=(
   'python-httpx'
   'python-pywayland'
   'python-yaml'
+  'vte4'
   'waydroid'
 )
 makedepends=('meson')
 optdepends=('bindfs: shared folders support')  # AUR
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('2f742b2a7d9c7b95fee155448bba3082ea4e53d6b7019a140d3b5b7708197979')
+sha256sums=('9affd92d7971fe75aed0c840aface87144271e221368b4591abaa4ddc22beebc')
 
 build() {
   arch-meson "$pkgname-$pkgver" build
