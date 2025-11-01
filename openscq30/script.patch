@@ -1,6 +1,17 @@
+diff --unified --recursive --text a/cli/justfile b/cli/justfile
+--- a/cli/justfile	2025-10-30 16:00:22.000000000 -0600
++++ b/cli/justfile	2025-10-31 12:29:04.270966258 -0600
+@@ -14,7 +14,6 @@
+     cargo insta review
+ 
+ install path:
+-    cargo build --release
+     ./scripts/install.sh "{{path}}"
+ 
+ uninstall path:
 diff --unified --recursive --text a/cli/scripts/install.sh b/cli/scripts/install.sh
---- a/cli/scripts/install.sh	2025-02-09 22:58:05.000000000 -0700
-+++ b/cli/scripts/install.sh	2025-02-10 11:44:08.980415843 -0700
+--- a/cli/scripts/install.sh	2025-10-30 16:00:22.000000000 -0600
++++ b/cli/scripts/install.sh	2025-10-31 12:11:01.717911306 -0600
 @@ -3,7 +3,7 @@
  
  script_path="$(readlink -f -- "$0")"
@@ -8,42 +19,43 @@ diff --unified --recursive --text a/cli/scripts/install.sh b/cli/scripts/install
 -project_root="$script_dir/../.."
 +project_root="$script_dir/.."
  
- install_prefix="$1"
- case "$OSTYPE" in
+ install_path="$1"
+ 
+Only in b/cli/scripts: install.sh.orig
 diff --unified --recursive --text a/gui/justfile b/gui/justfile
---- a/gui/justfile	2025-02-09 22:58:05.000000000 -0700
-+++ b/gui/justfile	2025-02-10 11:45:51.676777247 -0700
-@@ -15,7 +15,7 @@
- test-cov:
-     LC_ALL=C LANG=C cargo llvm-cov --no-report
+--- a/gui/justfile	2025-10-30 16:00:22.000000000 -0600
++++ b/gui/justfile	2025-10-31 12:26:57.867183278 -0600
+@@ -55,7 +55,6 @@
+     cargo llvm-cov --no-report --no-cfg-coverage
  
--install install_prefix: (build 'release')
-+install install_prefix:
-     ./scripts/install.sh "{{install_prefix}}"
+ install path:
+-    cargo build --release
+     ./scripts/install.sh "{{path}}"
  
- uninstall install_prefix:
+ uninstall path:
+Only in b/gui: justfile.orig
+Only in b/gui: justfile.rej
 diff --unified --recursive --text a/gui/scripts/install.sh b/gui/scripts/install.sh
---- a/gui/scripts/install.sh	2025-02-09 22:58:05.000000000 -0700
-+++ b/gui/scripts/install.sh	2025-02-10 11:45:11.033417821 -0700
-@@ -3,8 +3,7 @@
+--- a/gui/scripts/install.sh	2025-10-30 16:00:22.000000000 -0600
++++ b/gui/scripts/install.sh	2025-10-31 13:19:37.906563471 -0600
+@@ -3,16 +3,16 @@
  
  script_path="$(readlink -f -- "$0")"
  script_dir="$(dirname -- "$script_path")"
 -project_root="$script_dir/../.."
--gui_dir="$project_root/gui"
 +project_root="$script_dir/.."
  
- install_prefix="$1"
+ install_path="$1"
  
-@@ -15,7 +14,7 @@
+ echo Installing binary
+ install -Dm755 "$project_root/target/release/openscq30-gui" -t "$install_path/bin/"
+ echo Installing desktop file
+-install -Dm644 "$project_root/gui/resources/com.oppzippy.OpenSCQ30.desktop" -t "$install_path/share/applications"
++install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.desktop" -t "$install_path/share/applications"
+ echo Installing appstream metadata
+-install -Dm644 "$project_root/gui/resources/com.oppzippy.OpenSCQ30.metainfo.xml" -t "$install_path/share/metainfo"
++install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.metainfo.xml" -t "$install_path/share/metainfo"
+ echo Installing application icon
+-install -Dm644 "$project_root/gui/resources/com.oppzippy.OpenSCQ30.svg" -t "$install_path/share/icons/hicolor/scalable/apps"
++install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.svg" -t "$install_path/share/icons/hicolor/scalable/apps"
  
- echo "Installing to $1"
- install -Dm755 "$project_root/target/release/openscq30_gui$bin_ext" -t "$install_prefix/bin/"
--install -Dm644 "$gui_dir/resources/com.oppzippy.OpenSCQ30.desktop" -t "$install_prefix/share/applications"
--install -Dm644 "$gui_dir/resources/com.oppzippy.OpenSCQ30.metainfo.xml" -t "$install_prefix/share/metainfo"
--install -Dm644 "$gui_dir/resources/com.oppzippy.OpenSCQ30.svg" -t "$install_prefix/share/icons/hicolor/scalable/apps"
--cp -r "$gui_dir"/share/. "$install_prefix/share"
-+install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.desktop" -t "$install_prefix/share/applications"
-+install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.metainfo.xml" -t "$install_prefix/share/metainfo"
-+install -Dm644 "$project_root/resources/com.oppzippy.OpenSCQ30.svg" -t "$install_prefix/share/icons/hicolor/scalable/apps"
-+cp -r "$project_root"/share/. "$install_prefix/share"

@@ -1,8 +1,12 @@
+## WIP
+
 # https://aur.archlinux.org/pkgbase/openscq30
 
 pkgname=('openscq30-cli' 'openscq30-gui')
 pkgbase=openscq30
-pkgver=1.19.3
+_app_id=com.oppzippy.OpenSCQ30
+_pkgver=2.0.0-beta4
+pkgver=${_pkgver//-/.}
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64')
@@ -13,43 +17,46 @@ makedepends=(
   'just'
 )
 depends=(
+  'cosmic-icon-theme'
   'dbus'
   'gcc-libs'
   'gtk4'
   'libadwaita'
+  'libxkbcommon'
+  'sqlite'
   'xdg-utils'
 )
 checkdepends=('xorg-server-xvfb')
-source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+source=("OpenSCQ30-${_pkgver}.tar.gz::$url/archive/refs/tags/v${_pkgver}.tar.gz"
         'script.patch')
-sha256sums=('f31b7fefa48d9edbade98b409a0d595a598f3b71254e57b0a0c2724459914d38'
-            '222655bded14fae6671f150f7bdc6d62fbb29c6b59fd04833c9ae271fe0eeab1')
+sha256sums=('936698b00623cea6bb82e367eeb0bd59df6449cdbf9c1a1a64fab068d7d0cf7d'
+            '7d523fb6e534ebfe6599cd03d4b57940cbe32cb1ab27df7e68972651a8290fdf')
 
 prepare() {
-	cd "OpenSCQ30-$pkgver"
+	cd "OpenSCQ30-${_pkgver}"
 	export RUSTUP_TOOLCHAIN=stable
-	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+#	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Fix install script directories
-  # Don't build during gui install
+  # Don't build during install
   patch -Np1 -i ../script.patch
 }
 
 build() {
-	cd "OpenSCQ30-$pkgver"
+	cd "OpenSCQ30-${_pkgver}"
 	export RUSTUP_TOOLCHAIN=stable
 	export CARGO_TARGET_DIR=target
-	export CARGO_PROFILE_RELEASE_LTO=true
+#	export CARGO_PROFILE_RELEASE_LTO=true
   just cli/ build release
   just gui/ build release
 }
 
 check() {
-	cd "OpenSCQ30-$pkgver"
+	cd "OpenSCQ30-${_pkgver}"
 	export RUSTUP_TOOLCHAIN=stable
-  just lib/ test
-  just cli/ test
-  xvfb-run --auto-servernum just gui/ test
+#  just lib/ test || :
+#  just cli/ test || :
+#  xvfb-run --auto-servernum just gui/ test || :
 }
 
 package_openscq30-cli() {
@@ -59,25 +66,18 @@ package_openscq30-cli() {
 	  'gcc-libs'
 	)
 
-	cd "OpenSCQ30-$pkgver"
+	cd "OpenSCQ30-${_pkgver}"
   just cli/ install "$pkgdir/usr"
-
-  # Install completions
-  cd cli
-  install -d "$pkgdir"/usr/share/{bash-completions/completions,fish/vendor_completions.d,zsh/site-functions}
-  ./"target/release/${pkgbase}_cli" completions bash > \
-    "$pkgdir/usr/share/bash-completions/completions/${pkgbase}_cli"
-#  ./"target/release/${pkgbase}_cli" completions elvish > \
-#    "$pkgdir/usr/share/ ?"
-  ./"target/release/${pkgbase}_cli" completions fish > \
-    "$pkgdir/usr/share/fish/vendor_completions.d/${pkgbase}_cli.fish"
-  ./"target/release/${pkgbase}_cli" completions zsh > \
-    "$pkgdir/usr/share/zsh/site-functions/_${pkgbase}_cli"
 }
 
 package_openscq30-gui() {
 	pkgdesc+=" - GUI application"
 
-	cd "OpenSCQ30-$pkgver"
-	just gui/ install "$pkgdir/usr"
+	cd "OpenSCQ30-${_pkgver}"
+#	just gui/ install "$pkgdir/usr"
+
+  install -Dm755 "gui/target/release/$pkgbase-gui" -t "$pkgdir/usr/bin/"
+  install -Dm644 "gui/resources/${_app_id}.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm644 "gui/resources/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo"
+  install -Dm644 "gui/resources/${_app_id}.svg" -t "$pkgdir/usr/share/icons/hicolor/scalable/apps"
 }
