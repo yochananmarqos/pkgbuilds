@@ -35,7 +35,7 @@ sha256sums=('936698b00623cea6bb82e367eeb0bd59df6449cdbf9c1a1a64fab068d7d0cf7d'
 prepare() {
 	cd "OpenSCQ30-${_pkgver}"
 	export RUSTUP_TOOLCHAIN=stable
-#	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
 
   # Fix install script directories
   # Don't build during install
@@ -46,7 +46,6 @@ build() {
 	cd "OpenSCQ30-${_pkgver}"
 	export RUSTUP_TOOLCHAIN=stable
 	export CARGO_TARGET_DIR=target
-#	export CARGO_PROFILE_RELEASE_LTO=true
   just cli/ build release
   just gui/ build release
 }
