@@ -14,6 +14,7 @@ depends=(
   'icu'
   'libloot'
   'minizip-ng'
+  'ogdf'
   'onetbb'
   'spdlog'
   'qt6-base'
@@ -25,7 +26,6 @@ makedepends=(
   'cmake'
 #  'doxygen'  # docs
   'git'
-  'ogdf'
   'python'
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
