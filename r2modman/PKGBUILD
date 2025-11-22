@@ -1,82 +1,63 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.2.10
+pkgver=3.2.11
 pkgrel=1
-_nodeversion=22
 _electronversion=38
 pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
 arch=('x86_64')
 url="https://github.com/ebkr/r2modmanPlus"
 license=('MIT')
 depends=("electron${_electronversion}")
-makedepends=(
-  'nvm'
-  'yarn'
-)
+makedepends=('corepack')
 source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('d9a9062f1d16708fcadb0ecf52c6e370f2be32ee6b9538fa62b9bdc9670d2f35'
+sha256sums=('592e1a71766dbc84966d466814042db8734a5a27ead6b8d167f4bf1b6807ca03'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
-_ensure_local_nvm() {
-  # let's be sure we are starting clean
-  which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
-  export NVM_DIR="$srcdir/.nvm"
-
-  # The init script returns 3 if version specified
-  # in ./.nvrc is not (yet) installed in $NVM_DIR
-  # but nvm itself still gets loaded ok
-  source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
-}
-
 prepare() {
-	cd "${pkgname}Plus-$pkgver"
-	electronDist="/usr/lib/electron${_electronversion}"
+  cd "${pkgname}Plus-$pkgver"
+  electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
 
-	# Modify electron-builder config
-	sed -e "s/'AppImage', 'tar.gz', 'deb', 'rpm', 'pacman'/'dir'/" -e "/builder: {/a electronDist: \"${electronDist}\", electronVersion: \"${electronVer}\"," -i quasar.config.ts
+  # Modify electron-builder config
+  sed -e "s/'AppImage', 'tar.gz', 'deb', 'rpm', 'pacman'/'dir'/" -e "/builder: {/a electronDist: \"${electronDist}\", electronVersion: \"${electronVer}\"," -i quasar.config.ts
 
-  _ensure_local_nvm
-  nvm install "${_nodeversion}"
-	yarn install --frozen-lockfile
+  corepack yarn install --frozen-lockfile
 
   sed -i "s|@ELECTRONVERSION@|${_electronversion}|" "$srcdir/$pkgname.sh"
 }
 
 build() {
-	cd "${pkgname}Plus-$pkgver"
-	export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-	electronDist="/usr/lib/electron${_electronversion}"
+  cd "${pkgname}Plus-$pkgver"
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+  electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
-  _ensure_local_nvm
-	yarn build-linux
+  corepack yarn build-linux
 }
 
 check() {
-	cd "${pkgname}Plus-$pkgver"
-	export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
-	_ensure_local_nvm
-	node test/folder-structure-testing/populator.mjs
-	yarn test
+  cd "${pkgname}Plus-$pkgver"
+  export YARN_CACHE_FOLDER="$srcdir/yarn-cache"
+  node test/folder-structure-testing/populator.mjs
+  corepack yarn test
 }
 
 package() {
-	cd "${pkgname}Plus-$pkgver"
-	install -Dm644 dist/electron/Packaged/linux-unpacked/resources/app.asar -t \
-	  "$pkgdir/usr/lib/$pkgname/"
-	install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
-	install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
+  cd "${pkgname}Plus-$pkgver"
+  install -Dm644 dist/electron/Packaged/linux-unpacked/resources/app.asar -t \
+    "$pkgdir/usr/lib/$pkgname/"
+  install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications/"
 
-	for i in src/assets/icon/*; do
-		install -Dm644 "${i}" \
-		  "$pkgdir/usr/share/icons/hicolor/$(basename -s .png "${i}")/apps/$pkgname.png"
-	done
+  for i in src/assets/icon/*; do
+    install -Dm644 "${i}" \
+      "$pkgdir/usr/share/icons/hicolor/$(basename -s .png "${i}")/apps/$pkgname.png"
+  done
 
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
