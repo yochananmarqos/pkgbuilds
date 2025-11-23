@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/field-monitor
 
 pkgname=field-monitor
-pkgver=49.0
+pkgver=49.1
 pkgrel=1
 pkgdesc="Remote-desktop client designed for the GNOME platform. Access virtual machines and other external screens."
 arch=('x86_64')
@@ -35,12 +35,12 @@ makedepends=(
   'meson'
 )
 source=("git+https://github.com/theCapypara/field-monitor#tag=v$pkgver")
-sha256sums=('ca34af6195a730a47605035b68a1ed4944482ee726151d5e993105712917a027')
+sha256sums=('781897cc978fa5283f8ccb2127786df92a37353ac4bc7a14a1650da87adc8b14')
 
 prepare() {
   cd "$pkgname"
 	export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --target "$(rustc --print host-tuple)"
 }
 
 build() {
