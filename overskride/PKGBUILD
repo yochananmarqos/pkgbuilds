@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/overskride
 
 pkgname=overskride
-pkgver=0.6.3
+pkgver=0.6.5
 pkgrel=1
 pkgdesc="A simple yet powerful bluetooth client"
 arch=('x86_64' 'aarch64')
@@ -21,12 +21,12 @@ makedepends=(
 )
 checkdepends=('appstream-glib')
 source=("git+https://github.com/kaii-lb/overskride.git#tag=v$pkgver")
-sha256sums=('e691485d5d847795e8e37f8bccab08eeed23d5696958e5d08c0741fa4f7a30f2')
+sha256sums=('ba5eac152c4c4effea3e83c3179ac35555520680b34f4ac859f17fdc10333949')
 
 prepare() {
   cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --target "$(rustc --print host-tuple)"
 }
 
 build() {
