@@ -2,7 +2,7 @@
 
 pkgname=paru
 pkgver=2.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Feature packed AUR helper"
 arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
 url="https://github.com/morganamilo/paru"
@@ -20,12 +20,18 @@ optdepends=(
   'devtools: build in chroot and download pkgbuilds'
 )
 backup=("etc/$pkgname.conf")
-source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed")
-sha256sums=('19898d4f2ccea34f3ebc2dba3761b41026a2a9453cfec1ad856c7cb36d3b7d2f')
+source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed"
+        'https://github.com/Morganamilo/paru/pull/1449.patch')
+sha256sums=('19898d4f2ccea34f3ebc2dba3761b41026a2a9453cfec1ad856c7cb36d3b7d2f'
+            '6a525b7118ceecb1a78810f0ba0a405c323ddac2587d6dc8e322c1e0389def04')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
 prepare() {
   cd "$pkgname"
+
+  # https://github.com/Morganamilo/paru/issues/1447
+  patch -Np1 -i ../1449.patch
+
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 }
