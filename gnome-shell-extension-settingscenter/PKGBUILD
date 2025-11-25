@@ -15,6 +15,8 @@ build() {
   cd gnome-shell-extension-SettingsCenter
   gnome-extensions pack "${_uuid}" \
     --podir=../po/ \
+    --extra-source=lib/ \
+    --extra-source=ui/ \
     --extra-source=menu_items.js \
     --force
 }
