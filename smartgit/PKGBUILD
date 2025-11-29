@@ -2,12 +2,12 @@
 
 pkgname=smartgit
 _app_id=com.syntevo.SmartGit
-_pkgver=24_1_5
+_pkgver=25_1_100
 pkgver=${_pkgver//_/.}
 pkgrel=1
 pkgdesc="Graphical Git client"
 arch=('x86_64')
-url="https://www.syntevo.com/smartgit"
+url="https://www.smartgit.dev"
 license=(
   'Apache-2.0'
   'BSD-2-Clause'
@@ -39,19 +39,19 @@ optdepends=(
   'git-lfs: Large file support'
   'mercurial: hg repositories support'
 )
-source=("https://www.syntevo.com/downloads/${pkgname}/${pkgname}-linux-${_pkgver}.tar.gz"
+source=("https://download.smartgit.dev/${pkgname}/${pkgname}-${_pkgver}-linux-amd64.tar.gz"
         "${_app_id}.desktop")
-noextract=("${pkgname}-linux-${_pkgver}.tar.gz")
-sha256sums=('62ab9e4dbc00f4a7171091b94de5a43f3ccdc809e7250d7e55062ca99292dbf2'
+noextract=("${pkgname}-${_pkgver}-linux-amd64.tar.gz")
+sha256sums=('c66279d31b3c88e23b8f9081dd14286bd70a31abaf79016a479bde81a720c5bd'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
   mkdir -p "${pkgname}-${pkgver}"
-  bsdtar xf "${pkgname}-linux-${_pkgver}.tar.gz" --strip-components 1 -C "${pkgname}-${pkgver}"
+  bsdtar xf "${pkgname}-${_pkgver}-linux-amd64.tar.gz" -C "${pkgname}-${pkgver}"
 }
 
 package() {
-  cd "${pkgname}-${pkgver}"
+  cd "${pkgname}-${pkgver}/${pkgname}"
 
   # Install application files
   install -Dm755 "bin/${pkgname}.sh" -t "${pkgdir}/opt/${pkgname}/bin/"
@@ -61,10 +61,6 @@ package() {
   # Install licenses
   install -Dm644 license.html -t "${pkgdir}/usr/share/licenses/${pkgname}/"
   install -m644 licenses/* -t "${pkgdir}/usr/share/licenses/${pkgname}/"
-
-  # Install docs
-  install -Dm644 changelog.txt checksums readme-linux.txt "${pkgname}.url" -t \
-    "$pkgdir/usr/share/doc/${pkgname}/"
 
   # Install icon files
   for i in 32 48 64 128 256; do
