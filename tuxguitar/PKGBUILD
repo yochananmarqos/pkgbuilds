@@ -1,0 +1,103 @@
+# https://aur.archlinux.org/packages/tuxguitar
+
+pkgname=tuxguitar
+pkgver=2.0.0
+pkgrel=1
+_swt_ver=4.36
+_swt_build=202505281830
+pkgdesc="A multitrack guitar tablature editor and player"
+arch=('x86_64' 'aarch64')
+url="https://www.tuxguitar.app"
+license=('LGPL-2.1-or-later')
+depends=(
+  'alsa-lib'
+  'gtk3'
+  'java-runtime>=9'
+)
+makedepends=(
+  'fluidsynth'
+  'jack'
+  'java-environment>=9'
+  'lilv'
+  'lv2'
+  'maven'
+  'qt5-base'
+  'suil'
+)
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
+)
+optdepends=(
+  'fluidsynth: FluidSynth plugin support'
+  'jack: Jack plugin support'
+  'lilypond: Compile exported LilyPond files'
+  'lilv: LV2 plugin support'
+  'lv2: LV2 plugin support'
+  'qt5-base: LV2 plugin support'
+  'suil: LV2 plugin support'
+)
+conflicts=('tuxguitar-common' 'tuxguitar-gtk2')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/helge17/tuxguitar/archive/refs/tags/$pkgver.tar.gz")
+source_x86_64=("https://archive.eclipse.org/eclipse/downloads/drops4/R-${_swt_ver}-${_swt_build}/swt-${_swt_ver}-gtk-linux-x86_64.zip")
+source_aarch64=("https://archive.eclipse.org/eclipse/downloads/drops4/R-${_swt_ver}-${_swt_build}/swt-${_swt_ver}-gtk-linux-aarch64.zip")
+noextract=("swt-${_swt_ver}-gtk-linux-${CARCH}.zip")
+sha256sums=('a582ef93155619ef000baac38ea201de59dcb796503cb7ea71ef93a87d96312e')
+sha256sums_x86_64=('2a94184897509ce421eb05fa783a870f1fa84dab1a9f4fb065f14d509fda78f2')
+sha256sums_aarch64=('c7fe578d1d278c293fb9b3accc59650dd5789d5cd025621feefe2c412cd1072a')
+
+prepare() {
+  mkdir -p swt-${_swt_ver}-gtk-linux-${CARCH}
+  bsdtar xf swt-${_swt_ver}-gtk-linux-${CARCH}.zip -C swt-${_swt_ver}-gtk-linux-${CARCH}
+
+  cd "$pkgname-$pkgver"
+
+  # Change build version from 9.99-SNAPSHOT to $pkgver in config files
+  # see see https://github.com/helge17/tuxguitar/blob/$pkgver/misc/build_tuxguitar_from_source.sh
+  find . \( -name "*.xml" -or -name "*.gradle"  -or -name "*.properties" -or -name "*.html" -or -name control -or -name Info.plist -or -name CHANGES \) -and -not -path "./website/*" -and -type f -exec sed -i -e "s/9.99-SNAPSHOT/$pkgver/" '{}' \;
+
+  # Also set the version in the "Help - About" dialog
+  sed -i -e "s/static final String RELEASE_NAME =.*/static final String RELEASE_NAME = (TGApplication.NAME + \" $pkgver\");/" \
+    "desktop/TuxGuitar/src/app/$pkgname/app/view/dialog/about/TGAboutDialog.java"
+}
+
+build() {
+
+  # Install SWT manually
+  # see https://github.com/helge17/tuxguitar/blob/$pkgver/INSTALL.md#download-and-install-swt-for-linux
+  pushd swt-${_swt_ver}-gtk-linux-${CARCH}
+  mvn install:install-file -Dfile=swt.jar -DgroupId=org.eclipse.swt -DartifactId=org.eclipse.swt.gtk.linux -Dpackaging=jar -Dversion=${_swt_ver}
+  popd
+
+  cd "$pkgname-$pkgver/desktop/build-scripts/$pkgname-linux-swt"
+  mvn -e clean verify -P native-modules
+}
+
+check() {
+  cd "$pkgname-$pkgver/desktop/build-scripts/$pkgname-linux-swt/target/$pkgname-$pkgver-linux-swt"
+  desktop-file-validate "share/applications/$pkgname.desktop"
+  appstreamcli validate --no-net "share/metainfo/app.$pkgname.metainfo.xml" || :
+}
+
+package() {
+  cd "$pkgname-$pkgver/desktop/build-scripts/$pkgname-linux-swt/target/$pkgname-$pkgver-linux-swt"
+
+  # Man page has to be gzipped first
+  gzip "share/man/man1/$pkgname.1"
+
+  # Install all files
+  install -d "$pkgdir/opt/$pkgname"
+  cp -a * "$pkgdir/opt/$pkgname"
+
+  # Set up symlinks
+  install -d "$pkgdir/usr/bin"
+  install -d "$pkgdir"/usr/share/{applications,doc/"$pkgname",man/man1,metainfo,mime/packages,pixmaps}
+
+  ln -s "/opt/$pkgname/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+  ln -s "/opt/$pkgname/share/applications/$pkgname.desktop" "$pkgdir/usr/share/applications/"
+  ln -s "/opt/$pkgname/doc"/* "$pkgdir/usr/share/doc/$pkgname/"
+  ln -s "/opt/$pkgname/share/metainfo/app.$pkgname.metainfo.xml" "$pkgdir/usr/share/metainfo/"
+  ln -s "/opt/$pkgname/share/mime/packages/$pkgname.xml" "$pkgdir/usr/share/mime/packages/"
+  ln -s "/opt/$pkgname/share/pixmaps/$pkgname.png" "$pkgdir/usr/share/pixmaps/"
+  ln -s "/opt/$pkgname/share/man/man1/$pkgname.1.gz" "$pkgdir/usr/share/man/man1/"
+}
