@@ -53,8 +53,9 @@ prepare() {
   cd "$pkgname-$pkgver"
 
   # Change build version from 9.99-SNAPSHOT to $pkgver in config files
-  # see see https://github.com/helge17/tuxguitar/blob/$pkgver/misc/build_tuxguitar_from_source.sh
-  find . \( -name "*.xml" -or -name "*.gradle"  -or -name "*.properties" -or -name "*.html" -or -name control -or -name Info.plist -or -name CHANGES \) -and -not -path "./website/*" -and -type f -exec sed -i -e "s/9.99-SNAPSHOT/$pkgver/" '{}' \;
+  # See https://github.com/helge17/tuxguitar/blob/$pkgver/misc/build_tuxguitar_from_source.sh
+  find . \( -name "*.xml" -or -name "*.gradle"  -or -name "*.properties" -or -name "*.html" -or -name control -or -name Info.plist -or -name CHANGES \) -and -not -path "./website/*" -and -type f -exec \
+    sed -i -e "s/9.99-SNAPSHOT/$pkgver/" '{}' \;
 
   # Also set the version in the "Help - About" dialog
   sed -i -e "s/static final String RELEASE_NAME =.*/static final String RELEASE_NAME = (TGApplication.NAME + \" $pkgver\");/" \
@@ -64,7 +65,7 @@ prepare() {
 build() {
 
   # Install SWT manually
-  # see https://github.com/helge17/tuxguitar/blob/$pkgver/INSTALL.md#download-and-install-swt-for-linux
+  # See https://github.com/helge17/tuxguitar/blob/$pkgver/INSTALL.md#download-and-install-swt-for-linux
   pushd swt-${_swt_ver}-gtk-linux-${CARCH}
   mvn install:install-file -Dfile=swt.jar -DgroupId=org.eclipse.swt -DartifactId=org.eclipse.swt.gtk.linux -Dpackaging=jar -Dversion=${_swt_ver}
   popd
