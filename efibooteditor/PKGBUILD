@@ -15,7 +15,6 @@ makedepends=(
   'cmake'
   'git'
   'qt6-tools'
-  'vulkan-headers'
 )
 source=("git+https://github.com/Neverous/efibooteditor.git#tag=v$pkgver?signed")
 sha256sums=('bf298671eec245f83e7b53a7126889934bcf7a95cf84131ba3515fddc67102f8')
