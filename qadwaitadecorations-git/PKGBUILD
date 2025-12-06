@@ -19,7 +19,6 @@ makedepends=(
   'qt5-wayland-decorations'
   'qt6-base'
   'qt6-svg'
-  'vulkan-headers'
 )
 source=('git+https://github.com/FedoraQt/QAdwaitaDecorations.git')
 sha256sums=('SKIP')
