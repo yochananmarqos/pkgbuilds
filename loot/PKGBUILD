@@ -29,7 +29,6 @@ makedepends=(
   'python'
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
-  'vulkan-headers'
 )
 checkdepends=(
   'appstream'
