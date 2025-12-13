@@ -9,7 +9,7 @@ url="https://github.com/morganamilo/paru"
 license=('GPL-3.0-or-later')
 depends=(
   'git'
-  'libalpm.so>=15'
+  'libalpm.so>=16'
   'pacman'
 )
 makedepends=(
