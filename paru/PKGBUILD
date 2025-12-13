@@ -2,7 +2,7 @@
 
 pkgname=paru
 pkgver=2.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Feature packed AUR helper"
 arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
 url="https://github.com/morganamilo/paru"
@@ -21,9 +21,11 @@ optdepends=(
 )
 backup=("etc/$pkgname.conf")
 source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed"
-        'https://github.com/Morganamilo/paru/pull/1449.patch')
+        'https://github.com/Morganamilo/paru/pull/1449.patch'
+        'libalpm-16.patch')
 sha256sums=('19898d4f2ccea34f3ebc2dba3761b41026a2a9453cfec1ad856c7cb36d3b7d2f'
-            '6a525b7118ceecb1a78810f0ba0a405c323ddac2587d6dc8e322c1e0389def04')
+            '6a525b7118ceecb1a78810f0ba0a405c323ddac2587d6dc8e322c1e0389def04'
+            'c44b314df9f85ca0ecb9e4bfbc8c65333e10a69e595439439ded3be3213f0eb3')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
 prepare() {
@@ -32,8 +34,14 @@ prepare() {
   # https://github.com/Morganamilo/paru/issues/1447
   patch -Np1 -i ../1449.patch
 
+  # https://github.com/Morganamilo/paru/issues/1454
+  patch -Np1 -i ../libalpm-16.patch
+
+  rm Cargo.lock
+
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+#  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --target "$(rustc --print host-tuple)"
 }
 
 build () {
@@ -49,7 +57,8 @@ build () {
     export CARGO_PROFILE_RELEASE_LTO=off
   fi
 
-  cargo build --frozen --features "${_features:-}" --release
+#  cargo build --frozen --features "${_features:-}" --release
+  cargo build --features "${_features:-}" --release
   ./scripts/mkmo locale/
 }
 
