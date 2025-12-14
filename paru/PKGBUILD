@@ -24,7 +24,7 @@ source=("git+https://github.com/morganamilo/paru.git#tag=v${pkgver}?signed"
         'https://github.com/Morganamilo/paru/pull/1449.patch'
         'libalpm-16.patch')
 sha256sums=('19898d4f2ccea34f3ebc2dba3761b41026a2a9453cfec1ad856c7cb36d3b7d2f'
-            '6a525b7118ceecb1a78810f0ba0a405c323ddac2587d6dc8e322c1e0389def04'
+            '5f9a0ae3aed2c51a2dd20d044040820044eb14e51fd61aeffab4f0b5703734f6'
             'c44b314df9f85ca0ecb9e4bfbc8c65333e10a69e595439439ded3be3213f0eb3')
 validpgpkeys=('F850562FCDA369F80D33000AE48D0A8326DE47C5') # Morgan Adamiec <morganamilo@archlinux.org>
 
