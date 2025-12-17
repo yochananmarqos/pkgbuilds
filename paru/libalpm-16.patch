@@ -1,9 +1,0 @@
-diff --git a/Cargo.toml b/Cargo.toml
-index 26063f7..eb556cf 100644
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -75,2 +75,2 @@ mock_chroot = ["mock"]
--#alpm = { path = "../alpm.rs/alpm" }
--#alpm-utils = { path = "../alpm.rs/alpm-utils" }
-+alpm = { git = "https://github.com/archlinux/alpm.rs.git", rev = "b010ec79ee92b54e87f07fa4e287cbabc035c0ca" }
-+alpm-utils = { git = "https://github.com/archlinux/alpm.rs.git", rev = "b010ec79ee92b54e87f07fa4e287cbabc035c0ca" }
