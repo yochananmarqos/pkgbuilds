@@ -1,17 +1,6 @@
-diff --unified --recursive --text a/cli/justfile b/cli/justfile
---- a/cli/justfile	2025-10-30 16:00:22.000000000 -0600
-+++ b/cli/justfile	2025-10-31 12:29:04.270966258 -0600
-@@ -14,7 +14,6 @@
-     cargo insta review
- 
- install path:
--    cargo build --release
-     ./scripts/install.sh "{{path}}"
- 
- uninstall path:
 diff --unified --recursive --text a/cli/scripts/install.sh b/cli/scripts/install.sh
---- a/cli/scripts/install.sh	2025-10-30 16:00:22.000000000 -0600
-+++ b/cli/scripts/install.sh	2025-10-31 12:11:01.717911306 -0600
+--- a/cli/scripts/install.sh	2025-12-21 21:18:14.000000000 -0700
++++ b/cli/scripts/install.sh	2025-12-22 11:42:13.275750069 -0700
 @@ -3,7 +3,7 @@
  
  script_path="$(readlink -f -- "$0")"
@@ -21,23 +10,9 @@ diff --unified --recursive --text a/cli/scripts/install.sh b/cli/scripts/install
  
  install_path="$1"
  
-Only in b/cli/scripts: install.sh.orig
-diff --unified --recursive --text a/gui/justfile b/gui/justfile
---- a/gui/justfile	2025-10-30 16:00:22.000000000 -0600
-+++ b/gui/justfile	2025-10-31 12:26:57.867183278 -0600
-@@ -55,7 +55,6 @@
-     cargo llvm-cov --no-report --no-cfg-coverage
- 
- install path:
--    cargo build --release
-     ./scripts/install.sh "{{path}}"
- 
- uninstall path:
-Only in b/gui: justfile.orig
-Only in b/gui: justfile.rej
 diff --unified --recursive --text a/gui/scripts/install.sh b/gui/scripts/install.sh
---- a/gui/scripts/install.sh	2025-10-30 16:00:22.000000000 -0600
-+++ b/gui/scripts/install.sh	2025-10-31 13:19:37.906563471 -0600
+--- a/gui/scripts/install.sh	2025-12-21 21:18:14.000000000 -0700
++++ b/gui/scripts/install.sh	2025-12-22 11:43:33.970532412 -0700
 @@ -3,16 +3,16 @@
  
  script_path="$(readlink -f -- "$0")"

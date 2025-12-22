@@ -1,15 +1,12 @@
-## WIP
-
 # https://aur.archlinux.org/pkgbase/openscq30
 
 pkgname=('openscq30-cli' 'openscq30-gui')
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-_pkgver=2.0.0-beta7
-pkgver=${_pkgver//-/.}
+pkgver=2.0.1
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
-arch=('x86_64')
+arch=('x86_64' 'aarch64')
 url="https://github.com/Oppzippy/OpenSCQ30"
 license=('GPL-3.0-or-later')
 depends=(
@@ -26,24 +23,28 @@ makedepends=(
   'cargo'
   'just'
 )
-#checkdepends=('xorg-server-xvfb')
-source=("OpenSCQ30-${_pkgver}.tar.gz::$url/archive/refs/tags/v${_pkgver}.tar.gz"
+checkdepends=('xorg-server-xvfb')
+source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        'install.patch'
         'script.patch')
-sha256sums=('6dd959b99d28e250b5396450bce217c3762f17353f1fa3f9cb1a51a75431368c'
-            '7d523fb6e534ebfe6599cd03d4b57940cbe32cb1ab27df7e68972651a8290fdf')
+sha256sums=('657e57156c8cc4895af8716bd3c73d47305b0cd067d8ea593b616db9d9d5a44b'
+            '136482bda4ebb36f5059fab295cbdc9945357a6f05a61e6ef0fa11da699073b9'
+            'f3f33fc77275aafff32ee1b6ac9b562c52f873879cf7c626d6e2862496e64d0f')
 
 prepare() {
-	cd "OpenSCQ30-${_pkgver}"
+	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
-	cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+	cargo fetch --target "$(rustc --print host-tuple)"
+
+  # Don't build during install
+  patch -Np1 -i ../install.patch
 
   # Fix install script directories
-  # Don't build during install
   patch -Np1 -i ../script.patch
 }
 
 build() {
-	cd "OpenSCQ30-${_pkgver}"
+	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
 	export CARGO_TARGET_DIR=target
   just cli/ build release
@@ -51,11 +52,14 @@ build() {
 }
 
 check() {
-	cd "OpenSCQ30-${_pkgver}"
+	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
-#  just lib/ test || :
-#  just cli/ test || :
-#  xvfb-run --auto-servernum just gui/ test || :
+  just lib/ test
+  just cli/ test
+  xvfb-run --auto-servernum just gui/ test
+
+  appstreamcli validate --no-net "gui/resources/${_app_id}.metainfo.xml"
+  desktop-file-validate "gui/resources/${_app_id}.desktop"
 }
 
 package_openscq30-cli() {
@@ -65,18 +69,13 @@ package_openscq30-cli() {
 	  'gcc-libs'
 	)
 
-	cd "OpenSCQ30-${_pkgver}"
+	cd "OpenSCQ30-$pkgver/"
   just cli/ install "$pkgdir/usr"
 }
 
 package_openscq30-gui() {
 	pkgdesc+=" - GUI application"
 
-	cd "OpenSCQ30-${_pkgver}"
-#	just gui/ install "$pkgdir/usr"
-
-  install -Dm755 "gui/target/release/$pkgbase-gui" -t "$pkgdir/usr/bin/"
-  install -Dm644 "gui/resources/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
-  install -Dm644 "gui/resources/${_app_id}.metainfo.xml" -t "$pkgdir/usr/share/metainfo/"
-  install -Dm644 "gui/resources/${_app_id}.svg" -t "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+	cd "OpenSCQ30-$pkgver"
+	just gui/ install "$pkgdir/usr"
 }

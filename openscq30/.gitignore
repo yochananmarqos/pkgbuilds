@@ -7,4 +7,5 @@
 !.SRCINFO
 !.nvchecker.toml
 !LICENSE
+!install.patch
 !script.patch
