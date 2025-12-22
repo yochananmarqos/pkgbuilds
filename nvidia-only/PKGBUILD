@@ -1,15 +1,19 @@
-pkgname=('nvidia-only-gdm'
-         'nvidia-only-lightdm'
-         'nvidia-only-sddm'
-         )
+pkgname=(
+  'nvidia-only-gdm'
+  'nvidia-only-lightdm'
+  'nvidia-only-sddm'
+)
 pkgbase=nvidia-only
 pkgver=1.0
 pkgrel=2
 pkgdesc="Display manager scripts for using NVIDIA graphics only on Optimus laptops"
 arch=('any')
 url="https://wiki.archlinux.org/title/NVIDIA_Optimus#Display_managers"
-license=('none')
-depends=('NVIDIA-MODULE' 'xorg-xrandr')
+license=('LicenseRef-none')
+depends=(
+  'NVIDIA-MODULE'
+  'xorg-xrandr'
+)
 source=('display_setup.sh'
         'optimus.desktop'
         'Xsetup')
@@ -21,10 +25,10 @@ package_nvidia-only-gdm() {
   pkgdesc+=" (GDM)"
   depends+=('gdm')
 
-  install -Dm644 optimus.desktop \
-    "$pkgdir/usr/share/gdm/greeter/autostart/optimus.desktop"
-  install -Dm644 optimus.desktop \
-    "$pkgdir/etc/xdg/autostart/optimus.desktop"
+  install -Dm644 optimus.desktop -t \
+    "$pkgdir/usr/share/gdm/greeter/autostart/"
+  install -Dm644 optimus.desktop -t \
+    "$pkgdir/etc/xdg/autostart/"
 }
 
 package_nvidia-only-lightdm() {

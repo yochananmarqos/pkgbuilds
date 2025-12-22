@@ -1,10 +1,12 @@
 # Ignore everything
-*
+/*
 
 # But not these files...
 !.gitignore
 !PKGBUILD
 !.SRCINFO
+!.nvchecker.toml
+!LICENSE
 !10-nvidia-drm-outputclass.conf
 !display_setup.sh
 !lightdm.install
