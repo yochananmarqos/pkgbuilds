@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/libloot
 
 pkgname=libloot
-pkgver=0.28.2
+pkgver=0.28.3
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
@@ -19,17 +19,16 @@ makedepends=(
 )
 provides=('libloot.so=0')
 source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
-sha256sums=('ea2b6784de7f98c6570c39dc9902b37a12c4ea1bcebc9c0fef883c24c34aff05')
+sha256sums=('d3418fc1df85af2466bd959fad5fd6c80013d4dc56f50c240401d87fa9189e4a')
 
 prepare() {
   cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --target "$(rustc --print host-tuple)"
 }
 
 build() {
   cd "$pkgname"
-  export CXXFLAGS="${CXXFLAGS} -fno-lto"
   export RUSTUP_TOOLCHAIN=stable
   cmake -B build -S cpp \
     -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
