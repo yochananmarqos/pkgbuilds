@@ -2,11 +2,11 @@
 
 pkgname=safeeyes-git
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.1.0.r0.g41ac8ea
+pkgver=3.3.0.r7.g3613bee
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
-url="https://slgobinath.github.io/SafeEyes"
+url="https://slgobinath.github.io/safeeyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
@@ -36,27 +36,27 @@ optdepends=(
 )
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/slgobinath/SafeEyes.git')
+source=('git+https://github.com/slgobinath/safeeyes.git')
 sha256sums=('SKIP')
 
 pkgver() {
-  cd SafeEyes
+  cd "${pkgname%-git}"
   git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd SafeEyes
+  cd "${pkgname%-git}"
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd SafeEyes
+  cd "${pkgname%-git}"
   appstreamcli validate --no-net "${pkgname%-git}/platform/${_app_id}.metainfo.xml"
   desktop-file-validate "${pkgname%-git}/platform/${_app_id}.desktop"
 }
 
 package() {
-  cd SafeEyes
+  cd "${pkgname%-git}"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "${pkgname%-git}/platform/${_app_id}.metainfo.xml" -t \
