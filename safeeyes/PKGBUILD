@@ -6,7 +6,7 @@ pkgver=3.3.0
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
-url="https://slgobinath.github.io/SafeEyes"
+url="https://slgobinath.github.io/safeeyes"
 license=('GPL-3.0-or-later')
 depends=(
   'alsa-utils'
@@ -33,22 +33,22 @@ optdepends=(
   'safeeyes-plugins: Third party plugins'
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
-source=("SafeEyes-$pkgver.tar.gz::https://github.com/slgobinath/SafeEyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('1b7393651174843a2464359eae7932e5217c4bacbc038b9d3a882c66d60771b7')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/slgobinath/safeeyes/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('2fa1e1489a4e0ddb658386200a0eab89699729f22a07b5f222b73bf39b9d2c9f')
 
 build() {
-  cd "SafeEyes-$pkgver"
+  cd "$pkgname-$pkgver"
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd "SafeEyes-$pkgver"
+  cd "$pkgname-$pkgver"
   appstreamcli validate --no-net "$pkgname/platform/${_app_id}.metainfo.xml"
   desktop-file-validate "$pkgname/platform/${_app_id}.desktop"
 }
 
 package() {
-  cd "SafeEyes-$pkgver"
+  cd "$pkgname-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "$pkgname/platform/${_app_id}.metainfo.xml" -t \
