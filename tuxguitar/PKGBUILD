@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/tuxguitar
 
 pkgname=tuxguitar
-pkgver=2.0.0
+pkgver=2.0.1
 pkgrel=1
 _swt_ver=4.36
 _swt_build=202505281830
@@ -42,7 +42,7 @@ source=("$pkgname-$pkgver.tar.gz::https://github.com/helge17/tuxguitar/archive/r
 source_x86_64=("https://archive.eclipse.org/eclipse/downloads/drops4/R-${_swt_ver}-${_swt_build}/swt-${_swt_ver}-gtk-linux-x86_64.zip")
 source_aarch64=("https://archive.eclipse.org/eclipse/downloads/drops4/R-${_swt_ver}-${_swt_build}/swt-${_swt_ver}-gtk-linux-aarch64.zip")
 noextract=("swt-${_swt_ver}-gtk-linux-${CARCH}.zip")
-sha256sums=('a582ef93155619ef000baac38ea201de59dcb796503cb7ea71ef93a87d96312e')
+sha256sums=('b0a19eccdbb13033f09472c6d6f3dd0dcb8e5a2846ef3c2156689324fb4390d7')
 sha256sums_x86_64=('2a94184897509ce421eb05fa783a870f1fa84dab1a9f4fb065f14d509fda78f2')
 sha256sums_aarch64=('c7fe578d1d278c293fb9b3accc59650dd5789d5cd025621feefe2c412cd1072a')
 
