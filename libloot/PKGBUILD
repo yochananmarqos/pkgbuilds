@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/libloot
 
 pkgname=libloot
-pkgver=0.28.3
+pkgver=0.28.4
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
@@ -19,7 +19,7 @@ makedepends=(
 )
 provides=('libloot.so=0')
 source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
-sha256sums=('d3418fc1df85af2466bd959fad5fd6c80013d4dc56f50c240401d87fa9189e4a')
+sha256sums=('40272c324151ac6eb87ab9541d61787cba7de0f58309df88f8282bd7e048d825')
 
 prepare() {
   cd "$pkgname"
