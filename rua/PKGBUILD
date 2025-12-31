@@ -28,7 +28,7 @@ b2sums=('35634176f7d5939dd5ef5f013f8a1163bd2612fdaa4ecf477347a75a7ad790edfec04a5
 prepare() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
 
   mkdir -p target/completions
 }
@@ -39,14 +39,14 @@ build () {
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   export COMPLETIONS_DIR=target/completions
-  cargo build --release
+  cargo build --frozen --release
 }
 
 check() {
   cd "$pkgname-$pkgver"
   CFLAGS+=" -ffat-lto-objects"
   export RUSTUP_TOOLCHAIN=stable
-  cargo test
+  cargo test --frozen
 }
 
 package() {
@@ -55,7 +55,7 @@ package() {
   install -Dm0644 "target/completions/$pkgname.bash" -t \
     "${pkgdir}/usr/share/bash-completion/completions/"
   install -Dm0644 "target/completions/$pkgname.fish" -t \
-    "${pkgdir}/usr/share/fish/completions/"
+    "${pkgdir}/usr/share/fish/vendor_completions.d/"
   install -Dm0644 "target/completions/_${pkgname}" -t \
     "${pkgdir}/usr/share/zsh/site-functions/"
 }
