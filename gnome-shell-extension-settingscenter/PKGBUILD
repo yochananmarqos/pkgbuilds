@@ -1,6 +1,6 @@
 pkgname=gnome-shell-extension-settingscenter
 _uuid=SettingsCenter@lauinger-clan.de
-pkgver=49.3
+pkgver=49.4
 pkgrel=1
 pkgdesc="A customizable drop-down menu for quickly launching frequently used apps in GNOME Shell via the Quick Settings menu."
 arch=('any')
@@ -9,7 +9,7 @@ license=('GPL-3.0-or-later')
 depends=('gnome-shell')
 makedepends=('git')
 source=("git+https://github.com/ChrisLauinger77/gnome-shell-extension-SettingsCenter.git#tag=v$pkgver")
-sha256sums=('b0f4e2bce912b888ec97126c2eb93cac0056be10b9665f86638639342cab9060')
+sha256sums=('050bdb743d3c0fc2aa558f50364e3fbcc0ec82ab2a6a90bfc9d3557f5a888a0c')
 
 build() {
   cd gnome-shell-extension-SettingsCenter
@@ -17,7 +17,6 @@ build() {
     --podir=../po/ \
     --extra-source=lib/ \
     --extra-source=ui/ \
-    --extra-source=menu_items.js \
     --force
 }
 
