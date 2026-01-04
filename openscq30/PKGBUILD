@@ -3,7 +3,7 @@
 pkgname=('openscq30-cli' 'openscq30-gui')
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-pkgver=2.0.1
+pkgver=2.2.1
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64' 'aarch64')
@@ -24,31 +24,20 @@ makedepends=(
   'just'
 )
 checkdepends=('xorg-server-xvfb')
-source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
-        'install.patch'
-        'script.patch')
-sha256sums=('657e57156c8cc4895af8716bd3c73d47305b0cd067d8ea593b616db9d9d5a44b'
-            '136482bda4ebb36f5059fab295cbdc9945357a6f05a61e6ef0fa11da699073b9'
-            'f3f33fc77275aafff32ee1b6ac9b562c52f873879cf7c626d6e2862496e64d0f')
+source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('6db038ef2a27b68bcf6cec0d789a1cefa5a826b28acd17659c00a36a60fbd610')
 
 prepare() {
 	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
 	cargo fetch --target "$(rustc --print host-tuple)"
-
-  # Don't build during install
-  patch -Np1 -i ../install.patch
-
-  # Fix install script directories
-  patch -Np1 -i ../script.patch
 }
 
 build() {
 	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
-	export CARGO_TARGET_DIR=target
-  just cli/ build release
-  just gui/ build release
+  just build-cli
+  just build-gui
 }
 
 check() {
