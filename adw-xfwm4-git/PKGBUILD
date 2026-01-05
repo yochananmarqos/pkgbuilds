@@ -1,9 +1,9 @@
 pkgname=adw-xfwm4-git
 pkgver=r5.b0b163b
 pkgrel=1
-pkgdesc="https://github.com/FabianOvrWrt/adw-xfwm4"
+pkgdesc="Libadwaita theme for xfwm4 that follows the default GNOME style emulated by adw-gtk3"
 arch=('any')
-url="Libadwaita theme for xfwm4 that follows the default GNOME style emulated by adw-gtk3"
+url="https://github.com/FabianOvrWrt/adw-xfwm4"
 license=('LGPL-2.1-or-later')
 depends=('adw-gtk-theme')
 provides=("${pkgname%-git}")
