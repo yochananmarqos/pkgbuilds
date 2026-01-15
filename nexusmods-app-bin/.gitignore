@@ -1,9 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!PKGBUILD
-!.SRCINFO
-!com.nexusmods.app.appdata.xml
-!com.nexusmods.app.desktop
