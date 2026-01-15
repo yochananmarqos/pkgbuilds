@@ -1,8 +1,8 @@
 pkgname=inxi-gui
-pkgver=0.1.4
+pkgver=0.1.5
 pkgrel=1
 pkgdesc="Show system information using inxi"
-arch=('x86_64')
+arch=('any')
 url="https://www.linux-apps.com/p/1303949"
 license=('GPL-3.0-or-later')
 depends=(
@@ -11,9 +11,17 @@ depends=(
   'yad'
   'xdg-utils'
 )
-source=("https://ftp.nluug.nl/pub/os/Linux/distr/pclinuxos/pclinuxos/apt/pclinuxos/64bit/RPMS.${CARCH}/$pkgname-$pkgver-1pclos2025.${CARCH}.rpm")
-sha256sums=('b84be61dce3ac120fe5da9a155f253727fddacd954814aade58364529c156070')
+makedepends=('desktop-file-utils')
+source=("https://ftp.nluug.nl/pub/os/Linux/distr/pclinuxos/pclinuxos/apt/pclinuxos/64bit/RPMS.x86_64/$pkgname-$pkgver-1pclos2025.x86_64.rpm")
+sha256sums=('492771dba5973cb4e4f86db9933900fdf3664171d26c334515645869c8a2b815')
+
+prepare() {
+
+  # Rename desktop file & remove shebang
+  mv -f "usr/share/applications/Inxi Gui.desktop" "usr/share/applications/$pkgname.desktop"
+  sed -i '/xdg-open/d' "usr/share/applications/$pkgname.desktop"
+}
 
 package() {
-  cp -r usr "$pkgdir/"
+  cp -a usr "$pkgdir/"
 }
