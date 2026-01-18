@@ -2,7 +2,7 @@
 
 pkgname=safeeyes
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.3.0
+pkgver=3.3.1
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -34,7 +34,7 @@ optdepends=(
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/slgobinath/safeeyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('2fa1e1489a4e0ddb658386200a0eab89699729f22a07b5f222b73bf39b9d2c9f')
+sha256sums=('61d91b4ac5fc583275e534cb7a475e4af5f16be19300ec5f31c3eae868d76c1b')
 
 build() {
   cd "$pkgname-$pkgver"
