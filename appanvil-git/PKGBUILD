@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/appanvil-git
 
 pkgname=appanvil-git
-pkgver=1.0.1.r0.ge4110a1
+pkgver=1.0.2.r19.g300dd4a
 pkgrel=1
 pkgdesc="Graphical user interface for the AppArmor security module"
 arch=('x86_64')
@@ -12,6 +12,7 @@ depends=(
   'gtkmm3'
   'jsoncpp'
   'polkit'
+  'python'
 )
 makedepends=(
   'clang'
@@ -40,6 +41,9 @@ prepare() {
   git submodule init
   git config submodule.libappanvil.url "$srcdir/libappanvil"
   git -c protocol.file.allow=always submodule update
+
+  # /usr/sbin/ > /usr/bin/
+  find . -type f -exec sed -i 's|sbin|bin|g' {} \;
 }
 
 build() {
@@ -58,11 +62,13 @@ build() {
 
 #check() {
 
-  ## 84% tests passed, 21 tests failed out of 135
+  ## 85% tests passed, 20 tests failed out of 134
 
   # Build tests
 #  cd build
 #  make test
+
+  # Make Tests Executable
 #  chmod +x dist/test
 
   # Run the unit tests
