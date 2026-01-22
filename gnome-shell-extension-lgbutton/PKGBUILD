@@ -24,7 +24,7 @@ package() {
 
   mv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/locale" "$pkgdir/usr/share/"
 
-  install -Dm644 "$pkgname/${_uuid}/schemas/org.gnome.shell.extensions.lgbutton.gschema.xml" -t \
+  install -Dm644 "$pkgname/${_uuid}"/schemas/*.gschema.xml -t \
     "$pkgdir/usr/share/glib-2.0/schemas/"
   rm -vr "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas/"
 }
