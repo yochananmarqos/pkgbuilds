@@ -2,7 +2,7 @@
 
 pkgname=gnome-shell-extension-tiling-assistant-git
 _uuid=tiling-assistant@leleat-on-github
-pkgver=52.r0.g52edf8b
+pkgver=53.r12.gbe484f8
 pkgrel=1
 pkgdesc="A GNOME Shell extension which adds a Windows-like snap assist to the GNOME desktop"
 arch=('any')
