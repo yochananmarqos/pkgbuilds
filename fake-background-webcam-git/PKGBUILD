@@ -3,7 +3,7 @@
 ## WIP
 
 pkgname=fake-background-webcam-git
-pkgver=r271.d132620
+pkgver=r281.5b0cd96
 pkgrel=1
 pkgdesc="Faking your webcam background"
 arch=('any')
@@ -17,7 +17,7 @@ depends=(
   'python-numpy'
   'python-opencv'
   'python-protobuf'
-  'python-pyfakewebcam'
+  'python-pyvirtualcam'  ## TODO
   'v4l2loopback-dkms'
 )
 makedepends=(
@@ -27,12 +27,12 @@ makedepends=(
   'python-poetry-core'
   'python-wheel'
 )
+optdepends=('akvcam-dkms: alternate virtual camera driver')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 backup=('etc/lfbw/config.ini')
 install='lfbw.install'
 source=('git+https://github.com/fangfufu/Linux-Fake-Background-Webcam.git'
-        'lfbw@.service'
         'readme.md'
         'config.ini')
 sha256sums=('SKIP'
@@ -61,7 +61,7 @@ package() {
   install -Dm644 *.jpg *.png -t "$pkgdir/var/lib/lfbw/default/"
 
   # Systemd
-  install -Dm644 "$srcdir/lfbw@.service" -t "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 systemd-user/lfbw.service -t "$pkgdir/usr/lib/systemd/user/"
 
   # Misc
   install -Dm644 config-example.ini "$srcdir/readme.md" -t \

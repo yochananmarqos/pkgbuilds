@@ -1,7 +1,7 @@
 post_install() {
   cat<<'EOL'
 run: 
-  systemctl start lfbw@0.service
+  systemctl --user start lfbw.service
 
 see: "/usr/share/doc/fake-background-webcam/readme.md" for more details
 EOL
