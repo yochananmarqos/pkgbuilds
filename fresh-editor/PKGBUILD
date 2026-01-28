@@ -1,0 +1,69 @@
+# https://aur.archlinux.org/packages/fresh-editor
+
+pkgname=fresh-editor
+_app_id=io.github.sinelaw.fresh
+pkgver=0.1.94
+pkgrel=1
+pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
+url="https://getfresh.dev"
+license=('GPL-2.0-or-later')
+arch=('x86_64' 'aarch64')
+depends=(
+  'gcc-libs'
+  'glibc'
+  'hicolor-icon-theme'
+)
+makedepends=(
+  'cargo'
+  'clang'
+  'git'
+)
+checkdepends=(
+  'appstream'
+  'cargo-nextest'
+  'desktop-file-utils'
+)
+source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
+sha256sums=('058aa8f45ff75f53de3ce603463d0b75ae84d1d3af2bb92bc53a5c41abea6557')
+
+prepare() {
+  cd fresh
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd fresh
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  export CC=clang
+  cargo build --locked --release
+}
+
+check() {
+  cd fresh
+  export RUSTUP_TOOLCHAIN=stable
+  cargo nextest run -j=4 --no-fail-fast --locked --all-features --all-targets
+
+  appstreamcli validate --no-net "crates/$pkgname/flatpak/${_app_id}.metainfo.xml"
+  desktop-file-validate "crates/$pkgname/flatpak/${_app_id}.desktop"
+}
+
+package() {
+  cd fresh
+  install -Dm755 target/release/fresh -t "$pkgdir/usr/share/$pkgname/"
+  cp -a "crates/$pkgname"/{keymaps,plugins,themes} "$pkgdir/usr/share/$pkgname/"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/usr/share/$pkgname/fresh" "$pkgdir/usr/bin/"
+
+  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.metainfo.xml" -t \
+    "$pkgdir/usr/share/metainfo/"
+  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.svg" -t \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 "crates/$pkgname/config.example.json" -t \
+    "$pkgdir/usr/share/doc/$pkgname/"
+}
