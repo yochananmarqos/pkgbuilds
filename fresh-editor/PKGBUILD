@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.1.95
+pkgver=0.1.98
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -24,7 +24,7 @@ checkdepends=(
   'desktop-file-utils'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('0b8dbbd93b9a7887bb85cf9d442fe5df7c441f5879c52ffbb253050d7505f229')
+sha256sums=('b45d225f5e070690e0be63dc61e0d9616168b3102cfa6e7023f81da6f4e8b500')
 
 prepare() {
   cd fresh
