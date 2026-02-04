@@ -1,0 +1,38 @@
+# https://aur.archlinux.org/packages/chezetc
+
+pkgname=chezetc
+pkgver=202510.1
+pkgrel=1
+pkgdesc="Extending chezmoi to manage files under /etc and other root-owned directories"
+arch=('any')
+url="https://silverrainz.me/chezetc"
+license=('MIT')
+depends=(
+  'bash'
+  'gettext'
+  'python'
+  'python-tomli-w'
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/SilverRainZ/chezetc/archive/refs/tags/$pkgver.tar.gz"
+        "$pkgname.sh"
+        'tomllib.patch')
+sha256sums=('3f637faaf338a5eb147188458988d108b2e7a0105b026e800a185715b4d0465b'
+            '10c022dc7f78dc00e1aeaad816a932fad7271bc2d2d0e8a4c12d14106471843b'
+            '1358c2ba32abddf0840e31d02b4dd3a6dc49dbc29953cc4a85d75b9e30817d11')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Use tomllib in place of deprecated tomli
+  patch -Np1 -i ../tomllib.patch
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm775 "$pkgname" -t "$pkgdir/usr/lib/$pkgname/"
+  install -Dm644 chezmoi.toml -t "$pkgdir/usr/lib/$pkgname/"
+  cp -r commands completions hooks utils "$pkgdir/usr/lib/$pkgname/"
+  install -Dm644 README.rst -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm775 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
+}
