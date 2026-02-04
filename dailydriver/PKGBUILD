@@ -17,7 +17,6 @@ depends=(
   'python-annotated-types'
   'python-gobject'
   'python-pydantic'
-  'python-tomli'
   'python-tomli-w'
   'python-typing_extensions'
 )
@@ -30,7 +29,6 @@ checkdepends=(
   'python-pytest'
   'python-pytest-cov'
 )
-optdepends=('gnome-shell-extension-tiling-assistant: Tiling Assistant shortcut support')
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('dbb0b3bcaf9880d3246a5abdb44e282544ded099ca8ff3e499659afa191ce173')
 
@@ -56,6 +54,8 @@ check() {
 }
 
 package_dailydriver() {
+  optdepends=('gnome-shell-extension-tiling-assistant: Tiling Assistant shortcut support')
+
   meson install -C build --no-rebuild --destdir "$pkgdir"
 }
 
