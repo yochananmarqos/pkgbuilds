@@ -1,0 +1,79 @@
+# https://aur.archlinux.org/packages/dailydriver
+pkgname=(
+  'dailydriver'
+  'gnome-shell-extension-dailydriver-cheatsheet'
+)
+pkgbase=dailydriver
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Visual keyboard shortcut configuration for GNOME"
+arch=('any')
+url="https://github.com/gregfelice/dailydriver"
+license=('GPL-3.0-or-later')
+depends=(
+  'dconf'
+  'gtk4'
+  'libadwaita'
+  'python-annotated-types'
+  'python-gobject'
+  'python-pydantic'
+  'python-tomli'
+  'python-tomli-w'
+  'python-typing_extensions'
+)
+makedepends=(
+  'gnome-shell'
+  'jq'
+  'meson'
+)
+checkdepends=(
+  'python-pytest'
+  'python-pytest-cov'
+)
+optdepends=('gnome-shell-extension-tiling-assistant: Tiling Assistant shortcut support')
+source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('dbb0b3bcaf9880d3246a5abdb44e282544ded099ca8ff3e499659afa191ce173')
+
+prepare() {
+  cd "$pkgbase-$pkgver"
+}
+
+build() {
+  arch-meson "$pkgbase-$pkgver" build
+  meson compile -C build
+
+  cd "$pkgbase-$pkgver"
+  gnome-extensions pack extension --force
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+
+  cd "$pkgbase-$pkgver"
+
+  # Some mocks need updating for Settings.new_full
+  PYTHONPATH=src pytest tests/unit/ || :
+}
+
+package_dailydriver() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}
+
+package_gnome-shell-extension-dailydriver-cheatsheet() {
+  pkgdesc="Quick keyboard shortcut reference overlay for Daily Driver"
+  depends=(
+    'dailydriver'
+    'gnome-shell'
+  )
+
+  cd "$pkgbase-$pkgver"
+  _uuid=$(jq -r .uuid extension/metadata.json)
+
+  install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+  bsdtar -xvf "${_uuid}.shell-extension.zip" -C \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
+
+  install -Dvm644 extension/schemas/*.gschema.xml -t \
+    "$pkgdir/usr/share/glib-2.0/schemas/"
+  rm -rfv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
+}
