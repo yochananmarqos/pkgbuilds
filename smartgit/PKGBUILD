@@ -2,7 +2,7 @@
 
 pkgname=smartgit
 _app_id=com.syntevo.SmartGit
-_pkgver=25_1_103
+_pkgver=25_1_110
 pkgver=${_pkgver//_/.}
 pkgrel=1
 pkgdesc="Graphical Git client"
@@ -30,7 +30,7 @@ depends=(
   "java-runtime=${_jre_ver}"
   'lsb-release'
   'openssh'
-  'openssl-1.1'
+#  'openssl-1.1'   ## AUR, deprecated
   'perl'
   'which'
   'zlib'
@@ -42,7 +42,7 @@ optdepends=(
 source=("https://download.smartgit.dev/${pkgname}/${pkgname}-${_pkgver}-linux-amd64.tar.gz"
         "${_app_id}.desktop")
 noextract=("${pkgname}-${_pkgver}-linux-amd64.tar.gz")
-sha256sums=('0e7ecbbb8ded3d67bff4c89d738c50956dd7bd53920bbf1cdbc497bf498f73b0'
+sha256sums=('d344e47de963f0ba0ad74ee9d3d54a8e95fc091c00c5f45762935f6b65e34cae'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
