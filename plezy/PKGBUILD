@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/plezy
 
 pkgname=plezy
-pkgver=1.14.1
+pkgver=1.16.1
 pkgrel=1
 _flutter_ver=3.38.6
 pkgdesc="A beautiful Plex media server client built with Flutter"
@@ -25,7 +25,7 @@ makedepends=(
   'unzip'
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/edde746/plezy/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('01ec238f872cb253045b51765960c707ce749ff40644a5a58ddd261c9f2f84f3')
+sha256sums=('032a91aaba282dae380b39b7178863c02f00876255e471ee6d8cb5c87fc869e5')
 
 prepare() {
   cd "$pkgname-$pkgver"
