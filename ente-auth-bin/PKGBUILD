@@ -32,5 +32,6 @@ package() {
   sed -i '/Version/d' "$pkgdir/usr/share/applications/enteauth.desktop"
 
 	# add StartupWMClass to desktop file
-	desktop-file-edit --set-key=StartupWMClass --set-value=io.ente.auth "$pkgdir/usr/share/applications/enteauth.desktop"
+	desktop-file-edit --set-key=StartupWMClass --set-value=io.ente.auth \
+	  "$pkgdir/usr/share/applications/enteauth.desktop"
 }
