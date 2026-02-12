@@ -2,7 +2,7 @@
 
 pkgname=passy
 _app_id=com.glitterware.passy
-pkgver=1.9.1
+pkgver=1.10.0
 pkgrel=1
 pkgdesc="Offline password manager with cross-platform synchronization"
 arch=('x86_64' 'aarch64')
@@ -24,7 +24,7 @@ makedepends=(
 source=("git+https://github.com/GlitterWare/Passy.git#tag=v$pkgver"
         'git+https://github.com/flutter/flutter.git'
         'git+https://github.com/P-H-C/phc-winner-argon2.git')
-sha256sums=('e6a5b8a3408ea4b1567367f259776dd7bf1c99e1fadaebdb231407377a5a8a29'
+sha256sums=('e89710ce4d92bd428db63b805b8fa693b4617246e9866cfc331da09688ea7fea'
             'SKIP'
             'SKIP')
 
@@ -53,7 +53,9 @@ build() {
   export FLUTTER_HOME="${PWD}/submodules/flutter"
   export PATH="${FLUTTER_HOME}/bin:${PATH}"
   flutter --disable-analytics
-  flutter build linux --dart-define=UPDATES_POPUP_ENABLED=false
+  flutter build linux \
+    --no-version-check --suppress-analytics \
+    --dart-define=UPDATES_POPUP_ENABLED=false
 }
 
 package() {
