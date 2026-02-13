@@ -1,0 +1,53 @@
+# https://aur.archlinux.org/packages/fresh-editor-bin
+
+pkgname=fresh-editor-bin
+_app_id=io.github.sinelaw.fresh
+pkgver=0.2.3
+pkgrel=1
+pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
+url="https://getfresh.dev"
+license=('GPL-2.0-or-later')
+arch=('x86_64' 'aarch64')
+depends=(
+  'gcc-libs'
+  'glibc'
+  'hicolor-icon-theme'
+)
+provides=("${pkgname%-bin}")
+conflicts=("${pkgname%-bin}")
+source=("${_app_id}-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.desktop"
+        "${_app_id}-$pkgver.metainfo.xml::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.metainfo.xml"
+        "${_app_id}-$pkgver.svg::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.svg"
+        "default-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
+        "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
+        "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
+        "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json")
+source_x86_64=("fresh-editor-0.2.3-x86_64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
+source_aarch64=("fresh-editor-0.2.3-aarch64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
+sha256sums=('4acf3ec46f32671bea0a285b095f66f6e55dcb44b2214ec53cc4bb47ccccf687'
+            '9b0ca813b9be3316f08e8b4233e3f081a06be2eb62999335787e1fdf33976e7d'
+            '9b6f6dd3a15657890738c69d7891ffbf23de4b55e4d7cf89ccedb54604a9a770'
+            'd10e971ce85f2e555e6d3ffd009c4ff3b2dd4c00c3d7c3dcf0581493632cac9a'
+            'd10e971ce85f2e555e6d3ffd009c4ff3b2dd4c00c3d7c3dcf0581493632cac9a'
+            'd10e971ce85f2e555e6d3ffd009c4ff3b2dd4c00c3d7c3dcf0581493632cac9a'
+            'd10e971ce85f2e555e6d3ffd009c4ff3b2dd4c00c3d7c3dcf0581493632cac9a')
+sha256sums_x86_64=('2df86f148af49509ed2b6c03761a35a131e0d64f74068c95b46c460d46594e4a')
+sha256sums_aarch64=('49c56e6ab07281484685bf2f54988ebd2a600ad6abb0458ff14e983b15339422')
+
+package() {
+  cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
+  install -Dm755 fresh "$pkgdir/usr/share/${pkgname%-bin}/fresh"
+  cp -r plugins themes "$pkgdir/usr/share/fresh-editor/"
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/usr/share/${pkgname%-bin}/fresh" "$pkgdir/usr/bin/fresh"
+
+  install -Dm644 README.md "$pkgdir/usr/share/doc/fresh-editor/README.md"
+  install -Dm644 "$srcdir/${_app_id}-$pkgver.desktop" \
+    "$pkgdir/usr/share/applications/${_app_id}.desktop"
+  install -Dm644 "$srcdir/${_app_id}-$pkgver.metainfo.xml" \
+    "$pkgdir/usr/share/metainfo/${_app_id}.metainfo.xml"
+  install -Dm644 "$srcdir/${_app_id}-$pkgver.svg" \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
+  install -Dm644 "$srcdir"/*.json -t "$pkgdir/usr/share/fresh-editor/keymaps/"
+}
