@@ -42,7 +42,7 @@ package() {
   install -d "$pkgdir/usr/bin"
   ln -s "/usr/share/${pkgname%-bin}/fresh" "$pkgdir/usr/bin/fresh"
 
-  install -Dm644 README.md "$pkgdir/usr/share/doc/fresh-editor/README.md"
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
   install -Dm644 "$srcdir/${_app_id}-$pkgver.desktop" \
     "$pkgdir/usr/share/applications/${_app_id}.desktop"
   install -Dm644 "$srcdir/${_app_id}-$pkgver.metainfo.xml" \
