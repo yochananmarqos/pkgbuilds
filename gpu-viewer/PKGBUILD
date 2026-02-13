@@ -2,8 +2,8 @@
 
 pkgname=gpu-viewer
 _app_id=io.github.arunsivaramanneo.GPUViewer
-pkgver=3.25
-pkgrel=1
+pkgver=3.23
+pkgrel=2
 pkgdesc="A front-end to glxinfo, vulkaninfo, clinfo and es2_info"
 arch=('any')
 url="https://github.com/arunsivaramanneo/GPU-Viewer"
@@ -21,14 +21,7 @@ depends=(
 )
 makedepends=('meson')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('badaf1bb92302ba7b6b131d0027187dffa1421a969e1348b81988f7bbff31ea4')
-
-prepare() {
-  cd GPU-Viewer-$pkgver
-
-  # File was renamed
-  sed -i 's/OpenCL.png/OpenCL.svg/g' Files/const.py data/meson.build
-}
+sha256sums=('848a00023cdfb1fee4887ae3f000c1767532e4b03368684ea31c6413ce6e11c4')
 
 build() {
   arch-meson GPU-Viewer-$pkgver build
