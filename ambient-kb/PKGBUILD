@@ -1,12 +1,12 @@
 pkgname=ambient-kb
 pkgver=1.4.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Sets keyboard color to match display on certain System76 laptops"
 arch=('x86_64')
 url="https://github.com/MilesBHuff/Ambient-Keyboard-Lighting"
 license=('LGPL-3.0-or-later')
 depends=(
-  'gcc-libs'
+  'libgcc'
   'libxcb'
 )
 makedepends=(
@@ -20,7 +20,7 @@ sha256sums=('26b430b4d93ba586c10d545b131ae5efcc90bd1c77869b84c72f2d9e8ab46193')
 prepare() {
   cd "Ambient-Keyboard-Lighting-$pkgver/application"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --target "$(rustc --print host-tuple)"
 
   # Adjust path for serw12
 #  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
