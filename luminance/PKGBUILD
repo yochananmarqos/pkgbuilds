@@ -1,0 +1,66 @@
+# https://aur.archlinux.org/packages/luminance
+
+pkgname=(
+  'luminance'
+  'gnome-shell-extension-luminance'
+)
+pkgbase=luminance
+_app_id=com.sidevesh.Luminance
+_uuid="$pkgbase-extension@sidevesh"
+pkgver=1.4.6
+pkgrel=1
+pkgdesc="A simple GTK application to control brightness of displays including external displays supporting DDC/CI"
+arch=('x86_64')
+url="https://github.com/sidevesh/Luminance"
+license=('GPL-3.0-or-later')
+depends=(
+  'ddcutil'
+  'glib2'
+  'gtk4'
+  'libadwaita'
+)
+makedepends=(
+  'git'
+  'glib2-devel'
+  'meson'
+)
+source=("git+https://github.com/sidevesh/Luminance.git#tag=$pkgver"
+        'git+https://github.com/ahshabbir/ddcbc-api.git')
+sha256sums=('51d6f5394601d8779b321699f6a6803744f3a53dfd53fff3d3004d09e7b3df81'
+            'SKIP')
+
+prepare() {
+  cd Luminance
+  git submodule init ddcbc-api
+  git config submodule.ddcbc-api.url "$srcdir/ddcbc-api"
+  git -c protocol.file.allow=always submodule update ddcbc-api
+}
+
+build() {
+  arch-meson Luminance build
+  meson compile -C build
+}
+
+check() {
+  appstreamcli validate --no-net "build/${_app_id}.metainfo.xml"
+  desktop-file-validate "build/${_app_id}.desktop"
+}
+
+package_luminance() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+
+  ln -s "/usr/bin/${_app_id}" "$pkgdir/usr/bin/$pkgname"
+}
+
+package_gnome-shell-extension-luminance() {
+  pkgdesc="Companion extension for Luminance"
+  arch=('any')
+  depends=(
+    'gnome-shell'
+    'luminance'
+  )
+
+  cd Luminance/gnome-extension
+  install -Dm644 "${_uuid}"/*.{js,json} -t \
+    "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
+}
