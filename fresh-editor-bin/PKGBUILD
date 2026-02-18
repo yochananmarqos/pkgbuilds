@@ -9,9 +9,10 @@ url="https://getfresh.dev"
 license=('GPL-2.0-or-later')
 arch=('x86_64' 'aarch64')
 depends=(
-  'gcc-libs'
+  'bash'
   'glibc'
   'hicolor-icon-theme'
+  'libgcc'
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
