@@ -2,16 +2,17 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.3
+pkgver=0.2.4
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
 license=('GPL-2.0-or-later')
 arch=('x86_64' 'aarch64')
 depends=(
-  'gcc-libs'
+  'bash'
   'glibc'
   'hicolor-icon-theme'
+  'libgcc'
 )
 makedepends=(
   'cargo'
@@ -24,7 +25,7 @@ checkdepends=(
   'desktop-file-utils'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('259414a75599afceb26ef3c2345be1f56877e74cbc72fd58f3d44b1039ae8782')
+sha256sums=('d5856a62fd976a97959ce1bd59907d7c5b24b90092b675d1c117dc1bad414024')
 
 prepare() {
   cd fresh
@@ -44,7 +45,7 @@ check() {
   cd fresh
   export RUSTUP_TOOLCHAIN=stable
 
-  # 3575 tests run: 3573 passed, 2 failed, 75 skipped
+  # 3678 tests run: 3676 passed, 2 failed, 80 skipped
   cargo nextest run -j=4 --no-fail-fast --locked --all-features --all-targets || :
 
   appstreamcli validate --no-net "crates/$pkgname/flatpak/${_app_id}.metainfo.xml"
