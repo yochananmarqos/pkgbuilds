@@ -6,7 +6,7 @@ pkgname=(
 )
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-pkgver=2.4.0
+pkgver=2.5.0
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64' 'aarch64')
@@ -15,9 +15,9 @@ license=('GPL-3.0-or-later')
 depends=(
   'cosmic-icon-theme'
   'dbus'
-  'gcc-libs'
   'gtk4'
   'libadwaita'
+  'libgcc'
   'libxkbcommon'
   'sqlite'
   'xdg-utils'
@@ -28,7 +28,7 @@ makedepends=(
 )
 checkdepends=('xorg-server-xvfb')
 source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('cfdfbdebaeb0e3095cef6619f2569e6c7465cd1df7db8dc5c633bdd2bb4816b5')
+sha256sums=('1bba8668801af807a2826385477503e735822558694db74bc57ec5b27a142190')
 
 prepare() {
 	cd "OpenSCQ30-$pkgver"
@@ -47,7 +47,7 @@ check() {
 	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
   just lib/ test
-  just cli/ test || : ## 36 passed; 5 failed
+  just cli/ test || : ## 37 passed; 4 failed
   xvfb-run --auto-servernum just gui/ test
 
   appstreamcli validate --no-net "gui/resources/${_app_id}.metainfo.xml"
@@ -58,7 +58,7 @@ package_openscq30-cli() {
 	pkgdesc+=" - CLI application"
 	depends=(
 	  'dbus'
-	  'gcc-libs'
+	  'libgcc'
 	)
 
 	cd "OpenSCQ30-$pkgver/"
