@@ -42,7 +42,7 @@ optdepends=(
 source=("https://download.smartgit.dev/${pkgname}/${pkgname}-${_pkgver}-linux-amd64.tar.gz"
         "${_app_id}.desktop")
 noextract=("${pkgname}-${_pkgver}-linux-amd64.tar.gz")
-sha256sums=('2e227c2e45f62f15e0332308c2894f20dc6390e8c990950ef476c7187a696507'
+sha256sums=('90d6f72f55ee00cb2c5f781523d97fde5eb4b1adb8bb869f7fb3dc0b864e4fcb'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
