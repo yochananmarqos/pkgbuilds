@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.5
+pkgver=0.2.9
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -26,14 +26,14 @@ source=("${_app_id}-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/f
 source_x86_64=("fresh-editor-0.2.3-x86_64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("fresh-editor-0.2.3-aarch64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
 sha256sums=('4acf3ec46f32671bea0a285b095f66f6e55dcb44b2214ec53cc4bb47ccccf687'
-            '9b0ca813b9be3316f08e8b4233e3f081a06be2eb62999335787e1fdf33976e7d'
+            '0305eb9a927c36f7618224c4947d4ecef9ad8dc5b54148ad3e801ede86e679d9'
             '9b6f6dd3a15657890738c69d7891ffbf23de4b55e4d7cf89ccedb54604a9a770'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d')
-sha256sums_x86_64=('838ab0d09e60fe423f38c78cab661a887975a0374cbaa782d59744f546a7dac4')
-sha256sums_aarch64=('4ce1034284608bec5ba6c465cf6560f108f7c4b2112eac4ea061e4c25c2cf1bc')
+sha256sums_x86_64=('0ea60216c6ae04f67aacbd0fb451a952f3417b6c433f49f1024b73591a973d56')
+sha256sums_aarch64=('4c613e0f2bd9e316faf051a0a96e15df4d4364de7bf6d088ea5caca725199453')
 
 package() {
   cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
