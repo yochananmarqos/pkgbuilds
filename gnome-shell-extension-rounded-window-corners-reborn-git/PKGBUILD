@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn-git
 
 pkgname=gnome-shell-extension-rounded-window-corners-reborn-git
-pkgver=12.r15.g06e7874
+pkgver=12.r16.gec1aeb3
 pkgrel=1
 pkgdesc="A GNOME Shell extension that adds rounded corners for all windows"
 arch=('any')
