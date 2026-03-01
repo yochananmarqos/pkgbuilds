@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-alphabetical-grid-extension-git
 
 pkgname=gnome-shell-extension-alphabetical-grid-extension-git
-pkgver=43.0.r0.gf3b1595
+pkgver=44.0.r0.gb927d72
 pkgrel=1
 pkgdesc="Alphabetically order GNOME's app grid and folders"
 arch=('any')
