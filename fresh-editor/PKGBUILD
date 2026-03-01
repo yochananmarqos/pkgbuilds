@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.9
+pkgver=0.2.11
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -17,16 +17,16 @@ depends=(
 makedepends=(
   'cargo'
   'clang'
+  'desktop-file-utils'
   'git'
 )
 checkdepends=(
   'appstream'
   'cargo-nextest'
-  'desktop-file-utils'
   'xorg-server-xvfb'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('06e8a4aa0d2b0ee44658457638b09623a41421f86ab6f2e315e7831aead28822')
+sha256sums=('51134d23e22af7c13c6b34ba39c95b1fd6f30e3f46a1b30b550d32dd24fad520')
 
 prepare() {
   cd fresh
@@ -34,7 +34,7 @@ prepare() {
   cargo fetch --locked --target "$(rustc --print host-tuple)"
 
   # Enable launching with experimental GUI
-  desktop-file-edit --set-key=Exec --set-value="fresh --gui" \
+  desktop-file-edit --set-key=Exec --set-value="fresh %F --gui" \
     "crates/$pkgname/flatpak/${_app_id}.desktop"
 }
 
@@ -43,6 +43,8 @@ build() {
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   export CC=clang
+
+  # Enable --all-features to build experimental GUI
   cargo build --locked --release --all-features
 }
 
@@ -50,7 +52,7 @@ check() {
   cd fresh
   export RUSTUP_TOOLCHAIN=stable
 
-  # 3870 tests run: 3867 passed, 3 failed, 80 skipped
+  # 3934 tests run: 3931 passed, 3 failed, 86 skipped
   WGPU_BACKEND=vulkan xvfb-run cargo nextest run -j=4 --no-fail-fast --locked --all-features --all-targets || :
 
   appstreamcli validate --no-net "crates/$pkgname/flatpak/${_app_id}.metainfo.xml"
