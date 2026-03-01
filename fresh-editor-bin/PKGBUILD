@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.9
+pkgver=0.2.11
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -23,8 +23,8 @@ source=("${_app_id}-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/f
         "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
         "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
         "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json")
-source_x86_64=("fresh-editor-0.2.3-x86_64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
-source_aarch64=("fresh-editor-0.2.3-aarch64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
+source_x86_64=("fresh-editor-$pkgver-x86_64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
+source_aarch64=("fresh-editor-$pkgver-aarch64.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
 sha256sums=('4acf3ec46f32671bea0a285b095f66f6e55dcb44b2214ec53cc4bb47ccccf687'
             '0305eb9a927c36f7618224c4947d4ecef9ad8dc5b54148ad3e801ede86e679d9'
             '9b6f6dd3a15657890738c69d7891ffbf23de4b55e4d7cf89ccedb54604a9a770'
@@ -32,8 +32,8 @@ sha256sums=('4acf3ec46f32671bea0a285b095f66f6e55dcb44b2214ec53cc4bb47ccccf687'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d')
-sha256sums_x86_64=('0ea60216c6ae04f67aacbd0fb451a952f3417b6c433f49f1024b73591a973d56')
-sha256sums_aarch64=('4c613e0f2bd9e316faf051a0a96e15df4d4364de7bf6d088ea5caca725199453')
+sha256sums_x86_64=('36c9a3a90a1ab10d9a2297c5cc66ea3e05508cdc7165bfa695a6b997a46c37d9')
+sha256sums_aarch64=('4d8a68165cb1424f3346d949390bfcf0e14cb57e84379595a327793d5e4b5fce')
 
 package() {
   cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
