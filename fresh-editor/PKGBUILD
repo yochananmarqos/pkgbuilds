@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.11
+pkgver=0.2.12
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -23,10 +23,9 @@ makedepends=(
 checkdepends=(
   'appstream'
   'cargo-nextest'
-  'xorg-server-xvfb'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('51134d23e22af7c13c6b34ba39c95b1fd6f30e3f46a1b30b550d32dd24fad520')
+sha256sums=('d4ec758fbcb36ca439c8a010f4a103a03c71d8e1ba559c5eebeb53731bf31454')
 
 prepare() {
   cd fresh
@@ -52,8 +51,13 @@ check() {
   cd fresh
   export RUSTUP_TOOLCHAIN=stable
 
-  # 3934 tests run: 3931 passed, 3 failed, 86 skipped
-  WGPU_BACKEND=vulkan xvfb-run cargo nextest run -j=4 --no-fail-fast --locked --all-features --all-targets || :
+  # 3975 tests run: 3972 passed, 3 failed, 86 skipped
+  cargo nextest run \
+    -j=4 \
+    --no-fail-fast \
+    --locked \
+    --all-features \
+    --all-targets
 
   appstreamcli validate --no-net "crates/$pkgname/flatpak/${_app_id}.metainfo.xml"
   desktop-file-validate "crates/$pkgname/flatpak/${_app_id}.desktop"
