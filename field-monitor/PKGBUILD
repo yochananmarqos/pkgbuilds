@@ -10,7 +10,6 @@ license=('GPL-3.0-or-later')
 depends=(
   'dconf'
   'freerdp2'
-  'gcc-libs'
   'glib2'
   'glibc'
   'gtk4'
@@ -19,6 +18,7 @@ depends=(
   'json-c'
   'libadwaita'
   'libcacard'
+  'libgcc'
   'libtirpc'
   'libvirt'
   'phodav'
