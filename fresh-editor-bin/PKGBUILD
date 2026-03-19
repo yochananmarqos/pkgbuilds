@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.12
+pkgver=0.2.17
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -26,16 +26,16 @@ source=("${_app_id}-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/f
         "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json")
 source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
-sha256sums=('4acf3ec46f32671bea0a285b095f66f6e55dcb44b2214ec53cc4bb47ccccf687'
-            '0305eb9a927c36f7618224c4947d4ecef9ad8dc5b54148ad3e801ede86e679d9'
+sha256sums=('4007d85a6f3c2fc1294eaa93f1b7d426efcfbd62c8fc2be41d3aac467a181091'
+            'd1529ad24c47dcd2fdf4a0bcf7ad37adc57d3a9552a5d32270b78d8784579d46'
             '9b6f6dd3a15657890738c69d7891ffbf23de4b55e4d7cf89ccedb54604a9a770'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d')
-sha256sums_x86_64=('7fe0a5bfd6fe37cc5db2d1ee79336a6b55749745429f5da8501d27562f8793cf')
-sha256sums_aarch64=('d8328d9092a1aa1eb45d96bfa74ae23b25b08e49826c33e9b34d71210a2eb20e')
+sha256sums_x86_64=('62d6466a9fea40f36a71e0738fb023d523bf71099ec99d9a6c9d4d9d5ee8cabb')
+sha256sums_aarch64=('8313ef8389778df1bc4f097d3580f6e229ebd652ffc35cde9a9eaf4283327ebb')
 
 package() {
   cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
