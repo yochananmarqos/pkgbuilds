@@ -2,7 +2,7 @@
 
 pkgname=lagrange
 _app_id=fi.skyjake.Lagrange
-pkgver=1.19.4
+pkgver=1.20.1
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
@@ -21,9 +21,7 @@ depends=(
   'openssl'
   'opusfile'
   'pcre2'
-#  'sealcurses'  ## TODO
   'sdl2'
-#  'the_foundation'  ## TODO
   'zlib'
 )
 makedepends=(
@@ -35,13 +33,18 @@ checkdepends=(
   'desktop-file-utils'
 )
 install="$pkgname.install"
-source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('a51e7519f0dfa2cfc2918d6b498a6aca6a966702ae0f8d2c94f02f4287b2ffd7'
-            'SKIP')
+source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig}
+        'fix-build.patch')
+sha256sums=('cd5f37f0db5790d9e02bd15b251998d28e8520985fcfc3b6dc54e3c975cdb970'
+            'SKIP'
+            '7afe6818c841d44899b41873d7279b96e4dbebc6825495229c51de25aef1894f')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
 prepare() {
   cd "$pkgname-$pkgver"
+
+  # https://codeberg.org/skyjake/the_Foundation/issues/33
+  patch -Np1 -i "$srcdir/fix-build.patch" -d lib/the_Foundation
 
   # remove bundled libs
   for lib in fribidi harfbuzz; do
