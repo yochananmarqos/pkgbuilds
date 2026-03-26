@@ -1,0 +1,35 @@
+# https://aur.archlinux.org/packages/r2modman-bin
+
+pkgname=r2modman-bin
+pkgver=3.2.15
+pkgrel=1
+pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
+arch=('x86_64')
+url="https://github.com/ebkr/r2modmanPlus"
+license=('MIT')
+depends=(
+  'alsa-lib'
+  'gtk3'
+  'nss'
+)
+provides=("${pkgname%-bin}")
+conflicts=("${pkgname%-bin}")
+source=("${url}/releases/download/v$pkgver/${pkgname%-bin}-$pkgver.pacman"
+        "LICENSE-upstream::https://raw.githubusercontent.com/ebkr/r2modmanPlus/refs/tags/v$pkgver/LICENSE")
+noextract=("${pkgname%-bin}-$pkgver.pacman")
+sha256sums=('9e28785efc2303ec0fdd6c24a2f33f8e87a78990fd044fd64833a605d7b61bdd'
+            'ab4643c18a58edee5b0beac8278517f6475b2956d5999b40e3176297b9a0ce18')
+
+prepare() {
+  mkdir -p "${pkgname%-bin}-$pkgver"
+  bsdtar xf "${pkgname%-bin}-$pkgver.pacman" -C "${pkgname%-bin}-$pkgver"
+}
+
+package() {
+  cd "${pkgname%-bin}-$pkgver"
+  cp -a opt usr "$pkgdir/"
+  install -Dm644 "$srcdir/LICENSE-upstream" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  install -d "$pkgdir/usr/bin"
+  ln -sf "/opt/${pkgname%-bin}/${pkgname%-bin}" "$pkgdir/usr/bin/${pkgname%-bin}"
+}
