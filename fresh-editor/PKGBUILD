@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.18
+pkgver=0.2.20
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -17,24 +17,23 @@ depends=(
 makedepends=(
   'cargo'
   'clang'
-  'desktop-file-utils'
   'git'
 )
 checkdepends=(
-  'appstream'
   'cargo-nextest'
+  'desktop-file-utils'
+  'libxkbcommon-x11'
+  'mesa'
+  'vulkan-icd-loader'
+  'xorg-server-xvfb'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('42d08bd4bdcc563b370de29fd16ff5f6948764c92a111f4692093b638f041527')
+sha256sums=('c5bf8cd8ca4e0bc6c86e5161b5397edaea2c3101dafc514bd44b1db42f9a118f')
 
 prepare() {
   cd fresh
   export RUSTUP_TOOLCHAIN=stable
   cargo fetch --locked --target "$(rustc --print host-tuple)"
-
-  # Enable launching with experimental GUI
-  desktop-file-edit --set-key=Exec --set-value="fresh %F --gui" \
-    "crates/$pkgname/flatpak/${_app_id}.desktop"
 }
 
 build() {
@@ -50,17 +49,18 @@ build() {
 check() {
   cd fresh
   export RUSTUP_TOOLCHAIN=stable
+  export LIBGL_ALWAYS_SOFTWARE=1
+  export WGPU_BACKEND=vulkan
 
-  # 4298 tests run: 4294 passed (1 slow), 4 failed, 86 skipped
-  cargo nextest run \
+  # 4468 tests run: 4464 passed, 4 failed, 93 skipped
+  xvfb-run cargo nextest run \
     -j=4 \
     --no-fail-fast \
     --locked \
     --all-features \
     --all-targets || :
 
-  appstreamcli validate --no-net "crates/$pkgname/flatpak/${_app_id}.metainfo.xml"
-  desktop-file-validate "crates/$pkgname/flatpak/${_app_id}.desktop"
+  desktop-file-validate "crates/$pkgname/resources/fresh-gui.desktop"
 }
 
 package() {
@@ -71,12 +71,14 @@ package() {
   install -d "$pkgdir/usr/bin"
   ln -s "/usr/share/$pkgname/fresh" "$pkgdir/usr/bin/"
 
-  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.desktop" -t \
-    "$pkgdir/usr/share/applications/"
-  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.metainfo.xml" -t \
-    "$pkgdir/usr/share/metainfo/"
-  install -Dm644 "crates/$pkgname/flatpak/${_app_id}.svg" -t \
-    "$pkgdir/usr/share/icons/hicolor/scalable/apps/"
+  install -Dm644 "crates/$pkgname/resources/fresh-gui.desktop" \
+    "$pkgdir/usr/share/applications/fresh.desktop"
+
+  for i in docs/icons/linux/hicolor/*/apps/fresh.png; do
+    size=$(basename $(dirname $(dirname "${i}")))
+    install -Dm644 "${i}" "$pkgdir/usr/share/icons/hicolor/${size}/apps/fresh.png"
+  done
+
   install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
   install -Dm644 "crates/$pkgname/config.example.json" -t \
     "$pkgdir/usr/share/doc/$pkgname/"
