@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.18
+pkgver=0.2.20
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -16,26 +16,26 @@ depends=(
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("${_app_id}-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.desktop"
-        "${_app_id}-$pkgver.metainfo.xml::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.metainfo.xml"
-        "${_app_id}-$pkgver.svg::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/flatpak/${_app_id}.svg"
+source=("fresh-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/resources/fresh.desktop"
+        "fresh-$pkgver.png::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/docs/icons/linux/fresh_512.png"
         "default-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
-        "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
-        "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
-        "macos-gui-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
-        "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json")
+        "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/emacs.json"
+        "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos.json"
+        "macos-gui-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos-gui.json"
+        "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/vscode.json"
+        "config.example-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/config.example.json")
 source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
-sha256sums=('4007d85a6f3c2fc1294eaa93f1b7d426efcfbd62c8fc2be41d3aac467a181091'
-            'd1529ad24c47dcd2fdf4a0bcf7ad37adc57d3a9552a5d32270b78d8784579d46'
-            '9b6f6dd3a15657890738c69d7891ffbf23de4b55e4d7cf89ccedb54604a9a770'
+sha256sums=('4eb634ff78203b07d5d4347322fbcd9714221611014c369204b5f85286fb8761'
+            '3526fb87a9b1ee3e91cd587accb2c9775ffbf1dccebb1ad9cf4f4c07580dd2a2'
             '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
-            '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
-            '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
-            '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d'
-            '56599143226d4b12182dc4b6170114dbb236da7e0249d9897702070da5a73a0d')
-sha256sums_x86_64=('2adf368b20716dbf3c98734b2035d451c85556b39f2e248811bed4f38528b6ad')
-sha256sums_aarch64=('05ee2a39722d2d2004ef12c61cc91622d5a5a2849f217862a6a2e27f111e9613')
+            '310df5f6aca4abec3c8caf6ca8bf98d4bf69eaa08480e2186c4a992c0a34ae49'
+            '71282d92c32b726a53a7f0f05abf322fe7fe3dee9dd7c6b369fd329b5b877a59'
+            '68e03aae69baebeab0524aa19161d8132cb340a3e7be60d03c0cecf70d654dcd'
+            '1d516c2b9b02baded30f08be11f50c5b3ec95c80a37a4971bfd2b99a435d2f4a'
+            '2cea3c83effb1807f5adde0ba52c6c1f7bf3e6f00639751414a0f44d5dc380fd')
+sha256sums_x86_64=('69887f34124983fd61c780e1653d0594e6f5cc5ba92ae3c5523282a00f59a61e')
+sha256sums_aarch64=('8237c4ac11ed1ac52a1c3abaf0a3b5c393b782b83a3049609884d5d130122f79')
 
 package() {
   cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
@@ -46,11 +46,15 @@ package() {
   ln -s "/usr/share/${pkgname%-bin}/fresh" "$pkgdir/usr/bin/fresh"
 
   install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
-  install -Dm644 "$srcdir/${_app_id}-$pkgver.desktop" \
-    "$pkgdir/usr/share/applications/${_app_id}.desktop"
-  install -Dm644 "$srcdir/${_app_id}-$pkgver.metainfo.xml" \
-    "$pkgdir/usr/share/metainfo/${_app_id}.metainfo.xml"
-  install -Dm644 "$srcdir/${_app_id}-$pkgver.svg" \
-    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
-  install -Dm644 "$srcdir"/*.json -t "$pkgdir/usr/share/fresh-editor/keymaps/"
+  install -Dm644 "$srcdir/fresh-$pkgver.desktop" \
+    "$pkgdir/usr/share/applications/fresh.desktop"
+  install -Dm644 "$srcdir/fresh-$pkgver.png" \
+    "$pkgdir/usr/share/icons/hicolor/512x512/apps/fresh.png"
+  install -Dm644 "$srcdir/config.example-$pkgver.json" -t \
+    "$pkgdir/usr/share/doc/$pkgname/"
+
+  for f in default emacs macos macos-gui vscode; do
+    install -Dm644 "$srcdir/${f}-$pkgver.json" \
+      "$pkgdir/usr/share/fresh-editor/keymaps/${f}.json"
+  done
 }
