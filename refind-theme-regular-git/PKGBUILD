@@ -1,12 +1,16 @@
 # https://aur.archlinux.org/packages/refind-theme-regular-git/
 
 pkgname=refind-theme-regular-git
-pkgver=r98.15b6f16
+pkgver=r99.93ff4ef
 pkgrel=1
 pkgdesc="A simplistic clean and minimal theme for rEFInd"
 arch=('any')
 url="https://github.com/bobafetthotmail/refind-theme-regular"
-license=('AGPL-3.0-or-later AND OFL-1.1 AND Ubuntu-font-1.0')
+license=(
+  'AGPL-3.0-or-later'
+  'OFL-1.1'
+  'Ubuntu-font-1.0'
+)
 depends=('refind')
 makedepends=('git')
 provides=("${pkgname%-git}")
