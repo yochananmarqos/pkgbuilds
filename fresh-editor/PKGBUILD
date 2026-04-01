@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.2.20
+pkgver=0.2.21
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -28,7 +28,7 @@ checkdepends=(
   'xorg-server-xvfb'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('c5bf8cd8ca4e0bc6c86e5161b5397edaea2c3101dafc514bd44b1db42f9a118f')
+sha256sums=('2d6b827648dd2da541bcb77751cdba670e552e7566d929543a5d27b98cfb3845')
 
 prepare() {
   cd fresh
@@ -52,7 +52,7 @@ check() {
   export LIBGL_ALWAYS_SOFTWARE=1
   export WGPU_BACKEND=vulkan
 
-  # 4468 tests run: 4464 passed, 4 failed, 93 skipped
+  # 4558 tests run: 4554 passed, 4 failed, 97 skipped
   xvfb-run cargo nextest run \
     -j=4 \
     --no-fail-fast \
