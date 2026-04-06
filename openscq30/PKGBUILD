@@ -6,7 +6,7 @@ pkgname=(
 )
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-pkgver=2.5.0
+pkgver=2.6.1
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64' 'aarch64')
@@ -28,12 +28,12 @@ makedepends=(
 )
 checkdepends=('xorg-server-xvfb')
 source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('1bba8668801af807a2826385477503e735822558694db74bc57ec5b27a142190')
+sha256sums=('c7875d7a57ca01ae61ccf6ed95072eb8490ba87a56ddb427a00c31a028727ea2')
 
 prepare() {
 	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
-	cargo fetch --target "$(rustc --print host-tuple)"
+	cargo fetch --target host-tuple
 }
 
 build() {
@@ -47,7 +47,7 @@ check() {
 	cd "OpenSCQ30-$pkgver"
 	export RUSTUP_TOOLCHAIN=stable
   just lib/ test
-  just cli/ test || : ## 37 passed; 4 failed
+  just cli/ test
   xvfb-run --auto-servernum just gui/ test
 
   appstreamcli validate --no-net "gui/resources/${_app_id}.metainfo.xml"
