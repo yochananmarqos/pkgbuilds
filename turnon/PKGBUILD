@@ -1,0 +1,62 @@
+# https://aur.archlinux.org/packages/turnon
+
+pkgname=turnon
+_app_id="de.swsnr.${pkgname}"
+pkgver=3.0.1
+pkgrel=1
+pkgdesc="Turn on devices in your local network"
+arch=('any')
+url="https://codeberg.org/swsnr/turnon"
+license=('EUPL-1.2')
+depends=(
+  'dconf'
+  'glib2'
+  'gtk4'
+  'hicolor-icon-theme'
+  'libadwaita'
+  'python-gobject'
+  'python-packaging'
+)
+makedepends=(
+  'git'
+  'blueprint-compiler'
+  'python-build'
+  'python-hatchling'
+  'python-installer'
+  'python-wheel'
+)
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
+  'python-pytest'
+  'python-pytest-asyncio'
+)
+source=("git+https://codeberg.org/swsnr/turnon.git#tag=v${pkgver}")
+sha256sums=('b9e6e8fb3d37215da354c0048fdc96f856f0059544d19c318eb5254ddd32e48d')
+
+build() {
+	cd "${pkgname}"
+
+  # Skip dependency check as it can't find blueprint-compiler
+  # even though we have it
+	python -m build --wheel --skip-dependency-check --no-isolation
+}
+
+check() {
+	cd "${pkgname}"
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m pytest
+
+  appstreamcli validate --no-net "${_app_id}.metainfo.xml"
+  desktop-file-validate "${_app_id}.desktop"
+}
+
+package() {
+	cd "${pkgname}"
+	python -m installer --destdir="${pkgdir}" dist/*.whl
+
+  ln -s "/usr/bin/${_app_id}" "${pkgdir}/usr/bin/${pkgname}"
+
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
