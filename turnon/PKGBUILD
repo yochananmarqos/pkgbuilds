@@ -34,6 +34,11 @@ checkdepends=(
 source=("git+https://codeberg.org/swsnr/turnon.git#tag=v${pkgver}")
 sha256sums=('b9e6e8fb3d37215da354c0048fdc96f856f0059544d19c318eb5254ddd32e48d')
 
+prepare() {
+  cd "${pkgname}"
+  git clean -dfx
+}
+
 build() {
 	cd "${pkgname}"
 
