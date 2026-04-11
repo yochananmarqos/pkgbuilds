@@ -2,13 +2,14 @@
 
 pkgname=loot
 _app_id="io.github.$pkgname.$pkgname"
-pkgver=0.28.0
+pkgver=0.29.0
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
 url="https://loot.github.io"
 license=('GPL-3.0-only')
 depends=(
+  'boost-libs'
   'fmt'
   'hicolor-icon-theme'
   'icu'
@@ -29,13 +30,14 @@ makedepends=(
   'python'
 #  'python-sphinx'  # docs
 #  'python-sphinx_rtd_theme'  # docs
+  'svg_to_ico'
 )
 checkdepends=(
   'appstream'
   'desktop-file-utils'
 )
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
-sha256sums=('aca334960cc73dfa33e7ef0e2d853897876dbc174e30d3d7f7d8a3bb8dd5bf71')
+sha256sums=('19f695e1078aafe7eb77b9816dbf5619ca8ce990a5949e75da765c3d5d46588e')
 
 prepare() {
   cd "$pkgname"
@@ -43,14 +45,27 @@ prepare() {
   # Set StartupWMClass
   desktop-file-edit --set-key=StartupWMClass --set-value=LOOT \
     "resources/linux/${_app_id}.desktop"
+    
 }
 
 build() {
-  cmake -B build -S "$pkgname" \
-    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
-    -DCMAKE_INSTALL_PREFIX='/usr' \
-    -DLOOT_BUILD_TESTS='OFF' \
-    -Wno-dev
+  local cmake_options=(
+    -B build
+    -S "$pkgname"
+    -W no-dev
+    -D CMAKE_BUILD_TYPE='RelWithDebInfo'
+    -D CMAKE_INSTALL_PREFIX='/usr'
+    -D CMAKE_REQUIRE_FIND_PACKAGE_libloot='ON'
+    -D CMAKE_REQUIRE_FIND_PACKAGE_MINIZIP='ON'
+    -D CMAKE_REQUIRE_FIND_PACKAGE_tomlplusplus='ON'
+    -D CMAKE_REQUIRE_FIND_PACKAGE_spdlog='ON'
+    -D CMAKE_REQUIRE_FIND_PACKAGE_OGDF='ON'
+    -D CMAKE_BUILD_WITH_INSTALL_RPATH='TRUE'
+    -D CMAKE_INSTALL_RPATH="/opt/$pkgname"
+    -D LOOT_BUILD_TESTS='OFF'
+    -D FETCHCONTENT_QUIET='OFF'
+  )
+  cmake "${cmake_options[@]}"
   cmake --build build
 
   # translations
