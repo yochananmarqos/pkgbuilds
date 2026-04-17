@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/libloot
 
 pkgname=libloot
-pkgver=0.29.3
+pkgver=0.29.4
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
@@ -21,12 +21,12 @@ makedepends=(
 #  'python-sphinx_rtd_theme'  # docs
 )
 source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
-sha256sums=('febf3198a4dd52ce37ee0c3d74bfc88070854a522e9842a85e5bbc2d3f23cb2b')
+sha256sums=('e9b3c688827458846d9f41fb8805f81169cb866510363a6a72d7a37a2b75f92e')
 
 prepare() {
   cd "$pkgname"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc --print host-tuple)"
+  cargo fetch --target host-tuple
 }
 
 build() {
