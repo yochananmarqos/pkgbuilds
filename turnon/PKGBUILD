@@ -2,7 +2,7 @@
 
 pkgname=turnon
 _app_id="de.swsnr.${pkgname}"
-pkgver=3.0.2
+pkgver=3.0.3
 pkgrel=1
 pkgdesc="Turn on devices in your local network"
 arch=('any')
@@ -32,7 +32,7 @@ checkdepends=(
   'python-pytest-asyncio'
 )
 source=("git+https://codeberg.org/swsnr/turnon.git#tag=v${pkgver}")
-sha256sums=('8b239f7f24195340ed593bc06262a39325ad7b5886b801f7d564a7904c241019')
+sha256sums=('9cf42aec63afb9520a95a81fb7b3463aa5c83b4ccd0c44ab40c58b8c36eb456d')
 
 prepare() {
   cd "${pkgname}"
