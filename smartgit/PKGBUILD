@@ -2,7 +2,7 @@
 
 pkgname=smartgit
 _app_id=com.syntevo.SmartGit
-_pkgver=25_1_110
+_pkgver=25_1_128
 pkgver=${_pkgver//_/.}
 pkgrel=1
 pkgdesc="Graphical Git client"
@@ -42,7 +42,7 @@ optdepends=(
 source=("https://download.smartgit.dev/${pkgname}/${pkgname}-${_pkgver}-linux-amd64.tar.gz"
         "${_app_id}.desktop")
 noextract=("${pkgname}-${_pkgver}-linux-amd64.tar.gz")
-sha256sums=('90d6f72f55ee00cb2c5f781523d97fde5eb4b1adb8bb869f7fb3dc0b864e4fcb'
+sha256sums=('5775ebd37716aaf65bb1274c10b38819434f39eebe2d3b4ea72d88bfe4312c19'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
@@ -56,7 +56,7 @@ package() {
   # Install application files
   install -Dm755 "bin/${pkgname}.sh" -t "${pkgdir}/opt/${pkgname}/bin/"
   install -m644 "bin/${pkgname}.vmoptions" -t "${pkgdir}/opt/${pkgname}/bin/"
-  cp -r dictionaries git lib "${pkgdir}/opt/${pkgname}/"
+  cp -a dictionaries git lib "${pkgdir}/opt/${pkgname}/"
 
   # Install licenses
   install -Dm644 license.html -t "${pkgdir}/usr/share/licenses/${pkgname}/"
