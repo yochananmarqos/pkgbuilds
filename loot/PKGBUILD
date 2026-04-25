@@ -9,7 +9,6 @@ arch=('x86_64')
 url="https://loot.github.io"
 license=('GPL-3.0-only')
 depends=(
-  'boost-libs'
   'fmt'
   'hicolor-icon-theme'
   'icu'
@@ -24,6 +23,7 @@ depends=(
 )
 makedepends=(
   'boost'
+  'boost-libs'
   'cmake'
 #  'doxygen'  # docs
   'git'
