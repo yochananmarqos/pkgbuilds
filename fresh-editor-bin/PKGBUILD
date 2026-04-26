@@ -3,7 +3,7 @@
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
 pkgver=0.3.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
 license=('GPL-2.0-or-later')
@@ -13,6 +13,23 @@ depends=(
   'glibc'
   'hicolor-icon-theme'
   'libgcc'
+)
+optdepends=(
+  'bash-language-server: LSP for Bash'
+  'clang: LSP for C/C++'
+  'csharp-language-server: LSP for C#'  ## AUR
+  'gopls: LSP for Go'
+  'jdtls: LSP for Java' ## AUR
+  'kotlin-language-server: LSP for Kotlin'  ## AUR
+  'lua-language-server: LSP for Lua'
+  'marksman: LSP for Markdown'
+  'pyright: Alternative LSP for Python'
+  'python-lsp-server: Default LSP for Python'
+  'rust-analyzer: LSP for Rust'
+  'texlab: LSP for LaTeX'
+  'typescript-language-server: LSP for TypeScript / JavaScript'
+  'yaml-language-server: LSP for YAML'
+  'zls: LSP for Zig'
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
