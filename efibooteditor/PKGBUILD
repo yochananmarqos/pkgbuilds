@@ -12,6 +12,7 @@ depends=(
   'polkit'
   'qt6-base'
   'qt6-svg'
+  'xorg-xhost'
 )
 makedepends=(
   'cmake'
