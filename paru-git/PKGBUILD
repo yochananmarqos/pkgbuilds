@@ -1,0 +1,69 @@
+# https://aur.archlinux.org/packages/paru-git
+
+pkgname=paru-git
+pkgver=2.1.0.r67.g9ac3578
+pkgrel=1
+pkgdesc="Feature packed AUR helper"
+arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
+url="https://github.com/morganamilo/paru"
+license=('GPL-3.0-or-later')
+depends=(
+  'git'
+  'libalpm.so>=16'
+  'pacman'
+)
+makedepends=('cargo')
+optdepends=(
+  'bat: colored pkgbuild printing'
+  'devtools: build in chroot and download pkgbuilds'
+)
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+backup=("etc/${pkgname%-git}.conf")
+source=('git+https://github.com/morganamilo/paru.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgname%-git}"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo update alpm alpm-utils
+  cargo fetch --locked --target host-tuple
+}
+
+build () {
+  cd "${pkgname%-git}"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+
+  if pacman -T pacman-git > /dev/null; then
+    _features+="git,"
+  fi
+
+  if [[ $(rustc -V) == *"nightly"* ]]; then
+    _features+="backtrace,"
+  fi
+
+  if [[ $CARCH != x86_64 ]]; then
+    export CARGO_PROFILE_RELEASE_LTO=off
+  fi
+
+  PARU_VERSION=$pkgver cargo build --frozen --features "${_features:-}" --release
+  ./scripts/mkmo locale/
+}
+
+package() {
+  cd "${pkgname%-git}"
+  install -Dm755 "target/release/${pkgname%-git}" -t "${pkgdir}/usr/bin/"
+  install -Dm644 "${pkgname%-git}.conf" -t "${pkgdir}/etc/"
+  install -Dm644 "man/${pkgname%-git}.8" -t "$pkgdir/usr/share/man/man8/"
+  install -Dm644 "man/${pkgname%-git}.conf.5" -t "$pkgdir/usr/share/man/man5/"
+  install -Dm644 completions/bash "${pkgdir}/usr/share/bash-completion/completions/${pkgname%-git}.bash"
+  install -Dm644 completions/fish "${pkgdir}/usr/share/fish/vendor_completions.d/${pkgname%-git}.fish"
+  install -Dm644 completions/zsh "${pkgdir}/usr/share/zsh/site-functions/_${pkgname%-git}"
+  cp -a locale "$pkgdir/usr/share/"
+}
