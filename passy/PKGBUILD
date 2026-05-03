@@ -2,7 +2,7 @@
 
 pkgname=passy
 _app_id=com.glitterware.passy
-pkgver=1.10.0
+pkgver=1.10.1
 pkgrel=1
 pkgdesc="Offline password manager with cross-platform synchronization"
 arch=('x86_64' 'aarch64')
@@ -21,10 +21,11 @@ makedepends=(
   'ninja'
   'unzip'
 )
+checkdepends=('appstream')
 source=("git+https://github.com/GlitterWare/Passy.git#tag=v$pkgver"
         'git+https://github.com/flutter/flutter.git'
         'git+https://github.com/P-H-C/phc-winner-argon2.git')
-sha256sums=('e89710ce4d92bd428db63b805b8fa693b4617246e9866cfc331da09688ea7fea'
+sha256sums=('0233b326b0a8eea50576fd9d7f6f37db070d89994a2bb08873375ba6d6b80cf0'
             'SKIP'
             'SKIP')
 
@@ -58,6 +59,12 @@ build() {
     --dart-define=UPDATES_POPUP_ENABLED=false
 }
 
+check() {
+  cd Passy
+  appstreamcli validate --no-net "linux_assets/${_app_id}.appdata.xml" || :
+  desktop-file-validate "linux_assets/${_app_id}.desktop"
+}
+
 package() {
   cd Passy
 
@@ -77,6 +84,7 @@ package() {
 
   install -d "$pkgdir/usr/bin"
   ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
+  ln -s "/opt/$pkgname/${pkgname}_cli" "$pkgdir/usr/bin/"
 
   install -Dm644 logo.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
   install -Dm644 "linux_assets/${_app_id}.desktop" -t "$pkgdir/usr/share/applications/"
