@@ -41,15 +41,15 @@ prepare() {
 }
 
 build() {
-	cd "${pkgname}"
-	export RUSTUP_TOOLCHAIN=stable
+  cd "${pkgname}"
+  export RUSTUP_TOOLCHAIN=stable
   just APPID="${_app_id}" compile
   cargo build --frozen --release
 }
 
 check() {
-	cd "${pkgname}"
-	export RUSTUP_TOOLCHAIN=stable
+  cd "${pkgname}"
+  export RUSTUP_TOOLCHAIN=stable
   cargo test --frozen
 
   appstreamcli validate --no-net "${_app_id}.metainfo.xml"
