@@ -2,10 +2,10 @@
 
 pkgname=turnon
 _app_id="de.swsnr.${pkgname}"
-pkgver=3.0.4
+pkgver=3.1.1
 pkgrel=1
 pkgdesc="Turn on devices in your local network"
-arch=('any')
+arch=('x86_64')
 url="https://codeberg.org/swsnr/turnon"
 license=('EUPL-1.2')
 depends=(
@@ -14,44 +14,43 @@ depends=(
   'gtk4'
   'hicolor-icon-theme'
   'libadwaita'
-  'python-gobject'
-  'python-packaging'
+  'libgcc'
 )
 makedepends=(
   'git'
   'blueprint-compiler'
-  'python-build'
-  'python-hatchling'
-  'python-installer'
-  'python-wheel'
+  'cargo'
+  'just'
 )
 checkdepends=(
   'appstream'
   'desktop-file-utils'
-  'python-pytest'
-  'python-pytest-asyncio'
 )
-source=("git+https://codeberg.org/swsnr/turnon.git#tag=v${pkgver}")
-sha256sums=('1bf37b5bb0b6e0e799bfd2155ec73fc62d0e1796890f7b61cf0192a13d715388')
+source=("git+https://codeberg.org/swsnr/turnon.git#tag=v${pkgver}"
+        'schemas.patch')
+sha256sums=('3b3963bb0fa507fbfbfa3399109b71f126d953bb056b26b05212ca5f0065d553'
+            '5ab8c215dbe7d8daf61b7320c81ee16bc98c80c0b032a6e011699083ecdb8c60')
 
 prepare() {
   cd "${pkgname}"
-  git clean -dfx
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target host-tuple
+
+  # Don't compile schemas after installation
+  patch -Np1 -i ../schemas.patch
 }
 
 build() {
 	cd "${pkgname}"
-
-  # Skip dependency check as it can't find blueprint-compiler
-  # even though we have it
-	python -m build --wheel --skip-dependency-check --no-isolation
+	export RUSTUP_TOOLCHAIN=stable
+  just APPID="${_app_id}" compile
+  cargo build --frozen --release
 }
 
 check() {
 	cd "${pkgname}"
-  python -m venv --clear --without-pip --system-site-packages test-env
-  test-env/bin/python -m installer dist/*.whl
-  test-env/bin/python -m pytest
+	export RUSTUP_TOOLCHAIN=stable
+  cargo test --frozen
 
   appstreamcli validate --no-net "${_app_id}.metainfo.xml"
   desktop-file-validate "${_app_id}.desktop"
@@ -59,7 +58,7 @@ check() {
 
 package() {
 	cd "${pkgname}"
-	python -m installer --destdir="${pkgdir}" dist/*.whl
+	just APPID="${_app_id}" DESTPREFIX="${pkgdir}/usr" install
 
   ln -s "/usr/bin/${_app_id}" "${pkgdir}/usr/bin/${pkgname}"
 

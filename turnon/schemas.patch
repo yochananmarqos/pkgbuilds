@@ -1,0 +1,13 @@
+Binary files a/.git/index and b/.git/index differ
+diff -Npur a/justfile b/justfile
+--- a/justfile	2026-05-12 09:09:28.032347600 -0600
++++ b/justfile	2026-05-12 09:20:05.104714136 -0600
+@@ -154,8 +154,6 @@ install:
+     install -Dm0644 -t '{{ DESTPREFIX }}/share/icons/hicolor/scalable/apps/' 'resources/icons/scalable/apps/{{ APPID }}.svg'
+     install -Dm0644 resources/icons/symbolic/apps/de.swsnr.turnon-symbolic.svg \
+         '{{ DESTPREFIX }}/share/icons/hicolor/symbolic/apps/{{ APPID }}-symbolic.svg'
+-    @# Compile settings schemas after installation
+-    glib-compile-schemas --strict '{{ DESTPREFIX }}/share/glib-2.0/schemas'
+ 
+ # Assemble the README image from screenshots.
+ build-social-image:
