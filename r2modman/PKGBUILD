@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.2.11
+pkgver=3.2.16
 pkgrel=1
 _electronversion=38
 pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
@@ -13,7 +13,7 @@ makedepends=('corepack')
 source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('592e1a71766dbc84966d466814042db8734a5a27ead6b8d167f4bf1b6807ca03'
+sha256sums=('798cd3a31c463b8a705340b8b299af24c4cd3e5be0b8d4962a0acf1ab851a27e'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
@@ -26,7 +26,7 @@ prepare() {
   # Modify electron-builder config
   sed -e "s/'AppImage', 'tar.gz', 'deb', 'rpm', 'pacman'/'dir'/" -e "/builder: {/a electronDist: \"${electronDist}\", electronVersion: \"${electronVer}\"," -i quasar.config.ts
 
-  corepack yarn install --frozen-lockfile
+  corepack yarn install --immutable
 
   sed -i "s|@ELECTRONVERSION@|${_electronversion}|" "$srcdir/$pkgname.sh"
 }
