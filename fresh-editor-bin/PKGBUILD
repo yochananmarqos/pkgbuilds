@@ -33,9 +33,7 @@ optdepends=(
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("fresh-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/resources/fresh.desktop"
-        "fresh-$pkgver.png::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/docs/icons/linux/fresh_512.png"
-        "default-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
+source=("default-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
         "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/emacs.json"
         "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos.json"
         "macos-gui-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos-gui.json"
@@ -43,9 +41,7 @@ source=("fresh-$pkgver.desktop::https://raw.githubusercontent.com/sinelaw/fresh/
         "config.example-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/config.example.json")
 source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
-sha256sums=('4eb634ff78203b07d5d4347322fbcd9714221611014c369204b5f85286fb8761'
-            '3526fb87a9b1ee3e91cd587accb2c9775ffbf1dccebb1ad9cf4f4c07580dd2a2'
-            '5db1b5d3da1bb5cb82b19cc10841175f18b247c6736d7115d4eb019530752e10'
+sha256sums=('5db1b5d3da1bb5cb82b19cc10841175f18b247c6736d7115d4eb019530752e10'
             'b093e1e5fdde6ccb1c0b542e4f9662166fa088a239f743463deed6be0edb2f3f'
             '35dfa1fe22783166766ed6181115f054745dfe91e1c87b8bbf9da9036f9177a2'
             '68e03aae69baebeab0524aa19161d8132cb340a3e7be60d03c0cecf70d654dcd'
@@ -63,15 +59,19 @@ package() {
   ln -s "/usr/share/${pkgname%-bin}/fresh" "$pkgdir/usr/bin/fresh"
 
   install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
-  install -Dm644 "$srcdir/fresh-$pkgver.desktop" \
+  install -Dm644 "fresh.desktop" \
     "$pkgdir/usr/share/applications/fresh.desktop"
-  install -Dm644 "$srcdir/fresh-$pkgver.png" \
-    "$pkgdir/usr/share/icons/hicolor/512x512/apps/fresh.png"
-  install -Dm644 "$srcdir/config.example-$pkgver.json" -t \
-    "$pkgdir/usr/share/doc/$pkgname/"
+
+  for icon in icons/*/apps/fresh.png; do
+    size=$(basename $(dirname $(dirname "$icon")))
+    install -Dm644 "$icon" "$pkgdir/usr/share/icons/hicolor/${size}/apps/fresh.png"
+    done
 
   for f in default emacs macos macos-gui vscode; do
     install -Dm644 "$srcdir/${f}-$pkgver.json" \
       "$pkgdir/usr/share/fresh-editor/keymaps/${f}.json"
   done
+
+  install -Dm644 "$srcdir/config.example-$pkgver.json" -t \
+    "$pkgdir/usr/share/doc/$pkgname/"
 }
