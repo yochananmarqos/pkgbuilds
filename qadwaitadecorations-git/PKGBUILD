@@ -6,7 +6,7 @@ pkgname=(
 )
 pkgbase=qadwaitadecorations-git
 pkgver=0.1.7.r2.g22a97da
-pkgrel=1
+pkgrel=2
 pkgdesc="Qt decoration plugin implementing Adwaita-like client-side decorations"
 arch=('x86_64')
 url="https://github.com/FedoraQt/QAdwaitaDecorations"
