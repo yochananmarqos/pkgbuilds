@@ -1,13 +1,14 @@
 # https://aur.archlinux.org/packages/adwdialog-git
 
 pkgname=adwdialog-git
-pkgver=0.2.0.r14.g289cd34
+pkgver=0.2.1.r0.g35c1a97
 pkgrel=1
 pkgdesc="Display GTK4/libadwaita dialogs from terminal and scripts."
 arch=('any')
 url="https://github.com/Vanilla-OS/AdwDialog"
 license=('GPL-3.0-or-later')
 depends=(
+  'gtk4'
   'libadwaita'
   'libjpeg-turbo'
   'python-gobject'
