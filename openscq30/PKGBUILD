@@ -6,7 +6,7 @@ pkgname=(
 )
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-pkgver=2.7.0
+pkgver=2.8.0
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64' 'aarch64')
@@ -30,7 +30,7 @@ checkdepends=(
   'xorg-server-xvfb'
 )
 source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('d115621c04ec9116e10c2b893bf5ae6cc01480060374b8f767e50733b6ff94d1')
+sha256sums=('ce63c87f0584bbd57a74f02100f93714970bc1b4305a59453ab9ffa377b6a69d')
 
 prepare() {
 	cd "OpenSCQ30-$pkgver"
