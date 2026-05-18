@@ -1,0 +1,73 @@
+# https://aur.archlinux.org/packages/dusklight
+
+pkgname=dusklight
+_app_id=dev.twilitrealm.dusk
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="A reverse-engineered reimplementation of Twilight Princess."
+arch=('x86_64')
+url="https://twilitrealm.dev"
+license=('CC0-1.0')
+depends=(
+  'abseil-cpp'
+  'freetype2'
+  'glibc'
+  'libgcc'
+  'libjpeg-turbo'
+  'libpng'
+  'libstdc++'
+  'sdl3'
+  'zlib'
+)
+makedepends=(
+  'cmake'
+  'desktop-file-utils'
+  'git'
+  'meson'
+  'ninja'
+  'vulkan-headers'
+)
+conflicts=('tp-dusk')
+source=("git+https://github.com/TwilitRealm/dusklight.git#tag=v$pkgver"
+        "git+https://github.com/encounter/aurora.git")
+sha256sums=('da3145d2795552aa319fd13eed8b42089cb1e07b9643521ad514a461b9cc53ca'
+            'SKIP')
+
+prepare() {
+  cd "$pkgname"
+  git submodule init
+  git config submoudle.extern/aurora.url "$srcdir/aurora"
+  git -c protocol.file.allow=always submodule update
+
+  desktop-file-edit --set-icon="${_app_id}" "platforms/freedesktop/$pkgname.desktop"
+}
+
+build() {
+  cmake -B build -S "$pkgname" \
+    -GNinja \
+    -DCMAKE_BUILD_TYPE='RelWithDebInfo' \
+    -DCMAKE_INSTALL_PREFIX="/opt/$pkgname" \
+    -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreaded' \
+    -DDUSK_ENABLE_UPDATE_CHECKER='OFF' \
+    -DAURORA_SDL3_PROVIDER='system' \
+    -DAURORA_SDL3_LINKAGE='shared' \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  install -d "$pkgdir/usr/bin"
+  ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
+
+  cd "$pkgname"
+  install -Dm644 "platforms/freedesktop/$pkgname.desktop" \
+    "$pkgdir/usr/share/applications/${_app_id}.desktop"
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
+
+  for i in 16 32 48 64 128 256 512 1024; do
+    install -Dm644 "platforms/freedesktop/${i}x${i}/apps/$pkgname.png" \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/${_app_id}.png"
+  done
+}
