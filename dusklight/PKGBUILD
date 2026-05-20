@@ -36,7 +36,7 @@ sha256sums=('da3145d2795552aa319fd13eed8b42089cb1e07b9643521ad514a461b9cc53ca'
 prepare() {
   cd "$pkgname"
   git submodule init
-  git config submoudle.extern/aurora.url "$srcdir/aurora"
+  git config submodule.extern/aurora.url "$srcdir/aurora"
   git -c protocol.file.allow=always submodule update
 
   desktop-file-edit --set-icon="${_app_id}" "platforms/freedesktop/$pkgname.desktop"
