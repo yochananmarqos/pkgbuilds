@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/librespeed-cli
 
 pkgname=librespeed-cli
-pkgver=1.0.12
+pkgver=1.0.13
 pkgrel=1
 pkgdesc="Command line client for LibreSpeed"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64' 'riscv64')
@@ -13,7 +13,7 @@ makedepends=(
   'go'
 )
 source=("git+https://github.com/librespeed/speedtest-cli.git#tag=v$pkgver")
-sha256sums=('08223ea240b9d70ba6b1355ee78540ec538b4f0c2f33afc5642bafde331591a9')
+sha256sums=('e7f99dfb461e0886e62f9329a142762172161dc100076d3fb0365f84a49d3ae6')
 
 build() {
   cd speedtest-cli
