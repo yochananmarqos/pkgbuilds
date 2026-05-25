@@ -2,7 +2,7 @@
 
 pkgname=dusklight
 _app_id=dev.twilitrealm.dusk
-pkgver=1.2.0
+pkgver=1.3.0
 pkgrel=1
 pkgdesc="A reverse-engineered reimplementation of Twilight Princess."
 arch=('x86_64')
@@ -30,7 +30,7 @@ makedepends=(
 conflicts=('tp-dusk')
 source=("git+https://github.com/TwilitRealm/dusklight.git#tag=v$pkgver"
         "git+https://github.com/encounter/aurora.git")
-sha256sums=('da3145d2795552aa319fd13eed8b42089cb1e07b9643521ad514a461b9cc53ca'
+sha256sums=('42a4ce5a9854d8f98811f148b8df724b43983729ae33c275717ca6df8f072dd1'
             'SKIP')
 
 prepare() {
@@ -38,8 +38,6 @@ prepare() {
   git submodule init
   git config submodule.extern/aurora.url "$srcdir/aurora"
   git -c protocol.file.allow=always submodule update
-
-  desktop-file-edit --set-icon="${_app_id}" "platforms/freedesktop/$pkgname.desktop"
 }
 
 build() {
@@ -62,12 +60,12 @@ package() {
   ln -s "/opt/$pkgname/$pkgname" "$pkgdir/usr/bin/"
 
   cd "$pkgname"
-  install -Dm644 "platforms/freedesktop/$pkgname.desktop" \
-    "$pkgdir/usr/share/applications/${_app_id}.desktop"
+  install -Dm644 "platforms/freedesktop/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
   install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
 
   for i in 16 32 48 64 128 256 512 1024; do
-    install -Dm644 "platforms/freedesktop/${i}x${i}/apps/$pkgname.png" \
-      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/${_app_id}.png"
+    install -Dm644 "platforms/freedesktop/${i}x${i}/apps/${_app_id}.png" -t \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/"
   done
 }
