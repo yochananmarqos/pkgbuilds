@@ -1,14 +1,18 @@
 # https://aur.archlinux.org/packages/dailydriver
+
+## WIP (What a mess. Thanks, for the help, Claude 🙄)
+
 pkgname=(
-  'dailydriver'
-  'gnome-shell-extension-dailydriver-cheatsheet'
+  'nightpanel'
+  'gnome-shell-extension-nightpanel'
 )
-pkgbase=dailydriver
-pkgver=0.1.0
+pkgbase=nightpanel
+_uuid="$pkgbase@$pkgbase"
+pkgver=0.2.1
 pkgrel=1
 pkgdesc="Visual keyboard shortcut configuration for GNOME"
 arch=('any')
-url="https://github.com/gregfelice/dailydriver"
+url="https://github.com/gregfelice/nightpanel"
 license=('GPL-3.0-or-later')
 depends=(
   'dconf'
@@ -22,18 +26,21 @@ depends=(
 )
 makedepends=(
   'gnome-shell'
-  'jq'
   'meson'
 )
 checkdepends=(
   'python-pytest'
   'python-pytest-cov'
+  'python-pytest-mock'
 )
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('dbb0b3bcaf9880d3246a5abdb44e282544ded099ca8ff3e499659afa191ce173')
+sha256sums=('332a5639370a426bf2f8721040ba2168d06f64618a14881508107561926a9e48')
 
 prepare() {
   cd "$pkgbase-$pkgver"
+  sed -i 's/DailyDriver/Nightpanel/' data/icons/meson.build
+
+  sed -i 's/.local/usr/g' "src/$pkgbase/services/tiling_service.py"
 }
 
 build() {
@@ -41,39 +48,33 @@ build() {
   meson compile -C build
 
   cd "$pkgbase-$pkgver"
-  gnome-extensions pack extension --force
+  gnome-extensions pack "src/$pkgbase/shell-extension/${_uuid}" --force
 }
 
 check() {
   meson test -C build --no-rebuild --print-errorlogs
 
   cd "$pkgbase-$pkgver"
-
-  # Some mocks need updating for Settings.new_full
   PYTHONPATH=src pytest tests/unit/ || :
 }
 
-package_dailydriver() {
+package_nightpanel() {
   optdepends=('gnome-shell-extension-tiling-assistant: Tiling Assistant shortcut support')
+  conflicts=('dailydriver')
 
   meson install -C build --no-rebuild --destdir "$pkgdir"
 }
 
-package_gnome-shell-extension-dailydriver-cheatsheet() {
-  pkgdesc="Quick keyboard shortcut reference overlay for Daily Driver"
+package_gnome-shell-extension-nightpanel() {
+  pkgdesc="Companion to Nightpanel"
   depends=(
-    'dailydriver'
+    'nightpanel'
     'gnome-shell'
   )
+  conflicts=('gnome-shell-extension-dailydriver-cheatsheet')
 
   cd "$pkgbase-$pkgver"
-  _uuid=$(jq -r .uuid extension/metadata.json)
-
   install -d "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}"
   bsdtar -xvf "${_uuid}.shell-extension.zip" -C \
     "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/" --no-same-owner
-
-  install -Dvm644 extension/schemas/*.gschema.xml -t \
-    "$pkgdir/usr/share/glib-2.0/schemas/"
-  rm -rfv "$pkgdir/usr/share/gnome-shell/extensions/${_uuid}/schemas"
 }
