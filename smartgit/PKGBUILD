@@ -2,7 +2,7 @@
 
 pkgname=smartgit
 _app_id=com.syntevo.SmartGit
-_pkgver=25_1_128
+_pkgver=26_1_038
 pkgver=${_pkgver//_/.}
 pkgrel=1
 pkgdesc="Graphical Git client"
@@ -12,14 +12,15 @@ license=(
   'Apache-2.0'
   'BSD-2-Clause'
   'BSD-3-Clause'
+  'BSD-3-Clause-HP'
   'CC0-1.0'
   'EPL-1.0'
-  'LGPL-2.1-or-later'
-  'LGPL-3.0-or-later'
+  'LGPL-2.1-only'
   'LicenseRef-custom'
   'MIT'
+  'Pixar'
 )
-_jre_ver=21  # JRE 17 or higher required
+_jre_ver=21
 depends=(
   'bash'
   'curl'
@@ -42,7 +43,7 @@ optdepends=(
 source=("https://download.smartgit.dev/${pkgname}/${pkgname}-${_pkgver}-linux-amd64.tar.gz"
         "${_app_id}.desktop")
 noextract=("${pkgname}-${_pkgver}-linux-amd64.tar.gz")
-sha256sums=('5775ebd37716aaf65bb1274c10b38819434f39eebe2d3b4ea72d88bfe4312c19'
+sha256sums=('4620b1f0450f4fee9a854bc5720905da9d0ea7c013babf29e92edcd9dd6cd8ae'
             '440cdb52d8f4dbd856abdfcf27eb580e157591c10b71a265407e697eef323b57')
 
 prepare() {
