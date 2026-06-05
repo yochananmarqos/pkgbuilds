@@ -14,7 +14,6 @@ depends=(
   'hicolor-icon-theme'
   'libgcc'
 )
-makedepends=('git')
 optdepends=(
   'bash-language-server: LSP for Bash'
   'clang: LSP for C/C++'
@@ -34,10 +33,10 @@ optdepends=(
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
+source=("fresh-$pkgver.tar.gz::https://github.com/sinelaw/fresh/archive/refs/tags/v$pkgver.tar.gz")
 source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
-sha256sums=('b1b33207990b8c88dbeb2404a9853f5ab6f8a40ef4a12fe157005a0cd0695e78')
+sha256sums=('d709a3538d098d90af754d26d7d797315b5b8b4fb820d4201686f993bc580830')
 sha256sums_x86_64=('e876bb6c4d81ae6301d3e3bc841da9f20a35a3b2010289c64ebfe61dbc2ef3dc')
 sha256sums_aarch64=('b38ef8b632f9e956b33f412e2d9b0be3117a440136e657c42bf8505746f2df9f')
 
@@ -57,7 +56,7 @@ package() {
     install -Dm644 "$icon" "$pkgdir/usr/share/icons/hicolor/${size}/apps/fresh.png"
     done
 
-  cd "$srcdir/fresh"
+  cd "$srcdir/fresh-$pkgver"
   cp -a "crates/${pkgname%-bin}"/{keymaps,plugins,themes} "$pkgdir/usr/share/${pkgname%-bin}/"
   install -Dm644 "crates/${pkgname%-bin}/config.example.json" -t \
     "$pkgdir/usr/share/doc/${pkgname%-bin}/"
