@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor-bin
 _app_id=io.github.sinelaw.fresh
-pkgver=0.3.10
+pkgver=0.3.12
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -14,6 +14,7 @@ depends=(
   'hicolor-icon-theme'
   'libgcc'
 )
+makedepends=('git')
 optdepends=(
   'bash-language-server: LSP for Bash'
   'clang: LSP for C/C++'
@@ -33,27 +34,16 @@ optdepends=(
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("default-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/default.json"
-        "emacs-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/emacs.json"
-        "macos-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos.json"
-        "macos-gui-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/macos-gui.json"
-        "vscode-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/keymaps/vscode.json"
-        "config.example-$pkgver.json::https://raw.githubusercontent.com/sinelaw/fresh/refs/tags/v$pkgver/crates/${pkgname%-bin}/config.example.json")
+source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
 source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
 source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
-sha256sums=('efe7aa41f6405661d1cdc39d6833bbb122fabb20a878ce7644903074861da2f5'
-            'b093e1e5fdde6ccb1c0b542e4f9662166fa088a239f743463deed6be0edb2f3f'
-            '35dfa1fe22783166766ed6181115f054745dfe91e1c87b8bbf9da9036f9177a2'
-            '68e03aae69baebeab0524aa19161d8132cb340a3e7be60d03c0cecf70d654dcd'
-            '1d516c2b9b02baded30f08be11f50c5b3ec95c80a37a4971bfd2b99a435d2f4a'
-            'd3afe18c5fabff495625113ab8e6d2265c9b1121a8f23071fc90c261f1a8f070')
-sha256sums_x86_64=('d508ab906ac7d7572132cc5e169602473b0bfad093b68bc0e10ffdd87b4c85de')
-sha256sums_aarch64=('1c1c68f6b8208d12245974bf1b6f131ad9983b3aa1583539c1794860c7c20199')
+sha256sums=('b1b33207990b8c88dbeb2404a9853f5ab6f8a40ef4a12fe157005a0cd0695e78')
+sha256sums_x86_64=('e876bb6c4d81ae6301d3e3bc841da9f20a35a3b2010289c64ebfe61dbc2ef3dc')
+sha256sums_aarch64=('b38ef8b632f9e956b33f412e2d9b0be3117a440136e657c42bf8505746f2df9f')
 
 package() {
   cd "${pkgname%-bin}-${CARCH}-unknown-linux-gnu"
   install -Dm755 fresh "$pkgdir/usr/share/${pkgname%-bin}/fresh"
-  cp -r plugins themes "$pkgdir/usr/share/fresh-editor/"
 
   install -d "$pkgdir/usr/bin"
   ln -s "/usr/share/${pkgname%-bin}/fresh" "$pkgdir/usr/bin/fresh"
@@ -67,11 +57,8 @@ package() {
     install -Dm644 "$icon" "$pkgdir/usr/share/icons/hicolor/${size}/apps/fresh.png"
     done
 
-  for f in default emacs macos macos-gui vscode; do
-    install -Dm644 "$srcdir/${f}-$pkgver.json" \
-      "$pkgdir/usr/share/fresh-editor/keymaps/${f}.json"
-  done
-
-  install -Dm644 "$srcdir/config.example-$pkgver.json" -t \
-    "$pkgdir/usr/share/doc/$pkgname/"
+  cd "$srcdir/fresh"
+  cp -a "crates/${pkgname%-bin}"/{keymaps,plugins,themes} "$pkgdir/usr/share/${pkgname%-bin}/"
+  install -Dm644 "crates/${pkgname%-bin}/config.example.json" -t \
+    "$pkgdir/usr/share/doc/${pkgname%-bin}/"
 }
