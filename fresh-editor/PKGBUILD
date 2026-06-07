@@ -3,7 +3,7 @@
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
 pkgver=0.3.12
-pkgrel=1
+pkgrel=2
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
 license=('GPL-2.0-only')
@@ -83,12 +83,7 @@ check() {
 
 package() {
   cd fresh
-  install -Dm755 target/release/fresh -t "$pkgdir/usr/share/$pkgname/"
-  cp -a "crates/$pkgname"/{keymaps,plugins,themes} "$pkgdir/usr/share/$pkgname/"
-
-  install -d "$pkgdir/usr/bin"
-  ln -s "/usr/share/$pkgname/fresh" "$pkgdir/usr/bin/"
-
+  install -Dm755 target/release/fresh -t "$pkgdir/usr/bin/"
   install -Dm644 "crates/$pkgname/resources/fresh-gui.desktop" \
     "$pkgdir/usr/share/applications/fresh.desktop"
 
