@@ -39,7 +39,7 @@ prepare() {
   # Don't compile schemas after installation
   patch -Np1 -i ../schemas.patch
 
-  # No rainbows, please
+  # Don't theme my title bar without an option to disable it, please.
   sed -i 's/month() == 6/month() == 99/g' src/config.rs
 }
 
