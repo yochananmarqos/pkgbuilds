@@ -2,7 +2,7 @@
 
 pkgname=ente-auth-bin
 pkgver=4.4.23
-pkgrel=1
+pkgrel=2
 pkgdesc="Open source 2FA authenticator, with end-to-end encrypted backups"
 arch=('x86_64')
 url="https://ente.io/auth"
@@ -16,10 +16,6 @@ depends=(
   'xdg-user-dirs'
 )
 makedepends=('chrpath')
-optdepends=(
-  # https://github.com/ente-io/ente/issues/4414
-  'zenity: Required for importing files'
-)
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
 source=("https://github.com/ente-io/ente/releases/download/auth-v${pkgver}/ente-auth-v${pkgver}-${CARCH}.deb")
