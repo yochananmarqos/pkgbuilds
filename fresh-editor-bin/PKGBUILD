@@ -33,8 +33,8 @@ optdepends=(
 )
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source_x86_64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
-source_aarch64=("https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
+source_x86_64=("${pkgname%-bin}-$pkgver-x86_64-unknown-linux-gnu.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-x86_64-unknown-linux-gnu.tar.xz")
+source_aarch64=("${pkgname%-bin}-$pkgver-aarch64-unknown-linux-gnu.tar.xz::https://github.com/sinelaw/fresh/releases/download/v$pkgver/${pkgname%-bin}-aarch64-unknown-linux-gnu.tar.xz")
 sha256sums_x86_64=('0a8d1c75481aa426e5009c8a01f3368921b8c51425db858c7075270602e7fee5')
 sha256sums_aarch64=('8718761e643691143945d0539c720bc33e7397cccd3a59a1128ea13b479cc4b0')
 
