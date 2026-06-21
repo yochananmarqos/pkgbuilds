@@ -7,7 +7,7 @@ pkgname=(
 pkgbase=luminance
 _app_id=com.sidevesh.Luminance
 _uuid="$pkgbase-extension@sidevesh"
-pkgver=1.4.6
+pkgver=1.5.0
 pkgrel=1
 pkgdesc="A simple GTK application to control brightness of displays including external displays supporting DDC/CI"
 arch=('x86_64')
@@ -24,17 +24,8 @@ makedepends=(
   'glib2-devel'
   'meson'
 )
-source=("git+https://github.com/sidevesh/Luminance.git#tag=$pkgver"
-        'git+https://github.com/ahshabbir/ddcbc-api.git')
-sha256sums=('51d6f5394601d8779b321699f6a6803744f3a53dfd53fff3d3004d09e7b3df81'
-            'SKIP')
-
-prepare() {
-  cd Luminance
-  git submodule init ddcbc-api
-  git config submodule.ddcbc-api.url "$srcdir/ddcbc-api"
-  git -c protocol.file.allow=always submodule update ddcbc-api
-}
+source=("git+https://github.com/sidevesh/Luminance.git#tag=$pkgver")
+sha256sums=('01f5a8da62bdf4f0144ee9fe35331f95d147e47b4a71eb2cf85ebf3dda61f542')
 
 build() {
   arch-meson Luminance build
