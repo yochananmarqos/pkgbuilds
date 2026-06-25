@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r2modman-bin
 
 pkgname=r2modman-bin
-pkgver=3.2.17
+pkgver=3.2.18
 pkgrel=1
 pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
 arch=('x86_64')
@@ -17,7 +17,7 @@ conflicts=("${pkgname%-bin}")
 source=("${url}/releases/download/v$pkgver/${pkgname%-bin}-$pkgver.pacman"
         "LICENSE-upstream::https://raw.githubusercontent.com/ebkr/r2modmanPlus/refs/tags/v$pkgver/LICENSE")
 noextract=("${pkgname%-bin}-$pkgver.pacman")
-sha256sums=('ba5fb76ea6238cb301a3d0b0f0336849fc66008f3a1b20b8f7b2291a483fb7b4'
+sha256sums=('7a6075fa96ff5cbb30bb00ba76f0e0e33625895baf606688a6e91bc0891f7e62'
             'ab4643c18a58edee5b0beac8278517f6475b2956d5999b40e3176297b9a0ce18')
 
 prepare() {
