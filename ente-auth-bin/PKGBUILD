@@ -5,7 +5,7 @@ pkgver=4.4.24
 pkgrel=1
 pkgdesc="Open source 2FA authenticator, with end-to-end encrypted backups"
 arch=('x86_64')
-url="https://ente.io/auth"
+url="https://ente.com/auth"
 license=('AGPL-3.0-or-later')
 depends=(
   'gtk3'
@@ -18,7 +18,7 @@ depends=(
 makedepends=('chrpath')
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
-source=("https://github.com/ente-io/ente/releases/download/auth-v${pkgver}/ente-auth-v${pkgver}-${CARCH}.deb")
+source=("https://github.com/ente/ente/releases/download/auth-v${pkgver}/ente-auth-v${pkgver}-${CARCH}.deb")
 sha256sums=('b6ea5c0f298226e9feaf1ebb98b1884ca025641e35c2b454f15b3356355a1f31')
 
 package() {
