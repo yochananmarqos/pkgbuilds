@@ -11,6 +11,8 @@ depends=(
   'gtk3'
   'libayatana-appindicator'
   'libsecret'
+  'libsodium'
+  'org.freedesktop.secrets'
   'polkit'
   'sqlite'
   'xdg-user-dirs'
