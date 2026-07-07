@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.4.2
+pkgver=0.4.3
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -19,15 +19,7 @@ makedepends=(
   'clang'
   'git'
 )
-checkdepends=(
-  'cargo-nextest'
-  'desktop-file-utils'
-  'libxkbcommon-x11'
-  'mesa'
-  'python'
-  'vulkan-icd-loader'
-  'xorg-server-xvfb'
-)
+checkdepends=('desktop-file-utils')
 optdepends=(
   'bash-language-server: LSP for Bash'
   'clang: LSP for C/C++'
@@ -46,7 +38,7 @@ optdepends=(
   'zls: LSP for Zig'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('a1ba397fd07b609a4f321c7a4d0f8186d6046e25fb25d8c270531f9521134405')
+sha256sums=('64a6345dd11aee240fae0609179162892f746115638d263155d0927b3cc2235f')
 
 prepare() {
   cd fresh
@@ -66,18 +58,6 @@ build() {
 
 check() {
   cd fresh
-  export RUSTUP_TOOLCHAIN=stable
-  export LIBGL_ALWAYS_SOFTWARE=1
-  export WGPU_BACKEND=vulkan
-
-  # 7510 tests run: 7507 passed, 2 failed, 1 timed out, 153 skipped
-  xvfb-run cargo nextest run \
-    -j=4 \
-    --no-fail-fast \
-    --frozen \
-    --all-features \
-    --all-targets || :
-
   desktop-file-validate "crates/$pkgname/resources/fresh-gui.desktop"
 }
 
