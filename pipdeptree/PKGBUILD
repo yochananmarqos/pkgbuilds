@@ -1,0 +1,47 @@
+# https://aur.archlinux.org/packages/pipdeptree
+
+pkgname=pipdeptree
+pkgver=4.0.0
+pkgrel=1
+pkgdesc="Command line utility to show dependency tree of Python packages"
+arch=('x86_64')
+url="https://github.com/tox-dev/pipdeptree"
+license=('MIT')
+depends=(
+  'glibc'
+  'libgcc'
+  'python'
+  'python-graphviz'
+  'python-rich'
+  'python-typing_extensions'
+)
+makedepends=(
+  'cargo'
+  'meson-python'
+  'python-build'
+  'python-installer'
+  'python-ninja'  ## AUR
+  'python-wheel'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('38c4df66b85697407ba16f3287791de12151aa6265a90799576f8627eac4326b')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target host-tuple
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
