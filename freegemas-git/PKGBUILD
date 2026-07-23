@@ -1,5 +1,5 @@
 pkgname=freegemas-git
-pkgver=22.02.r14.geeca99c
+pkgver=22.02.r16.g97f6fc7
 pkgrel=1
 pkgdesc="An open source version of the well known Bejeweled written in C++ using SDL2"
 arch=('x86_64')
@@ -31,7 +31,7 @@ build(){
   cmake -B build -S "${pkgname%-git}" \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
-    -Wno-dev
+    -Wno-author
   cmake --build build
 }
 
