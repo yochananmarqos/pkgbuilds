@@ -38,14 +38,14 @@ build() {
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DHAS_QT6_SUPPORT='true' \
     -DUSE_QT6='OFF' \
-    -Wno-dev
+    -Wno-author
   cmake --build build-qt5
 
   cmake -B build-qt6 -S QAdwaitaDecorations \
     -DCMAKE_BUILD_TYPE='None' \
     -DCMAKE_INSTALL_PREFIX='/usr' \
     -DUSE_QT6='ON' \
-    -Wno-dev
+    -Wno-author
   cmake --build build-qt6
 }
 
