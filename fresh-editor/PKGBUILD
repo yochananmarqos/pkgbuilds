@@ -77,7 +77,7 @@ package() {
   install -Dm644 "crates/$pkgname/config.example.json" -t \
     "$pkgdir/usr/share/doc/$pkgname/"
 
-  # See src/fresh/docs/internal/packaging-self-update.md
+  # See https://github.com/sinelaw/fresh/blob/v$pkgver/docs/internal/packaging-self-update.md
   install -d "$pkgdir/usr/share/$pkgname"
   cat > "$pkgdir/usr/share/$pkgname/install-receipt.toml" <<EOF
 schema = 1
