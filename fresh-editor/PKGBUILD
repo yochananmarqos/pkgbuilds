@@ -2,7 +2,7 @@
 
 pkgname=fresh-editor
 _app_id=io.github.sinelaw.fresh
-pkgver=0.4.5
+pkgver=0.4.6
 pkgrel=1
 pkgdesc="A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins"
 url="https://getfresh.dev"
@@ -38,7 +38,7 @@ optdepends=(
   'zls: LSP for Zig'
 )
 source=("git+https://github.com/sinelaw/fresh.git#tag=v$pkgver")
-sha256sums=('cbd8a7bc8191e52419bae091a8b3ec7b9ebee88f6ee37e706735cc106757b709')
+sha256sums=('2537f6cab895f5efe97a6857f007696044dbc827dbe7e8c9a224bbe514912f96')
 
 prepare() {
   cd fresh
@@ -51,6 +51,7 @@ build() {
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   export CC=clang
+  export FRESH_BUILD_CHANNEL=aur-custom
 
   # Enable all features to build experimental GUI
   cargo build --frozen --release --all-features
@@ -75,4 +76,15 @@ package() {
   install -Dm644 README.md -t "$pkgdir/usr/share/doc/$pkgname/"
   install -Dm644 "crates/$pkgname/config.example.json" -t \
     "$pkgdir/usr/share/doc/$pkgname/"
+
+  # See src/fresh/docs/internal/packaging-self-update.md
+  install -d "$pkgdir/usr/share/$pkgname"
+  cat > "$pkgdir/usr/share/$pkgname/install-receipt.toml" <<EOF
+schema = 1
+channel = "aur-custom"
+version = "$pkgver"
+package_name = "$pkgname"
+managed = false
+self_update = false
+EOF
 }
