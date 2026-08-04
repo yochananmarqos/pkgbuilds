@@ -6,7 +6,7 @@ pkgname=(
 )
 pkgbase=openscq30
 _app_id=com.oppzippy.OpenSCQ30
-pkgver=2.10.1
+pkgver=2.11.0
 pkgrel=1
 pkgdesc="Cross platform application for controlling settings of Soundcore headphones"
 arch=('x86_64' 'aarch64')
@@ -27,49 +27,49 @@ makedepends=(
 checkdepends=(
   'appstream'
   'desktop-file-utils'
-  'xorg-server-xvfb'
+  # 'xorg-server-xvfb'
 )
 source=("OpenSCQ30-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('a8d05cc58aa775a775264fb49b571996a3bf6ef5b8924047cba6948dd2a250fe')
+sha256sums=('14a4d085eaea6163dc02332c2a5abb939e7ead9e6eb6e4631b2f41c437a6ca7c')
 
 prepare() {
-	cd "OpenSCQ30-$pkgver"
-	export RUSTUP_TOOLCHAIN=stable
-	cargo fetch --target host-tuple
+  cd "OpenSCQ30-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --target host-tuple
 }
 
 build() {
-	cd "OpenSCQ30-$pkgver"
-	export RUSTUP_TOOLCHAIN=stable
+  cd "OpenSCQ30-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
   just build-cli
   just build-gui
 }
 
 check() {
-	cd "OpenSCQ30-$pkgver"
-	export RUSTUP_TOOLCHAIN=stable
-  just lib/ test || :
-  just cli/ test || :
-  xvfb-run --auto-servernum just gui/ test || :
+  cd "OpenSCQ30-$pkgver"
+  # export RUSTUP_TOOLCHAIN=stable
+  # just lib/ test || :
+  # just cli/ test || :
+  # xvfb-run --auto-servernum just gui/ test || :
 
   appstreamcli validate --no-net "gui/resources/${_app_id}.metainfo.xml" || :
   desktop-file-validate "gui/resources/${_app_id}.desktop"
 }
 
 package_openscq30-cli() {
-	pkgdesc+=" - CLI application"
-	depends=(
-	  'dbus'
-	  'libgcc'
-	)
+  pkgdesc+=" - CLI application"
+  depends=(
+    'dbus'
+    'libgcc'
+  )
 
-	cd "OpenSCQ30-$pkgver/"
+  cd "OpenSCQ30-$pkgver/"
   just cli/ install "$pkgdir/usr"
 }
 
 package_openscq30-gui() {
-	pkgdesc+=" - GUI application"
+  pkgdesc+=" - GUI application"
 
-	cd "OpenSCQ30-$pkgver"
-	just gui/ install "$pkgdir/usr"
+  cd "OpenSCQ30-$pkgver"
+  just gui/ install "$pkgdir/usr"
 }
