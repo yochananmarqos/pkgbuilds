@@ -46,6 +46,7 @@ source=("https://vsr.informatik.tu-chemnitz.de/staff/jan/nted/sources/$pkgbase-$
         "${_deb_url}/Werror.patch"
         "${_deb_url}/fix-midi-import.patch"
         "${_deb_url}/fix-signage-of-char-arrays.patch"
+        "${_deb_url}/series"
 )
 sha256sums=('808df3c851dbc4b24efdbf96c4e6ed28152deb301c4373268831f2a243e8f1ac'
             'a0381a01348e9a09e43958cd7d57a138828cfd60e0b12bcb2c0b6771cca3e580'
@@ -58,23 +59,16 @@ sha256sums=('808df3c851dbc4b24efdbf96c4e6ed28152deb301c4373268831f2a243e8f1ac'
             '9f5626f15f58627d70f4eb67228d41a230526463b87df979e40166df38d0567d'
             'd3966f610a68335ddaabdf7188ac67ea3ff028074aeacdffeb4a0183ebe517b0'
             '63ab3ae361c575ec78feda32f728b3d5e872f643514eae37d549416a83d1f709'
-            '86ad2b6290ca59ba53521868107b458117a9c2cf79e1aea4e5b8a616300545ff')
+            '86ad2b6290ca59ba53521868107b458117a9c2cf79e1aea4e5b8a616300545ff'
+            '622599ba493ef7849ca324d01aee39f7595fb5182184f340cb70634f370717e2')
 
 prepare() {
   cd $pkgbase-$pkgver
 
   # Debian patches
-  patch -Np1 -i ../gtk3.patch
-  patch -Np1 -i ../automake.patch
-  patch -Np1 -i ../remove-encoding-key-in-desktop-file
-  patch -Np1 -i ../linking
-  patch -Np1 -i ../doc-requirements
-  patch -Np1 -i ../empty_page_reposit.patch
-  patch -Np1 -i ../fix-empty-captions.patch
-  patch -Np1 -i ../g++-4.7.patch
-  patch -Np1 -i ../Werror.patch
-  patch -Np1 -i ../fix-midi-import.patch
-  patch -Np1 -i ../fix-signage-of-char-arrays.patch
+  for patch in $(cat "$srcdir/series"); do
+    patch -Np1 -i "$srcdir/${patch}"
+  done
 
   mv -f configure.in configure.ac
 
