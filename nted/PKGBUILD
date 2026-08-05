@@ -66,9 +66,9 @@ prepare() {
   cd $pkgbase-$pkgver
 
   # Debian patches
-  for patch in $(cat "$srcdir/series"); do
+  while IFS= read -r patch; do
     patch -Np1 -i "$srcdir/${patch}"
-  done
+  done < "$srcdir/series"
 
   mv -f configure.in configure.ac
 
