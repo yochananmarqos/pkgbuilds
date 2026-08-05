@@ -79,7 +79,7 @@ prepare() {
   mv -f configure.in configure.ac
 
   # Fix icon & remove deprecated category
-  desktop-file-edit --set-icon="$pkgbase" --remove-category=Applications \
+  desktop-file-edit --set-icon="$pkgbase" --remove-category=Application \
     "datafiles/applications/$pkgbase.desktop"
 }
 
