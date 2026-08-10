@@ -9,21 +9,19 @@ depends=(
   'libgcc'
   'libxcb'
 )
-makedepends=(
-  'cargo'
-  'git'
-)
+makedepends=('cargo')
 optdepends=('system76-acpi-dkms: Needed for kernels <5.16')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('26b430b4d93ba586c10d545b131ae5efcc90bd1c77869b84c72f2d9e8ab46193')
 
 prepare() {
-  cd "Ambient-Keyboard-Lighting-$pkgver/application"
+  cd "Ambient-Keyboard-Lighting-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --target "$(rustc --print host-tuple)"
+  cargo fetch --manifest-path application/Cargo.toml --target host-tuple
 
   # Adjust path for serw12
-#  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' src/main.rs
+#  sed -i 's|system76_acpi::kbd_backlight/color|system76::kbd_backlight/color_center|g' \
+#   application/src/main.rs
 }
 
 build() {
@@ -36,6 +34,8 @@ build() {
 package() {
   cd "Ambient-Keyboard-Lighting-$pkgver"
   install -Dm755 "application/target/release/$pkgname" -t "$pkgdir/usr/bin/"
-  install -Dm644 "configuration/apparmor/usr.bin.$pkgname" "$pkgdir/etc/apparmor.d/$pkgname"
-  install -Dm644 "configuration/systemd/$pkgname.service" -t "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 "configuration/apparmor/usr.bin.$pkgname" \
+    "$pkgdir/etc/apparmor.d/$pkgname"
+  install -Dm644 "configuration/systemd/$pkgname.service" -t \
+    "$pkgdir/usr/lib/systemd/system/"
 }
