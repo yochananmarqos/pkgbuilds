@@ -2,7 +2,7 @@
 
 pkgname=loot
 _app_id="io.github.$pkgname.$pkgname"
-pkgver=0.29.1
+pkgver=0.29.2
 pkgrel=1
 pkgdesc="A modding utility for Starfield and some Elder Scrolls and Fallout games."
 arch=('x86_64')
@@ -25,6 +25,7 @@ makedepends=(
   'boost'
   'boost-libs'
   'cmake'
+  'desktop-file-utils'
 #  'doxygen'  # docs
   'git'
   'python'
@@ -32,12 +33,9 @@ makedepends=(
 #  'python-sphinx_rtd_theme'  # docs
   'svg_to_ico'
 )
-checkdepends=(
-  'appstream'
-  'desktop-file-utils'
-)
+checkdepends=('appstream')
 source=("git+https://github.com/loot/loot.git#tag=$pkgver")
-sha256sums=('ac7b64baae4b7090e12ac8e515a04eff960a476ea6a68057673d7300f48ac34a')
+sha256sums=('9d6673ff4835f34a2d39f4f2897cccfcb655dffa8682c23f1c0be9f934631f0b')
 
 prepare() {
   cd "$pkgname"
@@ -45,14 +43,13 @@ prepare() {
   # Set StartupWMClass
   desktop-file-edit --set-key=StartupWMClass --set-value=LOOT \
     "resources/linux/${_app_id}.desktop"
-    
 }
 
 build() {
   local cmake_options=(
     -B build
     -S "$pkgname"
-    -W no-dev
+    -W no-author
     -D CMAKE_BUILD_TYPE='RelWithDebInfo'
     -D CMAKE_INSTALL_PREFIX='/usr'
     -D CMAKE_REQUIRE_FIND_PACKAGE_libloot='ON'
@@ -87,7 +84,7 @@ check() {
 package() {
   install -Dm755 build/LOOT -t "$pkgdir/usr/bin/"
 
-  cd "$pkgname"  
+  cd "$pkgname"
   install -Dm644 "resources/linux/${_app_id}.desktop" -t \
     "$pkgdir/usr/share/applications/"
   install -Dm644 "resources/linux/${_app_id}.metainfo.xml" -t \
