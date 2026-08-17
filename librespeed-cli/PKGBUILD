@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/librespeed-cli
 
 pkgname=librespeed-cli
-pkgver=1.0.13
+pkgver=1.0.14
 pkgrel=1
 pkgdesc="Command line client for LibreSpeed"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64' 'riscv64')
@@ -13,7 +13,7 @@ makedepends=(
   'go'
 )
 source=("git+https://github.com/librespeed/speedtest-cli.git#tag=v$pkgver")
-sha256sums=('e7f99dfb461e0886e62f9329a142762172161dc100076d3fb0365f84a49d3ae6')
+sha256sums=('1c96dd27c01be5dcadc968ad8ab586c9356ade20067a8fdd49440b324c0cb4a7')
 
 build() {
   cd speedtest-cli
@@ -22,7 +22,7 @@ build() {
   export CGO_CFLAGS="${CFLAGS}"
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
-  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  export GOFLAGS="-buildmode=pie -ldflags=-linkmode=external -mod=readonly -modcacherw"
   sh build.sh
 
   # Clean module cache for makepkg -C
