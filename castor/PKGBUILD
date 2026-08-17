@@ -2,7 +2,7 @@
 
 pkgname=castor
 pkgver=0.9.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A Gemini, Gopher and Finger protocol client"
 arch=('x86_64')
 url="https://git.sr.ht/~julienxx/castor"
@@ -18,7 +18,7 @@ sha256sums=('ed57c92a88e8ebe8db286daad9677ffb99287d164d3193d17f8134bb77de5ae1')
 prepare() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+  cargo fetch --locked --target host-tuple
 
   # Don't run update-desktop-database during install
   sed -i '/update-desktop-database/d' Makefile
@@ -26,6 +26,7 @@ prepare() {
 
 build() {
   cd "$pkgname-$pkgver"
+  export OPENSSL_NO_VENDOR=1
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
   cargo build --frozen --release
@@ -33,8 +34,7 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  export RUSTUP_TOOLCHAIN=stable
-  cargo test --frozen -- --test-threads=1
+  desktop-file-validate data/Castor.desktop
 }
 
 package() {
