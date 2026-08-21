@@ -9,16 +9,21 @@ arch=('x86_64')
 url="https://github.com/ebkr/r2modmanPlus"
 license=('MIT')
 depends=("electron${_electronversion}")
-makedepends=('pnpm')
-source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+makedepends=(
+  'git'
+  'pnpm'
+)
+_commit=0fd8dfc7fb444bf6f6923ff3361f05900d348a51  # actually 3.2.19
+source=("git+https://github.com/ebkr/r2modmanPlus.git#commit=${_commit}"
+# source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('c3886012ead494442cd666652ace7bca4afeaac97d59d39bfdda951028826276'
+sha256sums=('d2bdacaadedadd13496ff86f3b21157fc5c7166a660cd8e3038aad0876b816cb'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
 prepare() {
-  cd "${pkgname}Plus-$pkgver"
+  cd "${pkgname}Plus"
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
@@ -32,7 +37,7 @@ prepare() {
 }
 
 build() {
-  cd "${pkgname}Plus-$pkgver"
+  cd "${pkgname}Plus"
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
@@ -41,14 +46,14 @@ build() {
 }
 
 check() {
-  cd "${pkgname}Plus-$pkgver"
+  cd "${pkgname}Plus"
   export PNPM_HOME="$srcdir/pnpm-home"
   node test/folder-structure-testing/populator.mjs
   pnpm test
 }
 
 package() {
-  cd "${pkgname}Plus-$pkgver"
+  cd "${pkgname}Plus"
   install -Dm644 dist/electron/Packaged/linux-unpacked/resources/app.asar -t \
     "$pkgdir/usr/lib/$pkgname/"
   install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
