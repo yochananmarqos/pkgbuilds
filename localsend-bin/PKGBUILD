@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/localsend-bin
 
 pkgname=localsend-bin
-pkgver=1.18.0
+pkgver=1.18.2
 pkgrel=1
 pkgdesc="An open source cross-platform alternative to AirDrop"
 arch=('x86_64' 'aarch64')
@@ -21,10 +21,10 @@ source_x86_64=("https://github.com/localsend/localsend/releases/download/v${pkgv
 source_aarch64=("https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-${pkgver}-linux-arm-64.deb"
                 "https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-CLI-${pkgver}-linux-arm-64.tar.gz" )
 noextract=("LocalSend-CLI-${pkgver}"*)
-sha256sums_x86_64=('dae68192ad43a59a68df06454eb5fa4e9a9f86a343fe430165efd8b18863d0f4'
-                   'd47fe4688b277f86c4af6ca924fdcbf88fe40c0ef909b69f609b2cb431d74174')
-sha256sums_aarch64=('eb24e724fbdf830c8fb07dfc66b76b8a649923d083278305a63d5d539db4b606'
-                    '962bf50a393247922c248a1dbfac1442393e500211127e1be922531fc9f46fd2')
+sha256sums_x86_64=('cc42a4f3eacdcb25ec31f0016b1272acb003145ab30484db8965450e20c72cd2'
+                   'f5a986e0b4701b9aafeb9747225a2f3e314e97aba61b3dd7c9d076226f512b08')
+sha256sums_aarch64=('bbd8347b7979f936d3bae176a3f0d9b81431605707c585270d6240f7670feb1f'
+                    'b003e9837743470f7a423ca1205e664031ce3d2e865acc692f3e47577ea93f6d')
 
 prepare() {
   mkdir -p "${pkgname%-*}-$pkgver"
