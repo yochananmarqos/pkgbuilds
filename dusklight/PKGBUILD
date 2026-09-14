@@ -3,7 +3,7 @@
 pkgname=dusklight
 _app_id=dev.twilitrealm.dusk
 pkgver=1.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A reverse-engineered reimplementation of Twilight Princess."
 arch=('x86_64')
 url="https://twilitrealm.dev"
@@ -41,6 +41,9 @@ prepare() {
   git submodule init
   git config submodule.extern/aurora.url "$srcdir/aurora"
   git -c protocol.file.allow=always submodule update
+
+  # error: ‘memcpy’ is not a member of ‘std’; did you mean ‘wmemcpy’?
+  sed -i -e '1i#include <cstring>\' extern/aurora/lib/card/CardGciFolder.cpp
 }
 
 build() {
@@ -48,7 +51,7 @@ build() {
     -B build
     -S "$pkgname"
     -G Ninja
-    -W no-dev
+    -W no-author
     -D CMAKE_BUILD_TYPE='RelWithDebInfo'
     -D CMAKE_INSTALL_PREFIX="/opt/$pkgname"
     -D CMAKE_MSVC_RUNTIME_LIBRARY='MultiThreaded'
