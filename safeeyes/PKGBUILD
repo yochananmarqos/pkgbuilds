@@ -2,7 +2,7 @@
 
 pkgname=safeeyes
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.5.0
+pkgver=3.5.1
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -26,7 +26,10 @@ makedepends=(
   'python-setuptools'
   'python-wheel'
 )
-checkdepends=('appstream')
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
+)
 optdepends=(
   'python-croniter: for Health Statistics plugin'
   'python-pywayland: for Smart Pause plugin (Wayland)'
@@ -34,7 +37,7 @@ optdepends=(
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/slgobinath/safeeyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('47a44e35b2c312eac7c9d76d0d24d1746818666bb9dc3986802b2fa0411bb89a')
+sha256sums=('fffa71c7f1baaf185e402895e75b2e13bbf9d45a059c7689407cf4db805b8972')
 
 build() {
   cd "$pkgname-$pkgver"
@@ -59,6 +62,6 @@ package() {
   local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
   mv "${pkgdir}${site_packages}/$pkgname/platform/icons" "$pkgdir/usr/share"
 
-  # Remove duplicate icons and desktop file
+  # Remove duplicate files
   rm -rf "${pkgdir}${site_packages}/$pkgname/platform/"
 }
