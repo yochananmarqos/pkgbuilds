@@ -16,12 +16,21 @@ makedepends=(
 )
 provides=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
 conflicts=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
-source=('git+https://github.com/flexagoon/rounded-window-corners.git')
-sha256sums=('SKIP')
+source=('git+https://github.com/flexagoon/rounded-window-corners.git'
+        'https://github.com/flexagoon/rounded-window-corners/pull/175.patch')
+sha256sums=('SKIP'
+            'd862b5866d80110c08e1c41139c82875e7e03782cb6c935ff8ef53e67b580a7a')
 
 pkgver() {
   cd rounded-window-corners
   git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd rounded-window-corners
+
+  # GNOME 51 support
+  patch -Np1 -i ../175.patch
 }
 
 build() {
