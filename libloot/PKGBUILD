@@ -6,13 +6,14 @@ pkgname=(
   'python-libloot'
 )
 pkgbase=libloot
-pkgver=0.29.6
+pkgver=0.29.7
 pkgrel=1
 pkgdesc="A C++ library for accessing LOOT's metadata and sorting functionality."
 arch=('x86_64')
 url="https://github.com/loot/libloot"
 license=('GPL-3.0-only')
 depends=(
+  'glibc'
   'libgcc'
   'libstdc++'
 )
@@ -24,7 +25,7 @@ makedepends=(
   'python-installer'
 )
 source=("git+https://github.com/loot/libloot.git#tag=$pkgver")
-sha256sums=('812f0bc5a7f612689d8943e02149b1d6306ea8c8afef2fe628c857fa522d76a9')
+sha256sums=('08ba57c44728dea13de31e7b8be29d9980df5030dcf5037a1d0b196808201462')
 
 prepare() {
   cd "$pkgbase"
@@ -39,7 +40,7 @@ build() {
   local cmake_options=(
     -B build
     -S cpp
-    -W no-dev
+    -W -no-author
     -D CMAKE_BUILD_TYPE='RelWithDebInfo'
     -D CMAKE_INSTALL_PREFIX='/usr'
     -D LIBLOOT_BUILD_TESTS='OFF'
@@ -60,6 +61,8 @@ package_libloot() {
 package_python-libloot() {
   pkgdesc="An experimental Python wrapper around libloot"
   depends=(
+    'glibc'
+    'libgcc'
     'libloot'
     'python'
   )
