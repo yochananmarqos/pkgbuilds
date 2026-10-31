@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/r2modman
 
 pkgname=r2modman
-pkgver=3.2.20
+pkgver=3.2.21
 pkgrel=1
 _electronversion=38
 pkgdesc="A simple and easy to use mod manager for several games using Thunderstore."
@@ -11,22 +11,18 @@ license=('MIT')
 depends=("electron${_electronversion}")
 makedepends=(
   'git'
+  'nodejs'
   'pnpm'
 )
-
-# https://github.com/ebkr/r2modmanPlus/issues/2268
-_commit=4be4fec0b0cff2fe5d302c879a04e4d5c7c1415a  # actually 3.2.20
-
-source=("git+https://github.com/ebkr/r2modmanPlus.git#commit=${_commit}"
-# source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+source=("r2modmanPlus-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
         "$pkgname.desktop"
         "$pkgname.sh")
-sha256sums=('aba843c2b03cbe9404f63f1e7e6b54de7323aae82dcbfd4d66dfdbf04a634baa'
+sha256sums=('5c67363c2f0559f088b8407849f4f3b6d5844b5cc50458b379a135f85f58ed8a'
             '6cd96385f1ad7bf6fec0f9a70b429305e6f20153528e415d3c943ff19a45fd0f'
             '69bfddb149a1597d87c1f2ed3f132a32865273e78a1cdde39ad2d39a0615b7dd')
 
 prepare() {
-  cd "${pkgname}Plus"
+  cd "${pkgname}Plus-$pkgver"
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
   export PNPM_HOME="$srcdir/pnpm-home"
@@ -40,7 +36,7 @@ prepare() {
 }
 
 build() {
-  cd "${pkgname}Plus"
+  cd "${pkgname}Plus-$pkgver"
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
   electronDist="/usr/lib/electron${_electronversion}"
   electronVer="$(sed s/^v// /usr/lib/electron${_electronversion}/version)"
@@ -49,14 +45,14 @@ build() {
 }
 
 check() {
-  cd "${pkgname}Plus"
+  cd "${pkgname}Plus-$pkgver"
   export PNPM_HOME="$srcdir/pnpm-home"
   node test/folder-structure-testing/populator.mjs
   pnpm test
 }
 
 package() {
-  cd "${pkgname}Plus"
+  cd "${pkgname}Plus-$pkgver"
   install -Dm644 dist/electron/Packaged/linux-unpacked/resources/app.asar -t \
     "$pkgdir/usr/lib/$pkgname/"
   install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
