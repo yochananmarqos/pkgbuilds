@@ -2,13 +2,15 @@
 
 pkgname=lagrange
 _app_id=fi.skyjake.Lagrange
-pkgver=1.21.2
+pkgver=2.0.0
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
 url="https://gmi.skyjake.fi/lagrange"
 license=('BSD-2-Clause')
 depends=(
+  'fontconfig'
+  'freetype2'
   'fribidi'
   'harfbuzz'
   'hicolor-icon-theme'
@@ -21,7 +23,7 @@ depends=(
   'openssl'
   'opusfile'
   'pcre2'
-  'sdl2-compat'
+  'sdl3'
   'zlib'
 )
 makedepends=(
@@ -34,7 +36,7 @@ checkdepends=(
 )
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('ae9439b26d569d1d3efa682f591cc0e34eb5314f13ef18840c18a2d57e8cd677'
+sha256sums=('ce97d6a6f7e3eda3e2be1cfc274bf539e75e9ec7d1fb8d30e37bb64ffcffa7cc'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
@@ -61,8 +63,8 @@ build() {
 }
 
 check() {
-  desktop-file-validate "build/${_app_id}.desktop"
-  appstreamcli validate --no-net "$pkgname-$pkgver/res/${_app_id}.appdata.xml"
+  desktop-file-validate "build/app/${_app_id}.desktop"
+  appstreamcli validate --no-net "$pkgname-$pkgver/app/res/${_app_id}.appdata.xml"
 }
 
 package() {
