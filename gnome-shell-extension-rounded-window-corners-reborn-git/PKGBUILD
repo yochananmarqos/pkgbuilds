@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/gnome-shell-extension-rounded-window-corners-reborn-git
 
 pkgname=gnome-shell-extension-rounded-window-corners-reborn-git
-pkgver=12.r53.ge365610
+pkgver=12.r51.g1a974b6
 pkgrel=1
 pkgdesc="A GNOME Shell extension that adds rounded corners for all windows"
 arch=('any')
@@ -16,7 +16,7 @@ makedepends=(
 )
 provides=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
 conflicts=("${pkgname%-git}" 'gnome-shell-extension-rounded-window-corners')
-source=('git+https://github.com/flexagoon/rounded-window-corners.git#branch=gnome51')
+source=('git+https://github.com/flexagoon/rounded-window-corners.git')
 sha256sums=('SKIP')
 
 pkgver() {
