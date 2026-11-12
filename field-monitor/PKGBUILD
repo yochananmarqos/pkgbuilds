@@ -1,9 +1,9 @@
 # https://aur.archlinux.org/packages/field-monitor
 
 pkgname=field-monitor
-pkgver=50.1
+pkgver=51.0
 pkgrel=1
-pkgdesc="Remote-desktop client designed for the GNOME platform. Access virtual machines and other external screens."
+pkgdesc="Remote-desktop client designed for the GNOME platform."
 arch=('x86_64')
 url="https://github.com/theCapypara/field-monitor"
 license=('GPL-3.0-or-later')
@@ -30,13 +30,15 @@ depends=(
   'vte4'
 )
 makedepends=(
+  'appstream'
   'blueprint-compiler'
   'cargo'
   'git'
   'meson'
 )
+checkdepends=('desktop-file-utils')
 source=("git+https://github.com/theCapypara/field-monitor#tag=v$pkgver")
-sha256sums=('ab483b0e2aca8365479c24263c66aaa7e1dab2654928e1a57d5e748be99eedd2')
+sha256sums=('5975be8de3addc50e691cd71e44d56af917547866f75043b91ccc2908fea9cdb')
 
 prepare() {
   cd "$pkgname"
