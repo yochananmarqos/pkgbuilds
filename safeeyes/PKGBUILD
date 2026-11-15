@@ -2,7 +2,7 @@
 
 pkgname=safeeyes
 _app_id=io.github.slgobinath.SafeEyes
-pkgver=3.5.1
+pkgver=3.6.1
 pkgrel=1
 pkgdesc="Protect your eyes from eye strain using this simple and beautiful, yet extensible break reminder"
 arch=('any')
@@ -29,15 +29,23 @@ makedepends=(
 checkdepends=(
   'appstream'
   'desktop-file-utils'
+  'python-pytest'
+  'python-time-machine'
 )
 optdepends=(
-  'python-croniter: for Health Statistics plugin'
-  'python-pywayland: for Smart Pause plugin (Wayland)'
+  'ffmpeg: Option for Audible Alert plugin'
+  'gnome-shell-extension-appindicator: For tray icon support on GNOME'
+  'libayatana-appindicator: For tray icon support on MATE'
+  'pipewire-audio: Option for Audible Alert plugin'
+  'python-croniter: For Health Statistics plugin'
+  'python-pywayland: For Smart Pause plugin (Wayland)'
   'safeeyes-plugins: Third party plugins'
+  'snixembed: For tray icon support in LXDE/MATE/other WMs'
+  'wlrctl: for Do Not Disturb plugin to detect fullscreen (Wayland)'
   'xprintidle: for Smart Pause plugin (Xorg)'
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/slgobinath/safeeyes/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('fffa71c7f1baaf185e402895e75b2e13bbf9d45a059c7689407cf4db805b8972')
+sha256sums=('fb130620621e0506ff030e4ecc0024ce7ca025c1a968544c8c33370563ea5586')
 
 build() {
   cd "$pkgname-$pkgver"
@@ -46,6 +54,10 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
+  python -m venv --clear --without-pip --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -I -m pytest
+
   appstreamcli validate --no-net "$pkgname/platform/${_app_id}.metainfo.xml"
   desktop-file-validate "$pkgname/platform/${_app_id}.desktop"
 }
