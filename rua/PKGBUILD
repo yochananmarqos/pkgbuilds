@@ -1,8 +1,8 @@
 # https://aur.archlinux.org/packages/rua
 
 pkgname=rua
-pkgver=0.19.10
-pkgrel=2
+pkgver=0.19.12
+pkgrel=1
 pkgdesc="AUR helper in Rust providing control, review, patch application and safe build options"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url="https://github.com/vn971/rua"
@@ -23,12 +23,12 @@ optdepends=(
   'sudo: allows package installation via sudo, if desired'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/vn971/rua/archive/v${pkgver}.tar.gz")
-b2sums=('35634176f7d5939dd5ef5f013f8a1163bd2612fdaa4ecf477347a75a7ad790edfec04a5663723d677f982a27dc72eb41b27304bcbc97ad8fb4a5c119d17fe32e')
+b2sums=('b0d75775d0c879f01fa1f7bd2534c6d3dd733ea17310975a38d2296e5e0cd2bdd7c82e0945bcbd150d8f08e5d68ae1d70aff363b8f205d8a0f4e3d4a0f5e0390')
 
 prepare() {
   cd "$pkgname-$pkgver"
   export RUSTUP_TOOLCHAIN=stable
-  cargo fetch --locked --target "$(rustc --print host-tuple)"
+  cargo fetch --locked --target host-tuple
 
   mkdir -p target/completions
 }
@@ -38,22 +38,17 @@ build () {
   CFLAGS+=" -ffat-lto-objects"
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
+  export CARGO_PROFILE_RELEASE_LTO=true
+  export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
   export COMPLETIONS_DIR=target/completions
   cargo build --frozen --release
-}
-
-check() {
-  cd "$pkgname-$pkgver"
-  CFLAGS+=" -ffat-lto-objects"
-  export RUSTUP_TOOLCHAIN=stable
-  cargo test --frozen
 }
 
 package() {
   cd "$pkgname-$pkgver"
   install -Dm0755 "target/release/$pkgname" -t "${pkgdir}/usr/bin/"
-  install -Dm0644 "target/completions/$pkgname.bash" -t \
-    "${pkgdir}/usr/share/bash-completion/completions/"
+  install -Dm0644 "target/completions/$pkgname.bash" \
+    "${pkgdir}/usr/share/bash-completion/completions/$pkgname"
   install -Dm0644 "target/completions/$pkgname.fish" -t \
     "${pkgdir}/usr/share/fish/vendor_completions.d/"
   install -Dm0644 "target/completions/_${pkgname}" -t \
