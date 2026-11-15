@@ -2,7 +2,7 @@
 
 pkgname=lagrange
 _app_id=fi.skyjake.Lagrange
-pkgver=2.0.2
+pkgver=2.0.3
 pkgrel=1
 pkgdesc="A Beautiful Gemini Client"
 arch=('x86_64' 'aarch64')
@@ -36,7 +36,7 @@ checkdepends=(
 )
 install="$pkgname.install"
 source=("https://git.skyjake.fi/skyjake/lagrange/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"{,.sig})
-sha256sums=('7994b41daa6000dfe479a8f5328c36010dba53c873f2399274a029763a77a7a7'
+sha256sums=('45461159d3cb0ba09d0ba78cd34ca32728bfd8a91cff48c7d2ca4e9a135e1864'
             'SKIP')
 validpgpkeys=('15674AE498667047A3EB9431BACCFCFB98DB2EDC') # Jaakko Keränen (skyjake) <jaakko.keranen@iki.fi>
 
