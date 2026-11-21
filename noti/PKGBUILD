@@ -1,24 +1,24 @@
 # https://aur.archlinux.org/packages/noti
 
 pkgname=noti
-pkgver=3.8.0
+pkgver=3.9.0
 pkgrel=1
 pkgdesc="Monitor a process and trigger a notification"
 arch=('x86_64')
-url="https://github.com/variadico/noti"
+url="https://codeberg.org/roble/noti"
 license=('MIT')
 depends=('glibc')
 makedepends=(
   'git'
   'go'
 )
-source=("git+https://github.com/variadico/noti.git#tag=$pkgver")
-sha256sums=('4add3e0118e2c3a62ccf3a168411ffaed7b85e84a3d98c846a2956ed39621af1')
+source=("git+https://codeberg.org/roble/noti.git#tag=$pkgver")
+sha256sums=('3cf05efd3e01ee33c2d66bd5ed9db00c3f7a789b910ec12bd2873a88f4dc1855')
 
 prepare(){
   cd "$pkgname"
   export GOPATH="$srcdir/gopath"
-  go mod tidy
+  go mod download -modcacherw
 }
 
 build() {
@@ -28,19 +28,19 @@ build() {
   export CGO_CFLAGS="${CFLAGS}"
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
-  export GOFLAGS="-buildmode=pie -trimpath"
   go build -v \
-    -ldflags="-linkmode external -extldflags \"${LDFLAGS}\" -s -w -X github.com/variadico/noti/internal/command.Version=$pkgver" \
-    -o "$pkgname" "github.com/variadico/$pkgname/cmd/$pkgname"
+    -trimpath \
+    -buildmode=pie \
+    -mod=vendor \
+    -modcacherw \
+    -ldflags="-linkmode external -extldflags \"${LDFLAGS}\" -s -w -X codeberg.org/roble/noti/internal/command.Version=$pkgver" \
+    -o "$pkgname" "./cmd/$pkgname"
 }
 
 check() {
   cd "$pkgname"
   export GOPATH="$srcdir/gopath"
   make test
-
-  # Clean module cache for makepkg -C
-  go clean -modcache
 }
 
 package() {
@@ -49,5 +49,6 @@ package() {
   install -Dm644 "docs/man/dist/$pkgname.1" -t "$pkgdir/usr/share/man/man1/"
   install -Dm644 "docs/man/dist/$pkgname.yaml.5" -t "$pkgdir/usr/share/man/man5/"
   install -Dm644 "docs/$pkgname.md" -t "$pkgdir/usr/share/doc/$pkgname/"
-  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 "docs/$pkgname.example.yaml" -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 LICENSES/MIT.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
