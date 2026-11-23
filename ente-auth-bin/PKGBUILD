@@ -1,7 +1,7 @@
 # https://aur.archlinux.org/packages/ente-auth-bin
 
 pkgname=ente-auth-bin
-pkgver=4.4.26
+pkgver=4.4.27
 pkgrel=1
 pkgdesc="Open source 2FA authenticator, with end-to-end encrypted backups"
 arch=('x86_64')
@@ -10,18 +10,17 @@ license=('AGPL-3.0-or-later')
 depends=(
   'gtk3'
   'libayatana-appindicator'
+  'libayatana-indicator'
   'libsecret'
-  'libsodium'
   'org.freedesktop.secrets'
   'polkit'
   'sqlite'
   'xdg-user-dirs'
 )
-makedepends=('chrpath')
 provides=("${pkgname%-bin}")
 conflicts=("${pkgname%-bin}")
 source=("https://github.com/ente/ente/releases/download/auth-v${pkgver}/ente-auth-v${pkgver}-${CARCH}.deb")
-sha256sums=('9952ad4c7d9d4774b52df0de53eda4959e4a4662d63ab9eb64aa168013bc3369')
+sha256sums=('252800cc91404de982a00b6174a8f79da3380754c7aba482544329f4d90edde2')
 
 package() {
   bsdtar -xf data.tar.zst -C "${pkgdir}/"
@@ -32,7 +31,4 @@ package() {
   install -d "${pkgdir}/usr/share/polkit-1/actions"
   ln -s /usr/share/enteauth/data/flutter_assets/assets/polkit/com.ente.auth.policy \
     "${pkgdir}/usr/share/polkit-1/actions/"
-
-  # Remove insecure RUNPATH pointing to build dir
-  chrpath --delete "$pkgdir"/usr/share/enteauth/lib/*.so
 }
