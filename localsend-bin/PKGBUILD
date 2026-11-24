@@ -1,7 +1,8 @@
 # https://aur.archlinux.org/packages/localsend-bin
 
 pkgname=localsend-bin
-pkgver=1.18.2
+_app_id="org.${pkgname%-*}.localsend_app"
+pkgver=1.19.0
 pkgrel=1
 pkgdesc="An open source cross-platform alternative to AirDrop"
 arch=('x86_64' 'aarch64')
@@ -10,21 +11,22 @@ license=('Apache-2.0')
 depends=(
   'gtk3'
   'libayatana-appindicator'
+  'libayatana-indicator'
   'libepoxy'
   'xdg-user-dirs'
 )
 makedepends=('desktop-file-utils')
-provides=("${pkgname%-*}")
+provides=("${pkgname%-*}" "${pkgname%-*}-cli")
 conflicts=("${pkgname%-*}")
 source_x86_64=("https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-${pkgver}-linux-x86-64.deb"
                "https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-CLI-${pkgver}-linux-x86-64.tar.gz")
 source_aarch64=("https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-${pkgver}-linux-arm-64.deb"
                 "https://github.com/localsend/localsend/releases/download/v${pkgver}/LocalSend-CLI-${pkgver}-linux-arm-64.tar.gz" )
 noextract=("LocalSend-CLI-${pkgver}"*)
-sha256sums_x86_64=('cc42a4f3eacdcb25ec31f0016b1272acb003145ab30484db8965450e20c72cd2'
-                   'f5a986e0b4701b9aafeb9747225a2f3e314e97aba61b3dd7c9d076226f512b08')
-sha256sums_aarch64=('bbd8347b7979f936d3bae176a3f0d9b81431605707c585270d6240f7670feb1f'
-                    'b003e9837743470f7a423ca1205e664031ce3d2e865acc692f3e47577ea93f6d')
+sha256sums_x86_64=('f2cc2d1f8a2542799576e4c1cc61ed1f35c6a7dba2f375870e8500eab6fbfe66'
+                   '9076909a259288ae6458a04a4e032f4b6b0c9073cb446a106448aa393fe5f5a2')
+sha256sums_aarch64=('8a54f1dc0f70ef4d9fa3037a29e8713d5580c461675fae9a5ba59b39010513c3'
+                    'e92f955a17c5c5233c9bbeb8701c50da4033c8f239ee3c3e77fe74d7d33265b0')
 
 prepare() {
   mkdir -p "${pkgname%-*}-$pkgver"
@@ -41,7 +43,7 @@ prepare() {
     --set-key=Exec --set-value="${pkgname%-*}" \
     --set-key=StartupWMClass --set-value="org.${pkgname%-*}.${pkgname%-*}_app" \
     --set-icon="${pkgname%-*}" \
-    "usr/share/applications/${pkgname%-*}_app.desktop"
+    "usr/share/applications/${_app_id}.desktop"
 }
 
 package() {
@@ -59,6 +61,6 @@ package() {
       "${pkgdir}/usr/share/icons/hicolor/${res}/apps/${pkgname%-*}.png"
   done
 
-  install -Dm644 "usr/share/applications/${pkgname%-*}_app.desktop" \
-    "${pkgdir}/usr/share/applications/${pkgname%-*}.desktop"
+  install -Dm644 "usr/share/applications/${_app_id}.desktop" -t \
+    "${pkgdir}/usr/share/applications/"
 }
